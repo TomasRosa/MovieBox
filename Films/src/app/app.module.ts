@@ -5,11 +5,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FilmsFromAPIService } from './services/films-from-api.service';
 import { TestComponent } from './test/test.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TestComponent
+    TestComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
