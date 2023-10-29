@@ -10,8 +10,6 @@ import {User } from 'src/app/models/user';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  private urlAPI = 'http://localhost:5000/users'
-
   userForm = new FormGroup ({
     firstName: new FormControl (''),
     lastName: new FormControl (''),
