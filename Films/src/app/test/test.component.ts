@@ -10,6 +10,6 @@ export class TestComponent {
   datosService: any
   constructor (private servicePrueba: FilmsFromAPIService)
   {
-    this.servicePrueba.recorrerArreglo();
+    
   }
 }
