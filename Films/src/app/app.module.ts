@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, platformBrowser } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,13 +9,18 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HttpClientModule } from '@angular/common/http';
 
+import { AsideMenuComponent } from './components/aside-menu/aside-menu.component';
+import { SobreNosotrosComponent } from './components/sobre-nosotros/sobre-nosotros.component';
+import { SharedServicesService } from './services/shared-services.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     TestComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    AsideMenuComponent,
+    SobreNosotrosComponent,
   ],
   imports: [
     BrowserModule,
@@ -23,7 +28,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [FilmsFromAPIService],
+  providers: [FilmsFromAPIService, SharedServicesService, SobreNosotrosComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
