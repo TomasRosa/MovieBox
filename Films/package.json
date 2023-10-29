@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "serverAPI":"json-server --port 5000 --watch usersFile.json"
   },
   "private": true,
   "dependencies": {
@@ -19,6 +20,7 @@
     "@angular/platform-browser-dynamic": "^16.2.0",
     "@angular/router": "^16.2.0",
     "bootstrap": "^5.3.2",
+    "json-server": "^0.17.4",
     "rxjs": "~7.8.0",
     "tslib": "^2.6.2",
     "zone.js": "~0.13.0"
