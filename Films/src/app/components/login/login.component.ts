@@ -28,10 +28,6 @@ ngOnInit()
 get email () {return this.loginForm.get('email'); }
 get password () {return this.loginForm.get('password'); }
 
-verSiFunca ()
-{
-  console.log(this.userService.getUsers);
-}
 /*
 onSubmit()
 {
