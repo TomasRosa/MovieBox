@@ -7,6 +7,8 @@ import { FilmsFromAPIService } from './services/films-from-api.service';
 import { TestComponent } from './test/test.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [
