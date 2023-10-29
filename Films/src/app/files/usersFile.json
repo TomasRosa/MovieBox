@@ -1,0 +1,92 @@
+[
+    {
+        "userId": 1,
+        "firstName": "Isaak",
+        "lastName": "Sterland",
+        "email": "isterland0@blinklist.com",
+        "password": "isaak123",
+        "address": "",
+        "dni": "12345678"
+    },
+    {
+        "userId": 2,
+        "firstName": "Alice",
+        "lastName": "Johnson",
+        "email": "alice.johnson@email.com",
+        "password": "alicepass",
+        "address": "123 Main St",
+        "dni": "23456789"
+    },
+    {
+        "userId": 3,
+        "firstName": "John",
+        "lastName": "Doe",
+        "email": "johndoe@email.com",
+        "password": "johnpass",
+        "address": "456 Elm St",
+        "dni": "34567890"
+    },
+    {
+        "userId": 4,
+        "firstName": "Emma",
+        "lastName": "Smith",
+        "email": "emma.smith@email.com",
+        "password": "emmapass",
+        "address": "789 Oak St",
+        "dni": "45678901"
+    },
+    {
+        "userId": 5,
+        "firstName": "Michael",
+        "lastName": "Brown",
+        "email": "michael.brown@email.com",
+        "password": "michaelpass",
+        "address": "101 Pine St",
+        "dni": "56789012"
+    },
+    {
+        "userId": 6,
+        "firstName": "Olivia",
+        "lastName": "Wilson",
+        "email": "olivia.wilson@email.com",
+        "password": "oliviapass",
+        "address": "202 Cedar St",
+        "dni": "67890123"
+    },
+    {
+        "userId": 7,
+        "firstName": "James",
+        "lastName": "Miller",
+        "email": "james.miller@email.com",
+        "password": "jamespass",
+        "address": "303 Birch St",
+        "dni": "78901234"
+    },
+    {
+        "userId": 8,
+        "firstName": "Sophia",
+        "lastName": "Lee",
+        "email": "sophia.lee@email.com",
+        "password": "sophiapass",
+        "address": "404 Willow St",
+        "dni": "89012345"
+    },
+    {
+        "userId": 9,
+        "firstName": "William",
+        "lastName": "Anderson",
+        "email": "william.anderson@email.com",
+        "password": "williampass",
+        "address": "505 Maple St",
+        "dni": "90123456"
+    },
+    {
+        "userId": 10,
+        "firstName": "Ava",
+        "lastName": "Jones",
+        "email": "ava.jones@email.com",
+        "password": "avapass",
+        "address": "606 Redwood St",
+        "dni": "01234567"
+    }
+]
