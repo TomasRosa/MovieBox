@@ -25,17 +25,18 @@ export class UserService {
       body: JSON.stringify (user)
     })
   }
-  verificarUserEnJson(inputEmail: string, inputPassword: string): boolean {
-    let flag = false;
-    
-    this.getUsers().subscribe((users: User[]) => {
-      users.forEach((user: User) => {
-        if (user.email === inputEmail && user.password === inputPassword) {
-          flag = true;
-        }
+  verificarUserEnJson(inputEmail: string, inputPassword: string): Promise<boolean> {
+    return new Promise((resolve) => {
+      this.getUsers().subscribe((users: User[]) => {
+        let flag = false;
+        users.forEach((user: User) => {
+          if (user.email === inputEmail && user.password === inputPassword) {
+            flag = true;
+          }
+        });
+        resolve(flag);
       });
     });
+  }
   
-    return flag;
-  }  
 }

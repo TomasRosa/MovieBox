@@ -34,7 +34,7 @@ export class RegisterComponent implements OnInit {
   get email() { return this.userForm.get('email'); }
   get address() { return this.userForm.get('address'); }
   private get password() { return this.userForm.get('password'); }
-  
+  /*
   onSubmit (){
     let user = new User ()
     user.nombre = this.firstName.value;
@@ -43,5 +43,5 @@ export class RegisterComponent implements OnInit {
     user.dni = this.dni.value;
     user.password = this.password.value;
   }
-
+*/
 } 
