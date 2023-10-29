@@ -25,4 +25,17 @@ export class UserService {
       body: JSON.stringify (user)
     })
   }
+  verificarUserEnJson(inputEmail: string, inputPassword: string): boolean {
+    let flag = false;
+    
+    this.getUsers().subscribe((users: User[]) => {
+      users.forEach((user: User) => {
+        if (user.email === inputEmail && user.password === inputPassword) {
+          flag = true;
+        }
+      });
+    });
+  
+    return flag;
+  }  
 }
