@@ -3,6 +3,6 @@ export class User {
     apellido:string ='';
     email: string ='';
     password: string='';
-    addres:string='';
+    address:string='';
     dni: string='';
 }
