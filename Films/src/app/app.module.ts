@@ -1,25 +1,29 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
+import { BrowserModule, platformBrowser } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FilmsFromAPIService } from './services/films-from-api.service';
 import { TestComponent } from './test/test.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { AsideMenuComponent } from './components/aside-menu/aside-menu.component';
+import { SobreNosotrosComponent } from './components/sobre-nosotros/sobre-nosotros.component';
+import { SharedServicesService } from './services/shared-services.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     TestComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    AsideMenuComponent,
+    SobreNosotrosComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [FilmsFromAPIService],
+  providers: [FilmsFromAPIService, SharedServicesService, SobreNosotrosComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
