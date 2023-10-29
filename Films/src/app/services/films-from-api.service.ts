@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 const options = {
@@ -11,17 +10,15 @@ const options = {
 @Injectable({
   providedIn: 'root'
 })
+
 export class FilmsFromAPIService {
   private url_API = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc';
-
-
   constructor() { }
   
   async getMovies (): Promise <any> {
       const response = await fetch (this.url_API, options);
 
-      if (response.status != 200)
-      {
+      if (response.status != 200){
         console.log ("Error: " + response.text);
         return null;
       }
