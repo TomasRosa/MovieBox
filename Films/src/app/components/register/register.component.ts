@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { OnInit, Input } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule,FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user';
 import { ValidacionUserPersonalizada } from 'src/app/validaciones/validacion-user-personalizada';
 
@@ -34,7 +34,7 @@ export class RegisterComponent implements OnInit {
   get dni() { return this.userForm.get('DNI'); }
   get email() { return this.userForm.get('email'); }
   get address() { return this.userForm.get('address'); }
-  private get password() { return this.userForm.get('password'); }
+  get password() { return this.userForm.get('password'); }
 
   onSubmit (){
     let user = new User();
@@ -46,8 +46,9 @@ export class RegisterComponent implements OnInit {
       if (this.dni.value != null) user.dni= this.dni.value;
       if (this.address.value != null) user.address = this.address.value;
       if (this.password.value != null) user.password = this.password.value;
-      
-      this.userService.addUser (user) /* LLAMAMOS AL METODO ASYNC QUE POSTEA EL USER EN EL JSON SERVER */
+      user.userId = 11;
+      const res = this.userService.addUser (user) /* LLAMAMOS AL METODO ASYNC QUE POSTEA EL USER EN EL JSON SERVER */
+      console.log (res)
     }
   }
 }

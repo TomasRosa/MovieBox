@@ -2,7 +2,8 @@ import { AbstractControl, AsyncValidatorFn, ValidationErrors, ValidatorFn } from
 import { UserService } from "../services/user.service";
 import { switchMap, map } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { Observable } from 'rxjs';
+import { Observable, tap  } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 export class ValidacionUserPersonalizada {
     static soloLetras (): ValidatorFn {
@@ -40,7 +41,9 @@ export class ValidacionUserPersonalizada {
           return of(control.value).pipe(
             switchMap(email => {
               return userService.buscarUserPorEmail(email).pipe(
-                map(user => (user ? { 'emailExistente': true } : null))
+                tap(user => console.log('Resultado de buscarUserPorEmail:', user)),
+                map(user => (user ? { 'emailExistente': true } : null)),
+                catchError(() => of(null)) // Maneja errores aquí        
               );
             })
           );
