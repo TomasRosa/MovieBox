@@ -15,7 +15,7 @@
     <input type="text" name="adress" formControlName="address" value="">
 
     <label for="">Contrasenia</label>
-    <input type="text" name="password" formControlName="password" value="">
+    <input type="password" name="password" formControlName="password" value="">
 
     <button type="submit" >Registrarse</button>
 
@@ -42,10 +42,10 @@
     </section>
 
     <section id="alertEmail">
-        <div *ngIf="email?.invalid && (email?.dirty || email?.touched)">
-          <div *ngIf="email?.hasError('required')">El email es requerido</div>  <!-- L -->
-          <div *ngIf="email?.hasError('email')">El formato del email es incorrecto</div>  <!-- L -->
-          <div *ngIf="email?.hasError('emailExistente')">El email ya existe</div>
+        <div *ngIf="userForm.get('email')?.invalid && (email?.dirty || email?.touched)">
+          <div *ngIf="userForm.get('email')?.hasError('required')">El email es requerido</div>  <!-- L -->
+          <div *ngIf="userForm.get('email')?.hasError('email')">El formato del email es incorrecto</div>  <!-- L -->
+          <div *ngIf="userForm.get('email')?.hasError('emailExistente')">El email ya existe</div>
         </div>
     </section>
 
