@@ -1,20 +1,23 @@
 <form class="needs-validation" [formGroup] = "loginForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
+    <div class="form-group" [ngClass]="{'has-error': errorMessage, 'has-success': successMessage}">
         <label for="email">Email</label>
         <input type="text" class="form-control" id="email" name="email" formControlName="email" required>
-    </div>
-
-    <div class="form-group">
-        <label for="password">Contraseña</label>
-        <input type="password" class="form-control" id="password" name="password" formControlName="password" required>
-    </div>
-
-    <button type="button" class="btn btn-primary" [disabled]="!loginForm.valid" (click)="onSubmit()">Enviar</button>
-
-    <div class="alert alert-danger" *ngIf="errorMessage">
-        {{ errorMessage }}
       </div>
 
+      <div class="form-group" [ngClass]="{'has-error': errorMessage, 'has-success': successMessage}">
+        <label for="password">Contraseña</label>
+        <input type="password" class="form-control" id="password" name="password" formControlName="password" required>
+      </div>
+
+    <button type="button" class="btn btn-primary" (click)="onSubmit()">Enviar</button>
+
+    <div class="alert alert-danger" [class.d-none]="!errorMessage" *ngIf="errorMessage">
+        {{ errorMessage }}
+    </div>
+    <div class="alert alert-success" [class.d-none]="!successMessage" *ngIf="successMessage">
+        {{ successMessage }}
+    </div>
+    
     <section id="alertEmail" class="alert alert-danger" *ngIf="email?.invalid && (email?.dirty || email?.touched)">
           <div *ngIf="email?.hasError('required')">El email es requerido</div>  <!-- L -->
           <div *ngIf="email?.hasError('email')">El formato del email es incorrecto</div>  <!-- L -->
@@ -23,7 +26,6 @@
 
     <section id="alertPassword" class="alert alert-danger" *ngIf="password?.invalid && (password?.dirty || password?.touched)">
           <div *ngIf="password?.hasError('required')">La contraseña es requerida</div> <!-- L -->
-          <div *ngIf="password?.hasError('minDosNumeros')">La contraseña debe contener mínimo 2 números</div> <!-- L -->
           <div *ngIf="password?.hasError('minlength')">La contraseña debe contener mínimo 6 caracteres</div> <!-- L -->
     </section>
 </form>

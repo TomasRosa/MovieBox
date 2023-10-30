@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AsideMenuComponent } from './components/aside-menu/aside-menu.component';
 import { SobreNosotrosComponent } from './components/sobre-nosotros/sobre-nosotros.component';
 import { SharedServicesService } from './services/shared-services.service';
+import { InicioComponent } from './components/inicio/inicio.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { SharedServicesService } from './services/shared-services.service';
     RegisterComponent,
     AsideMenuComponent,
     SobreNosotrosComponent,
+    InicioComponent,
   ],
   imports: [
     BrowserModule,
