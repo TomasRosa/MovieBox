@@ -21,37 +21,73 @@
 
     <section id="alertName">
         <div *ngIf="!firstName.valid && (firstName.dirty || firstName.touched)">
-            El nombre es requerido
+            <div *ngIf = "firstName.errors.required">
+                El nombre es requerido
+            </div>
+            <div *ngIf = "firstName.errors.soloLetras">
+                El nombre deberia contener solo letras
+            </div>
         </div>
     </section>
 
     <section id="alertLastName">
         <div *ngIf="!lastName.valid && (lastName.dirty || lastName.touched)">
-            El apellido es requerido
+            <div *ngIf = "lastName.errors.required">
+                El apellido es requerido
+            </div>
+            <div *ngIf = "firstName.errors.soloLetras">
+                El apellido deberia contener solo letras
+            </div>
         </div>
     </section>
 
     <section id="alertDNI">
         <div *ngIf="!DNI.valid && (DNI.dirty || DNI.touched)">
-            El DNI es requerido
+            <div *ngIf = "DNI.errors.required">
+                El DNI es requerido
+            </div>
+            <div *ngIf = "DNI.errors.soloNumeros">
+                El DNI deberia contener solo numeros
+            </div>
+            <div *ngIf = "DNI.errors.minLength && DNI.errors.maxLength ">
+                El DNI debe contener 8 caracteres
+            </div>
         </div>
     </section>
 
     <section id="alertEmail">
         <div *ngIf="!email.valid && (email.dirty || email.touched)">
-            El email es requerido
+            <div *ngIf = "email.errors.required">
+                El email es requerido
+            </div>
+            <div *ngIf = "email.errors.email">
+                El formato del email es incorrecto
+            </div>
+            <div *ngIf = "email.errors.emailExistente">
+                El email ya existe
+            </div>
         </div>
     </section>
 
     <section id="alertAddress">
         <div *ngIf="!address.valid && (address.dirty || address.touched)">
-            La direccion es requerida
+            <div *ngIf = "address.errors.required">
+                La direccion es requerida
+            </div>
         </div>
     </section>
 
     <section id="alertPassword">
         <div *ngIf="!password.valid && (password.dirty || password.touched)">
-            La Contrasenia es requerida
+            <div *ngIf = "password.errors.required">
+                La Contrasenia es requerida
+            </div>
+            <div *nfIf = "password.errors.minDosNumeros">
+                La contrasenia debe contener minimo 2 numeros
+            </div>
+            <div *ngIf = "password.errors.minLength">
+                La contrasenia deberia contener minimo 6 caracteres
+            </div>
         </div>
     </section>
 </form>
