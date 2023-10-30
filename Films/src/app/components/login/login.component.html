@@ -11,10 +11,21 @@
 
     <button type="button" class="btn btn-primary" [disabled]="!loginForm.valid" (click)="onSubmit()">Enviar</button>
 
-
     <div class="alert alert-danger" *ngIf="errorMessage">
         {{ errorMessage }}
       </div>
+
+    <section id="alertEmail" class="alert alert-danger" *ngIf="email?.invalid && (email?.dirty || email?.touched)">
+          <div *ngIf="email?.hasError('required')">El email es requerido</div>  <!-- L -->
+          <div *ngIf="email?.hasError('email')">El formato del email es incorrecto</div>  <!-- L -->
+          <div *ngIf="email?.hasError('emailExistente')">El email ya existe</div>
+    </section>
+
+    <section id="alertPassword" class="alert alert-danger" *ngIf="password?.invalid && (password?.dirty || password?.touched)">
+          <div *ngIf="password?.hasError('required')">La contraseña es requerida</div> <!-- L -->
+          <div *ngIf="password?.hasError('minDosNumeros')">La contraseña debe contener mínimo 2 números</div> <!-- L -->
+          <div *ngIf="password?.hasError('minlength')">La contraseña debe contener mínimo 6 caracteres</div> <!-- L -->
+    </section>
 </form>
 
 
