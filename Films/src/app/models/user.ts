@@ -5,4 +5,5 @@ export class User {
     password: string='';
     address:string='';
     dni: string='';
+    userId: number=0;
 }

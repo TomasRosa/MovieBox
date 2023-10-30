@@ -12,46 +12,55 @@
     <input type="text" name="email" formControlName="email" value="">
 
     <label for="">Direccion</label>
-    <input type="text" name="adress" formControlName="adress" value="">
+    <input type="text" name="adress" formControlName="address" value="">
 
     <label for="">Contrasenia</label>
     <input type="text" name="password" formControlName="password" value="">
 
-    <button type="submit" [disabled]="!userForm.valid" >Registrarse</button>
+    <button type="submit" >Registrarse</button>
 
     <section id="alertName">
-        <div *ngIf="!firstName.valid && (firstName.dirty || firstName.touched)">
-            El nombre es requerido
+        <div *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)">
+          <div *ngIf="firstName?.hasError('required')">El nombre es requerido</div> <!-- L -->
+          <div *ngIf="firstName?.hasError('soloLetras')">El nombre debe contener solo letras</div> <!-- L -->
         </div>
     </section>
 
     <section id="alertLastName">
-        <div *ngIf="!lastName.valid && (lastName.dirty || lastName.touched)">
-            El apellido es requerido
+        <div *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)">
+          <div *ngIf="lastName?.hasError('required')">El apellido es requerido</div> <!-- L -->
+          <div *ngIf="lastName?.hasError('soloLetras')">El apellido debe contener solo letras</div> <!-- L -->
         </div>
     </section>
 
-    <section id="alertDNI">
-        <div *ngIf="!DNI.valid && (DNI.dirty || DNI.touched)">
-            El DNI es requerido
+      <section id="alertDNI">
+        <div *ngIf="dni?.invalid && (dni?.dirty || dni?.touched)">
+          <div *ngIf="dni?.hasError('required')">El DNI es requerido</div>  <!-- L -->
+          <div *ngIf="dni?.hasError('soloNumeros')">El DNI debe contener solo números</div>  <!-- L -->
+          <div *ngIf="dni?.hasError('minlength') || dni?.hasError('maxlength')">El DNI debe contener 8 caracteres</div>  <!-- L -->
         </div>
     </section>
 
     <section id="alertEmail">
-        <div *ngIf="!email.valid && (email.dirty || email.touched)">
-            El email es requerido
+        <div *ngIf="email?.invalid && (email?.dirty || email?.touched)">
+          <div *ngIf="email?.hasError('required')">El email es requerido</div>  <!-- L -->
+          <div *ngIf="email?.hasError('email')">El formato del email es incorrecto</div>  <!-- L -->
+          <div *ngIf="email?.hasError('emailExistente')">El email ya existe</div>
         </div>
     </section>
 
     <section id="alertAddress">
-        <div *ngIf="!address.valid && (address.dirty || address.touched)">
-            La direccion es requerida
+        <div *ngIf="address?.invalid && (address?.dirty || address?.touched)"> <!-- L -->
+          <div *ngIf="address?.hasError('required')">La dirección es requerida</div>
+        </div>
+    </section>
+    
+    <section id="alertPassword">
+        <div *ngIf="password?.invalid && (password?.dirty || password?.touched)">
+          <div *ngIf="password?.hasError('required')">La contraseña es requerida</div> <!-- L -->
+          <div *ngIf="password?.hasError('minDosNumeros')">La contraseña debe contener mínimo 2 números</div> <!-- L -->
+          <div *ngIf="password?.hasError('minlength')">La contraseña debe contener mínimo 6 caracteres</div> <!-- L -->
         </div>
     </section>
 
-    <section id="alertPassword">
-        <div *ngIf="!password.valid && (password.dirty || password.touched)">
-            La Contrasenia es requerida
-        </div>
-    </section>
 </form>
