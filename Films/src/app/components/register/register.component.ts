@@ -26,7 +26,8 @@ export class RegisterComponent implements OnInit {
   constructor (private userService: UserService){}
   
   ngOnInit (){
-    this.userService.getUsers ().subscribe ((users) => this.users=users)
+    this.userService.getUsersFromJSON().subscribe ((users) => this.users=users)
+    console.log(this.users); // Verifica los datos obtenidos
   }
 
   get firstName() { return this.userForm.get('firstName'); }

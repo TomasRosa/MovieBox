@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders  } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../models/user';
 import { map } from 'rxjs/operators';
@@ -9,16 +9,24 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 
-export class UserService {
+export class UserService implements OnInit {
+  constructor(private http: HttpClient) { }
   private urlJSONServer = 'http://localhost:5000/users'
   mensaje: String = ''
   mensajeDelete: String = ''
+  users = new Observable<User[]> ();
 
-  constructor(private http: HttpClient) { }
-
-  getUsers (): Observable<User[]>{
+  getUsersFromJSON (): Observable<User[]>{
     return this.http.get<User[]>(this.urlJSONServer)
   }
+  
+  ngOnInit(): void {
+    this.getUsersFromJSON ()
+  }
+
+  getUsers (): Observable<User[]>{
+    return this.users;
+  } 
 
   verificarUserEnJson(inputEmail: string, inputPassword: string): Promise<boolean> {
     return new Promise((resolve) => {
@@ -34,21 +42,21 @@ export class UserService {
     });
   }
 
-addUser(user: User): Observable<any> {
-  const headers = new HttpHeaders({
-    'Content-Type': 'application/json'
-  });
+  addUser(user: User): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
 
-  return this.http.post(this.urlJSONServer, user, { headers })
-    .pipe(
-      catchError(error => {
-        // Puedes manejar el error aquí según tus necesidades
-        this.mensaje = 'Oops! Error al intentar registrarse.';
-        console.error('Error al hacer la solicitud POST:', error);
-        throw error; // Reenvía el error para que los componentes que llaman a este método puedan manejarlo también
-      })
-    );
-}
+    return this.http.post(this.urlJSONServer, user, { headers })
+      .pipe(
+        catchError(error => {
+          // Puedes manejar el error aquí según tus necesidades
+          this.mensaje = 'Oops! Error al intentar registrarse.';
+          console.error('Error al hacer la solicitud POST:', error);
+          throw error; // Reenvía el error para que los componentes que llaman a este método puedan manejarlo también
+        })
+      );
+  }
 
   buscarUserPorDNI(dni: string): Observable<User | undefined> {
     return this.getUsers().pipe(
@@ -74,11 +82,14 @@ addUser(user: User): Observable<any> {
         console.error('Ha ocurrido un error al intentar eliminar la cuenta' + err)
       }
     }
-  }
+}
 
-  buscarUserPorEmail (email: string): Observable<User | undefined>{
-    return this.getUsers().pipe(
-      map(users => users.find(user => user.email === email))
-    );
+  buscarUserPorEmail(email: string): Promise<boolean> {
+    return new Promise((resolve) => {
+      this.users.subscribe((users: User[]) => {
+        const existe = users.some((user: User) => user.email === email);
+        resolve(existe);
+      });
+    });
   }
 }

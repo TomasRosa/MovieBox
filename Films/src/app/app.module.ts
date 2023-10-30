@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AsideMenuComponent } from './components/aside-menu/aside-menu.component';
 import { SobreNosotrosComponent } from './components/sobre-nosotros/sobre-nosotros.component';
 import { SharedServicesService } from './services/shared-services.service';
+import { UserService } from './services/user.service';
 import { InicioComponent } from './components/inicio/inicio.component';
 
 @NgModule({
@@ -30,7 +31,7 @@ import { InicioComponent } from './components/inicio/inicio.component';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [FilmsFromAPIService, SharedServicesService, SobreNosotrosComponent],
+  providers: [FilmsFromAPIService, SharedServicesService, SobreNosotrosComponent, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -48,10 +48,12 @@
           <div *ngIf="dni?.hasError('minlength') || dni?.hasError('maxlength')">El DNI debe contener 8 caracteres</div>  <!-- L -->
     </section>
 
-    <section id="alertEmail" class="alert alert-danger" *ngIf="email?.invalid && (email?.dirty || email?.touched)">
-      <div *ngIf="email?.hasError('required')">El email es requerido</div>  <!-- L -->
-      <div *ngIf="email?.hasError('email')">El formato del email es incorrecto</div>  <!-- L -->
-      <div *ngIf="email?.hasError('emailExistente')">El email ya existe</div>
+    <section id="alertEmail">
+        <div *ngIf="email?.invalid && (email?.dirty || email?.touched)">
+          <div *ngIf="email?.hasError('required')">El email es requerido</div>  <!-- L -->
+          <div *ngIf="email?.hasError('email')">El formato del email es incorrecto</div>  <!-- L -->
+          <div *ngIf="email?.hasError('emailExistente')">El email ya existe</div>
+        </div>
     </section>
 
 
