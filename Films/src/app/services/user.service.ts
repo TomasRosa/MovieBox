@@ -10,7 +10,10 @@ import { catchError } from 'rxjs/operators';
 })
 
 export class UserService implements OnInit {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) 
+  {
+    this.users = this.getUsersFromJSON();
+  }
   private urlJSONServer = 'http://localhost:5000/users'
   mensaje: String = ''
   mensajeDelete: String = ''
@@ -30,17 +33,23 @@ export class UserService implements OnInit {
 
   verificarUserEnJson(inputEmail: string, inputPassword: string): Promise<boolean> {
     return new Promise((resolve) => {
-      this.getUsers().subscribe((users: User[]) => {
-        let flag = false;
-        users.forEach((user: User) => {
-          if (user.email === inputEmail && user.password === inputPassword) {
-            flag = true;
-          }
-        });
-        resolve(flag);
-      });
-    });
-  }
+      this.users.subscribe(
+        (users: User[]) => {
+          let flag = false;
+          users.forEach((user: User) => {
+            if (user.email === inputEmail && user.password === inputPassword) {
+              flag = true;
+            }
+          });
+          resolve(flag);
+        },
+        (error) => {
+          console.error('Error al obtener usuarios:', error);
+          resolve(false); // Manejar el error estableciendo el resultado en false
+        }
+      );
+    });
+  }
 
   addUser(user: User): Observable<any> {
     const headers = new HttpHeaders({

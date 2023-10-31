@@ -47,13 +47,15 @@ onSubmit() {
 
     console.log(emailValue);
     console.log(passwordValue);
-
+   
     if (user.email && user.password) {
+      
       this.userService
         .verificarUserEnJson(emailValue as string, passwordValue as string)
         .then((isUserValid) => {
           if (isUserValid) 
           {
+            console.log("caquita");
             this.successMessage = 'Bienvenido a RosaGomezRuiz Peliculas';
             this.errorMessage = ''; // Restablece el mensaje de error
             this.loginForm.get('email')?.setErrors(null); // Restablece los errores de validación
@@ -62,6 +64,7 @@ onSubmit() {
           }
            else 
            {
+            console.log("esta todo para el orto");
             this.errorMessage = 'El email o contraseña son incorrectos';
             this.successMessage = ''; // Restablece el mensaje de éxito
             this.loginForm.get('email')?.setErrors({ 'incorrecto': true }); // Agrega errores de validación
