@@ -13,7 +13,13 @@ import { AbstractControl } from '@angular/forms';
 export class TarjetaComponent {
   errorMessage: string = '';
   successMessage: string = '';
-  message: string = '';
+  messageLongitud: string = '';
+  messageSoloNumerosTarjeta: string = '';
+  messageFormato: string = '';
+  messageVencimiento: string = '';
+  messageLongitudCVC: string = '';
+  messageSoloNumerosCVC: string = '';
+
 
   tarjetaForm = new FormGroup({
     firstName: new FormControl('', [Validators.required, ValidacionUserPersonalizada.soloLetras()]),
@@ -21,20 +27,17 @@ export class TarjetaComponent {
     nTarjeta: new FormControl('', [Validators.required,
       (control: AbstractControl) => {
         const numeroTarjeta = control.value;
-        if (!validacionTarjeta.validarTarjetaLongitud(numeroTarjeta)) {
-          this.message = 'El nº de tarjeta debe tener una longitud de 16 dígitos';
-          return { message: this.message };
+        if (!validacionTarjeta.validarTarjetaLongitud(numeroTarjeta)) 
+        {
+          this.messageLongitud = 'El nº de tarjeta debe tener una longitud de 16 dígitos';
         }
-        this.message = ''; // Restablece el mensaje si la validación pasa
         return null;
       },
       (control: AbstractControl) => {
         const numeroTarjeta = control.value;
         if (!validacionTarjeta.soloNumeros(numeroTarjeta)) {
-          this.message = 'El nº de tarjeta debe contener solo números';
-          return { message: this.message };
+          this.messageSoloNumerosTarjeta = 'El nº de tarjeta debe contener solo números';
         }
-        this.message = ''; // Restablece el mensaje si la validación pasa
         return null;
       }
     ]),
@@ -42,19 +45,15 @@ export class TarjetaComponent {
       (control: AbstractControl) => {
         const fecha = control.value;
         if (!validacionTarjeta.validarFormatoFechaVencimiento(fecha)) {
-          this.message = 'La fecha debe ser en formato MM/YY o MM/YYYY';
-          return { message: this.message };
+          this.messageFormato = 'La fecha debe ser en formato MM/YY o MM/YYYY';
         }
-        this.message = ''; // Restablece el mensaje si la validación pasa
         return null;
       },
       (control: AbstractControl) => {
         const fecha = control.value;
         if (!validacionTarjeta.validarFechaNoExpirada(fecha)) {
-          this.message = 'La tarjeta está vencida';
-          return { message: this.message };
+          this.messageVencimiento = 'La tarjeta está vencida';
         }
-        this.message = ''; // Restablece el mensaje si la validación pasa
         return null;
       }
     ]),
@@ -62,19 +61,15 @@ export class TarjetaComponent {
       (control: AbstractControl) => {
         const cvc = control.value;
         if (!validacionTarjeta.validarCVCLongitud(cvc)) {
-          this.message = 'La longitud del CVC debe ser de 3 o 4 dígitos';
-          return { message: this.message };
+          this.messageLongitudCVC = 'La longitud del CVC debe ser de 3 o 4 dígitos';
         }
-        this.message = ''; // Restablece el mensaje si la validación pasa
         return null;
       },
       (control: AbstractControl) => {
         const cvc = control.value;
         if (!validacionTarjeta.soloNumeros(cvc)) {
-          this.message = 'El CVC debe contener solo números';
-          return { message: this.message };
+          this.messageSoloNumerosTarjeta= 'El CVC debe contener solo números';
         }
-        this.message = ''; // Restablece el mensaje si la validación pasa
         return null;
       }
     ])

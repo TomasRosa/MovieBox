@@ -15,8 +15,7 @@ export class UserService implements OnInit {
     this.users = this.getUsersFromJSON();
   }
   private urlJSONServer = 'http://localhost:5000/users'
-  mensaje: String = ''
-  mensajeDelete: String = ''
+  
   users = new Observable<User[]> ();
 
   getUsersFromJSON (): Observable<User[]>{
@@ -30,6 +29,30 @@ export class UserService implements OnInit {
   getUsers (): Observable<User[]>{
     return this.users;
   } 
+
+  async addUser(user: User): Promise<User|undefined> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+  
+    try {
+      const newUser = await this.http.post<User>(this.urlJSONServer, JSON.stringify(user), { headers }).toPromise();
+      return newUser;
+    } catch (error) {
+      console.error('Error al agregar el usuario:', error);
+      throw error; // Reenviar el error para que los componentes que llaman a este método puedan manejarlo también
+    }
+  }
+
+  async deleteUser(user: User): Promise<void> {
+    const url = `${this.urlJSONServer}/${user.id}`;
+    try {
+      await this.http.delete<User>(url).toPromise();
+    } catch (error) {
+      console.error('Error al eliminar el usuario:', error);
+      throw error; // Lanza el error para que los componentes que llaman a este método puedan manejarlo también
+    }
+  }
 
   verificarUserEnJson(inputEmail: string, inputPassword: string): Promise<boolean> {
     return new Promise((resolve) => {
@@ -50,49 +73,7 @@ export class UserService implements OnInit {
       );
     });
   }
-
-  addUser(user: User): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-
-    return this.http.post(this.urlJSONServer, user, { headers })
-      .pipe(
-        catchError(error => {
-          // Puedes manejar el error aquí según tus necesidades
-          this.mensaje = 'Oops! Error al intentar registrarse.';
-          console.error('Error al hacer la solicitud POST:', error);
-          throw error; // Reenvía el error para que los componentes que llaman a este método puedan manejarlo también
-        })
-      );
-  }
-
-  buscarUserPorDNI(dni: string): Observable<User | undefined> {
-    return this.getUsers().pipe(
-      map(users => users.find(user => user.dni === dni))
-    );
-  }
-
-  async deleteUser (user: User){
-    const res = this.buscarUserPorDNI(user.dni);
-    if (res != undefined){
-      try{
-        const res = await fetch (this.urlJSONServer, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type':  'application/json'
-          },
-          body: JSON.stringify (user)
-        })
-        if (res.status == 200) this.mensajeDelete = 'Eliminado con exito' 
-        else this.mensajeDelete = 'Oops! Ha ocurrido un error al intentar eliminar su cuenta.'
-      }catch(err){
-        this.mensajeDelete = 'Oops! Ha ocurrido un error al intentar eliminar su cuenta.'
-        console.error('Ha ocurrido un error al intentar eliminar la cuenta' + err)
-      }
-    }
-}
-
+  
   buscarUserPorEmail(email: string): Promise<boolean> {
     return new Promise((resolve) => {
       this.users.subscribe((users: User[]) => {
