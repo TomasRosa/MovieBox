@@ -15,6 +15,8 @@ import { SharedServicesService } from './services/shared-services.service';
 import { UserService } from './services/user.service';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { TarjetaComponent } from './components/tarjeta/tarjeta.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { TarjetaComponent } from './components/tarjeta/tarjeta.component';
     SobreNosotrosComponent,
     InicioComponent,
     TarjetaComponent,
+    NavbarComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
