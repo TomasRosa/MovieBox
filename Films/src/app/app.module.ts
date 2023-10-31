@@ -14,6 +14,7 @@ import { SobreNosotrosComponent } from './components/sobre-nosotros/sobre-nosotr
 import { SharedServicesService } from './services/shared-services.service';
 import { UserService } from './services/user.service';
 import { InicioComponent } from './components/inicio/inicio.component';
+import { TarjetaComponent } from './components/tarjeta/tarjeta.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 
@@ -26,6 +27,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     AsideMenuComponent,
     SobreNosotrosComponent,
     InicioComponent,
+    TarjetaComponent,
     NavbarComponent,
     NotFoundComponent,
   ],
