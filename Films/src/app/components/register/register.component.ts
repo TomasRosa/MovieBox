@@ -12,8 +12,9 @@ import { ValidacionUserPersonalizada } from 'src/app/validaciones/validacion-use
 })
 
 export class RegisterComponent implements OnInit {
+  mensajeRegistro: string = '';
+
   users = new Array<User>()
-  
   userForm = new FormGroup ({
     firstName: new FormControl ('', [Validators.required, ValidacionUserPersonalizada.soloLetras(),]),
     lastName: new FormControl ('', [Validators.required, ValidacionUserPersonalizada.soloLetras()]),
@@ -37,27 +38,28 @@ export class RegisterComponent implements OnInit {
   get address() { return this.userForm.get('address'); }
   get password() { return this.userForm.get('password'); }
 
-  onSubmit (){
+  async onSubmit() {
     let user = new User();
-
-    if (this.firstName &&  this.lastName && this.email && this.password && this.address && this.dni){
-      if(this.firstName.value != null) user.nombre=this.firstName.value;
-      if (this.lastName.value != null) user.apellido=this.lastName.value;
-      if (this.email.value != null) user.email=this.email.value;
-      if (this.dni.value != null) user.dni= this.dni.value;
+  
+    if (this.firstName && this.lastName && this.email && this.password && this.address && this.dni) {
+      if (this.firstName.value != null) user.nombre = this.firstName.value;
+      if (this.lastName.value != null) user.apellido = this.lastName.value;
+      if (this.email.value != null) user.email = this.email.value;
+      if (this.dni.value != null) user.dni = this.dni.value;
       if (this.address.value != null) user.address = this.address.value;
       if (this.password.value != null) user.password = this.password.value;
-      const res = this.userService.addUser (user).subscribe(
-        (newUser) => {
+  
+      try {
+        const newUser = await this.userService.addUser(user);
+        if (newUser != undefined)
           this.users.push(newUser);
-          console.log('Usuario agregado:', newUser);
-        },
-        (error) => {
-          console.error('Error al agregar usuario:', error);
-        }
-      ); /* LLAMAMOS AL METODO ASYNC QUE POSTEA EL USER EN EL JSON SERVER */
-      console.log (res)
-      console.log (this.users)
+        console.log('Usuario agregado:', newUser);
+        this.mensajeRegistro = 'Registrado con exito';
+      } catch (error) {
+        this.mensajeRegistro = 'Oops! Ocurrio un error al registrarse';
+        console.error('Error al agregar usuario:', error);
+        // Puedes manejar el error aquí (por ejemplo, mostrar un mensaje al usuario)
+      }
     }
   }
 }

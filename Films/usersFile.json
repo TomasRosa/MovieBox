@@ -116,6 +116,24 @@
       "address": "casatomi",
       "dni": "89898989",
       "id": 13
+    },
+    {
+      "nombre": "Lionel",
+      "apellido": "Messi",
+      "email": "leomessi@gmail.com",
+      "password": "leomessi10",
+      "address": "casa de messi",
+      "dni": "10101010",
+      "id": 14
+    },
+    {
+      "nombre": "Luis",
+      "apellido": "Suarez",
+      "email": "luis@gmail.com",
+      "password": "luis99",
+      "address": "casa de luis",
+      "dni": "90909090",
+      "id": 15
     }
   ]
 }
