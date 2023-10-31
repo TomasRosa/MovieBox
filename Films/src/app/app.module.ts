@@ -14,6 +14,7 @@ import { SobreNosotrosComponent } from './components/sobre-nosotros/sobre-nosotr
 import { SharedServicesService } from './services/shared-services.service';
 import { UserService } from './services/user.service';
 import { InicioComponent } from './components/inicio/inicio.component';
+import { TarjetaComponent } from './components/tarjeta/tarjeta.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { InicioComponent } from './components/inicio/inicio.component';
     AsideMenuComponent,
     SobreNosotrosComponent,
     InicioComponent,
+    TarjetaComponent,
   ],
   imports: [
     BrowserModule,

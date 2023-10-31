@@ -12,11 +12,10 @@ import { ValidacionUserPersonalizada } from 'src/app/validaciones/validacion-use
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent{
 errorMessage: string = '';
 successMessage: string = '';
  
-
 loginForm = new FormGroup (
   {
     email: new FormControl('',[Validators.required,Validators.email, ValidacionUserPersonalizada.emailExistente(this.userService)]),
@@ -25,13 +24,6 @@ loginForm = new FormGroup (
 )
 
 constructor(private userService: UserService,private router: Router) { }
-
-// Dentro del método ngOnInit()
-ngOnInit() 
-{
-  
-}
-
 
 get email () {return this.loginForm.get('email'); }
 get password () {return this.loginForm.get('password'); }
@@ -44,18 +36,14 @@ onSubmit() {
   if (emailValue !== null && passwordValue !== null) {
     user.email = emailValue as string;
     user.password = passwordValue as string;
-
-    console.log(emailValue);
-    console.log(passwordValue);
-   
-    if (user.email && user.password) {
-      
+ 
+    if (user.email && user.password) 
+    {
       this.userService
         .verificarUserEnJson(emailValue as string, passwordValue as string)
         .then((isUserValid) => {
           if (isUserValid) 
           {
-            console.log("caquita");
             this.successMessage = 'Bienvenido a RosaGomezRuiz Peliculas';
             this.errorMessage = ''; // Restablece el mensaje de error
             this.loginForm.get('email')?.setErrors(null); // Restablece los errores de validación
@@ -64,7 +52,6 @@ onSubmit() {
           }
            else 
            {
-            console.log("esta todo para el orto");
             this.errorMessage = 'El email o contraseña son incorrectos';
             this.successMessage = ''; // Restablece el mensaje de éxito
             this.loginForm.get('email')?.setErrors({ 'incorrecto': true }); // Agrega errores de validación
@@ -73,12 +60,12 @@ onSubmit() {
         })
         .catch((error) => {
           this.errorMessage = 'Ocurrió un error al verificar el usuario';
-          this.successMessage = ''; // Restablece el mensaje de éxito
         });
     }
-  } else {
+  } 
+  else 
+  {
     this.errorMessage = 'El email o contraseña son nulos';
-    this.successMessage = ''; // Restablece el mensaje de éxito
   }
 }
 }
