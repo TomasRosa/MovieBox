@@ -1,2 +1,32 @@
+button {
+    margin: 30px;
+    margin-bottom: 10px;
+}
 
+img{
+    height: 50px;
+    width: 50px;
+}
+
+.menuLateral {
+    border: none;
+    outline: none;
+    color: white;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.sizeClass {
+    font-size: 18px;
+}
+
+.colorFondo {
+    background-color: rgb(140, 215, 228);
+}
+
+.recuadro {
+    background-color: rgb(140, 215, 228);
+    margin-right: 1700px;
+    padding-bottom: 20px;
+}
   
