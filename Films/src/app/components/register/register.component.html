@@ -26,10 +26,9 @@
     
     <div class="form-group">
       <label for="">Contrasenia</label>
-      <input type="text" name="password" formControlName="password" value="">
+      <input type="password" name="password" formControlName="password" value="">
     </div>
     
-
     <button type="submit" class="btn btn-primary">Registrarse</button>
 
     <section id="alertName" class="alert alert-danger" *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)">

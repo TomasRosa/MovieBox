@@ -56,7 +56,7 @@ export class UserService implements OnInit {
       'Content-Type': 'application/json'
     });
 
-    return this.http.post(this.urlJSONServer, user, { headers })
+    return this.http.post<User>(this.urlJSONServer, JSON.stringify(user), { headers })
       .pipe(
         catchError(error => {
           // Puedes manejar el error aquí según tus necesidades

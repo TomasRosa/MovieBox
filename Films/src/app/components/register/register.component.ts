@@ -47,9 +47,17 @@ export class RegisterComponent implements OnInit {
       if (this.dni.value != null) user.dni= this.dni.value;
       if (this.address.value != null) user.address = this.address.value;
       if (this.password.value != null) user.password = this.password.value;
-      user.userId = 11;
-      const res = this.userService.addUser (user) /* LLAMAMOS AL METODO ASYNC QUE POSTEA EL USER EN EL JSON SERVER */
+      const res = this.userService.addUser (user).subscribe(
+        (newUser) => {
+          this.users.push(newUser);
+          console.log('Usuario agregado:', newUser);
+        },
+        (error) => {
+          console.error('Error al agregar usuario:', error);
+        }
+      ); /* LLAMAMOS AL METODO ASYNC QUE POSTEA EL USER EN EL JSON SERVER */
       console.log (res)
+      console.log (this.users)
     }
   }
 }
