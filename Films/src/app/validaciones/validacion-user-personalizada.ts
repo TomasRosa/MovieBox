@@ -1,10 +1,4 @@
 import { AbstractControl, AsyncValidatorFn, ValidationErrors, ValidatorFn } from "@angular/forms";
-import { UserService } from "../services/user.service";
-import { switchMap, map } from 'rxjs/operators';
-import { of } from 'rxjs';
-import { Observable, tap  } from 'rxjs';  
-import { catchError } from 'rxjs/operators';
-import { from } from 'rxjs';
 
 export class ValidacionUserPersonalizada {
     static soloLetras (): ValidatorFn {
@@ -35,18 +29,5 @@ export class ValidacionUserPersonalizada {
           // Comprueba si hay al menos dos números en la cadena
           return numerosEncontrados >= 2 ? null : { 'minDosNumeros': true };
         };
-    }
-    
-    static emailExistente(userService: UserService): ValidatorFn {
-      return (control: AbstractControl): { [key: string]: any } | null => {
-        const email = control.value as string;
-  
-        // Llama a la función buscarUserPorEmail que retorna una promesa
-        return userService.buscarUserPorEmail(email).then(existe => {
-          // Comprueba si el correo electrónico existe
-          return existe ? { 'emailExistente': true } : null;
-        });
-      };
-    }
-    
+    } 
 }

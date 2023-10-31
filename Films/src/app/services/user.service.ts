@@ -73,13 +73,4 @@ export class UserService implements OnInit {
       );
     });
   }
-  
-  buscarUserPorEmail(email: string): Promise<boolean> {
-    return new Promise((resolve) => {
-      this.users.subscribe((users: User[]) => {
-        const existe = users.some((user: User) => user.email === email);
-        resolve(existe);
-      });
-    });
-  }
 }

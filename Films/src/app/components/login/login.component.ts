@@ -18,7 +18,7 @@ successMessage: string = '';
  
 loginForm = new FormGroup (
   {
-    email: new FormControl('',[Validators.required,Validators.email, ValidacionUserPersonalizada.emailExistente(this.userService)]),
+    email: new FormControl('',[Validators.required,Validators.email]),
     password: new FormControl('',[Validators.required,Validators.minLength (6), ValidacionUserPersonalizada.minDosNumeros()])
   }
 )

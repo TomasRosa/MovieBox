@@ -18,7 +18,7 @@ export class RegisterComponent implements OnInit {
   userForm = new FormGroup ({
     firstName: new FormControl ('', [Validators.required, ValidacionUserPersonalizada.soloLetras(),]),
     lastName: new FormControl ('', [Validators.required, ValidacionUserPersonalizada.soloLetras()]),
-    email: new FormControl ('', [Validators.required, Validators.email, ValidacionUserPersonalizada.emailExistente(this.userService)]),
+    email: new FormControl ('', [Validators.required, Validators.email]),
     address: new FormControl ('', [Validators.required]),
     password: new FormControl ('', [Validators.required, Validators.minLength (6), ValidacionUserPersonalizada.minDosNumeros()]),
     DNI: new FormControl ('', [Validators.required, Validators.minLength(8), Validators.maxLength(8),ValidacionUserPersonalizada.soloNumeros()])

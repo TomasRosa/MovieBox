@@ -29,7 +29,7 @@
       <input type="password" name="password" formControlName="password" value="">
     </div>
     
-    <button type="submit" class="btn btn-primary">Registrarse</button>
+    <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">Registrarse</button>
 
     <section id="alertName" class="alert alert-danger" *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)">
           <div *ngIf="firstName?.hasError('required')">El nombre es requerido</div> <!-- L -->
@@ -41,7 +41,7 @@
           <div *ngIf="lastName?.hasError('soloLetras')">El apellido debe contener solo letras</div> <!-- L -->
     </section>
 
-      <section id="alertDNI" class="alert alert-danger" *ngIf="dni?.invalid && (dni?.dirty || dni?.touched)">
+    <section id="alertDNI" class="alert alert-danger" *ngIf="dni?.invalid && (dni?.dirty || dni?.touched)">
           <div *ngIf="dni?.hasError('required')">El DNI es requerido</div>  <!-- L -->
           <div *ngIf="dni?.hasError('soloNumeros')">El DNI debe contener solo números</div>  <!-- L -->
           <div *ngIf="dni?.hasError('minlength') || dni?.hasError('maxlength')">El DNI debe contener 8 caracteres</div>  <!-- L -->
@@ -51,7 +51,6 @@
         <div *ngIf="email?.invalid && (email?.dirty || email?.touched)">
           <div *ngIf="email?.hasError('required')">El email es requerido</div>  <!-- L -->
           <div *ngIf="email?.hasError('email')">El formato del email es incorrecto</div>  <!-- L -->
-          <div *ngIf="email?.hasError('emailExistente')">El email ya existe</div>
         </div>
     </section>
 
