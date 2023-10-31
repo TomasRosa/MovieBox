@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router'; // Importa NavigationEnd
 
 @Component({
   selector: 'app-root',
@@ -7,13 +7,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor (private router: Router)
-  {
+  router: string = '';
 
+  constructor(private routerService: Router) {
+    this.routerService.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.router = event.url;
+      }
+    });
   }
 
-  navegarInicio (componente: string)
-  {
-    this.router.navigate([componente]);
+  navegarInicio(componente: string) {
+    this.routerService.navigate([componente]);
   }
 }
+
