@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -6,5 +7,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
+  router: string = '';
 
+  constructor(private routerService: Router) {
+    this.routerService.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.router = event.url;
+      }
+    });
+  }
+
+  navegarInicio(componente: string) {
+    this.routerService.navigate([componente]);
+  }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-inicio',
@@ -8,5 +8,4 @@ import { Router } from '@angular/router';
 })
 export class InicioComponent 
 {
-
 }
