@@ -2,7 +2,7 @@
     <input type="text" [formControl] = "formControl" placeholder="Buscar Film...">
 </form>
 <div>
-    <ul *ngFor="let film of filmsFiltradasPorBusqueda">
+    <ul class = "estiloBusqueda" *ngFor="let film of filmsFiltradasPorBusqueda">
         <li> {{ film.title }} </li>
     </ul>
 </div>
