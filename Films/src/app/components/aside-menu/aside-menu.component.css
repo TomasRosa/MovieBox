@@ -1,11 +1,13 @@
 button {
-    margin: 30px;
-    margin-bottom: 10px;
+    margin-left: 30px;
+    margin-top: 15px;
+    background-color: rgb(129, 168, 240);
 }
 
 img{
     height: 50px;
     width: 50px;
+    margin-bottom: none;
 }
 
 .menuLateral {
@@ -17,16 +19,17 @@ img{
 }
 
 .sizeClass {
-    font-size: 18px;
+    font-size: 15px;
 }
 
 .colorFondo {
-    background-color: rgb(140, 215, 228);
+    background-color: rgb(129, 168, 240);
 }
 
 .recuadro {
-    background-color: rgb(140, 215, 228);
+    background-color: rgb(129, 168, 240);
     margin-right: 1700px;
     padding-bottom: 20px;
+    margin-left: 30px;
 }
   

@@ -7,18 +7,6 @@ import { Router, NavigationEnd } from '@angular/router'; // Importa NavigationEn
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  router: string = '';
 
-  constructor(private routerService: Router) {
-    this.routerService.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.router = event.url;
-      }
-    });
-  }
-
-  navegarInicio(componente: string) {
-    this.routerService.navigate([componente]);
-  }
 }
 
