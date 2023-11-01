@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, platformBrowser } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FilmsFromAPIService } from './services/films-from-api.service';
@@ -17,6 +17,7 @@ import { InicioComponent } from './components/inicio/inicio.component';
 import { TarjetaComponent } from './components/tarjeta/tarjeta.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { BarraDeBusquedaComponent } from './components/barra-de-busqueda/barra-de-busqueda.component';
 
 @NgModule({
   declarations: [
@@ -30,12 +31,14 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     TarjetaComponent,
     NavbarComponent,
     NotFoundComponent,
+    BarraDeBusquedaComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [FilmsFromAPIService, SharedServicesService, SobreNosotrosComponent, UserService],
   bootstrap: [AppComponent]

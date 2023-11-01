@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Film } from '../models/film';
 
 const options = {
   headers: {
@@ -13,6 +14,7 @@ const options = {
 
 export class FilmsFromAPIService {
   private url_API = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc';
+  
   constructor() { }
   
   async getMovies (): Promise <any> {
