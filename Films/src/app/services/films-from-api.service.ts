@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Film } from '../models/film';
 
 const options = {
   headers: {

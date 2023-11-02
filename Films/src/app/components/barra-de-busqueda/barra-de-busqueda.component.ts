@@ -18,7 +18,6 @@ export class BarraDeBusquedaComponent implements OnInit{
 
   ngOnInit(): void {
     this.FilmsFromAPIService.getMovies().then((json) => {
-      console.log(json);
       if (json) {
         this.films = json.results;
       }
@@ -30,7 +29,6 @@ export class BarraDeBusquedaComponent implements OnInit{
   }
 
   buscarFilm(query: string) {
-    console.log('entre a buscar');
     this.filmsFiltradasPorBusqueda = []
     if (this.formControl.value != '')
     this.filmsFiltradasPorBusqueda = this.films.filter((film) => {
