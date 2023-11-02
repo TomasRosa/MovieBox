@@ -1,54 +1,67 @@
-export class validacionTarjeta{
-    static validarTarjetaLongitud(numeroTarjeta: string): boolean 
-    {
-        const resultado = numeroTarjeta.length === 16;
-        console.log("validarTarjetaLongitud" + resultado);
-        return resultado;
-    }
-    
-    static soloNumeros(cadena: string): boolean 
-    {
-        const resultado = /^\d+$/.test(cadena)
-        console.log('soloNumeros:', resultado);
-        return resultado;
-    }
-    static validarCVCLongitud(cvc: string): boolean 
-    {
-        const resultado = /^[0-9]{3,4}$/.test(cvc)
-        console.log('validarCVCLongitud', resultado);
-        return resultado;
-    }
-    static validarFormatoFechaVencimiento(fecha: string): boolean 
-    { 
-        const resultado = /^\d{1,2}\/\d{2}(\d{2})?$/.test(fecha);
-        console.log('validarFormatoFechaVencimiento', resultado);
-        return resultado;
-    }
-    static validarFechaNoExpirada(fecha: string): boolean 
-    {
-        if (!validacionTarjeta.validarFormatoFechaVencimiento(fecha)) 
-        {
-          return false; // El formato no es válido
-        }
-      
-        const partes = fecha.split('/');
-        const mes = parseInt(partes[0], 10);
-        const anio = parseInt(partes[1], 10);
-      
-        if (mes < 1 || mes > 12) 
-        {
-          return false; // El mes no es válido
-        }
-      
-        const fechaActual = new Date();
-        const anioActual = fechaActual.getFullYear() % 100; // Solo los últimos 2 dígitos
-        const mesActual = fechaActual.getMonth() + 1; // Se suma 1 porque en JavaScript los meses van de 0 a 11
-      
-        if (anio < anioActual || (anio === anioActual && mes < mesActual)) 
-        {
-          return false; // La fecha ha expirado
-        }
-      
-        return true; // La fecha no ha expirado
+import { AbstractControl, ValidatorFn } from "@angular/forms";
+
+export class ValidacionTarjeta {
+  static validarTarjetaLongitud(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const numeroTarjeta = control.value;
+      if (!numeroTarjeta || numeroTarjeta.length !== 16) {
+        return { 'validarTarjetaLongitud': { value: control.value } };
       }
+      return null;
+    };
+  }
+
+  static soloNumeros(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const numeroTarjeta = control.value;
+      if (!numeroTarjeta || !/^\d+$/.test(numeroTarjeta)) {
+        return { 'soloNumeros': { value: control.value } };
+      }
+      return null;
+    };
+  }
+
+  static validarCVCLongitud(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const cvc = control.value;
+      if (!cvc || !/^[0-9]{3,4}$/.test(cvc)) {
+        return { 'validarCVCLongitud': { value: control.value } };
+      }
+      return null;
+    };
+  }
+
+  static validarFormatoFechaVencimiento(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const fecha = control.value;
+      if (!fecha || !/^\d{2}\/\d{2}$/.test(fecha)) {
+        return { 'validarFormatoFechaVencimiento': { value: control.value } };
+      }
+      return null;
+    };
+  }
+  
+  static validarFechaNoExpirada(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const fecha = control.value;
+      const partes = fecha.split('/');
+      const mes = parseInt(partes[0], 10);
+      const anio = parseInt(partes[1], 10);
+  
+      if (!fecha || !/^\d{2}\/\d{2}$/.test(fecha)) {
+        return { 'validarFormatoFechaVencimiento': { value: control.value } };
+      }
+  
+      const fechaActual = new Date();
+      const anioActual = fechaActual.getFullYear() % 100;
+      const mesActual = fechaActual.getMonth() + 1;
+  
+      if (anio < anioActual || (anio === anioActual && mes < mesActual)) {
+        return { 'validarFechaNoExpirada': { value: control.value } };
+      }
+  
+      return null;
+    };
+  }
+  
 }

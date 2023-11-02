@@ -10,5 +10,15 @@ img{
     height: 50px;
 }
 
+.componente-esquina {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 50px;
+    margin-right: 300px;
+}
+
+
+
 
   

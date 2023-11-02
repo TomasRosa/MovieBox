@@ -46,20 +46,21 @@
     <section id="alertNTarjeta" class="alert alert-danger" *ngIf="nTarjeta && (nTarjeta.invalid && (nTarjeta.dirty || nTarjeta.touched))">
         <div *ngIf="nTarjeta.hasError('required')" class="error-message">El Nº de tarjeta es requerido.</div>
         <div *ngIf="nTarjeta.hasError('soloNumeros')" class="error-message">La tarjeta debe tener solo numeros. </div>
-        <div *ngIf="nTarjeta.hasError('validarTarjetaLongitud')" class="error-message">{{ messageLongitud }}</div>
+        <div *ngIf="nTarjeta.hasError('validarTarjetaLongitud')" class="error-message">La longitud de la tarjeta debe ser exactamente de 16 digitos.</div>
     </section>
     
     <section id="alertCVC" class="alert alert-danger" *ngIf="CVC && (CVC.invalid && (CVC.dirty || CVC.touched))">
         <div *ngIf="CVC.hasError('required')">El CVC es requerido. </div>
-        <div *ngIf="CVC.hasError('soloNumeros')" class="error-message">{{ messageSoloNumerosCVC }}</div>
-        <div *ngIf="CVC.hasError('validarCVCLongitud')" class="error-message">{{ messageLongitudCVC }}</div>
+        <div *ngIf="CVC.hasError('soloNumeros')" class="error-message"> El CVC debe tener solo numeros. </div>
+        <div *ngIf="CVC.hasError('validarCVCLongitud')" class="error-message">La longitud del CVC debe ser de 3 o 4 numeros.</div>
     </section>
     
     <section id="alertFechaVencimiento" class="alert alert-danger" *ngIf="fechaVencimiento && (fechaVencimiento.invalid && (fechaVencimiento.dirty || fechaVencimiento.touched))">
-        <div *ngIf="fechaVencimiento.hasError('required')">La fecha de vencimiento es requerida</div>
-        <div *ngIf="fechaVencimiento.hasError('validarFormatoFechaVencimiento')" class="error-message">{{ messageFormato }}</div>
-        <div *ngIf="fechaVencimiento.hasError('validarFechaNoExpirada')" class="error-message">{{ messageVencimiento }}</div>
+        <div *ngIf="fechaVencimiento.hasError('required')">La fecha de vencimiento es requerida.</div>
+        <div *ngIf="fechaVencimiento.hasError('validarFormatoFechaVencimiento')">El formato de la fecha de vencimiento debe ser MM/YY</div>
+        <div *ngIf="fechaVencimiento.hasError('validarFechaNoExpirada')">Tarjeta vencida</div>
     </section>
+    
     
 </form>
 

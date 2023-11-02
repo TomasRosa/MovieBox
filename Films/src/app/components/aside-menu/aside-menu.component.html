@@ -1,11 +1,11 @@
 <button class="menuLateral" (click)="toggleMenu()">
     <img src="https://cdn-icons-png.flaticon.com/128/8106/8106944.png" alt="Imagen de menu">
   </button>
-<div *ngIf="prendido">
+<div class = "fondo-desenfocado" *ngIf="prendido">
     <div class = "recuadro">
-        <button class="menuLateral sizeClass colorFondo" (click)="navegarLogin('login')">Login</button>
-        <button class="menuLateral sizeClass colorFondo" (click)="navegarRegister('registrarse')">Registrarse</button>
-        <button class="menuLateral sizeClass colorFondo" (click)="navegarComponente('sobre-nosotros')">Sobre Nosotros</button>
+        <button class="menuLateral sizeClass colorFondo" (click)="navegarLogin('login')" (click) = "toggleMenu()">Login</button>
+        <button class="menuLateral sizeClass colorFondo" (click)="navegarRegister('registrarse')" (click) = "toggleMenu()">Registrarse</button>
+        <button class="menuLateral sizeClass colorFondo" (click)="navegarComponente('sobre-nosotros')" (click) = "toggleMenu()">Sobre Nosotros</button>
     </div>
  </div>
   
