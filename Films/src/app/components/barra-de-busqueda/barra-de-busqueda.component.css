@@ -1,6 +1,17 @@
 .estiloBusqueda {
+    display: inline;
     background-color: white;
+    border: solid;
     border: 1px solid lightcoral;
     margin: 0px;
+    padding: 0.5rem;
 }
 
+#barra-busqueda{
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+li{
+    width: 1.5rem;
+    height: 1.5rem;
+}

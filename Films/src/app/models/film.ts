@@ -12,4 +12,5 @@ export class Film {
     video: boolean = false;
     vote_average:number = 0;
     vote_count: number=0;
+    posterUrl: string = ''
 }
