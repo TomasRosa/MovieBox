@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FilmsFromAPIService } from '../services/films-from-api.service';
 
 @Component({
   selector: 'app-test',
@@ -6,7 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./test.component.css']
 })
 export class TestComponent {
-  constructor ()
+  constructor (private data: FilmsFromAPIService)
   {
+    data.getMovies();
   }
 }

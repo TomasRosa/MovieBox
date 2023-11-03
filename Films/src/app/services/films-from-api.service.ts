@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 
 const options = {
-  headers: {
-  accept: 'application/json',
-  Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzNjk0MzIxNWVhNTZkYmQ0OGQ4ZTVjNDdlYzQwNWY1YSIsInN1YiI6IjY1MzZkYTUyMWY3NDhiMDEzZWI0Y2U4OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2gvHMEZWHcVkev35K5S8tIINp0HxmR5djO57J2A2SN4'
-  }
+  method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '168918779bmsh773c0ea22aed822p18cce3jsn5f8c1d7815d2',
+		'X-RapidAPI-Host': 'similar-movies.p.rapidapi.com'
+	}
 };
 
 @Injectable({
@@ -12,7 +13,7 @@ const options = {
 })
 
 export class FilmsFromAPIService {
-  private url_API = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc';
+  private url_API = 'https://similar-movies.p.rapidapi.com/similar?id=24168-titanic';
   
   constructor() { }
   
@@ -23,7 +24,9 @@ export class FilmsFromAPIService {
         console.log ("Error: " + response.text);
         return null;
       }
-
-      return await response.json();
+      const datos = await response.json();
+      console.log (datos);
   }
+
+  
 }
