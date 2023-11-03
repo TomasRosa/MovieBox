@@ -10,4 +10,5 @@ export class Film {
     plot: string = "";
     id: string = "";
     img: string = "";
+    precio: number = Math.floor(Math.random() * (1000 - 500 + 1) + 500);
 }
