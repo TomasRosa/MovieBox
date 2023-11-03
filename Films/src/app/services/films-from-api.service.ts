@@ -13,18 +13,18 @@ const options = {
 })
 
 export class FilmsFromAPIService {
-  private url_API = 'https://similar-movies.p.rapidapi.com/similar?id=24168-titanic';
+  private url_API = 'C:\Users\Win10\Desktop\TP Final Lab IV\TPFinalRuizGomezRosa\Films\src\app\components\films.json';
   
   constructor() { }
   
   async getMovies (): Promise <any> {
-      const response = await fetch (this.url_API, options);
+      const response = await fetch (this.url_API);
 
       if (response.status != 200){
         console.log ("Error: " + response.text);
         return null;
       }
-
+      console.log (response)
       const datos = await response.json();
 
       return datos;
