@@ -13,12 +13,14 @@
     carritoDeCompras: Array<Film> = []; 
     totalCarrito: number = 0; 
 
-
     constructor(private FilmsFromApiCarrito: FilmsFromApiCarritoService) 
-    {
+    {     
+      /*
       this.FilmsFromApiCarrito.getMovies().subscribe((data: any) => {
         this.arrayDePeliculas = data;
-      });
+    );
+    */
+       this.arrayDePeliculas = this.FilmsFromApiCarrito.getMoviesJson(); 
     }
     agregarAlCarrito(pelicula: Film) 
     {

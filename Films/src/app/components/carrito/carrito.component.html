@@ -17,10 +17,10 @@
             </thead>
             <tbody>
                 <tr *ngFor="let pelicula of arrayDePeliculas">
-                  <td><img [src]="pelicula.img" alt="Imagen de la película"></td>
+                  <td><img [src]="pelicula.image" alt="Imagen de la película"></td>
                   <td>{{ pelicula.title }}</td>
                   <td>{{ pelicula.genre }}</td>
-                  <td>{{ pelicula.story }}</td>
+                  <td>{{ pelicula.summary }}</td>
                   <td>{{ pelicula.rating }}</td>
                   <td>{{ pelicula.precio }}</td>
                   <td><button (click)="agregarAlCarrito(pelicula)">Comprar</button></td>
@@ -49,10 +49,10 @@
             </thead>
             <tbody>
                 <tr *ngFor="let pelicula of carritoDeCompras">
-                    <td><img [src]="pelicula.img" alt="Imagen de la película"></td>
+                    <td><img [src]="pelicula.image" alt="Imagen de la película"></td>
                     <td>{{ pelicula.title }}</td>
                     <td>{{ pelicula.genre }}</td>
-                    <td>{{ pelicula.story }}</td>
+                    <td>{{ pelicula.summary }}</td>
                     <td>{{ pelicula.rating }}</td>
                     <td>{{ pelicula.precio }}</td>
                     <td>
