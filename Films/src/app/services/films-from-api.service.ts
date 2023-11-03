@@ -13,7 +13,7 @@ const options = {
 })
 
 export class FilmsFromAPIService {
-  private url_API = 'C:\Users\Win10\Desktop\TP Final Lab IV\TPFinalRuizGomezRosa\Films\src\app\components\films.json';
+  private url_API = 'films.json';
   
   constructor() { }
   
