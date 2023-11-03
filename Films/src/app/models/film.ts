@@ -1,13 +1,14 @@
 export class Film {
-    title: string = "";
-    genre: string = "";
-    rating: number = 0;
-    country: string = "";
-    duration: string = "";
-    story: string = "";
-    style: string = "";
-    audience: string = "";
-    plot: string = "";
-    id: string = "";
-    img: string = "";
+    "movieId": number=0;
+    "title": string='';
+    "year": string='';
+    "link": string='';
+    "image": string='';
+    "runtime": string='';
+    "genre": string='';
+    "summary": string='';
+    "rating": string='';
+    "metascore": string='';
+    "directors": string='';
+    "stars": string=''
 }

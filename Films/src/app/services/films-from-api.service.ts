@@ -14,12 +14,9 @@ const options = {
 })
 
 export class FilmsFromAPIService {
-  constructor(private http: HttpClient) { }
-
-  getMovies() {
-    // Cargar el archivo JSON directamente desde la ubicación en "assets"
-    return this.http.get('assets/films.json');
-  }
+  private url_API = 'films.json';
+  
+  constructor() { }
   
   /* async getMovies (): Promise <any> {
       const response = await fetch (this.url_API, options);
