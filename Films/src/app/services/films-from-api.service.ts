@@ -24,9 +24,9 @@ export class FilmsFromAPIService {
         console.log ("Error: " + response.text);
         return null;
       }
-      const datos = await response.json();
-      console.log (datos);
-  }
 
-  
+      const datos = await response.json();
+
+      return datos;
+  }
 }

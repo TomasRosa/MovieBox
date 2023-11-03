@@ -7,22 +7,19 @@ import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
   templateUrl: './inicio.component.html',
   styleUrls: ['./inicio.component.css']
 })
-export class InicioComponent implements OnInit
+export class InicioComponent
 {
-  films = new Array <Film> ();
+  films: any;
 
   constructor (private dataFilms: FilmsFromAPIService)
   {
   }
 
-  ngOnInit(): void{
-    this.dataFilms.getMovies().then((json) => {
-      if (json) {
-        this.films = json.results;
-      }
-    })
-  } 
-
+  async obtenerMovies ()
+  {
+    this.films = await this.dataFilms.getMovies();
+  }
+  
   mostrarPeliculas() {
     console.log (this.films);
   }

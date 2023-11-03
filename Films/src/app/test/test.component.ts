@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FilmsFromAPIService } from '../services/films-from-api.service';
+import { InicioComponent } from '../components/inicio/inicio.component';
 
 @Component({
   selector: 'app-test',
@@ -7,8 +8,8 @@ import { FilmsFromAPIService } from '../services/films-from-api.service';
   styleUrls: ['./test.component.css']
 })
 export class TestComponent {
-  constructor (private data: FilmsFromAPIService)
+  constructor (private data: InicioComponent)
   {
-    data.getMovies();
+    data.mostrarPeliculas();
   }
 }
