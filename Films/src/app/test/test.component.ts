@@ -8,8 +8,5 @@ import { InicioComponent } from '../components/inicio/inicio.component';
   styleUrls: ['./test.component.css']
 })
 export class TestComponent {
-  constructor (private data: InicioComponent)
-  {
-    data.mostrarPeliculas();
-  }
+  
 }

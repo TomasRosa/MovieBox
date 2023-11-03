@@ -18,6 +18,7 @@ import { TarjetaComponent } from './components/tarjeta/tarjeta.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { BarraDeBusquedaComponent } from './components/barra-de-busqueda/barra-de-busqueda.component';
+import { InicioAuxComponent } from './components/inicio-aux/inicio-aux.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { BarraDeBusquedaComponent } from './components/barra-de-busqueda/barra-d
     TarjetaComponent,
     NavbarComponent,
     NotFoundComponent,
-    BarraDeBusquedaComponent
+    BarraDeBusquedaComponent,
+    InicioAuxComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Film } from 'src/app/models/film';
-import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-inicio',
@@ -9,18 +7,5 @@ import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 })
 export class InicioComponent
 {
-  films: any;
 
-  constructor (private dataFilms: FilmsFromAPIService)
-  {
-  }
-
-  async obtenerMovies ()
-  {
-    this.films = await this.dataFilms.getMovies();
-  }
-  
-  mostrarPeliculas() {
-    console.log (this.films);
-  }
 }

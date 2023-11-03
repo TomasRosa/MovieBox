@@ -17,7 +17,7 @@ export class FilmsFromAPIService {
   
   constructor() { }
   
-  async getMovies (): Promise <any> {
+  async getMovies (){
       const response = await fetch (this.url_API, options);
 
       if (response.status != 200){
