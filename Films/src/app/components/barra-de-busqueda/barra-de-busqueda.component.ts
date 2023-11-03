@@ -13,7 +13,7 @@ const options = {
   styleUrls: ['./barra-de-busqueda.component.css']
 })
 export class BarraDeBusquedaComponent /* implements OnInit */{
-  films = new Array <Film> ();
+  /* films = new Array <Film> ();
   buscadorDeFilm: string ='';
   filmsFiltradasPorBusqueda = new Array<Film>();
   formControl = new FormControl()
@@ -39,5 +39,5 @@ export class BarraDeBusquedaComponent /* implements OnInit */{
         return film.title.toLowerCase().includes(query.toLowerCase());
       });
     }
-  }
+  } */
 }

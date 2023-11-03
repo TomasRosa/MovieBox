@@ -8,7 +8,6 @@ import { TestComponent } from './test/test.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HttpClientModule } from '@angular/common/http';
-
 import { AsideMenuComponent } from './components/aside-menu/aside-menu.component';
 import { SobreNosotrosComponent } from './components/sobre-nosotros/sobre-nosotros.component';
 import { SharedServicesService } from './services/shared-services.service';

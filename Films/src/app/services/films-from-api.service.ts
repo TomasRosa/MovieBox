@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 const options = {
@@ -13,12 +14,15 @@ const options = {
 })
 
 export class FilmsFromAPIService {
-  private url_API = 'C:\Users\Win10\Desktop\TP Final Lab IV\TPFinalRuizGomezRosa\Films\src\app\components\films.json';
+  constructor(private http: HttpClient) { }
+
+  getMovies() {
+    // Cargar el archivo JSON directamente desde la ubicación en "assets"
+    return this.http.get('assets/films.json');
+  }
   
-  constructor() { }
-  
-  async getMovies (): Promise <any> {
-      const response = await fetch (this.url_API);
+  /* async getMovies (): Promise <any> {
+      const response = await fetch (this.url_API, options);
 
       if (response.status != 200){
         console.log ("Error: " + response.text);
@@ -28,5 +32,5 @@ export class FilmsFromAPIService {
       const datos = await response.json();
 
       return datos;
-  }
+  } */
 }
