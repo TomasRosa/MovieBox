@@ -13,7 +13,7 @@ const options = {
 })
 
 export class FilmsFromAPIService {
-  private url_API = 'films.json';
+  private url_API = 'assets/films.json';
   
   constructor() { }
   

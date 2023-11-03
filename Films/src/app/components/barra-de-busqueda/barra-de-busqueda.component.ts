@@ -24,12 +24,12 @@ export class BarraDeBusquedaComponent /* implements OnInit */{
   ngOnInit(): void {
     this.http.get('assets/films.json').subscribe((data: any) => {
       this.films = data;
-        console.log('Películas:', this.films);
     });
     this.formControl.valueChanges.subscribe(query => {
       this.buscarFilm(query);
     });
   }
+
   buscarFilm(query: string) {
     this.filmsFiltradasPorBusqueda = [];
     if (query && this.formControl.value != '') {

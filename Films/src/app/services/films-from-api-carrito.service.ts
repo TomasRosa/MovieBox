@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Film } from '../models/film';
 
@@ -16,7 +16,7 @@ const options = {
   providedIn: 'root'
 })
 
-export class FilmsFromApiCarritoService
+export class FilmsFromApiCarritoService implements OnInit
 {
     private url_API = 'https://similar-movies.p.rapidapi.com/similar?id=24168-titanic';
     private url_json = 'films.json'
@@ -24,6 +24,12 @@ export class FilmsFromApiCarritoService
 
   constructor(private http: HttpClient) { }
   
+  ngOnInit(): void {
+    this.http.get('assets/films.json').subscribe((data: any) => {
+      this.films = data;
+    });
+  }
+
   getMovies(): Observable<any[]> {
     return new Observable((observer) => {
       let data; // Declaración de la variable data fuera del bloque then
@@ -51,8 +57,8 @@ export class FilmsFromApiCarritoService
   }
   getMoviesJson() : Array<Film>
   {
-    this.http.get('assets/films.json').subscribe((data: any) => {
-    this.films = data;
+      this.http.get('assets/films.json').subscribe((data: any) => {
+      this.films = data;
       });
       return this.films;
   }

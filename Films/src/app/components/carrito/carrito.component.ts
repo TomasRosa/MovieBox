@@ -1,4 +1,5 @@
-  import { Component } from '@angular/core';
+  import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
   import { Film } from 'src/app/models/film';
   import { FilmsFromApiCarritoService } from 'src/app/services/films-from-api-carrito.service';
 
@@ -7,21 +8,31 @@
     templateUrl: './carrito.component.html',
     styleUrls: ['./carrito.component.css']
   })
-  export class CarritoComponent {
+  export class CarritoComponent implements OnInit {
     message: String = '';
     arrayDePeliculas: Array<Film> = [];
     carritoDeCompras: Array<Film> = []; 
     totalCarrito: number = 0; 
 
-    constructor(private FilmsFromApiCarrito: FilmsFromApiCarritoService) 
+    constructor(private FilmsFromApiCarrito: FilmsFromApiCarritoService, private http: HttpClient) 
     {     
       /*
       this.FilmsFromApiCarrito.getMovies().subscribe((data: any) => {
         this.arrayDePeliculas = data;
     );
     */
-       this.arrayDePeliculas = this.FilmsFromApiCarrito.getMoviesJson(); 
     }
+    ngOnInit(): void {
+      this.http.get('assets/films.json').subscribe((data: any) => {
+        this.arrayDePeliculas = data.map((pelicula: any) => {
+          return {
+            ...pelicula,
+            precio: Math.round(Math.random() * 100)
+          };
+        });
+      });
+    }
+
     agregarAlCarrito(pelicula: Film) 
     {
       this.carritoDeCompras.push(pelicula); // Agregar la película al carrito

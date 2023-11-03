@@ -10,7 +10,6 @@ export class Film {
     "rating": string='';
     "metascore": string='';
     "directors": string='';
-    "stars": string=''
-    precio: number = Math.floor(Math.random() * (1000 - 500 + 1) + 500);
-
+    "stars": string='';
+    "precio": number = 0;
 }

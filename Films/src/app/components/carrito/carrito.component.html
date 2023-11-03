@@ -17,7 +17,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let pelicula of arrayDePeliculas">
-                  <td><img [src]="pelicula.image" alt="Imagen de la película"></td>
+                  <td><img [src]="pelicula.image" alt="Imagen de la película" width="50rem" height="50rem"></td>
                   <td>{{ pelicula.title }}</td>
                   <td>{{ pelicula.genre }}</td>
                   <td>{{ pelicula.summary }}</td>
@@ -49,7 +49,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let pelicula of carritoDeCompras">
-                    <td><img [src]="pelicula.image" alt="Imagen de la película"></td>
+                    <td><img [src]="pelicula.image" alt="Imagen de la película" width="50rem" height="50rem"></td>
                     <td>{{ pelicula.title }}</td>
                     <td>{{ pelicula.genre }}</td>
                     <td>{{ pelicula.summary }}</td>
