@@ -1,10 +1,10 @@
-<!-- <form>
+<form>
     <input id="barra-busqueda" type="text" [formControl] = "formControl" placeholder="Buscar Film...">
 </form>
 <div>
     <ul *ngFor="let film of filmsFiltradasPorBusqueda">
         <li class="estiloBusqueda"> 
             {{ film.title }} 
-            <img [src]="(getImageUrl(film.poster_path)) || 'ruta/por/defecto/sin/imagen.jpg'" alt="Poster" *ngIf="film.poster_path"></li>
+            <img src={{film.image}}  alt="Sin imagen" width="200rem" height="200rem"></li>
     </ul>
-</div> -->
+</div> 
