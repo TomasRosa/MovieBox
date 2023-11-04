@@ -10,5 +10,6 @@ export class Film {
     "rating": string='';
     "metascore": string='';
     "directors": string='';
-    "stars": string=''
+    "stars": string='';
+    "precio": number = 0;
 }

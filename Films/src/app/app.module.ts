@@ -17,6 +17,8 @@ import { TarjetaComponent } from './components/tarjeta/tarjeta.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { BarraDeBusquedaComponent } from './components/barra-de-busqueda/barra-de-busqueda.component';
+import { CarritoComponent } from './components/carrito/carrito.component';
+import { FilmsFromApiCarritoService } from './services/films-from-api-carrito.service';
 import { InicioAuxComponent } from './components/inicio-aux/inicio-aux.component';
 
 @NgModule({
@@ -32,6 +34,8 @@ import { InicioAuxComponent } from './components/inicio-aux/inicio-aux.component
     NavbarComponent,
     NotFoundComponent,
     BarraDeBusquedaComponent,
+    CarritoComponent,
+    BarraDeBusquedaComponent,
     InicioAuxComponent
   ],
   imports: [
@@ -41,7 +45,7 @@ import { InicioAuxComponent } from './components/inicio-aux/inicio-aux.component
     ReactiveFormsModule,
     FormsModule
   ],
-  providers: [FilmsFromAPIService, SharedServicesService, SobreNosotrosComponent, UserService, TestComponent],
+  providers: [FilmsFromAPIService, SharedServicesService, SobreNosotrosComponent, UserService,FilmsFromApiCarritoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

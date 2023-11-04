@@ -29,6 +29,7 @@ export class BarraDeBusquedaComponent implements OnInit {
       this.buscarFilm(query);
     });
   }
+
   buscarFilm(query: string) {
     this.filmsFiltradasPorBusqueda = [];
     if (query && this.formControl.value != '') {

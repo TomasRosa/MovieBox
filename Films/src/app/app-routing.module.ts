@@ -5,6 +5,7 @@ import { InicioComponent } from './components/inicio/inicio.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { CarritoComponent } from './components/carrito/carrito.component';
 
 const routes: Routes = [
   { path: 'inicio', component: InicioComponent },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'registrarse', component: RegisterComponent },
   { path: 'not-found', component: NotFoundComponent },
+  { path: 'carrito', component: CarritoComponent},
   { path: '', redirectTo: '/inicio', pathMatch: 'full'},
   { path: '**', component: NotFoundComponent},
 ];

@@ -1,0 +1,68 @@
+<div class="container">
+    <h1>Carrito🛒</h1>
+</div>
+<section class="padded">
+    <div class="container">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>IMAGEN</th>
+                    <th>TITULO</th>
+                    <th>GENERO</th>
+                    <th>STORY</th>
+                    <th>RATING</th>
+                    <th>PRECIO</th>
+                    <th>🛒</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let pelicula of arrayDePeliculas">
+                  <td><img [src]="pelicula.image" alt="Imagen de la película" width="50rem" height="50rem"></td>
+                  <td>{{ pelicula.title }}</td>
+                  <td>{{ pelicula.genre }}</td>
+                  <td>{{ pelicula.summary }}</td>
+                  <td>{{ pelicula.rating }}</td>
+                  <td>{{ pelicula.precio }}</td>
+                  <td><button (click)="agregarAlCarrito(pelicula)">Comprar</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<div class="container">
+    <h2>Carrito de Compras</h2>
+</div>
+<section class="padded">
+    <div class="container">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>IMAGEN</th>
+                    <th>TITULO</th>
+                    <th>GENERO</th>
+                    <th>STORY</th>
+                    <th>RATING</th>
+                    <th>PRECIO</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let pelicula of carritoDeCompras">
+                    <td><img [src]="pelicula.image" alt="Imagen de la película" width="50rem" height="50rem"></td>
+                    <td>{{ pelicula.title }}</td>
+                    <td>{{ pelicula.genre }}</td>
+                    <td>{{ pelicula.summary }}</td>
+                    <td>{{ pelicula.rating }}</td>
+                    <td>{{ pelicula.precio }}</td>
+                    <td>
+                        <button (click)="eliminarDelCarrito(pelicula)">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+<div class="container">
+    <p>Total del Carrito: {{ totalCarrito | currency: 'ARS' }}</p>
+</div>

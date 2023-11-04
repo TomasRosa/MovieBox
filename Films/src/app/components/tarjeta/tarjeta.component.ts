@@ -3,7 +3,6 @@ import { FormControl, FormGroup,Validators } from '@angular/forms';
 import { ValidacionUserPersonalizada } from 'src/app/validaciones/validacion-user-personalizada';
 import { ValidacionTarjeta } from 'src/app/validaciones/validacion-tarjeta';
 import { Tarjeta } from 'src/app/models/tarjeta';
-import { AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-tarjeta',
