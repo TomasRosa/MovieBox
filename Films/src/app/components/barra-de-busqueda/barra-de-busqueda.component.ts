@@ -13,7 +13,7 @@ const options = {
   templateUrl: './barra-de-busqueda.component.html',
   styleUrls: ['./barra-de-busqueda.component.css']
 })
-export class BarraDeBusquedaComponent /* implements OnInit */{
+export class BarraDeBusquedaComponent implements OnInit {
   films: Array<Film> = [];
   buscadorDeFilm: string ='';
   filmsFiltradasPorBusqueda = new Array<Film>();
@@ -24,7 +24,6 @@ export class BarraDeBusquedaComponent /* implements OnInit */{
   ngOnInit(): void {
     this.http.get('assets/films.json').subscribe((data: any) => {
       this.films = data;
-        console.log('Películas:', this.films);
     });
     this.formControl.valueChanges.subscribe(query => {
       this.buscarFilm(query);

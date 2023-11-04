@@ -14,25 +14,13 @@ export class InicioAuxComponent implements OnInit{
   }
 
   async ngOnInit(): Promise<void>{
-    try {
-      this.films = await this.obtenerMovies();
-      if (this.films)
-      {
-        this.mostrarPeliculasRandom();
-      }
-    } catch (error) {
-      console.error("Error al obtener las películas:", error);
-    }
+      await this.obtenerMovies ();
+      this.mostrarPeliculasRandom ();
   }
 
   async obtenerMovies ()
   {
-    this.dataFilms.getMovies().subscribe((data) => {
-      this.films = data;
-      console.log(this.films);
-      // Aquí puedes realizar cualquier otra operación con los datos
-      this.mostrarPeliculasRandom();
-    });
+    this.films = await this.dataFilms.getMovies ();
      /* try {
       const data = await this.dataFilms.getMovies();
       console.log(data);
@@ -43,21 +31,60 @@ export class InicioAuxComponent implements OnInit{
     }  */
   }
 
+  generarNumRandom (): number
+  {
+    let numeroRandom;
+    do {
+      numeroRandom = Math.floor(Math.random() * 30);
+    } while (numeroRandom == 5 || numeroRandom == 6 || numeroRandom == 7 || numeroRandom == 2);
+
+    return numeroRandom;
+  } 
+
   mostrarPeliculasRandom ()
   {
-    if (this.films) {
+    let arrayNums: number []= []; 
+    if (this.films) 
+    {
       const tabla = document.createElement("table");
       const contenedorTabla = document.getElementById("tablaPeliculas");
   
-      for (let i = 0; i < 5; i++) {
-        const numeroRandom = Math.floor(Math.random() * 30);
+      for (let i = 0; i < 5; i++) 
+      {
+        let numeroRandom = this.generarNumRandom ();
+
+        if (arrayNums[0] != null)
+        {
+          for (let i = 0; i < arrayNums.length; i++)
+          {
+             if (arrayNums[i] == numeroRandom)
+             {
+               numeroRandom = this.generarNumRandom ();
+               i = 0;
+             }
+          }
+        }
+
+        console.log (numeroRandom);
+
         const filas = document.createElement("tr");
-        filas.innerHTML = `
-          <td><img src="${this.films[0].movies[numeroRandom].img}"></td>
-          <td>${this.films[0].movies[numeroRandom].title}</td>
-        `;
-  
+        const filas2 = document.createElement ("tr");
+        if (this.films[numeroRandom].image != null)
+        {
+          filas.innerHTML = 
+          `
+            <td><img alt = "Imagen no disponible"src='${this.films[numeroRandom].image}' width="100" height="100"></td>
+          `;
+        }
+
+        filas2.innerHTML = 
+        `
+         <td>${this.films[numeroRandom].title}</td>
+        `
         tabla.appendChild(filas);
+        tabla.appendChild(filas2);
+
+        arrayNums[i] = numeroRandom; 
       }
   
       if (contenedorTabla) {

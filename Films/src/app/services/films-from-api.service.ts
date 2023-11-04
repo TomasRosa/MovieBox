@@ -14,12 +14,12 @@ const options = {
 })
 
 export class FilmsFromAPIService {
-  private url_API = 'films.json';
+  private url_API = 'assets/films.json';
   
   constructor() { }
   
-  /* async getMovies (): Promise <any> {
-      const response = await fetch (this.url_API, options);
+   async getMovies (){
+      const response = await fetch (this.url_API);
 
       if (response.status != 200){
         console.log ("Error: " + response.text);
@@ -29,5 +29,5 @@ export class FilmsFromAPIService {
       const datos = await response.json();
 
       return datos;
-  } */
+  } 
 }

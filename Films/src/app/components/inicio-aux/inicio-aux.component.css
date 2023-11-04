@@ -2,11 +2,11 @@
     text-align: center;
 }
 
-img{
-    height: 200px;
-    width: 200px;
+.classDiv {
+    text-align: center; /* Alinea el contenido al centro horizontal */
+    margin: 0 auto; /* Centra el bloque horizontalmente */
+    width: 50%; 
 }
-
 td{
     text-align: center;
     font-size: 20px;

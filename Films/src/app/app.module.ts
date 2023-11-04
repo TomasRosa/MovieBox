@@ -41,7 +41,7 @@ import { InicioAuxComponent } from './components/inicio-aux/inicio-aux.component
     ReactiveFormsModule,
     FormsModule
   ],
-  providers: [FilmsFromAPIService, SharedServicesService, SobreNosotrosComponent, UserService],
+  providers: [FilmsFromAPIService, SharedServicesService, SobreNosotrosComponent, UserService, TestComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
