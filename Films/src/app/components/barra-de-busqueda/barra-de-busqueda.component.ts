@@ -24,7 +24,14 @@ export class BarraDeBusquedaComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     try {
-      this.films = await this.FilmsFromAPIService.getMovies();
+      const fetchedFilms = await this.FilmsFromAPIService.getMovies();
+    if (fetchedFilms !== null) {
+      this.films = fetchedFilms;
+    } 
+    else 
+    {
+        console.log('array nulo');
+    }
     } catch (error) {
       console.error(error);
     }

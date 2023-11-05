@@ -54,7 +54,7 @@ export class InicioAuxComponent implements OnInit{
       const filasTitulos = document.createElement ("tr");
       const filasPrecios = document.createElement ("tr");
   
-      for (let i = 0; i < 5; i++) 
+      for (let i = 0; i < 27; i++) 
       {
         let numeroRandom = this.generarNumRandom ();
 
@@ -80,8 +80,7 @@ export class InicioAuxComponent implements OnInit{
          `
           <img alt = "Imagen no disponible" src='${this.films[numeroRandom].image}' width="200" height="300">
          `;
-        
-
+      
         celdasTitulos.innerHTML = 
         `
          <i><b style="font-size: 15px;">${this.films[numeroRandom].title}</b></i>
