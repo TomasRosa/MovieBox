@@ -2,7 +2,6 @@
 import { Component, OnInit } from '@angular/core';
   import { Film } from 'src/app/models/film';
 import { ComunicacionCarritoBarraDeBusquedaService } from 'src/app/services/comunicacion-carrito-barra-de-busqueda.service';
-  import { FilmsFromApiCarritoService } from 'src/app/services/films-from-api-carrito.service';
 import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 
   @Component({
@@ -10,6 +9,7 @@ import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
     templateUrl: './carrito.component.html',
     styleUrls: ['./carrito.component.css']
   })
+  
   export class CarritoComponent implements OnInit {
     message: String = '';
     arrayDePeliculas: Array<Film> = [];
