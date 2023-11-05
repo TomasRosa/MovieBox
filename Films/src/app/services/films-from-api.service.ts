@@ -31,6 +31,7 @@ export class FilmsFromAPIService {
       const datosConPrecio = datos.map((film: Film) => ({
         ...film,
         precio: Math.round(Math.random() * 100),
+        ofertas: false
       }));
 
       return datosConPrecio;
