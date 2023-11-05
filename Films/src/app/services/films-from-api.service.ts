@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Film } from '../models/film';
 
 const options = {
   method: 'GET',
@@ -28,6 +29,11 @@ export class FilmsFromAPIService {
       console.log (response)
       const datos = await response.json();
 
-      return datos;
+      const datosConPrecio = datos.map((film: Film) => ({
+        ...film,
+        precio: Math.round(Math.random() * 100),
+      }));
+
+      return datosConPrecio;
   } 
 }

@@ -1,7 +1,9 @@
   import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
   import { Film } from 'src/app/models/film';
+import { ComunicacionCarritoBarraDeBusquedaService } from 'src/app/services/comunicacion-carrito-barra-de-busqueda.service';
   import { FilmsFromApiCarritoService } from 'src/app/services/films-from-api-carrito.service';
+import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 
   @Component({
     selector: 'app-carrito',
@@ -14,31 +16,29 @@ import { Component, OnInit } from '@angular/core';
     carritoDeCompras: Array<Film> = []; 
     totalCarrito: number = 0; 
 
-    constructor(private FilmsFromApiCarrito: FilmsFromApiCarritoService, private http: HttpClient) 
+    constructor(private comunicacionConCarrito: ComunicacionCarritoBarraDeBusquedaService, private filmsFromAPIService: FilmsFromAPIService) 
     {     
-      /*
-      this.FilmsFromApiCarrito.getMovies().subscribe((data: any) => {
-        this.arrayDePeliculas = data;
-    );
-    */
-    }
-    ngOnInit(): void {
-      this.http.get('assets/films.json').subscribe((data: any) => {
-        this.arrayDePeliculas = data.map((pelicula: any) => {
-          return {
-            ...pelicula,
-            precio: Math.round(Math.random() * 100)
-          };
-        });
+      this.comunicacionConCarrito.agregarPeliculaAlCarrito$.subscribe(pelicula => {
+        this.agregarAlCarrito(pelicula);
       });
     }
 
-    agregarAlCarrito(pelicula: Film) 
-    {
+    async ngOnInit(): Promise<void> {
+      try {
+        this.arrayDePeliculas = await this.filmsFromAPIService.getMovies();
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    agregarAlCarrito(pelicula: Film) {
+      console.log ('PELICULA QUE SE AGREGA'+ pelicula)
       this.carritoDeCompras.push(pelicula); // Agregar la película al carrito
       console.log('Película agregada al carrito:', pelicula);
       this.totalCarrito += pelicula.precio; // Actualizar el precio total del carrito
     }
+
+
     eliminarDelCarrito(pelicula: Film) 
     {
       const index = this.carritoDeCompras.indexOf(pelicula);

@@ -3,6 +3,7 @@ import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 import { Film } from 'src/app/models/film';
 import { FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { ComunicacionCarritoBarraDeBusquedaService } from 'src/app/services/comunicacion-carrito-barra-de-busqueda.service';
 
 const options = {
   
@@ -19,12 +20,14 @@ export class BarraDeBusquedaComponent implements OnInit {
   filmsFiltradasPorBusqueda = new Array<Film>();
   formControl = new FormControl()
 
-  constructor(private FilmsFromAPIService: FilmsFromAPIService, private http: HttpClient) {} 
+  constructor(private FilmsFromAPIService: FilmsFromAPIService, private http: HttpClient, private comunicacionConCarrito: ComunicacionCarritoBarraDeBusquedaService) {} 
 
-  ngOnInit(): void {
-    this.http.get('assets/films.json').subscribe((data: any) => {
-      this.films = data;
-    });
+  async ngOnInit(): Promise<void> {
+    try {
+      this.films = await this.FilmsFromAPIService.getMovies();
+    } catch (error) {
+      console.error(error);
+    }
     this.formControl.valueChanges.subscribe(query => {
       this.buscarFilm(query);
     });
@@ -39,4 +42,7 @@ export class BarraDeBusquedaComponent implements OnInit {
     }
   }
   
+  agregarPeliculaAlCarrito(pelicula: Film) {
+    this.comunicacionConCarrito.agregarPeliculaAlCarrito(pelicula);
+  }
 }
