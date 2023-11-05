@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Film } from 'src/app/models/film';
 import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 
 @Component({
@@ -15,6 +16,7 @@ export class InicioAuxComponent implements OnInit{
 
   async ngOnInit(): Promise<void>{
       await this.obtenerMovies ();
+      console.log (this.films);
       this.mostrarPeliculasRandom ();
   }
 
@@ -50,6 +52,7 @@ export class InicioAuxComponent implements OnInit{
       const contenedorTabla = document.getElementById("tablaPeliculas");
       const filasImagenes = document.createElement("tr");
       const filasTitulos = document.createElement ("tr");
+      const filasPrecios = document.createElement ("tr");
   
       for (let i = 0; i < 5; i++) 
       {
@@ -71,23 +74,31 @@ export class InicioAuxComponent implements OnInit{
         
         const celdasImagenes = document.createElement ("td");
         const celdasTitulos = document.createElement ("td");
+        const celdasPrecios = document.createElement ("td");
 
         celdasImagenes.innerHTML = 
          `
-          <td><img alt = "Imagen no disponible" src='${this.films[numeroRandom].image}' width="200" height="300"></td>
+          <img alt = "Imagen no disponible" src='${this.films[numeroRandom].image}' width="200" height="300">
          `;
         
 
         celdasTitulos.innerHTML = 
         `
-         <td style="font-size: 30px;"><i><b>${this.films[numeroRandom].title}</b></i></td>
+         <i><b style="font-size: 15px;">${this.films[numeroRandom].title}</b></i>
+        `
+
+        celdasPrecios.innerHTML = 
+        `
+        <i><b style="font-size: 15px;">$${this.films[numeroRandom].precio}</b></i>
         `
 
         filasImagenes.appendChild (celdasImagenes);
         filasTitulos.appendChild (celdasTitulos);
+        filasPrecios.appendChild (celdasPrecios);
 
         tabla.appendChild(filasImagenes);
         tabla.appendChild(filasTitulos);
+        tabla.appendChild(filasPrecios);
 
         arrayNums[i] = numeroRandom; 
       }

@@ -20,6 +20,7 @@ import { BarraDeBusquedaComponent } from './components/barra-de-busqueda/barra-d
 import { CarritoComponent } from './components/carrito/carrito.component';
 import { FilmsFromApiCarritoService } from './services/films-from-api-carrito.service';
 import { InicioAuxComponent } from './components/inicio-aux/inicio-aux.component';
+import { OfertasComponent } from './components/ofertas/ofertas.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { InicioAuxComponent } from './components/inicio-aux/inicio-aux.component
     BarraDeBusquedaComponent,
     CarritoComponent,
     BarraDeBusquedaComponent,
-    InicioAuxComponent
+    InicioAuxComponent,
+    OfertasComponent
   ],
   imports: [
     BrowserModule,
