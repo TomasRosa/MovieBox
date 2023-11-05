@@ -25,7 +25,14 @@ import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 
     async ngOnInit(): Promise<void> {
       try {
-        this.arrayDePeliculas = await this.filmsFromAPIService.getMovies();
+        const fetchedFilms = await this.filmsFromAPIService.getMovies();
+        if (fetchedFilms !== null) {
+          this.arrayDePeliculas = fetchedFilms;
+        } 
+        else 
+        {
+          console.log('array nulo carrito ');
+        }
       } catch (error) {
         console.error(error);
       }

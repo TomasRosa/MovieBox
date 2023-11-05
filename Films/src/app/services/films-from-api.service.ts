@@ -31,9 +31,25 @@ export class FilmsFromAPIService {
       const datosConPrecio = datos.map((film: Film) => ({
         ...film,
         precio: Math.round(Math.random() * 100),
-        ofertas: false
+        ofertas: false,
       }));
-
-      return datosConPrecio;
+      let arrayConImagenes: Array<Film> = this.pasarDatosAUnArray(datosConPrecio);
+      return arrayConImagenes;
   } 
+  pasarDatosAUnArray(datos: any)
+  {
+    let arrayAPasar: Array<Film> = [];
+
+    let i;
+
+    for(i = 0; i < datos.length; i++)
+    {
+      if(i == 2 || i == 5 || i == 6 || i == 7)
+      {
+        i++;
+      }
+      arrayAPasar.push(datos[i]);
+    }
+    return arrayAPasar;
+  }
 }
