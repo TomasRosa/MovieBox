@@ -36,6 +36,7 @@ export class FilmsFromAPIService {
       let arrayConImagenes: Array<Film> = this.pasarDatosAUnArray(datosConPrecio);
       return arrayConImagenes;
   } 
+  
   pasarDatosAUnArray(datos: any)
   {
     let arrayAPasar: Array<Film> = [];
@@ -44,7 +45,15 @@ export class FilmsFromAPIService {
 
     for(i = 0; i < datos.length; i++)
     {
-      if(i == 2 || i == 5 || i == 6 || i == 7)
+      if(i == 2 || i == 5)
+      {
+        i++;
+      }
+      if (i == 6)
+      {
+        i++
+      }
+      if (i == 7 || i == 51)
       {
         i++;
       }

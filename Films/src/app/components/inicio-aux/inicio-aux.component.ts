@@ -16,7 +16,6 @@ export class InicioAuxComponent implements OnInit{
 
   async ngOnInit(): Promise<void>{
       await this.obtenerMovies ();
-      console.log (this.films);
       this.mostrarPeliculasRandom ();
   }
 
@@ -33,75 +32,37 @@ export class InicioAuxComponent implements OnInit{
     }  */
   }
 
-  generarNumRandom (): number
-  {
-    let numeroRandom;
-    do {
-      numeroRandom = Math.floor(Math.random() * 30);
-    } while (numeroRandom == 5 || numeroRandom == 6 || numeroRandom == 7 || numeroRandom == 2);
-
-    return numeroRandom;
-  } 
-
-  mostrarPeliculasRandom ()
-  {
-    let arrayNums: number []= []; 
-    if (this.films) 
-    {
+  mostrarPeliculasRandom() {
+    if (this.films) {
       const tabla = document.createElement("table");
       const contenedorTabla = document.getElementById("tablaPeliculas");
-      const filasImagenes = document.createElement("tr");
-      const filasTitulos = document.createElement ("tr");
-      const filasPrecios = document.createElement ("tr");
-  
-      for (let i = 0; i < 27; i++) 
-      {
-        let numeroRandom = this.generarNumRandom ();
-
-        if (arrayNums[0] != null)
-        {
-          for (let i = 0; i < arrayNums.length; i++)
-          {
-             if (arrayNums[i] == numeroRandom)
-             {
-               numeroRandom = this.generarNumRandom ();
-               i = 0;
-             }
-          }
-        }
-
-        console.log (numeroRandom);
-        
-        const celdasImagenes = document.createElement ("td");
-        const celdasTitulos = document.createElement ("td");
-        const celdasPrecios = document.createElement ("td");
-
-        celdasImagenes.innerHTML = 
-         `
-          <img alt = "Imagen no disponible" src='${this.films[numeroRandom].image}' width="200" height="300">
-         `;
+      let filaImagenes = document.createElement("tr");
+      let filaTitulos = document.createElement("tr");
+      let filaPrecios = document.createElement("tr");
       
-        celdasTitulos.innerHTML = 
-        `
-         <i><b style="font-size: 15px;">${this.films[numeroRandom].title}</b></i>
-        `
+      for (let i = 0; i < this.films.length; i++) {
+        if (i % 5 === 0) {
+          filaImagenes = document.createElement("tr");
+          filaTitulos = document.createElement("tr");
+          filaPrecios = document.createElement("tr");
 
-        celdasPrecios.innerHTML = 
-        `
-        <i><b style="font-size: 15px;">$${this.films[numeroRandom].precio}</b></i>
-        `
-
-        filasImagenes.appendChild (celdasImagenes);
-        filasTitulos.appendChild (celdasTitulos);
-        filasPrecios.appendChild (celdasPrecios);
-
-        tabla.appendChild(filasImagenes);
-        tabla.appendChild(filasTitulos);
-        tabla.appendChild(filasPrecios);
-
-        arrayNums[i] = numeroRandom; 
+          tabla.appendChild(filaImagenes);
+          tabla.appendChild(filaTitulos);
+          tabla.appendChild(filaPrecios);
+        }
+        const celdaImagenes = document.createElement("td");
+        const celdaTitulos = document.createElement("td");
+        const celdaPrecios = document.createElement("td");
+        
+        celdaImagenes.innerHTML = `<img alt="Imagen no disponible" src='${this.films[i].image}' width="200" height="300">`;
+        celdaTitulos.innerHTML = `<i><b style="font-size: 15px;">${this.films[i].title}</b></i>`;
+        celdaPrecios.innerHTML = `<i><b style="font-size: 15px;">$${this.films[i].precio}</b></i>`;
+        
+        filaImagenes.appendChild(celdaImagenes);
+        filaTitulos.appendChild(celdaTitulos);
+        filaPrecios.appendChild(celdaPrecios);
       }
-  
+    
       if (contenedorTabla) {
         contenedorTabla.appendChild(tabla);
       } else {
@@ -110,5 +71,5 @@ export class InicioAuxComponent implements OnInit{
     } else {
       console.error("No se encontraron datos de películas.");
     }
-}
-}
+  }
+}  
