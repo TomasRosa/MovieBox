@@ -48,6 +48,8 @@ export class InicioAuxComponent implements OnInit{
     {
       const tabla = document.createElement("table");
       const contenedorTabla = document.getElementById("tablaPeliculas");
+      const filasImagenes = document.createElement("tr");
+      const filasTitulos = document.createElement ("tr");
   
       for (let i = 0; i < 5; i++) 
       {
@@ -66,23 +68,26 @@ export class InicioAuxComponent implements OnInit{
         }
 
         console.log (numeroRandom);
+        
+        const celdasImagenes = document.createElement ("td");
+        const celdasTitulos = document.createElement ("td");
 
-        const filas = document.createElement("tr");
-        const filas2 = document.createElement ("tr");
-        if (this.films[numeroRandom].image != null)
-        {
-          filas.innerHTML = 
-          `
-            <td><img alt = "Imagen no disponible"src='${this.films[numeroRandom].image}' width="100" height="100"></td>
-          `;
-        }
+        celdasImagenes.innerHTML = 
+         `
+          <td><img alt = "Imagen no disponible" src='${this.films[numeroRandom].image}' width="200" height="300"></td>
+         `;
+        
 
-        filas2.innerHTML = 
+        celdasTitulos.innerHTML = 
         `
-         <td>${this.films[numeroRandom].title}</td>
+         <td style="font-size: 30px;"><i><b>${this.films[numeroRandom].title}</b></i></td>
         `
-        tabla.appendChild(filas);
-        tabla.appendChild(filas2);
+
+        filasImagenes.appendChild (celdasImagenes);
+        filasTitulos.appendChild (celdasTitulos);
+
+        tabla.appendChild(filasImagenes);
+        tabla.appendChild(filasTitulos);
 
         arrayNums[i] = numeroRandom; 
       }

@@ -11,7 +11,13 @@
     justify-content: center;
     margin-bottom: 1.5rem;
 }
-li{
-    width: 1.5rem;
-    height: 1.5rem;
+
+.classEstrella {
+    margin-top: 0px !important; 
+    margin-bottom: 1px;
+}
+
+img{
+    margin-bottom: 5px;
+    margin-top: 5px;
 }

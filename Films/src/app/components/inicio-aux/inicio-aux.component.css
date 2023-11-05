@@ -2,12 +2,23 @@
     text-align: center;
 }
 
-.classDiv {
-    text-align: center; /* Alinea el contenido al centro horizontal */
-    margin: 0 auto; /* Centra el bloque horizontalmente */
-    width: 50%; 
+table {
+    border: 2px solid red;
 }
+
+.classDiv {
+    margin: 0 auto;
+    width: 50%; 
+    margin-top: 100px;
+}
+
+th{
+    border: 2px solid red;
+    margin-left: 100px;
+}
+
 td{
+    border: 2px solid red;
     text-align: center;
-    font-size: 20px;
+    margin-left: 100px;
 }
