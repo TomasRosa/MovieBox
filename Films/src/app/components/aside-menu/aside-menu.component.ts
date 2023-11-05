@@ -13,7 +13,7 @@ export class AsideMenuComponent
     {
     }
 
-    navegarComponente(componente: string)
+    navegarSobreNosotros(componente: string)
     {
       this.router.navigate([componente]);
     }
@@ -24,6 +24,11 @@ export class AsideMenuComponent
     }
 
     navegarRegister (componente: string)
+    {
+      this.router.navigate([componente]);
+    }
+
+    navegarOfertas(componente: string)
     {
       this.router.navigate([componente]);
     }

@@ -20,20 +20,19 @@ export class FilmsFromAPIService {
   constructor() { }
   
    async getMovies (){
-      const response = await fetch (this.url_API);
+       const response = await fetch (this.url_API);
 
       if (response.status != 200){
         console.log ("Error: " + response.text);
         return null;
       }
-      console.log (response)
-      const datos = await response.json();
+      const datos = await response.json(); 
 
       const datosConPrecio = datos.map((film: Film) => ({
         ...film,
         precio: Math.round(Math.random() * 100),
       }));
-      
+
       return datosConPrecio;
   } 
 }

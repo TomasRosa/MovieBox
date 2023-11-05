@@ -19,6 +19,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { BarraDeBusquedaComponent } from './components/barra-de-busqueda/barra-de-busqueda.component';
 import { CarritoComponent } from './components/carrito/carrito.component';
 import { InicioAuxComponent } from './components/inicio-aux/inicio-aux.component';
+import { OfertasComponent } from './components/ofertas/ofertas.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { InicioAuxComponent } from './components/inicio-aux/inicio-aux.component
     BarraDeBusquedaComponent,
     CarritoComponent,
     BarraDeBusquedaComponent,
-    InicioAuxComponent
+    InicioAuxComponent,
+    OfertasComponent
   ],
   imports: [
     BrowserModule,
