@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 export class UserService {
   private urlJSONServer = 'http://localhost:5000/users';
   private users: User[] = [];
-  isLoggedIn = false;
+  public isLoggedIn = false;
 
   constructor(private http: HttpClient, private router: Router) {
     this.loadUsersFromJSON();
@@ -54,10 +54,15 @@ export class UserService {
     }
   }
 
-  verifyUser(inputEmail: string, inputPassword: string): boolean 
-  {
-    console.log(this.users);
-    return this.users.some((user) => user.email === inputEmail && user.password === inputPassword);
+  verifyUser(inputEmail: string, inputPassword: string): boolean {
+    const isUserValid = this.users.some(
+      (user) => user.email === inputEmail && user.password === inputPassword
+    );
+
+    // Actualizar el estado del usuario
+    this.isLoggedIn = isUserValid;
+    console.log(this.isLoggedIn);
+    return isUserValid;
   }
 
   logout() {

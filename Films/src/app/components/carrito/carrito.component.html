@@ -1,4 +1,4 @@
-<div *ngIf="authService.isLoggedIn">
+<div *ngIf="userService.isLoggedIn">
     <div class="container">
             <h2>Carrito de Compras</h2>
         </div>
@@ -39,6 +39,6 @@
         <p>Total del Carrito: {{ totalCarrito | currency: 'ARS' }}</p>
     </div>
 </div>
-    <div *ngIf="!authService.isLoggedIn">
+    <div *ngIf="!userService.isLoggedIn">
         <p>Debes iniciar sesión para acceder al carrito.</p>
 </div>

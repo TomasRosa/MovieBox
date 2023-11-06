@@ -7,7 +7,8 @@ import { RegisterComponent } from './components/register/register.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { CarritoComponent } from './components/carrito/carrito.component';
 import { OfertasComponent } from './components/ofertas/ofertas.component';
-import { CanActivate } from '@angular/router';
+/* import { CanActivate } from '@angular/router';
+import { AuthGuard } from './auth.guard';  */
 
 const routes: Routes = [
   { path: 'inicio', component: InicioComponent },
@@ -16,8 +17,8 @@ const routes: Routes = [
   { path: 'registrarse', component: RegisterComponent },
   { path: 'ofertas', component: OfertasComponent },
   { path: 'not-found', component: NotFoundComponent },
-  { path: 'carrito', component: CarritoComponent},
-  { path: '', redirectTo: '/login', pathMatch: 'full'},
+  { path: 'carrito', component: CarritoComponent,  /* canActivate: [AuthGuard] */ },
+  { path: '', redirectTo: '/inicio', pathMatch: 'full'},
   { path: '**', component: NotFoundComponent},
 ];
 
