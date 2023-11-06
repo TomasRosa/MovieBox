@@ -1,6 +1,5 @@
-  import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-  import { Film } from 'src/app/models/film';
+import { Film } from 'src/app/models/film';
 import { ComunicacionCarritoBarraDeBusquedaService } from 'src/app/services/comunicacion-carrito-barra-de-busqueda.service';
 import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 
@@ -25,7 +24,7 @@ import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 
     async ngOnInit(): Promise<void> {
       try {
-        await this.filmsFromAPIService.initializeData(); 
+        await this.filmsFromAPIService.initializeData();  
         const fetchedFilms = this.filmsFromAPIService.getMovies ();
         if (fetchedFilms !== null) {
           this.arrayDePeliculas = fetchedFilms;

@@ -24,7 +24,6 @@ export class BarraDeBusquedaComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     try {
-      await this.filmsFromAPIService.initializeData();
       const fetchedFilms = this.filmsFromAPIService.getMovies ();
     if (fetchedFilms !== null) {
       this.films = fetchedFilms;

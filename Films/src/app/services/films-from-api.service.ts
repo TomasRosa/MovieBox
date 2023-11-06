@@ -1,7 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { Film } from '../models/film';
-import { AnonymousSubject } from 'rxjs/internal/Subject';
 
 const options = {
   method: 'GET',
@@ -19,56 +17,47 @@ export class FilmsFromAPIService{
   private url_API = 'assets/films.json';
   private filmsData: Film [] = [];
   private arrayFilmsBien: Film [] = [];
+  private precios: number[] = [
+    150, 200, 300, 450, 250, 180, 280, 900, 350, 500,
+    1200, 700, 550, 950, 1100, 1300, 800, 275, 600, 170,
+    2100, 400, 750, 1000, 1700, 1600, 3000, 2200, 160, 210,
+    1150, 700, 1750, 900, 2000, 130, 1450, 2500, 1350, 190,
+    2800, 1600, 600, 1100, 1250, 850, 230, 200, 125, 350,
+    550, 900, 675, 2400, 1450, 800, 1800, 1900, 100, 700,
+    750, 850, 275, 1150, 2350, 2750, 475
+  ];
   
   constructor() {
    }
 
   async initializeData() {
-    if (this.filmsData.length === 0) {
+    if (this.filmsData.length == 0) {
       const response = await fetch(this.url_API);
       if (response.status === 200) {
         const datos = await response.json();
 
-        this.filmsData = datos.map((film: Film) => ({
-          ...film,
-          precio: Math.round(Math.random() * 100),
-          ofertas: false,
-        }));
-        this.arrayFilmsBien = this.pasarDatosAUnArray (this.filmsData);
+        for (let i = 0; i < datos.length; i++) {
+          this.filmsData.push({
+            ...datos[i],
+            precio: this.precios[i],
+            ofertas: false,
+          });
       }
+      this.pasarDatosAUnArray();
     }
   }
+}
 
   getMovies ()
   {
     return this.arrayFilmsBien;
   }
   
-   /* async getMovies (): Promise <any>{
-       const response = await fetch (this.url_API);
-
-      if (response.status != 200){
-        console.log ("Error: " + response.text);
-        return null;
-      }
-      const datos = await response.json(); 
-
-      const datosConPrecio = datos.map((film: Film) => ({
-        ...film,
-        precio: Math.round(Math.random() * 100),
-        ofertas: false,
-      }));
-      let arrayConImagenes: Array<Film> = this.pasarDatosAUnArray(datosConPrecio);
-      return arrayConImagenes;
-  }  */
-  
-  pasarDatosAUnArray(datos: any)
+  pasarDatosAUnArray()
   {
-    let arrayAPasar: Array<Film> = [];
-
     let i;
 
-    for(i = 0; i < datos.length; i++)
+    for(i = 0; i < this.filmsData.length; i++)
     {
       if(i == 2 || i == 5)
       {
@@ -82,8 +71,7 @@ export class FilmsFromAPIService{
       {
         i++;
       }
-      arrayAPasar.push(datos[i]);
+      this.arrayFilmsBien.push(this.filmsData[i]);
     }
-    return arrayAPasar;
   }
 }

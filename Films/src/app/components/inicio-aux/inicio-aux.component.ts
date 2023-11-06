@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Film } from 'src/app/models/film';
 import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 
 @Component({
@@ -22,28 +21,7 @@ export class InicioAuxComponent implements OnInit{
     await this.dataFilms.initializeData();
     this.films = this.dataFilms.getMovies ();
     this.mostrarPeliculasRandom();
-    /* if (!this.preciosGenerados)
-    {
-      this.films = await this.dataFilms.getMovies ();
-      this.preciosGenerados = true;
-    }
-    console.log ("FILMS");
-    console.log (this.films);
-    this.mostrarPeliculasRandom (); */
    }
-
-  async obtenerMovies ()
-  {
-    /* this.films = await this.dataFilms.getMovies (); */
-     /* try {
-      const data = await this.dataFilms.getMovies();
-      console.log(data);
-      return data;
-    } catch (error) {
-      console.error("Error al obtener datos de películas:", error);
-      throw error;
-    }  */
-  }
 
   mostrarPeliculasRandom() {
     if (this.films) {
