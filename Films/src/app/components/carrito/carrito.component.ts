@@ -25,7 +25,8 @@ import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 
     async ngOnInit(): Promise<void> {
       try {
-        const fetchedFilms = await this.filmsFromAPIService.getMovies();
+        await this.filmsFromAPIService.initializeData(); 
+        const fetchedFilms = this.filmsFromAPIService.getMovies ();
         if (fetchedFilms !== null) {
           this.arrayDePeliculas = fetchedFilms;
         } 

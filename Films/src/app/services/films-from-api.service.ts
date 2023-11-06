@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Film } from '../models/film';
+import { AnonymousSubject } from 'rxjs/internal/Subject';
 
 const options = {
   method: 'GET',
@@ -14,12 +15,36 @@ const options = {
   providedIn: 'root'
 })
 
-export class FilmsFromAPIService {
+export class FilmsFromAPIService{
   private url_API = 'assets/films.json';
+  private filmsData: Film [] = [];
+  private arrayFilmsBien: Film [] = [];
   
-  constructor() { }
+  constructor() {
+   }
+
+  async initializeData() {
+    if (this.filmsData.length === 0) {
+      const response = await fetch(this.url_API);
+      if (response.status === 200) {
+        const datos = await response.json();
+
+        this.filmsData = datos.map((film: Film) => ({
+          ...film,
+          precio: Math.round(Math.random() * 100),
+          ofertas: false,
+        }));
+        this.arrayFilmsBien = this.pasarDatosAUnArray (this.filmsData);
+      }
+    }
+  }
+
+  getMovies ()
+  {
+    return this.arrayFilmsBien;
+  }
   
-   async getMovies (){
+   /* async getMovies (): Promise <any>{
        const response = await fetch (this.url_API);
 
       if (response.status != 200){
@@ -35,7 +60,7 @@ export class FilmsFromAPIService {
       }));
       let arrayConImagenes: Array<Film> = this.pasarDatosAUnArray(datosConPrecio);
       return arrayConImagenes;
-  } 
+  }  */
   
   pasarDatosAUnArray(datos: any)
   {

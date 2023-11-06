@@ -20,4 +20,8 @@ export class NavbarComponent {
   navegarInicio(componente: string) {
     this.routerService.navigate([componente]);
   }
+
+  navegarCarrito(componente: string) {
+    this.routerService.navigate([componente]);
+  }
 }

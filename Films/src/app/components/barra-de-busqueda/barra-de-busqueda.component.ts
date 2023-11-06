@@ -20,11 +20,12 @@ export class BarraDeBusquedaComponent implements OnInit {
   filmsFiltradasPorBusqueda = new Array<Film>();
   formControl = new FormControl()
 
-  constructor(private FilmsFromAPIService: FilmsFromAPIService, private http: HttpClient, private comunicacionConCarrito: ComunicacionCarritoBarraDeBusquedaService) {} 
+  constructor(private filmsFromAPIService: FilmsFromAPIService, private http: HttpClient, private comunicacionConCarrito: ComunicacionCarritoBarraDeBusquedaService) {} 
 
   async ngOnInit(): Promise<void> {
     try {
-      const fetchedFilms = await this.FilmsFromAPIService.getMovies();
+      await this.filmsFromAPIService.initializeData();
+      const fetchedFilms = this.filmsFromAPIService.getMovies ();
     if (fetchedFilms !== null) {
       this.films = fetchedFilms;
     } 
