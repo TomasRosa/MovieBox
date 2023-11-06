@@ -20,6 +20,7 @@ import { BarraDeBusquedaComponent } from './components/barra-de-busqueda/barra-d
 import { CarritoComponent } from './components/carrito/carrito.component';
 import { InicioAuxComponent } from './components/inicio-aux/inicio-aux.component';
 import { OfertasComponent } from './components/ofertas/ofertas.component';
+import { OfertasAuxComponent } from './components/ofertas-aux/ofertas-aux.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { OfertasComponent } from './components/ofertas/ofertas.component';
     CarritoComponent,
     BarraDeBusquedaComponent,
     InicioAuxComponent,
-    OfertasComponent
+    OfertasComponent,
+    OfertasAuxComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +48,7 @@ import { OfertasComponent } from './components/ofertas/ofertas.component';
     ReactiveFormsModule,
     FormsModule
   ],
-  providers: [FilmsFromAPIService, SharedServicesService, SobreNosotrosComponent, UserService],
+  providers: [FilmsFromAPIService, SharedServicesService, UserService, OfertasAuxComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

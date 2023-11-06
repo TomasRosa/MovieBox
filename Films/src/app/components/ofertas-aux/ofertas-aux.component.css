@@ -1,0 +1,16 @@
+*{
+    text-align: center;
+}
+
+.classDiv {
+    margin: 0 auto;
+    width: 50%; 
+    margin-top: 100px;
+}
+
+.classNuevoPrecio {
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+}

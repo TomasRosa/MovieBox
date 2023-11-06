@@ -22,8 +22,19 @@ import { AuthServiceService } from 'src/app/services/auth-service.service';
       });
     }
 
-    private actualizarTotalCarrito() {
-      this.totalCarrito = this.carritoDeCompras.reduce((total, pelicula) => total + pelicula.precio, 0);
+    private actualizarTotalCarrito() 
+    {
+      this.totalCarrito = this.carritoDeCompras.reduce((total, pelicula) => total + (pelicula.precio = this.verificarPrecioPelicula(pelicula)), 0);
+    }
+
+    verificarPrecioPelicula (pelicula: Film): number
+    {
+      if (pelicula.precio > 1500)
+      {
+        pelicula.precio = pelicula.precio/2;
+      }
+
+      return pelicula.precio;
     }
 
     eliminarDelCarrito(pelicula: Film) {

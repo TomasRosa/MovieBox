@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Film } from '../models/film';
 
 const options = {
@@ -24,7 +24,8 @@ export class FilmsFromAPIService{
     1150, 700, 1750, 900, 2000, 130, 1450, 2500, 1350, 190,
     2800, 1600, 600, 1100, 1250, 850, 230, 200, 125, 350,
     550, 900, 675, 2400, 1450, 800, 1800, 1900, 100, 700,
-    750, 850, 275, 1150, 2350, 2750, 475
+    750, 850, 275, 1150, 2350, 2750, 475, 1500, 1000, 2000,
+    800, 1300
   ];
   
   constructor() {
@@ -40,7 +41,7 @@ export class FilmsFromAPIService{
           this.filmsData.push({
             ...datos[i],
             precio: this.precios[i],
-            ofertas: false,
+            ofertas: this.verSiEstaEnOferta (this.precios[i]),
           });
       }
       this.pasarDatosAUnArray();
@@ -73,5 +74,14 @@ export class FilmsFromAPIService{
       }
       this.arrayFilmsBien.push(this.filmsData[i]);
     }
+  }
+
+  verSiEstaEnOferta (precio: number)
+  {
+    if (precio > 1500)
+    {
+      return true;
+    }
+    return false;
   }
 }
