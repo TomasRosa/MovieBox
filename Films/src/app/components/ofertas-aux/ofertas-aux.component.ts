@@ -30,7 +30,8 @@ export class OfertasAuxComponent implements OnInit {
       tabla.appendChild(tbody);
   
       for (let i = 0; i < this.filteredFilms.length; i++) {
-        if (i % 5 === 0) {
+        if (i % 5 === 0) 
+        {
             let fila = document.createElement("tr");
             let nuevaFila = document.createElement ("tr");
   
@@ -50,7 +51,7 @@ export class OfertasAuxComponent implements OnInit {
 
               const nuevaCelda = document.createElement("td");
               nuevaCelda.innerHTML = `
-                <i><b style="font-size: 15px;" class = "classNuevoPrecio">Nuevo precio: ${this.filteredFilms[i + j].precio/2}</b></i>
+                <i><b style="font-size: 15px;" class = "classNuevoPrecio">Nuevo precio: $${this.filteredFilms[i + j].precio/2}</b></i>
               `;
 
               fila.appendChild(celda);
