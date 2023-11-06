@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Film } from 'src/app/models/film';
 import { CarritoService } from 'src/app/services/carrito.service';
+import { AuthServiceService } from 'src/app/services/auth-service.service';
 
   @Component({
     selector: 'app-carrito',
@@ -13,7 +13,7 @@ import { CarritoService } from 'src/app/services/carrito.service';
     carritoDeCompras: Array<Film> = [];
     totalCarrito: number = 0;
 
-    constructor(private carritoService: CarritoService) {}
+    constructor(private carritoService: CarritoService, public authService: AuthServiceService) {}
 
     ngOnInit(): void {
       this.carritoService.carrito$.subscribe(carrito => {

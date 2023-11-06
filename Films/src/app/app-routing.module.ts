@@ -7,6 +7,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { CarritoComponent } from './components/carrito/carrito.component';
 import { OfertasComponent } from './components/ofertas/ofertas.component';
+import { CanActivate } from '@angular/router';
 
 const routes: Routes = [
   { path: 'inicio', component: InicioComponent },
