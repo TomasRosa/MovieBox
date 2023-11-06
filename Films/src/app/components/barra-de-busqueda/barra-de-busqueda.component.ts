@@ -3,7 +3,7 @@ import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 import { Film } from 'src/app/models/film';
 import { FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { ComunicacionCarritoBarraDeBusquedaService } from 'src/app/services/comunicacion-carrito-barra-de-busqueda.service';
+import { CarritoService } from 'src/app/services/carrito.service';
 
 const options = {
   
@@ -20,20 +20,20 @@ export class BarraDeBusquedaComponent implements OnInit {
   filmsFiltradasPorBusqueda = new Array<Film>();
   formControl = new FormControl()
 
-  constructor(private filmsFromAPIService: FilmsFromAPIService, private http: HttpClient, private comunicacionConCarrito: ComunicacionCarritoBarraDeBusquedaService) {} 
+  constructor(private filmsFromAPIService: FilmsFromAPIService, private carritoService: CarritoService, private http: HttpClient) {} 
 
   async ngOnInit(): Promise<void> {
     try {
       const fetchedFilms = this.filmsFromAPIService.getMovies ();
-    if (fetchedFilms !== null) {
-      this.films = fetchedFilms;
-    } 
-    else 
-    {
-        console.log('array nulo');
-    }
-    } catch (error) {
-      console.error(error);
+      if (fetchedFilms !== null) {
+        this.films = fetchedFilms;
+      } 
+      else 
+      {
+          console.log('array nulo');
+      }
+    }catch (error) {
+        console.error(error);
     }
     this.formControl.valueChanges.subscribe(query => {
       this.buscarFilm(query);
@@ -49,7 +49,7 @@ export class BarraDeBusquedaComponent implements OnInit {
     }
   }
   
-  agregarPeliculaAlCarrito(pelicula: Film) {
-    this.comunicacionConCarrito.agregarPeliculaAlCarrito(pelicula);
-  }
+  agregarPeliculaAlCarrito (film: Film){
+    this.carritoService.agregarAlCarrito(film)
+  }  
 }
