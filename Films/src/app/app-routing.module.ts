@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'ofertas', component: OfertasComponent },
   { path: 'not-found', component: NotFoundComponent },
   { path: 'carrito', component: CarritoComponent},
-  { path: '', redirectTo: '/login', pathMatch: 'full'},
+  { path: '', redirectTo: '/inicio', pathMatch: 'full'},
   { path: '**', component: NotFoundComponent},
 ];
 

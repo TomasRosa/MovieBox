@@ -34,6 +34,7 @@ export class InicioAuxComponent implements OnInit{
       for (let i = 0; i < this.filteredFilms.length; i++) {
           if (i % 5 === 0) {
             let fila = document.createElement("tr");
+            let filaBoton = document.createElement ("tr");
     
             for (let j = 0; j < 5; j++) {
               if (i + j >= this.filteredFilms.length) {
@@ -46,10 +47,19 @@ export class InicioAuxComponent implements OnInit{
                 <i><b style="font-size: 15px;">${this.filteredFilms[i + j].title}</b></i>
                 <i><b style="font-size: 15px;">$${this.filteredFilms[i + j].precio}</b></i>
               `;
+
+              const celdaBoton = document.createElement ("td")
+              celdaBoton.innerHTML = 
+              `
+                <button id = "botonPeliculasInicio">Agregar al Carrito</button>
+              `;
+
               fila.appendChild(celda);
+              filaBoton.appendChild (celdaBoton);
             }
     
             tbody.appendChild(fila);
+            tbody.appendChild (filaBoton);
           }
       }
     

@@ -34,6 +34,7 @@ export class OfertasAuxComponent implements OnInit {
         {
             let fila = document.createElement("tr");
             let nuevaFila = document.createElement ("tr");
+            let filaBoton = document.createElement ("tr");
   
             for (let j = 0; j < 5; j++) {
               if (i + j >= this.filteredFilms.length) {
@@ -54,12 +55,20 @@ export class OfertasAuxComponent implements OnInit {
                 <i><b style="font-size: 15px;" class = "classNuevoPrecio">Nuevo precio: $${this.filteredFilms[i + j].precio/2}</b></i>
               `;
 
+              const celdaBoton = document.createElement ("td")
+              celdaBoton.innerHTML = 
+              `
+                <button id = "botonPeliculasOferta">Agregar al Carrito</button>
+              `
+
               fila.appendChild(celda);
               nuevaFila.appendChild (nuevaCelda);
+              filaBoton.appendChild (celdaBoton);
             }
   
             tbody.appendChild(fila);
             tbody.appendChild (nuevaFila);
+            tbody.appendChild (filaBoton);
           }
           if (contenedorTabla) {
             contenedorTabla.appendChild(tabla);
