@@ -1,14 +1,18 @@
 <button class="menuLateral" (click)="toggleMenu()">
-    <img src="https://cdn-icons-png.flaticon.com/128/8106/8106944.png" alt="Imagen de menu">
-  </button>
-<div class = "fondo-desenfocado" *ngIf="prendido">
-    <div class = "recuadro">
-        <button class="menuLateral sizeClass colorFondo" (click)="navegarLogin('login')" (click) = "toggleMenu()">Login</button>
-        <button class="menuLateral sizeClass colorFondo" (click)="navegarRegister('registrarse')" (click) = "toggleMenu()">Registrarse</button>
-        <button class="menuLateral sizeClass colorFondo" (click)="navegarSobreNosotros('sobre-nosotros')" (click) = "toggleMenu()">Sobre Nosotros</button>
-        <button class="menuLateral sizeClass colorFondo" (click)="navegarOfertas('ofertas')" (click) = "toggleMenu()">Ofertas</button>
-    </div>
- </div>
-  
+  <img src="https://cdn-icons-png.flaticon.com/128/8106/8106944.png" alt="Imagen de menu">
+</button>
+<div class="fondo-desenfocado" *ngIf="prendido">
+  <div class="recuadro">
+    <button class="menuLateral sizeClass colorFondo" (click)="navegarSobreNosotros('sobre-nosotros')" (click)="toggleMenu()">Sobre Nosotros</button>
+    <button class="menuLateral sizeClass colorFondo" (click)="navegarOfertas('ofertas')" (click)="toggleMenu()">Ofertas</button>
+
+    <!-- Verificar si el usuario no ha iniciado sesión para mostrar estos enlaces -->
+    <ng-container *ngIf="!userService.isLoggedIn">
+      <button class="menuLateral sizeClass colorFondo" (click)="navegarLogin('login')" (click)="toggleMenu()">Login</button>
+      <button class="menuLateral sizeClass colorFondo" (click)="navegarRegister('registrarse')" (click)="toggleMenu()">Registrarse</button>
+    </ng-container>
+  </div>
+</div>
+
 
   

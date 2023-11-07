@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from 'src/app/models/user';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-aside-menu',
@@ -9,7 +11,7 @@ import { Router } from '@angular/router';
 export class AsideMenuComponent
 {
   prendido = false;
-    constructor (private router: Router)
+    constructor (private router: Router, public userService: UserService)
     {
     }
 

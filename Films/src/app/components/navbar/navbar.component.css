@@ -15,7 +15,15 @@ img{
     top: 0;
     right: 0;
     margin: 50px;
-    margin-right: 300px;
+    margin-right: 350px;
+}
+
+.componente-esquina-boton-carrito {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 50px;
+    margin-right: 250px;
 }
 
 

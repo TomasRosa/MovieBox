@@ -21,6 +21,7 @@ import { CarritoComponent } from './components/carrito/carrito.component';
 import { InicioAuxComponent } from './components/inicio-aux/inicio-aux.component';
 import { OfertasComponent } from './components/ofertas/ofertas.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
+import { OfertasAuxComponent } from './components/ofertas-aux/ofertas-aux.component';
 
 @NgModule({
   declarations: [
@@ -38,8 +39,7 @@ import { PerfilComponent } from './components/perfil/perfil.component';
     CarritoComponent,
     BarraDeBusquedaComponent,
     InicioAuxComponent,
-    OfertasComponent,
-    PerfilComponent
+    OfertasComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +48,7 @@ import { PerfilComponent } from './components/perfil/perfil.component';
     ReactiveFormsModule,
     FormsModule
   ],
-  providers: [FilmsFromAPIService, SharedServicesService, SobreNosotrosComponent, UserService],
+  providers: [FilmsFromAPIService, SharedServicesService, UserService, OfertasAuxComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

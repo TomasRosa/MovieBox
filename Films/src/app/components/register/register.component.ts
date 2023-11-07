@@ -14,7 +14,6 @@ import { ValidacionUserPersonalizada } from 'src/app/validaciones/validacion-use
 export class RegisterComponent implements OnInit {
   mensajeRegistro: string = '';
 
-  users = new Array<User>()
   userForm = new FormGroup ({
     firstName: new FormControl ('', [Validators.required, ValidacionUserPersonalizada.soloLetras(),]),
     lastName: new FormControl ('', [Validators.required, ValidacionUserPersonalizada.soloLetras()]),
@@ -26,9 +25,12 @@ export class RegisterComponent implements OnInit {
 
   constructor (private userService: UserService){}
   
-  ngOnInit (){
-    this.userService.getUsersFromJSON().subscribe ((users) => this.users=users)
+  ngOnInit ()
+  {
+    /*
+    this.userService.loadUsersFromJSON().subscribe ((users) => this.users=users)
     console.log(this.users); // Verifica los datos obtenidos
+    */
   }
 
   get firstName() { return this.userForm.get('firstName'); }
@@ -51,8 +53,6 @@ export class RegisterComponent implements OnInit {
   
       try {
         const newUser = await this.userService.addUser(user);
-        if (newUser != undefined)
-          this.users.push(newUser);
         console.log('Usuario agregado:', newUser);
         this.mensajeRegistro = 'Registrado con exito';
       } catch (error) {
