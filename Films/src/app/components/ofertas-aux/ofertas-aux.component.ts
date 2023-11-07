@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Film } from 'src/app/models/film';
+import { CarritoService } from 'src/app/services/carrito.service';
 import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 
 @Component({
@@ -11,7 +12,7 @@ export class OfertasAuxComponent implements OnInit {
   private films: any;
   filteredFilms: any[] = [];
 
-  constructor(private dataFilms: FilmsFromAPIService) {}
+  constructor(private dataFilms: FilmsFromAPIService, private carritoService: CarritoService) {}
 
   async ngOnInit(): Promise<void> {
     await this.dataFilms.initializeData();
@@ -19,6 +20,11 @@ export class OfertasAuxComponent implements OnInit {
     this.filteredFilms = this.films.filter((film: Film) => film.precio > 1500);
     this.mostrarPeliculasEnOferta();
   }
+
+  agregarPeliculaAlCarrito (film: Film){
+    console.log ('HOLA, ENTRE DESDE EL INICIO A AGREGAR.')
+    this.carritoService.agregarAlCarrito(film)
+  } 
 
   mostrarPeliculasEnOferta() {
     if (this.filteredFilms) 
@@ -55,12 +61,12 @@ export class OfertasAuxComponent implements OnInit {
                 <i><b style="font-size: 15px;" class = "classNuevoPrecio">Nuevo precio: $${this.filteredFilms[i + j].precio/2}</b></i>
               `;
 
-              const celdaBoton = document.createElement ("td")
-              celdaBoton.innerHTML = 
-              `
-                <button id = "botonPeliculasOferta">Agregar al Carrito</button>
-              `
-
+              const celdaBoton = document.createElement("td");
+              const boton = document.createElement("button");
+              boton.textContent = "🛒";
+              boton.addEventListener("click", () => this.agregarPeliculaAlCarrito(this.filteredFilms[i + j]));
+              celdaBoton.appendChild(boton);
+              
               fila.appendChild(celda);
               nuevaFila.appendChild (nuevaCelda);
               filaBoton.appendChild (celdaBoton);
