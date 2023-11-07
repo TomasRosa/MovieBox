@@ -10,16 +10,17 @@ import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 })
 export class OfertasAuxComponent implements OnInit {
   private films: any;
+  private originalFilms: any;
   filteredFilms: any[] = [];
 
   constructor(private dataFilms: FilmsFromAPIService, private carritoService: CarritoService) {}
 
-  ngOnInit(): void {
-    this.dataFilms.initializeData().then(() => {
-      this.films = this.dataFilms.getMovies();
-      this.filteredFilms = this.films.filter((film: Film) => film.precio > 1500);
-      this.mostrarPeliculasEnOferta();
-    });
+  async ngOnInit(): Promise<void> {
+    await this.dataFilms.initializeData();
+    this.originalFilms = this.dataFilms.getMovies();
+    this.films = [...this.originalFilms];
+    this.filteredFilms = this.films.filter((film: Film) => film.precio > 1500);
+    this.mostrarPeliculasEnOferta();
   }
 
   agregarPeliculaAlCarrito (film: Film){
