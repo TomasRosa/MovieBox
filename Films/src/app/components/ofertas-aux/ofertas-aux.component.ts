@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Film } from 'src/app/models/film';
 import { CarritoService } from 'src/app/services/carrito.service';
 import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-ofertas-aux',
@@ -13,7 +14,7 @@ export class OfertasAuxComponent implements OnInit {
   private originalFilms: any;
   filteredFilms: any[] = [];
 
-  constructor(private dataFilms: FilmsFromAPIService, private carritoService: CarritoService) {}
+  constructor(private dataFilms: FilmsFromAPIService, private carritoService: CarritoService, private userService: UserService) {}
 
   async ngOnInit(): Promise<void> {
     await this.dataFilms.initializeData();
@@ -24,8 +25,14 @@ export class OfertasAuxComponent implements OnInit {
   }
 
   agregarPeliculaAlCarrito (film: Film){
-    console.log ('HOLA, ENTRE DESDE EL INICIO A AGREGAR.')
-    this.carritoService.agregarAlCarrito(film)
+    if(this.userService.isLoggedIn)
+    {
+      this.carritoService.agregarAlCarrito(film)
+    }
+    else
+    {
+      alert("Debes iniciar sesion para agregar peliculas al carrito. ");
+    }
   } 
 
   mostrarPeliculasEnOferta() 

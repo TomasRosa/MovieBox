@@ -26,7 +26,6 @@ export class InicioAuxComponent implements OnInit{
   }
 
   agregarPeliculaAlCarrito (film: Film){
-    console.log ('HOLA, ENTRE DESDE EL INICIO A AGREGAR.')
     if(this.userService.isLoggedIn)
     {
       this.carritoService.agregarAlCarrito(film)
