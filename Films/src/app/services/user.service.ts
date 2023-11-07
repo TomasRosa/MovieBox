@@ -3,17 +3,26 @@ import { Injectable } from '@angular/core';
 import { User } from '../models/user';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class UserService {
   private urlJSONServer = 'http://localhost:5000/users';
   private users: User[] = [];
   public isLoggedIn = false;
 
+  private usuarioActualSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
+  usuarioActual$ = this.usuarioActualSubject.asObservable();
+
   constructor(private http: HttpClient, private router: Router) {
     this.loadUsersFromJSON();
+  }
+
+  setUserActual(usuario: User): void {
+    this.usuarioActualSubject.next(usuario);
   }
 
   getUsers(): User[] {
@@ -54,14 +63,22 @@ export class UserService {
     }
   }
 
+  obtenerUserByEmail (email: string){
+    return this.users.find (user => user.email == email)
+  }
+
   verifyUser(inputEmail: string, inputPassword: string): boolean {
     const isUserValid = this.users.some(
       (user) => user.email === inputEmail && user.password === inputPassword
     );
-
     // Actualizar el estado del usuario
     this.isLoggedIn = isUserValid;
-    console.log(this.isLoggedIn);
+
+    if (this.isLoggedIn){
+      const userActual = this.obtenerUserByEmail(inputEmail)
+      this.setUserActual(userActual ?? new User())
+    }
+
     return isUserValid;
   }
 

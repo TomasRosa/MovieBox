@@ -22,6 +22,8 @@ import { InicioAuxComponent } from './components/inicio-aux/inicio-aux.component
 import { OfertasComponent } from './components/ofertas/ofertas.component';
 import { OfertasAuxComponent } from './components/ofertas-aux/ofertas-aux.component';
 import { UserAsideComponent } from './components/user-aside/user-aside.component';
+import { DetallesDelPerfilComponent } from './components/detalles-del-perfil/detalles-del-perfil.component';
+import { EliminarCuentaComponent } from './components/eliminar-cuenta/eliminar-cuenta.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { UserAsideComponent } from './components/user-aside/user-aside.component
     OfertasComponent,
     OfertasAuxComponent,
     UserAsideComponent,
+    DetallesDelPerfilComponent,
+    EliminarCuentaComponent,
   ],
   imports: [
     BrowserModule,

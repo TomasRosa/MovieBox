@@ -44,8 +44,8 @@ export class RegisterComponent implements OnInit {
     let user = new User();
   
     if (this.firstName && this.lastName && this.email && this.password && this.address && this.dni) {
-      if (this.firstName.value != null) user.nombre = this.firstName.value;
-      if (this.lastName.value != null) user.apellido = this.lastName.value;
+      if (this.firstName.value != null) user.firstName = this.firstName.value;
+      if (this.lastName.value != null) user.lastName = this.lastName.value;
       if (this.email.value != null) user.email = this.email.value;
       if (this.dni.value != null) user.dni = this.dni.value;
       if (this.address.value != null) user.address = this.address.value;
