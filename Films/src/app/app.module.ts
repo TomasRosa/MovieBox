@@ -22,6 +22,8 @@ import { InicioAuxComponent } from './components/inicio-aux/inicio-aux.component
 import { OfertasComponent } from './components/ofertas/ofertas.component';
 import { OfertasAuxComponent } from './components/ofertas-aux/ofertas-aux.component';
 import { UserAsideComponent } from './components/user-aside/user-aside.component';
+import { DetallesDelPerfilComponent } from './components/detalles-del-perfil/detalles-del-perfil.component';
+import { EliminarCuentaComponent } from './components/eliminar-cuenta/eliminar-cuenta.component';
 import { CategoriasComponent } from './components/categorias/categorias.component';
 import { AventuraComponent } from './components/categorias/aventura/aventura.component';
 import { FamiliarComponent } from './components/categorias/familiar/familiar.component';
@@ -45,6 +47,8 @@ import { FamiliarComponent } from './components/categorias/familiar/familiar.com
     OfertasComponent,
     OfertasAuxComponent,
     UserAsideComponent,
+    DetallesDelPerfilComponent,
+    EliminarCuentaComponent,
     CategoriasComponent,
     AventuraComponent,
     FamiliarComponent,
