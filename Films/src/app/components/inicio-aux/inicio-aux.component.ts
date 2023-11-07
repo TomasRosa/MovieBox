@@ -17,7 +17,8 @@ export class InicioAuxComponent implements OnInit{
 
   constructor(private dataFilms: FilmsFromAPIService, private carritoService: CarritoService, private userService: UserService) {}
 
-   ngOnInit(): void {
+   ngOnInit(): void 
+   {
     this.dataFilms.initializeData().then(() => {
       this.films = this.dataFilms.getMovies();
       this.filteredFilms = this.films.filter((film:Film) => film.precio <= 1500);
@@ -25,16 +26,16 @@ export class InicioAuxComponent implements OnInit{
     });
   }
 
-  agregarPeliculaAlCarrito (film: Film){
-    if(this.userService.isLoggedIn)
+  agregarPeliculaAlCarrito(film: Film) {
+    if (this.userService.isLoggedIn) 
     {
-      this.carritoService.agregarAlCarrito(film)
-    }
-    else
+      this.carritoService.agregarAlCarrito(film);
+    } 
+    else 
     {
-      alert("Debes iniciar sesion para agregar peliculas al carrito. ");
+      alert("Debes iniciar sesión para agregar películas al carrito.");
     }
-  }  
+  } 
 
   mostrarPeliculasRandom() {
     if (this.filteredFilms) 

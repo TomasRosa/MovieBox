@@ -49,14 +49,14 @@ export class BarraDeBusquedaComponent implements OnInit {
       });
     }
   }
-  agregarPeliculaAlCarrito (film: Film){
-    if(this.userService.isLoggedIn)
+  agregarPeliculaAlCarrito(film: Film) {
+    if (this.userService.isLoggedIn) 
     {
-      this.carritoService.agregarAlCarrito(film)
-    }
-    else
+      this.carritoService.agregarAlCarrito(film);
+    } 
+    else 
     {
-      alert("Debes iniciar sesion para agregar peliculas al carrito. ");
+      alert("Debes iniciar sesión para agregar películas al carrito.");
     }
-  }  
-}
+  } 
+}  

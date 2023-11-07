@@ -7,7 +7,15 @@
       "email": "isterland0@blinklist.com",
       "password": "isaak123",
       "address": "",
-      "dni": "12345678"
+      "dni": "12345678",
+      "arrayPeliculas": [],
+      "tarjeta": {
+        "firstName": "Isaak",
+        "lastName": "Sterland",
+        "nTarjeta": "1234 5678 9012 3456",
+        "fechaVencimiento": "12/25",
+        "CVC": 123
+      }
     },
     {
       "id": 2,
@@ -16,7 +24,15 @@
       "email": "alice.johnson@email.com",
       "password": "alicepass",
       "address": "123 Main St",
-      "dni": "23456789"
+      "dni": "23456789",
+      "arrayPeliculas": [],
+      "tarjeta": {
+        "firstName": "Alice",
+        "lastName": "Johnson",
+        "nTarjeta": "2345 6789 0123 4567",
+        "fechaVencimiento": "11/24",
+        "CVC": 456
+      }
     },
     {
       "id": 3,
@@ -25,7 +41,15 @@
       "email": "johndoe@email.com",
       "password": "johnpass",
       "address": "456 Elm St",
-      "dni": "34567890"
+      "dni": "34567890",
+      "arrayPeliculas": [],
+      "tarjeta": {
+        "firstName": "John",
+        "lastName": "Doe",
+        "nTarjeta": "3456 7890 1234 5678",
+        "fechaVencimiento": "10/23",
+        "CVC": 789
+      }
     },
     {
       "id": 4,
@@ -34,7 +58,15 @@
       "email": "emma.smith@email.com",
       "password": "emmapass",
       "address": "789 Oak St",
-      "dni": "45678901"
+      "dni": "45678901",
+      "arrayPeliculas": [],
+      "tarjeta": {
+        "firstName": "Emma",
+        "lastName": "Smith",
+        "nTarjeta": "4567 8901 2345 6789",
+        "fechaVencimiento": "09/24",
+        "CVC": 890
+      }
     },
     {
       "id": 5,
@@ -43,7 +75,15 @@
       "email": "michael.brown@email.com",
       "password": "michaelpass",
       "address": "101 Pine St",
-      "dni": "56789012"
+      "dni": "56789012",
+      "arrayPeliculas": [],
+      "tarjeta": {
+        "firstName": "Michael",
+        "lastName": "Brown",
+        "nTarjeta": "5678 9012 3456 7890",
+        "fechaVencimiento": "08/25",
+        "CVC": 567
+      }
     },
     {
       "id": 6,
@@ -52,7 +92,15 @@
       "email": "olivia.wilson@email.com",
       "password": "oliviapass",
       "address": "202 Cedar St",
-      "dni": "67890123"
+      "dni": "67890123",
+      "arrayPeliculas": [],
+      "tarjeta": {
+        "firstName": "Olivia",
+        "lastName": "Wilson",
+        "nTarjeta": "6789 0123 4567 8901",
+        "fechaVencimiento": "07/23",
+        "CVC": 678
+      }
     },
     {
       "id": 7,
@@ -61,7 +109,15 @@
       "email": "james.miller@email.com",
       "password": "jamespass",
       "address": "303 Birch St",
-      "dni": "78901234"
+      "dni": "78901234",
+      "arrayPeliculas": [],
+      "tarjeta": {
+        "firstName": "James",
+        "lastName": "Miller",
+        "nTarjeta": "7890 1234 5678 9012",
+        "fechaVencimiento": "06/24",
+        "CVC": 789
+      }
     },
     {
       "id": 8,
@@ -70,7 +126,15 @@
       "email": "sophia.lee@email.com",
       "password": "sophiapass",
       "address": "404 Willow St",
-      "dni": "89012345"
+      "dni": "89012345",
+      "arrayPeliculas": [],
+      "tarjeta": {
+        "firstName": "Sophia",
+        "lastName": "Lee",
+        "nTarjeta": "8901 2345 6789 0123",
+        "fechaVencimiento": "05/25",
+        "CVC": 890
+      }
     },
     {
       "id": 9,
@@ -79,7 +143,15 @@
       "email": "william.anderson@email.com",
       "password": "williampass",
       "address": "505 Maple St",
-      "dni": "90123456"
+      "dni": "90123456",
+      "arrayPeliculas": [],
+      "tarjeta": {
+        "firstName": "William",
+        "lastName": "Anderson",
+        "nTarjeta": "9012 3456 7890 1234",
+        "fechaVencimiento": "08/25",
+        "CVC": 901
+      }
     },
     {
       "id": 10,
@@ -88,7 +160,15 @@
       "email": "ava.jones@email.com",
       "password": "avapass",
       "address": "606 Redwood St",
-      "dni": "01234567"
+      "dni": "01234567",
+      "arrayPeliculas": [],
+      "tarjeta": {
+        "firstName": "Ava",
+        "lastName": "Jones",
+        "nTarjeta": "0123 4567 8901 2345",
+        "fechaVencimiento": "09/26",
+        "CVC": 120
+      }
     },
     {
       "nombre": "Lautaro",
@@ -97,7 +177,15 @@
       "password": "werwer34",
       "address": "sadsadsa",
       "dni": "12345678",
-      "id": 11
+      "id": 11,
+      "arrayPeliculas": [],
+      "tarjeta": {
+        "firstName": "Lautaro",
+        "lastName": "Ruiz",
+        "nTarjeta": "1111 2222 3333 4444",
+        "fechaVencimiento": "12/25",
+        "CVC": 123
+      }
     },
     {
       "nombre": "Lautaro",
@@ -106,7 +194,15 @@
       "password": "eqreew344",
       "address": "erewrwe",
       "dni": "21345452",
-      "id": 12
+      "id": 12,
+      "arrayPeliculas": [],
+      "tarjeta": {
+        "firstName": "Lautaro",
+        "lastName": "Ruiz",
+        "nTarjeta": "2222 3333 4444 5555",
+        "fechaVencimiento": "11/24",
+        "CVC": 456
+      }
     },
     {
       "nombre": "Tomas",
@@ -115,7 +211,15 @@
       "password": "123ertomi",
       "address": "casatomi",
       "dni": "89898989",
-      "id": 13
+      "id": 13,
+      "arrayPeliculas": [],
+      "tarjeta": {
+        "firstName": "Tomas",
+        "lastName": "Rosa",
+        "nTarjeta": "3333 4444 5555 6666",
+        "fechaVencimiento": "10/23",
+        "CVC": 789
+      }
     },
     {
       "nombre": "Lionel",
@@ -124,7 +228,15 @@
       "password": "leomessi10",
       "address": "casa de messi",
       "dni": "10101010",
-      "id": 14
+      "id": 14,
+      "arrayPeliculas": [],
+      "tarjeta": {
+        "firstName": "Lionel",
+        "lastName": "Messi",
+        "nTarjeta": "4444 5555 6666 7777",
+        "fechaVencimiento": "09/26",
+        "CVC": 234
+      }
     },
     {
       "nombre": "Luis",
@@ -133,7 +245,14 @@
       "password": "luis99",
       "address": "casa de luis",
       "dni": "90909090",
-      "id": 15
+      "id": 15,
+      "arrayPeliculas": [],
+      "tarjeta": {
+        "firstName": "Luis",
+        "lastName": "Suarez",
+        "nTarjeta": "5555 6666 7777 8888",
+        "fechaVencimiento": "08/25",
+        "CVC": 345
+      }
     }
-  ]
-}
+]}
