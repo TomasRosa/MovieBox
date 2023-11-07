@@ -60,6 +60,9 @@ export class InicioAuxComponent implements OnInit{
     
             tbody.appendChild(fila);
             tbody.appendChild (filaBoton);
+
+            console.log("FILTERED FILMS INICIO: ");
+            console.log(this.filteredFilms);
           }
       }
     

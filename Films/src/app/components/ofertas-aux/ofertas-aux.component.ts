@@ -20,7 +20,8 @@ export class OfertasAuxComponent implements OnInit {
     this.mostrarPeliculasEnOferta();
   }
 
-  mostrarPeliculasEnOferta() {
+  mostrarPeliculasEnOferta() 
+  {
     if (this.filteredFilms) 
     {
       const tabla = document.createElement("table");
@@ -59,7 +60,9 @@ export class OfertasAuxComponent implements OnInit {
               celdaBoton.innerHTML = 
               `
                 <button id = "botonPeliculasOferta">Agregar al Carrito</button>
-              `
+              `;
+
+              this.filteredFilms[i + j].ofertas = true;
 
               fila.appendChild(celda);
               nuevaFila.appendChild (nuevaCelda);
@@ -75,6 +78,8 @@ export class OfertasAuxComponent implements OnInit {
           } else {
             console.error("No se encontró el contenedor de la tabla.");
           }
+          console.log("FILTERED FILMS OFERTAS: ");
+          console.log(this.filteredFilms);
       }
     } else {
       console.error("No se encontraron datos de películas.");
