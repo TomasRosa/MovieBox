@@ -39,7 +39,8 @@ import { OfertasAuxComponent } from './components/ofertas-aux/ofertas-aux.compon
     CarritoComponent,
     BarraDeBusquedaComponent,
     InicioAuxComponent,
-    OfertasComponent
+    OfertasComponent,
+    OfertasAuxComponent
   ],
   imports: [
     BrowserModule,
