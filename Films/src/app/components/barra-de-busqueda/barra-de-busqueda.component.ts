@@ -4,6 +4,7 @@ import { Film } from 'src/app/models/film';
 import { FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { CarritoService } from 'src/app/services/carrito.service';
+import { UserService } from 'src/app/services/user.service';
 
 const options = {
   
@@ -20,7 +21,7 @@ export class BarraDeBusquedaComponent implements OnInit {
   filmsFiltradasPorBusqueda = new Array<Film>();
   formControl = new FormControl()
 
-  constructor(private filmsFromAPIService: FilmsFromAPIService, private carritoService: CarritoService, private http: HttpClient) {} 
+  constructor(private filmsFromAPIService: FilmsFromAPIService, private carritoService: CarritoService, private http: HttpClient,private userService: UserService) {} 
 
   async ngOnInit(): Promise<void> {
     try {
@@ -48,8 +49,14 @@ export class BarraDeBusquedaComponent implements OnInit {
       });
     }
   }
-  
   agregarPeliculaAlCarrito (film: Film){
-    this.carritoService.agregarAlCarrito(film)
+    if(this.userService.isLoggedIn)
+    {
+      this.carritoService.agregarAlCarrito(film)
+    }
+    else
+    {
+      alert("Debes iniciar sesion para agregar peliculas al carrito. ");
+    }
   }  
 }
