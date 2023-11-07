@@ -22,6 +22,9 @@ import { InicioAuxComponent } from './components/inicio-aux/inicio-aux.component
 import { OfertasComponent } from './components/ofertas/ofertas.component';
 import { OfertasAuxComponent } from './components/ofertas-aux/ofertas-aux.component';
 import { UserAsideComponent } from './components/user-aside/user-aside.component';
+import { CategoriasComponent } from './components/categorias/categorias.component';
+import { AventuraComponent } from './components/categorias/aventura/aventura.component';
+import { FamiliarComponent } from './components/categorias/familiar/familiar.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +45,9 @@ import { UserAsideComponent } from './components/user-aside/user-aside.component
     OfertasComponent,
     OfertasAuxComponent,
     UserAsideComponent,
+    CategoriasComponent,
+    AventuraComponent,
+    FamiliarComponent,
   ],
   imports: [
     BrowserModule,

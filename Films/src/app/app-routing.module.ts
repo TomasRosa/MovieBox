@@ -7,6 +7,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { CarritoComponent } from './components/carrito/carrito.component';
 import { OfertasComponent } from './components/ofertas/ofertas.component';
+import { CategoriasComponent } from './components/categorias/categorias.component';
 /* import { CanActivate } from '@angular/router';
 import { AuthGuard } from './auth.guard';  */
 
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'ofertas', component: OfertasComponent },
   { path: 'not-found', component: NotFoundComponent },
   { path: 'carrito', component: CarritoComponent,  /* canActivate: [AuthGuard] */ },
+  { path: 'categorias', component: CategoriasComponent },
   { path: '', redirectTo: '/inicio', pathMatch: 'full'},
   { path: '**', component: NotFoundComponent},
 ];
