@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Film } from 'src/app/models/film';
 import { BehaviorSubject } from 'rxjs';
-import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +12,7 @@ export class CarritoService {
   private carritoSubject = new BehaviorSubject<Array<Film>>([]);
   carrito$ = this.carritoSubject.asObservable();
 
-  constructor(userService: UserService) {}
+  constructor() {}
 
   agregarAlCarrito(pelicula: Film) {
     this.carritoDeCompras.push({ ...pelicula }); // Hacer una copia de la película
@@ -31,7 +30,7 @@ export class CarritoService {
   }
 
   limpiarCarrito() {
-    this.carritoDeCompras.splice(0, this.carritoDeCompras.length);
+    this.carritoDeCompras = []; // Borra todas las películas en el carrito
     this.totalCarrito = 0;
     this.carritoSubject.next(this.carritoDeCompras);
   }
@@ -44,3 +43,4 @@ export class CarritoService {
     return this.totalCarrito;
   }
 }
+

@@ -1,6 +1,6 @@
 import { Film } from "./film";
 import { Tarjeta } from "./tarjeta";
-
+//user.ts es models
 export class User {
     firstName:string ='';
     lastName:string ='';
