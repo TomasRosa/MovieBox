@@ -1,0 +1,13 @@
+<button style = "background-color: #0174BE;"class="menuLateral" (click)="toggleMenu()">
+   <img src="https://cdn-icons-png.flaticon.com/128/3177/3177440.png" alt="Logo de usuario">
+</button>
+
+<div class="fondo-desenfocado" *ngIf="prendido">
+    <ng-container *ngIf="!userService.isLoggedIn">
+        <button class="menuLateral sizeClass colorFondo" (click)="navegarLogin('login')" (click)="toggleMenu()">Login</button>
+        <br>
+        <button class="menuLateral sizeClass colorFondo" (click)="navegarRegister('registrarse')" (click)="toggleMenu()">Registrarse</button>
+    </ng-container>
+    
+</div>
+

@@ -1,0 +1,28 @@
+.menuLateral {
+    border: none;
+    outline: none;
+    color: white;
+    font-weight: bold;
+    font-style: italic;
+}
+
+img{
+    width: 50%;
+    height: 50%;
+}
+
+.sizeClass {
+    font-size: 15px;
+}
+
+.colorFondo {
+    background-color: rgb(129, 168, 240);
+}
+
+.fondo-desenfocado {
+    position: fixed;
+    width: 0%;
+    height: 100%;
+    background-color: rgba(82, 82, 82, 0.435);
+    z-index: 1;
+  }
