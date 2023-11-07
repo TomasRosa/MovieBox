@@ -16,11 +16,12 @@ export class InicioAuxComponent implements OnInit{
 
   constructor(private dataFilms: FilmsFromAPIService, private carritoService: CarritoService) {}
 
-  async ngOnInit(): Promise<void> {
-    await this.dataFilms.initializeData();
-    this.films = this.dataFilms.getMovies();
-    this.filteredFilms = this.films.filter((film: Film) => film.precio <= 1500);
-    this.mostrarPeliculasRandom();
+   ngOnInit(): void {
+    this.dataFilms.initializeData().then(() => {
+      this.films = this.dataFilms.getMovies();
+      this.filteredFilms = this.films.filter((film:Film) => film.precio <= 1500);
+      this.mostrarPeliculasRandom();
+    });
   }
 
   agregarPeliculaAlCarrito (film: Film){
@@ -37,7 +38,8 @@ export class InicioAuxComponent implements OnInit{
       let tbody = document.createElement("tbody");
       tabla.appendChild(tbody);
     
-      for (let i = 0; i < this.filteredFilms.length; i++) {
+      for (let i = 0; i < this.filteredFilms.length; i++) 
+      {
           if (i % 5 === 0) {
             let fila = document.createElement("tr");
             let filaBoton = document.createElement ("tr");

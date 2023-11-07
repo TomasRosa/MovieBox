@@ -14,11 +14,12 @@ export class OfertasAuxComponent implements OnInit {
 
   constructor(private dataFilms: FilmsFromAPIService, private carritoService: CarritoService) {}
 
-  async ngOnInit(): Promise<void> {
-    await this.dataFilms.initializeData();
-    this.films = this.dataFilms.getMovies();
-    this.filteredFilms = this.films.filter((film: Film) => film.precio > 1500);
-    this.mostrarPeliculasEnOferta();
+  ngOnInit(): void {
+    this.dataFilms.initializeData().then(() => {
+      this.films = this.dataFilms.getMovies();
+      this.filteredFilms = this.films.filter((film: Film) => film.precio > 1500);
+      this.mostrarPeliculasEnOferta();
+    });
   }
 
   agregarPeliculaAlCarrito (film: Film){
