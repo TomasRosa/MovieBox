@@ -36,4 +36,10 @@ export class UserAsideComponent
       this.prendido = false;
     }
   }
+  logout()
+  {
+     this.userService.logout();
+     this.router.navigate(['/inicio']);
+  }
 }
+

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Film } from 'src/app/models/film';
 import { BehaviorSubject } from 'rxjs';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class CarritoService {
   private carritoSubject = new BehaviorSubject<Array<Film>>([]);
   carrito$ = this.carritoSubject.asObservable();
 
-  constructor() {}
+  constructor(userService: UserService) {}
 
   agregarAlCarrito(pelicula: Film) {
     this.carritoDeCompras.push(pelicula);

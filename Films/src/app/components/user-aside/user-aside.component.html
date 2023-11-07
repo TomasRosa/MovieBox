@@ -8,6 +8,9 @@
         <br>
         <button class="menuLateral sizeClass colorFondo" (click)="navegarRegister('registrarse')" (click)="toggleMenu()">Registrarse</button>
     </ng-container>
-    
+    <ng-container *ngIf="userService.isLoggedIn">
+    <button class="menuLateral sizeClass colorFondo" (click)="logout()" (click)="toggleMenu()">Cerrar sesion</button>
+    </ng-container>
 </div>
+
 
