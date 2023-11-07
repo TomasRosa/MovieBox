@@ -16,7 +16,7 @@ export class CarritoService {
   constructor(userService: UserService) {}
 
   agregarAlCarrito(pelicula: Film) {
-    this.carritoDeCompras.push(pelicula);
+    this.carritoDeCompras.push({ ...pelicula }); // Hacer una copia de la película
     this.totalCarrito += pelicula.precio;
     this.carritoSubject.next(this.carritoDeCompras);
   }

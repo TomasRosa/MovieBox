@@ -10,13 +10,15 @@ import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 })
 export class OfertasAuxComponent implements OnInit {
   private films: any;
+  private originalFilms: any;
   filteredFilms: any[] = [];
 
   constructor(private dataFilms: FilmsFromAPIService, private carritoService: CarritoService) {}
 
   async ngOnInit(): Promise<void> {
     await this.dataFilms.initializeData();
-    this.films = this.dataFilms.getMovies();
+    this.originalFilms = this.dataFilms.getMovies();
+    this.films = [...this.originalFilms];
     this.filteredFilms = this.films.filter((film: Film) => film.precio > 1500);
     this.mostrarPeliculasEnOferta();
   }
