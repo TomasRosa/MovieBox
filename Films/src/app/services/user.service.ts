@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../models/user';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -64,7 +63,6 @@ export class UserService {
     console.log(this.isLoggedIn);
     return isUserValid;
   }
-
   logout() {
     this.isLoggedIn = false;
     this.router.navigate(['/login']);
