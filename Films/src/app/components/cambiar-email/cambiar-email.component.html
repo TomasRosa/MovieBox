@@ -5,7 +5,7 @@
             <form [formGroup]="formGroup" (ngSubmit)="confirmar()">
                 <label>Nuevo Email</label>
                 <input type="text" name="email" formControlName="email" value="">
-                <button type="button" (click)="cancelar()">Cancelar</button> 
+                <button type="button" (click)="mostrarFormulario=false">Cancelar</button> 
                 <button type="submit" [disabled]="!formGroup.valid">Confirmar</button>
             </form>
             <div id="errors">
@@ -15,7 +15,7 @@
                     </div>
                 </section>
             </div>
-            <div>{{result}}</div>
+            <div id="resultado-operacion"></div>
         </div>
     </div>
 </section>

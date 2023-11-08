@@ -25,9 +25,11 @@ export class UserService {
   setUsuarioActual(usuario: User): void {
     this.usuarioActualSubject.next(usuario);
   }
+
   getUserActual(): User | null {
     return this.usuarioActualSubject.value;
-  }   
+  } 
+
   getUsers(): User[] {
     return this.users;
   }
@@ -41,10 +43,12 @@ export class UserService {
       this.users = [];
     }
   }
+
   crearCarrito(usuario: User) 
   {
     usuario.arrayPeliculas = [];
   }
+
   async addUser(user: User): Promise<User | undefined> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
@@ -58,6 +62,7 @@ export class UserService {
       throw error;
     }
   }
+
   async addUserWcarrito(user: User): Promise<User | undefined> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
@@ -88,11 +93,9 @@ export class UserService {
 
   async changeEmail(user: User, newEmail: string): Promise<{ success: boolean, message: string }> {
     const url = `${this.urlJSONServer}/${user.id}`;
-    const updatedUser = { ...user, email: newEmail }; 
-    console.log ("User desp del mail")
-    console.log (user)
+    user.email  = newEmail; /* ASIGNO EL NUEVO EMAIL AL USER. */
     try {
-      await this.http.patch(url, updatedUser).toPromise();
+      await this.http.patch(url, user).toPromise();
       return { success: true, message: 'Email cambiado correctamente.' };
     } catch (error) {
       console.error('Error al cambiar el email del usuario:', error);

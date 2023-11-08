@@ -50,6 +50,7 @@ import { CambiarEmailComponent } from './components/cambiar-email/cambiar-email.
     UserAsideComponent,
     DetallesDelPerfilComponent,
     EliminarCuentaComponent,
+    CambiarEmailComponent
   ],
   imports: [
     BrowserModule,

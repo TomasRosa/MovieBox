@@ -157,7 +157,7 @@
       "id": 10,
       "firstName": "Ava",
       "lastName": "Jones",
-      "email": "ava.jones@email.com",
+      "email": "ava04@email.com",
       "password": "avapass",
       "address": "606 Redwood St",
       "dni": "01234567",
@@ -207,7 +207,7 @@
     {
       "nombre": "Tomas",
       "apellido": "Rosa",
-      "email": "tom@gmail.com",
+      "email": "roman@gmail.com",
       "password": "123ertomi",
       "address": "casatomi",
       "dni": "89898989",
@@ -224,7 +224,7 @@
     {
       "nombre": "Lionel",
       "apellido": "Messi",
-      "email": "leomessi@gmail.com",
+      "email": "leoEmailNuevo@email.com",
       "password": "leomessi10",
       "address": "casa de messi",
       "dni": "10101010",
@@ -255,4 +255,5 @@
         "CVC": 345
       }
     }
-]}
+  ]
+}

@@ -13,7 +13,7 @@ import { Renderer2, ElementRef } from '@angular/core';
 export class CambiarEmailComponent implements OnInit {
   usuarioActual: User | null = null;
   formGroup=new FormGroup({
-    email: new FormControl ('', Validators.email)
+    email: new FormControl ('', [Validators.email, Validators.required])
   });
   result: string = ''
   mostrarFormulario: boolean = false; 
@@ -30,17 +30,21 @@ export class CambiarEmailComponent implements OnInit {
   get email() { return this.formGroup.get('email'); }
 
   private async metodoAux (){
-    console.log('HOLA ENTRE AL METODO AUX')
+    let newEmail /* VARIABLE PARA GUARDAR EL NUEVO EMAIL */
     if (this.formGroup.valid) {
-      console.log('HOLA ENTRE AL METODO AUX Y PASE EL IF')
       try {
-        const newEmail = this.formGroup.get('formControlEmail')?.value;
+        if (this.email != null){
+          newEmail = this.email.value;
+        }
         if (newEmail) {
           const resultado = await this.userService.changeEmail(this.usuarioActual as User, newEmail);
-          if (resultado.success)
+          
+          if (resultado.success){
+            this.result = resultado.message; 
+          }
+          else{ 
             this.result = resultado.message;
-          else 
-            this.result = resultado.message;
+          }
         }
       } catch (error) {
         console.error('Error al cambiar el email del usuario:', error);
@@ -49,15 +53,21 @@ export class CambiarEmailComponent implements OnInit {
   }
 
   cancelar (){
-    const menuCambiarEmail = document.getElementById ('menu-cambiar-email')
+    /* const menuCambiarEmail = document.getElementById ('menu-cambiar-email')
     if (menuCambiarEmail)    
-      menuCambiarEmail.innerHTML = ''
+      menuCambiarEmail.innerHTML = '' */
+    this.mostrarFormulario = false;
   }
 
   async confirmar (){
     const menuCambiarEmail = document.getElementById ('menu-cambiar-email')
     await this.metodoAux()
-    if (menuCambiarEmail)    
-      menuCambiarEmail.innerHTML = ''
+    const parrafo = document.getElementById ('resultado-operacion')
+    if (parrafo){
+      parrafo.innerHTML = `${this.result}`
+     }
+    setTimeout(()=>{
+      this.mostrarFormulario = false
+    }, 3000)
   }
 }
