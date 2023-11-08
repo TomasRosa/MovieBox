@@ -12,11 +12,13 @@ img{
 }
 
 .sizeClass {
-    font-size: 15px;
+    font-size: 20px;
 }
 
 .colorFondo {
     background-color: rgb(129, 168, 240);
+    padding-right: 50px;
+    display: inline-block;
 }
 
 .fondo-desenfocado {
