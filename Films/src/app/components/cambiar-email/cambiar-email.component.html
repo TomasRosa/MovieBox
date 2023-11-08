@@ -1,0 +1,21 @@
+<section>
+    <div id="cambiar-email">
+        <button (click)="mostrarFormulario=true"> Cambiar Email</button>
+        <div id="menu-cambiar-email" *ngIf="mostrarFormulario">
+            <form [formGroup]="formGroup" (ngSubmit)="confirmar()">
+                <label>Nuevo Email</label>
+                <input type="text" name="email" formControlName="email" value="">
+                <button type="button" (click)="cancelar()">Cancelar</button> 
+                <button type="submit" [disabled]="!formGroup.valid">Confirmar</button>
+            </form>
+            <div id="errors">
+                <section id="alertEmail">
+                    <div *ngIf="email?.invalid && (email?.dirty || email?.touched)">
+                        <div *ngIf="email?.hasError('email')">El formato del email es incorrecto</div>  <!-- L -->
+                    </div>
+                </section>
+            </div>
+            <div>{{result}}</div>
+        </div>
+    </div>
+</section>

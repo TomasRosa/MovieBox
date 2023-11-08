@@ -24,6 +24,7 @@ import { OfertasAuxComponent } from './components/ofertas-aux/ofertas-aux.compon
 import { UserAsideComponent } from './components/user-aside/user-aside.component';
 import { DetallesDelPerfilComponent } from './components/detalles-del-perfil/detalles-del-perfil.component';
 import { EliminarCuentaComponent } from './components/eliminar-cuenta/eliminar-cuenta.component';
+import { CambiarEmailComponent } from './components/cambiar-email/cambiar-email.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { EliminarCuentaComponent } from './components/eliminar-cuenta/eliminar-c
     UserAsideComponent,
     DetallesDelPerfilComponent,
     EliminarCuentaComponent,
+    CambiarEmailComponent,
   ],
   imports: [
     BrowserModule,

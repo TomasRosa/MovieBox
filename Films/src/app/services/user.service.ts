@@ -64,6 +64,20 @@ export class UserService {
     }
   }
 
+  async changeEmail(user: User, newEmail: string): Promise<{ success: boolean, message: string }> {
+    const url = `${this.urlJSONServer}/${user.id}`;
+    const updatedUser = { ...user, email: newEmail }; 
+    console.log ("User desp del mail")
+    console.log (user)
+    try {
+      await this.http.patch(url, updatedUser).toPromise();
+      return { success: true, message: 'Email cambiado correctamente.' };
+    } catch (error) {
+      console.error('Error al cambiar el email del usuario:', error);
+      return { success: false, message: 'Error al cambiar el email. Por favor, inténtalo de nuevo más tarde.' };
+    }
+  }
+
   obtenerUserByEmail (email: string){
     return this.users.find (user => user.email == email)
   }
