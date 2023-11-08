@@ -4,6 +4,7 @@ import { User } from '../models/user';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
+import { CarritoService } from './carrito.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,14 +18,16 @@ export class UserService {
   private usuarioActualSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
   usuarioActual$ = this.usuarioActualSubject.asObservable();
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private carritoService: CarritoService) {
     this.loadUsersFromJSON();
   }
 
-  setUserActual(usuario: User): void {
+  setUsuarioActual(usuario: User): void {
     this.usuarioActualSubject.next(usuario);
   }
-
+  getUserActual(): User | null {
+    return this.usuarioActualSubject.value;
+  }   
   getUsers(): User[] {
     return this.users;
   }
@@ -38,7 +41,10 @@ export class UserService {
       this.users = [];
     }
   }
-
+  crearCarrito(usuario: User) 
+  {
+    usuario.arrayPeliculas = [];
+  }
   async addUser(user: User): Promise<User | undefined> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
@@ -52,7 +58,23 @@ export class UserService {
       throw error;
     }
   }
-
+  async addUserWcarrito(user: User): Promise<User | undefined> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+  
+    try {
+      const newUser = await this.http.post<User>(this.urlJSONServer, JSON.stringify(user), { headers }).toPromise();
+      if (newUser) {
+        this.crearCarrito(newUser); // Crea un carrito vacío para el nuevo usuario
+      }
+      return newUser;
+    } catch (error) {
+      console.error('Error al agregar el usuario:', error);
+      return undefined; // Devuelve undefined en caso de error
+    }
+  }
+  
   async deleteUser(user: User): Promise<{ success: boolean, message: string }> {
     const url = `${this.urlJSONServer}/${user.id}`;
     try {
@@ -89,16 +111,16 @@ export class UserService {
     // Actualizar el estado del usuario
     this.isLoggedIn = isUserValid;
 
-    if (this.isLoggedIn){
-      const userActual = this.obtenerUserByEmail(inputEmail)
-      this.setUserActual(userActual ?? new User())
+    if (this.isLoggedIn) {
+      const userActual = this.obtenerUserByEmail(inputEmail);
+      this.setUsuarioActual(userActual ?? new User());
     }
 
     return isUserValid;
   }
-
   logout() {
     this.isLoggedIn = false;
+    this.carritoService.limpiarCarrito(); // Limpia el carrito al cerrar la sesión
     this.router.navigate(['/login']);
   }
 }

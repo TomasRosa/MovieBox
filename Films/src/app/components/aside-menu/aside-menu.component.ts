@@ -35,6 +35,11 @@ export class AsideMenuComponent
       this.router.navigate([componente]);
     }
 
+    navegarCategorias(componente: string)
+    {
+      this.router.navigate([componente]);
+    }
+
     toggleMenu ()
     {
       if (this.prendido == false)

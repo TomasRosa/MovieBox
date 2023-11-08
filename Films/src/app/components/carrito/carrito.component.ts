@@ -55,5 +55,10 @@ import { Router } from '@angular/router';
     limpiarCarrito() {
       this.carritoService.limpiarCarrito();
     }
+    logout()
+    {
+      this.userService.logout();
+      this.carritoService.limpiarCarrito();
+    }
 }
   

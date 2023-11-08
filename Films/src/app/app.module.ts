@@ -24,6 +24,9 @@ import { OfertasAuxComponent } from './components/ofertas-aux/ofertas-aux.compon
 import { UserAsideComponent } from './components/user-aside/user-aside.component';
 import { DetallesDelPerfilComponent } from './components/detalles-del-perfil/detalles-del-perfil.component';
 import { EliminarCuentaComponent } from './components/eliminar-cuenta/eliminar-cuenta.component';
+import { CategoriasComponent } from './components/categorias/categorias.component';
+import { AventuraComponent } from './components/categorias/aventura/aventura.component';
+import { FamiliarComponent } from './components/categorias/familiar/familiar.component';
 import { CambiarEmailComponent } from './components/cambiar-email/cambiar-email.component';
 
 @NgModule({
@@ -47,7 +50,6 @@ import { CambiarEmailComponent } from './components/cambiar-email/cambiar-email.
     UserAsideComponent,
     DetallesDelPerfilComponent,
     EliminarCuentaComponent,
-    CambiarEmailComponent,
   ],
   imports: [
     BrowserModule,
