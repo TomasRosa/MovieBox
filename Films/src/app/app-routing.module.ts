@@ -14,6 +14,7 @@ import { FantasiaComponent } from './components/categorias/fantasia/fantasia.com
 import { DramaComponent } from './components/categorias/drama/drama.component';
 import { ComediaComponent } from './components/categorias/comedia/comedia.component';
 import { FamiliarComponent } from './components/categorias/familiar/familiar.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
 /* import { CanActivate } from '@angular/router';
 import { AuthGuard } from './auth.guard';  */
 
@@ -32,6 +33,7 @@ const routes: Routes = [
   { path: 'drama', component: DramaComponent },
   { path: 'comedia', component: ComediaComponent },
   { path: 'familiar', component: FamiliarComponent },
+  { path: 'perfil', component: PerfilComponent },
   { path: '', redirectTo: '/inicio', pathMatch: 'full'},
   { path: '**', component: NotFoundComponent},
 ];

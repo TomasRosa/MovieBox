@@ -25,6 +25,11 @@ export class UserAsideComponent
     this.router.navigate([componente]);
   }
 
+  navegarPerfil (componente: string)
+  {
+    this.router.navigate([componente]);
+  }
+
   toggleMenu ()
   {
     if (this.prendido == false)
