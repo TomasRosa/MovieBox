@@ -1,13 +1,19 @@
-<h2>TU PERFIL</h2>
-
-<section id="actions">
-    <button> Ver detalles de perfil </button>
-    <div id="detallesPerfil"></div>
-
-    <button> Modificar email </button>
-    <label for="">Nuevo Email</label>
-    <input type="text" placeholder="Ingrese el nuevo email">
-
-    <button> Eliminar cuenta </button>
-
-</section>
+<div class="container mt-5">
+  <h2 class="mb-4 text-primary" id="titulo">Tu Perfil</h2>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="text-info mb-3" id="detalles-del-user">Detalles del Usuario</h3>
+      <div id="detalles">
+        <app-detalles-del-perfil></app-detalles-del-perfil>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="text-info mb-3" id="configuracion">Configuraciones</h3>
+      <div id="componentes-con-opciones">
+        <app-cambiar-email></app-cambiar-email>
+        <app-cambiar-password></app-cambiar-password>
+        <app-eliminar-cuenta></app-eliminar-cuenta>
+      </div>
+    </div>
+  </div>
+</div>

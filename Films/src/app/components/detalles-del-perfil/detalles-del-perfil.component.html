@@ -1,8 +1,12 @@
-<h2>Tu perfil</h2>
-
-<section>
-    <p>Nombre y apellido: {{usuarioActual?.firstName}} {{usuarioActual?.lastName}}</p>
-    <p>Email: {{usuarioActual?.email}}</p>
-    <p>Direccion: {{usuarioActual?.address}}</p>
-    <p>DNI: {{usuarioActual?.dni}}</p>
-</section>
+<div class="container mt-5">
+  <section>
+    <div class="row">
+      <div class="col-md-6">
+        <p class="espaciado"><strong>Nombre y Apellido:</strong> {{usuarioActual?.firstName}} {{usuarioActual?.lastName}}</p>
+        <p class="espaciado"><strong>Email:</strong> {{usuarioActual?.email}}</p>
+        <p class="espaciado"><strong>Dirección:</strong> {{usuarioActual?.address}}</p>
+        <p class="espaciado"><strong>DNI:</strong> {{usuarioActual?.dni}}</p>
+      </div>
+    </div>
+  </section>
+</div>

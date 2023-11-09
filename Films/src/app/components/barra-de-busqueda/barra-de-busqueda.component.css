@@ -17,7 +17,17 @@
     margin-bottom: 1px;
 }
 
-img{
-    margin-bottom: 5px;
-    margin-top: 5px;
+.estiloBusqueda{
+    width: 150px !important; /* Puedes ajustar este valor según tus preferencias */
+    height: 150px !important;
+}
+
+.custom-input {
+    width: 100%;
+    margin: 0 auto; /* Esto centra el input horizontalmente en su contenedor */
+}
+
+.resultados-busqueda {
+    backdrop-filter: blur(10px); /* Fondo desenfocado */
+    /* background-color: rgba(0, 0, 0, 0.5); */ /* Color de fondo sólido (ejemplo: semitransparente negro) */
 }

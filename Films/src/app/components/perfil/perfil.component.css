@@ -1,0 +1,25 @@
+*{
+    background-color:#f0f0f0;
+}
+
+#titulo{
+    text-align: center;
+}
+
+#detalles-del-user{
+    text-align: center;
+    color: #007bff !important;
+}
+
+#configuracion{
+    text-align: center;
+    color: #007bff !important;
+}
+
+#componentes-con-opciones{
+    text-align: center;
+}
+
+#detalles{
+    text-align: center;
+}

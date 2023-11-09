@@ -14,7 +14,6 @@ img{
     position: absolute;
     top: 0;
     right: 0;
-    margin: 50px;
     margin-right: 350px;
 }
 
@@ -22,7 +21,7 @@ img{
     position: absolute;
     top: 0;
     right: 0;
-    margin: 50px;
+    margin-top: 28px;
     margin-right: 250px;
 }
 
@@ -31,11 +30,13 @@ img{
     top: 0;
     right: 0;
     size: 10px;
-    margin-top: 10px;
-    margin: 50px;
+    margin-top: 6.9px;
     margin-right: 70px;
 }
 
+#buttonInicio{
+    margin-top: 7.2px;
+}
 
 
 

@@ -10,6 +10,7 @@ import { UserService } from 'src/app/services/user.service';
 export class EliminarCuentaComponent implements OnInit {
   usuarioActual: User | null = null;
   result: string = ''
+  mostrarOpciones: boolean = false;
 
   constructor (private userService: UserService){}
 
@@ -31,26 +32,14 @@ export class EliminarCuentaComponent implements OnInit {
     }
   }
 
-  eliminarCuenta (){
-    const contenedor = document.getElementById ('eliminar-cuenta')
-    const opciones = document.getElementById ('opciones')
-    const buttonCancelar = document.createElement ('button')
-    const buttonConfirmar = document.createElement ('button')
+  async confirmar (){
+    await this.metodoAux()
+    setTimeout(()=>{
+      this.mostrarOpciones=false;
+    }, 3000)
+  }
 
-    buttonConfirmar.textContent = 'Confirmar'
-    buttonConfirmar.addEventListener ('click', async ()=>{
-      await this.metodoAux()
-      if (contenedor)
-        contenedor.innerHTML = ''
-    })
-
-    buttonCancelar.textContent = 'Cancelar'
-    buttonCancelar.addEventListener ('click', ()=>{
-      if (opciones)
-        opciones.innerHTML = '' /* RESETEO PARA QUE NO VEA LAS OPCIONES */
-    })
-
-    opciones?.appendChild(buttonConfirmar)
-    opciones?.appendChild(buttonCancelar)
+  cancelar (){
+    this.mostrarOpciones=false;
   }
 }
