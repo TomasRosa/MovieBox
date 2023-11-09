@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener  } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
@@ -8,6 +8,8 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './aside-menu.component.html',
   styleUrls: ['./aside-menu.component.css']
 })
+
+
 export class AsideMenuComponent
 {
   prendido = false;
@@ -51,4 +53,14 @@ export class AsideMenuComponent
         this.prendido = false;
       }
     }
+
+    @HostListener('document:click', ['$event'])
+    onClick(event: Event) {
+      if (this.prendido) {
+        const target = event.target as HTMLElement;
+        if (!target.closest('.recuadro') && !target.closest('.menuLateral')) {
+          this.prendido = false;
+        }
+    }
+  }
 }

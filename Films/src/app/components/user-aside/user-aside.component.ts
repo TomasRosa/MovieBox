@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 
@@ -46,5 +46,15 @@ export class UserAsideComponent
      this.userService.logout();
      this.router.navigate(['/inicio']);
   }
+
+  @HostListener('document:click', ['$event'])
+    onClick(event: Event) {
+      if (this.prendido) {
+        const target = event.target as HTMLElement;
+        if (!target.closest('.recuadro') && !target.closest('.menuLateral')) {
+          this.prendido = false;
+        }
+      }
+    }
 }
 
