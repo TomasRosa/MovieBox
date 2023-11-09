@@ -103,6 +103,18 @@ export class UserService {
     }
   }
 
+  async changePassword (user: User, newPassword: string): Promise<{ success: boolean, message: string }> {
+    const url = `${this.urlJSONServer}/${user.id}`;
+    user.password  = newPassword; /* ASIGNO LA NUEVA PASSWORD AL USER. */
+    try {
+      await this.http.patch(url, user).toPromise();
+      return { success: true, message: 'Contrasenia cambiada correctamente.' };
+    } catch (error) {
+      console.error('Error al cambiar la contrasenia del usuario:', error);
+      return { success: false, message: 'Error al cambiar la contrasenia. Por favor, inténtalo de nuevo más tarde.' };
+    }
+  }
+
   obtenerUserByEmail (email: string){
     return this.users.find (user => user.email == email)
   }

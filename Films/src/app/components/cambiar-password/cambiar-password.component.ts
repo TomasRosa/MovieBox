@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { async } from 'rxjs';
+import { ValidacionUserPersonalizada } from 'src/app/validaciones/validacion-user-personalizada';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-cambiar-email',
-  templateUrl: './cambiar-email.component.html',
-  styleUrls: ['./cambiar-email.component.css']
+  selector: 'app-cambiar-password',
+  templateUrl: './cambiar-password.component.html',
+  styleUrls: ['./cambiar-password.component.css']
 })
 
-export class CambiarEmailComponent implements OnInit {
+export class CambiarPasswordComponent implements OnInit {
   usuarioActual: User | null = null;
-  formGroup=new FormGroup({
-    email: new FormControl ('', [Validators.email, Validators.required])
+  formGroup= new FormGroup({
+    password: new FormControl ('', [Validators.required, Validators.minLength (6), ValidacionUserPersonalizada.minDosNumeros()])
   });
   result: string = ''
   mostrarFormulario: boolean = false; 
@@ -27,17 +27,18 @@ export class CambiarEmailComponent implements OnInit {
     });
   }
 
-  get email() { return this.formGroup.get('email'); }
+  get password() { return this.formGroup.get('password'); }
 
   private async metodoAux (){
-    let newEmail /* VARIABLE PARA GUARDAR EL NUEVO EMAIL */
+    let newPassword /* VARIABLE PARA GUARDAR LA NUEVA PASSWORD */
+
     if (this.formGroup.valid) {
       try {
-        if (this.email != null){
-          newEmail = this.email.value;
+        if (this.password != null){
+          newPassword = this.password.value;
         }
-        if (newEmail) {
-          const resultado = await this.userService.changeEmail(this.usuarioActual as User, newEmail);
+        if (newPassword) {
+          const resultado = await this.userService.changePassword(this.usuarioActual as User, newPassword);
           
           if (resultado.success){
             this.result = resultado.message; 

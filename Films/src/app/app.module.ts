@@ -28,6 +28,7 @@ import { CategoriasComponent } from './components/categorias/categorias.componen
 import { AventuraComponent } from './components/categorias/aventura/aventura.component';
 import { FamiliarComponent } from './components/categorias/familiar/familiar.component';
 import { CambiarEmailComponent } from './components/cambiar-email/cambiar-email.component';
+import { CambiarPasswordComponent } from './components/cambiar-password/cambiar-password.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { CambiarEmailComponent } from './components/cambiar-email/cambiar-email.
     UserAsideComponent,
     DetallesDelPerfilComponent,
     EliminarCuentaComponent,
-    CambiarEmailComponent
+    CambiarEmailComponent,
+    CambiarPasswordComponent
   ],
   imports: [
     BrowserModule,
