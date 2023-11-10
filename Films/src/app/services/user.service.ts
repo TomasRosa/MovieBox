@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 import { CarritoService } from './carrito.service';
+import { Film } from '../models/film';
 
 @Injectable({
   providedIn: 'root'
@@ -63,21 +64,18 @@ export class UserService {
     }
   }
 
-  async addUserWcarrito(user: User): Promise<User | undefined> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-  
+  async cargarBiblioteca (user: User, carrito: Array<Film>): Promise<{ success: boolean, message: string }> {
+    const url = `${this.urlJSONServer}/${user.id}`;
+    carrito.forEach(film =>{
+      user.arrayPeliculas.push(film)
+    }) /* AGREGAMOS LAS NUEVAS PELICULAS A SU BIBLIOTECA */
+
     try {
-      const newUser = await this.http.post<User>(this.urlJSONServer, JSON.stringify(user), { headers }).toPromise();
-      if (newUser) {
-        this.crearCarrito(newUser); // Crea un carrito vacío para el nuevo usuario
-      }
-      return newUser;
+      await this.http.patch<User>(url, user).toPromise();
+      return { success: true, message: 'Compra realizada con exito.' };
     } catch (error) {
-      console.error('Error al agregar el usuario:', error);
-      return undefined; // Devuelve undefined en caso de error
-    }
+      console.error('Error al realizar la compra:', error);
+      return { success: false, message: 'Error al realizar la compra. Por favor, inténtalo de nuevo más tarde.' };    }
   }
   
   async deleteUser(user: User): Promise<{ success: boolean, message: string }> {
