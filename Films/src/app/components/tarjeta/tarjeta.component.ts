@@ -6,6 +6,7 @@ import { Tarjeta } from 'src/app/models/tarjeta';
 import { CarritoService } from 'src/app/services/carrito.service';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tarjeta',
@@ -30,12 +31,13 @@ export class TarjetaComponent {
     CVC: new FormControl ('',[Validators.required,ValidacionTarjeta.validarCVCLongitud(),ValidacionTarjeta.soloNumeros()])      
   });
 
-  constructor(private carritoService: CarritoService, private userService: UserService){}
+  constructor(private carritoService: CarritoService, private userService: UserService, private routerService: Router){}
 
   ngOnInit(): void {
     this.userService.usuarioActual$.subscribe((usuario: User | null) => {
       this.usuarioActual = usuario;
     });
+    this.validarSiTieneTarjeta()
   }
 
   get firstName () {return this.tarjetaForm.get('firstName')}
@@ -45,44 +47,72 @@ export class TarjetaComponent {
   get CVC () {return this.tarjetaForm.get('CVC')}
 
   async comprarConUltimaTarjeta (){
-    const carrito = this.carritoService.obtenerCarrito()
-    const res = await this.userService.cargarBiblioteca(this.usuarioActual as User, carrito)
-    if (res.success) this.result = res.message; 
-    else this.result = res.message;
-
+    let res;
+      const carrito = this.carritoService.obtenerCarrito()
+      if(this.carritoService.obtenerTotalCarrito() != null && this.usuarioActual){
+        if (this.usuarioActual.tarjeta.saldo >= this.carritoService.obtenerTotalCarrito()){
+          this.usuarioActual.tarjeta.saldo -= this.carritoService.obtenerTotalCarrito()
+          res = await this.userService.cargarBiblioteca(this.usuarioActual as User, carrito)
+          if (res){
+            if (res.success) this.result = res.message; 
+            else this.result = res.message;
+          }
+        }else{
+          this.result = 'Saldo insufuciente! Intente mas tarde'
+        }
+      }
     setTimeout(()=>{
       this.mostrarFormularioConUltimaTarjeta = false;
       this.mostrarFormularioSinUltimaTarjeta = false;
       this.mostrarDeseaComprarConUltimaTarjeta = false;
-    }, 2000)
+    }, 1500)
   }
   
   async onSubmit ()
   {
-    let tarjeta = new Tarjeta()
-    
-    if (this.firstName && this.lastName && this.nTarjeta && this.CVC && this.fechaVencimiento){
-      if (this.CVC.value != null) tarjeta.CVC = this.CVC.value 
-      if (this.firstName.value != null) tarjeta.firstName = this.firstName.value
-      if (this.lastName.value != null) tarjeta.lastName = this.lastName.value
-      if (this.nTarjeta.value != null) tarjeta.nTarjeta = this.nTarjeta.value
-      if (this.fechaVencimiento.value != null) tarjeta.fechaVencimiento = this.fechaVencimiento.value
-    }
-
-    if (tarjeta && this.usuarioActual?.tarjeta)
-     this.usuarioActual.tarjeta = tarjeta
-
     if(this.tarjetaForm.valid){
+      let tarjeta = new Tarjeta()
+      
+      if (this.firstName && this.lastName && this.nTarjeta && this.CVC && this.fechaVencimiento){
+        if (this.CVC.value != null) tarjeta.CVC = this.CVC.value 
+        if (this.firstName.value != null) tarjeta.firstName = this.firstName.value
+        if (this.lastName.value != null) tarjeta.lastName = this.lastName.value
+        if (this.nTarjeta.value != null) tarjeta.nTarjeta = this.nTarjeta.value
+        if (this.fechaVencimiento.value != null) tarjeta.fechaVencimiento = this.fechaVencimiento.value
+      }
+
+      if (tarjeta && this.usuarioActual?.tarjeta)
+      this.usuarioActual.tarjeta = tarjeta
+
+      let res;
       const carrito = this.carritoService.obtenerCarrito()
-      const res = await this.userService.cargarBiblioteca(this.usuarioActual as User, carrito)
-      if (res.success) this.result = res.message; 
-      else this.result = res.message;
-    }
+      if(this.carritoService.obtenerTotalCarrito() != null && this.usuarioActual){
+        if (this.usuarioActual.tarjeta.saldo >= this.carritoService.obtenerTotalCarrito()){
+          this.usuarioActual.tarjeta.saldo -= this.carritoService.obtenerTotalCarrito()
+          res = await this.userService.cargarBiblioteca(this.usuarioActual as User, carrito)
+          if (res){
+            if (res.success) this.result = res.message; 
+            else this.result = res.message;
+          }
+        }else{
+           this.result = 'Saldo insufuciente! Intente mas tarde'
+        }
+      }
 
     setTimeout(()=>{
       this.mostrarFormularioConUltimaTarjeta = false;
       this.mostrarFormularioSinUltimaTarjeta = false;
       /* ENVIAR A INICIO */
-    }, 2000)
+    }, 1500)
+    }
+  }
+
+  validarSiTieneTarjeta (){
+    if (this.usuarioActual?.tarjeta.nTarjeta != '') this.mostrarDeseaComprarConUltimaTarjeta = true
+    else this.mostrarFormularioSinUltimaTarjeta=true ;
+  }
+
+  navegarInicio(componente: string) {
+    this.routerService.navigate([componente]);
   }
 }

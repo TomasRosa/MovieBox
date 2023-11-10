@@ -1,13 +1,13 @@
-<div *ngIf="mostrarDeseaComprarConUltimaTarjeta">
+<div *ngIf="mostrarDeseaComprarConUltimaTarjeta" class="needs-validation">
     <p>Desea comprar con la ultima tarjeta usada?</p>
-    <button (click)="mostrarFormularioConUltimaTarjeta=true">Si</button>
-    <button (click)="mostrarFormularioSinUltimaTarjeta=true">No</button>
+    <button class="btn btn-primary" (click)="mostrarFormularioConUltimaTarjeta=true" (click)="mostrarFormularioSinUltimaTarjeta=false">Si</button>
+    <button class="btn btn-primary cancelar" (click)="mostrarFormularioSinUltimaTarjeta=true" (click)="mostrarFormularioConUltimaTarjeta=false">No</button>
+    <button (click)="navegarInicio('inicio')" class="btn btn-primary cancelar"> Cancelar Compra </button>
 </div>
 
-<div *ngIf="mostrarFormularioConUltimaTarjeta">
+<div *ngIf="mostrarFormularioConUltimaTarjeta" class="needs-validation">
     <form (ngSubmit)="comprarConUltimaTarjeta()">
-        <button type="submit">Confirmar compra </button>
-        <button (click)="mostrarFormularioConUltimaTarjeta=false">Cancelar Compra</button>
+        <button class="btn btn-primary" type="submit">Confirmar compra </button>
     </form>
 </div>
 
@@ -37,8 +37,6 @@
             <label for="CVC">CVC</label>
             <input type="text" name="CVC" formControlName="CVC" value="">
         </div>
-
-        <button type="button" class="btn btn-primary" (click)="onSubmit()">Enviar</button>
 
         <div class="alert alert-danger" [class.d-none]="!errorMessage" *ngIf="errorMessage">
             {{ errorMessage }}
@@ -75,8 +73,7 @@
             <div *ngIf="fechaVencimiento.hasError('validarFechaNoExpirada')">Tarjeta vencida</div>
         </section>
 
-        <button type="submit"> Confirmar compra </button>
-        <button (click)="mostrarFormularioSinUltimaTarjeta=false">Cancelar Compra</button>
+        <button class="btn btn-primary" type="submit" [disabled]="!tarjetaForm.valid" > Confirmar compra </button>
     </form>
 </div>
 

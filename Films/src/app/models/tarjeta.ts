@@ -4,4 +4,5 @@ export class Tarjeta {
     nTarjeta: string ='';
     fechaVencimiento: string='';
     CVC: string= '';
+    saldo: number = 99999;
 }
