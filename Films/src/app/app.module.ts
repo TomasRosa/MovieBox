@@ -30,6 +30,7 @@ import { FamiliarComponent } from './components/categorias/familiar/familiar.com
 import { CambiarEmailComponent } from './components/cambiar-email/cambiar-email.component';
 import { CambiarPasswordComponent } from './components/cambiar-password/cambiar-password.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
+import { BibliotecaComponent } from './components/biblioteca/biblioteca.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { PerfilComponent } from './components/perfil/perfil.component';
     EliminarCuentaComponent,
     CambiarEmailComponent,
     CambiarPasswordComponent,
-    PerfilComponent
+    PerfilComponent,
+    BibliotecaComponent
   ],
   imports: [
     BrowserModule,

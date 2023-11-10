@@ -30,6 +30,11 @@ export class UserAsideComponent
     this.router.navigate([componente]);
   }
 
+  navegarBiblioteca (componente: string)
+  {
+    this.router.navigate([componente]);
+  }
+
   toggleMenu ()
   {
     if (this.prendido == false)
