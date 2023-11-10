@@ -61,6 +61,7 @@ export class InicioAuxComponent implements OnInit{
               celda.innerHTML = `
                 <img alt="Imagen no disponible" src="${this.filteredFilms[i + j].image}" width="200" height="300">
                 <i><b style="font-size: 15px;">${this.filteredFilms[i + j].title}</b></i>
+                <br>
                 <i><b style="font-size: 15px;">$${this.filteredFilms[i + j].precio}</b></i>
               `;
 

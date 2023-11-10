@@ -1,0 +1,20 @@
+<div class="classDiv">
+    <table>
+      <tr *ngFor="let fila of filas">
+        <td *ngFor="let film of fila">
+          <img alt="Imagen no disponible" src="{{film.image}}" width="200" height="300">
+          <br>
+          <i><b style="font-size: 15px;">{{film.title}}</b></i>
+          <br>
+          <button class="btn btn-danger" (click)="devolverPelicula(film)">Devolver Pelicula</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  
+  
+  
+  
+  
+  
