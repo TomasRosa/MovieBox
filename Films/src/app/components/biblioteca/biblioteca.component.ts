@@ -12,6 +12,7 @@ import { UserService } from 'src/app/services/user.service';
 export class BibliotecaComponent 
 {
   usuarioActual: User | null = null;
+  bibliotecaVacia: boolean = true;
 
   constructor (private userService: UserService) {}
 
@@ -34,6 +35,12 @@ export class BibliotecaComponent
     this.userService.usuarioActual$.subscribe((usuario: User | null) => {
       this.usuarioActual = usuario;
     });
+    this.validarBibliotecaVacia ()
+  }
+
+  validarBibliotecaVacia (){
+    if (this.usuarioActual?.arrayPeliculas.length == 0) this.bibliotecaVacia = true
+    else this.bibliotecaVacia = false
   }
 
   async devolverPelicula (film: Film | undefined)

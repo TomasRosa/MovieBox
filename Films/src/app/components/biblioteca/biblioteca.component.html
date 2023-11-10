@@ -1,4 +1,5 @@
 <div class="classDiv">
+  <h3 *ngIf="!bibliotecaVacia" id="title">Biblioteca</h3>
     <table>
       <tr *ngFor="let fila of filas">
         <td *ngFor="let film of fila">
@@ -10,7 +11,11 @@
         </td>
       </tr>
     </table>
-  </div>
+</div>
+
+<div *ngIf="bibliotecaVacia" class="classDiv" id="bibliotecaVacia">
+  Su biblioteca se encuentra vacia! 
+</div>
 
   
   

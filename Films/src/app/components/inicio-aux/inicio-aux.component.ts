@@ -59,24 +59,31 @@ export class InicioAuxComponent implements OnInit{
     
               const celda = document.createElement("td");
               celda.innerHTML = `
-                <img alt="Imagen no disponible" src="${this.filteredFilms[i + j].image}" width="200" height="300">
-                <i><b style="font-size: 15px;">${this.filteredFilms[i + j].title}</b></i>
-                <br>
-                <i><b style="font-size: 15px;">$${this.filteredFilms[i + j].precio}</b></i>
+                <div class="tamanioCelda">
+                  <img alt="Imagen no disponible" src="${this.filteredFilms[i + j].image}" width="200" height="300">
+                  <i><b style="font-size: 15px;">${this.filteredFilms[i + j].title}</b></i>
+                  <br>
+                  <i><b style="font-size: 15px;">$${this.filteredFilms[i + j].precio}</b></i>
+                </div>
               `;
+              celda.className = "tamanioCelda";
 
               const celdaBoton = document.createElement("td");
+              celdaBoton.className = "tamanioCelda";
               const boton = document.createElement("button");
               boton.textContent = "🛒";
               boton.addEventListener("click", () => this.agregarPeliculaAlCarrito(this.filteredFilms[i + j]));
-
+              
               fila.appendChild(celda);
               celdaBoton.appendChild(boton);
               filaBoton.appendChild(celdaBoton);
             }
-    
-            tbody.appendChild(fila);
-            tbody.appendChild (filaBoton);
+            
+            const body = document.getElementById('body')
+            if(body){
+              body.appendChild(fila);
+              body.appendChild (filaBoton);
+            }
           }
       }
     

@@ -1,32 +1,32 @@
 <form class="needs-validation" [formGroup]="userForm"  (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="">Nombre</label>
-      <input type="text" name="firstName" formControlName="firstName" value="">
+      <input type="text" name="firstName" formControlName="firstName" placeholder="Ingrese su nombre" value="">
     </div>
    
     <div class="form-group"> 
       <label for="">Apellido</label>
-      <input type="text" name="lastName" formControlName="lastName" value="">
+      <input type="text" name="lastName" formControlName="lastName" placeholder="Ingrese su apellido" value="">
     </div>
     
     <div class="form-group">
       <label for="">DNI</label>
-      <input type="text" name="DNI" formControlName="DNI" value="">
+      <input type="text" name="DNI" formControlName="DNI" placeholder="Ingrese su DNI" value="">
     </div>
     
     <div class="form-group">
       <label for="">Email</label>
-      <input type="text" name="email" formControlName="email" value="">
+      <input type="text" name="email" formControlName="email" placeholder="Ingrese su email" value="">
     </div>
     
     <div class="form-group">
       <label for="">Direccion</label>
-      <input type="text" name="adress" formControlName="address" value="">
+      <input type="text" name="adress" formControlName="address" placeholder="Ingrese la direccion" value="">
     </div>
     
     <div class="form-group">
-      <label for="">Contrasenia</label>
-      <input type="password" name="password" formControlName="password" value="">
+      <label for="">Contraseña</label>
+      <input type="password" name="password" formControlName="password" placeholder="Ingrese su contraseña" value="">
     </div>
     
     <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">Registrarse</button>

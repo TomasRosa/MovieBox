@@ -4,8 +4,8 @@ import { Film } from '../models/film';
 const options = {
   method: 'GET',
 	headers: {
-		'X-RapidAPI-Key': '168918779bmsh773c0ea22aed822p18cce3jsn5f8c1d7815d2',
-		'X-RapidAPI-Host': 'similar-movies.p.rapidapi.com'
+		'X-RapidAPI-Key': '2422d1d7e3mshbeff0e5e4d700d6p1118d6jsnad3463b6e888',
+		'X-RapidAPI-Host': 'disney-animation-movies-api.p.rapidapi.com'
 	}
 };
 
@@ -14,7 +14,7 @@ const options = {
 })
 
 export class FilmsFromAPIService{
-  private url_API = 'assets/films.json';
+  private url_API = 'https://disney-animation-movies-api.p.rapidapi.com/movies/all?details=true';
   private filmsData: Film [] = [];
   private arrayFilmsBien: Film [] = [];
   private precios: number[] = [
@@ -28,12 +28,11 @@ export class FilmsFromAPIService{
     800, 1300
   ];
   
-  constructor() {
-   }
+  constructor() {}
 
   async initializeData() {
     if (this.filmsData.length == 0) {
-      const response = await fetch(this.url_API);
+      const response = await fetch(this.url_API, options);
       if (response.status === 200) {
         const datos = await response.json();
 

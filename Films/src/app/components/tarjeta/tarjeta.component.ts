@@ -58,6 +58,7 @@ export class TarjetaComponent {
             if (res.success) this.result = res.message; 
             else this.result = res.message;
           }
+          this.carritoService.limpiarCarrito()
         }else{
           this.result = 'Saldo insufuciente! Intente mas tarde'
         }
@@ -96,6 +97,7 @@ export class TarjetaComponent {
             if (res.success) this.result = res.message; 
             else this.result = res.message;
           }
+          this.carritoService.limpiarCarrito()
         }else{
            this.result = 'Saldo insufuciente! Intente mas tarde'
         }
