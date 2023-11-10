@@ -3,5 +3,6 @@ export class Tarjeta {
     lastName:string ='';
     nTarjeta: string ='';
     fechaVencimiento: string='';
-    CVC: Number= 0;
+    CVC: string= '';
+    saldo: number = 99999;
 }

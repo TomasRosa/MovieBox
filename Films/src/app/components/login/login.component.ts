@@ -40,10 +40,9 @@ export class LoginComponent implements OnInit {
   get password() {
     return this.loginForm.get('password');
   }
-  async onSubmit() 
-  {
-    const emailValue: string | null = this.loginForm.get('email')?.value ?? null;
-    const passwordValue: string | null = this.loginForm.get('password')?.value ?? null;
+  async onSubmit() {
+    const emailValue: string | null = this.loginForm.controls['email']?.value ?? null;
+    const passwordValue: string | null = this.loginForm.controls['password']?.value ?? null;
     let userActual: User | undefined;
   
     if (emailValue !== null && passwordValue !== null) {
@@ -56,23 +55,22 @@ export class LoginComponent implements OnInit {
         userActual = this.userService.obtenerUserByEmail(emailValue as string);
         this.successMessage = 'Bienvenido a RosaGomezRuiz Peliculas';
         this.errorMessage = '';
-        this.loginForm.get('email')?.setErrors(null);
-        this.loginForm.get('password')?.setErrors(null);
+        this.loginForm.controls['email'].setErrors(null);
+        this.loginForm.controls['password'].setErrors(null);
         this.router.navigate(['/inicio']);
   
         if (userActual) {
           this.userService.setUsuarioActual(userActual);
         }
       } else {
-        this.errorMessage = 'El email o contraseña son incorrectos';
         this.successMessage = '';
-        this.loginForm.get('email')?.setErrors({ incorrecto: true });
-        this.loginForm.get('password')?.setErrors({ incorrecto: true });
+        this.loginForm.controls['email'].setErrors({ incorrecto: true });
+        this.loginForm.controls['password'].setErrors({ incorrecto: true });
       }
     } else {
       this.errorMessage = 'El email o contraseña son nulos';
     }
-  }  
+  }
   logout() {
     this.userService.logout();
     this.router.navigate(['/inicio']); // Redirige al usuario a la página de inicio después de cerrar sesión

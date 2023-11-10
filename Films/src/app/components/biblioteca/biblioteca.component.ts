@@ -13,12 +13,7 @@ export class BibliotecaComponent
 {
   usuarioActual: User | null = null;
 
-  private filmSubject = new BehaviorSubject<Array<Film>>([]);
-
-  constructor (private userService: UserService)
-  {
-
-  }
+  constructor (private userService: UserService) {}
 
   get filas() {
     if (!this.usuarioActual?.arrayPeliculas) {
@@ -38,22 +33,18 @@ export class BibliotecaComponent
   ngOnInit(): void {
     this.userService.usuarioActual$.subscribe((usuario: User | null) => {
       this.usuarioActual = usuario;
-      console.log (this.usuarioActual)
     });
   }
 
-  devolverPelicula (film: Film | undefined)
+  async devolverPelicula (film: Film | undefined)
   {
     if (this.usuarioActual?.arrayPeliculas && film)
     {
       const index = this.usuarioActual?.arrayPeliculas.indexOf(film); 
-
-    if (index !== -1) 
-    {
-      this.usuarioActual?.arrayPeliculas.splice(index, 1);
-      this.filmSubject.next(this.usuarioActual?.arrayPeliculas);
+      if (index !== -1) {
+        this.usuarioActual?.arrayPeliculas.splice(index, 1);
+        await this.userService.devolverFilm (this.usuarioActual, this.usuarioActual.arrayPeliculas)
+      }
     }
   }
-}
-
 }
