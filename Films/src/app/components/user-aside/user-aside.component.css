@@ -3,28 +3,45 @@
     outline: none;
     color: white;
     font-weight: bold;
-    font-style: italic;
-}
-
-img{
-    width: 50%;
-    height: 50%;
 }
 
 .sizeClass {
-    font-size: 20px;
+    font-size: 18px;
 }
 
-.colorFondo {
-    background-color: rgb(129, 168, 240);
-    padding-right: 50px;
-    display: inline-block;
+img{
+    height: 50px;
+    width: 50px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+#botonAside{
+    border: none;
+    outline: none;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+}
+
+.menuLateral {
+    border: none;
+    outline: none;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+
 }
 
 .fondo-desenfocado {
     position: fixed;
-    width: 0%;
+    width: 100%;
     height: 100%;
-    background-color: rgba(82, 82, 82, 0.435);
-    z-index: 1;
-  }
+}
+
+.recuadro {
+    display: inline-block;
+    border-radius: 10px;
+    top: 100px;
+    left: 50px;
+    padding: 20px;
+
+}

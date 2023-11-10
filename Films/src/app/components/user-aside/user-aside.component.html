@@ -10,7 +10,9 @@
     </ng-container>
     <ng-container *ngIf="userService.isLoggedIn">
         <button class="menuLateral sizeClass colorFondo" (click)="navegarPerfil('perfil')" (click)="toggleMenu()">Perfil</button>
+        <br>
         <button class="menuLateral sizeClass colorFondo" (click)="navegarBiblioteca('biblioteca')" (click)="toggleMenu()">Biblioteca</button>
+        <br>
         <button class="menuLateral sizeClass colorFondo" (click)="logout()" (click)="toggleMenu()">Cerrar sesion</button>
     </ng-container>
 </div>

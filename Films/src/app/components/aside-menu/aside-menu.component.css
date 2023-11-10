@@ -26,7 +26,7 @@ img{
 }
 
 .fondo-desenfocado {
-    position: fixed; /* Cambiado de fixed a absolute */
+    position: fixed;
     width: 100%;
     height: 100%;
 }
