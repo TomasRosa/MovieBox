@@ -5,7 +5,6 @@
 .classDiv {
     margin: 0 auto;
     width: 50%; 
-    margin-top: 100px;
 }
 
 .classNuevoPrecio {
@@ -13,4 +12,8 @@
     color: white;
     font-weight: bold;
     font-size: 30px;
+}
+
+.tamanioCelda{
+    margin: -2rem;
 }

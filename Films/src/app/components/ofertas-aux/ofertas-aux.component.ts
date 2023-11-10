@@ -75,18 +75,21 @@ export class OfertasAuxComponent implements OnInit {
               const boton = document.createElement("button");
               boton.textContent = "🛒";
               boton.addEventListener("click", () => this.agregarPeliculaAlCarrito(this.filteredFilms[i + j]));
+              boton.className="btn btn-primary"
               celdaBoton.appendChild(boton);
-
               this.filteredFilms[i + j].ofertas = true;
               
               fila.appendChild(celda);
               nuevaFila.appendChild (nuevaCelda);
               filaBoton.appendChild (celdaBoton);
             }
-  
-            tbody.appendChild(fila);
-            tbody.appendChild (nuevaFila);
-            tbody.appendChild (filaBoton);
+            const body = document.getElementById ('body')
+
+            if(body){
+              body.appendChild(fila);
+              body.appendChild (nuevaFila);
+              body.appendChild (filaBoton);
+            }
           }
           if (contenedorTabla) {
             contenedorTabla.appendChild(tabla);

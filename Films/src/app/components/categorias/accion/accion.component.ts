@@ -68,14 +68,17 @@ export class AccionComponent {
             const boton = document.createElement("button");
             boton.textContent = "🛒";
             boton.addEventListener("click", () => this.agregarPeliculaAlCarrito(this.filteredFilms[i + j]));
+            boton.className="btn btn-primary"
             celdaBoton.appendChild(boton);
   
             fila.appendChild(celda);
             filaBoton.appendChild (celdaBoton);
           }
-  
-          tbody.appendChild(fila);
-          tbody.appendChild (filaBoton);
+          const body = document.getElementById ('body')
+          if (body){
+            body.appendChild(fila);
+            body.appendChild (filaBoton);
+          }
         }
       }
   

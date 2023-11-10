@@ -67,15 +67,18 @@ export class FamiliarComponent {
             const celdaBoton = document.createElement("td");
             const boton = document.createElement("button");
             boton.textContent = "🛒";
+            boton.className="btn btn-primary"
             boton.addEventListener("click", () => this.agregarPeliculaAlCarrito(this.filteredFilms[i + j]));
             celdaBoton.appendChild(boton);
   
             fila.appendChild(celda);
             filaBoton.appendChild (celdaBoton);
           }
-  
-          tbody.appendChild(fila);
-          tbody.appendChild (filaBoton);
+          const body = document.getElementById ('body')
+          if (body){
+            body.appendChild(fila);
+            body.appendChild (filaBoton);
+          }
         }
       }
   

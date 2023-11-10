@@ -73,7 +73,7 @@ export class InicioAuxComponent implements OnInit{
               const boton = document.createElement("button");
               boton.textContent = "🛒";
               boton.addEventListener("click", () => this.agregarPeliculaAlCarrito(this.filteredFilms[i + j]));
-              
+              boton.className="btn btn-primary"
               fila.appendChild(celda);
               celdaBoton.appendChild(boton);
               filaBoton.appendChild(celdaBoton);
