@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
   export class CarritoComponent implements OnInit {
     carritoDeCompras: Array<Film> = [];
     totalCarrito: number = 0;
+    verSiEstaVacio = true;
 
     constructor(private carritoService: CarritoService, public userService: UserService, private routerService: Router) {}
 
@@ -31,6 +32,14 @@ import { Router } from '@angular/router';
         alert('Debe iniciar sesión para comprar películas.');
       }
       
+      if (this.carritoDeCompras.length > 0)
+      {
+        this.verSiEstaVacio = false;
+      }
+      else
+      {
+        this.verSiEstaVacio = true;
+      }
     }
 
     private actualizarTotalCarrito() 
@@ -50,10 +59,18 @@ import { Router } from '@angular/router';
 
     eliminarDelCarrito(pelicula: Film) {
       this.carritoService.eliminarDelCarrito(pelicula);
+      if (this.carritoDeCompras.length == 0)
+      {
+        this.verSiEstaVacio = true;
+      }
     }
 
     limpiarCarrito() {
       this.carritoService.limpiarCarrito();
+      if (this.carritoDeCompras.length == 0)
+      {
+        this.verSiEstaVacio = true;
+      }
     }
 
     logout()
@@ -62,7 +79,8 @@ import { Router } from '@angular/router';
       this.carritoService.limpiarCarrito();
     }
 
-    comprar(){
+    comprar()
+    {
       this.routerService.navigate(['/tarjeta']);
     }
 }

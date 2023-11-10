@@ -1,3 +1,18 @@
+*{
+    text-align: center !important;
+}
+
+.margenBoton {
+    margin-top: 20px;
+}
+
 .cancelar{
     margin-left: 1rem !important;
+}
+
+#exitoCompra {
+    font-size: 30px;
+    color: rgb(18, 164, 18);
+    font-style: italic;
+    font-weight: bold;
 }

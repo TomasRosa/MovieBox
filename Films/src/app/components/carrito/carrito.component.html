@@ -38,8 +38,8 @@
     <div class="container">
         <p>Total del Carrito: {{ totalCarrito | currency: 'ARS' }}</p>
     </div>
-    <div>
-        <button class="btn btn-primary mt-3" (click)="comprar()">Finalizar compra</button>
+    <div class="container">
+        <button class="btn btn-primary mt-3" (click)="comprar()" [disabled] = "verSiEstaVacio">Finalizar compra</button>
     </div>
 </div>
     <div *ngIf="!userService.isLoggedIn">

@@ -7,6 +7,7 @@ import { CarritoService } from 'src/app/services/carrito.service';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user';
 import { Router } from '@angular/router';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-tarjeta',
@@ -65,6 +66,7 @@ export class TarjetaComponent {
       this.mostrarFormularioConUltimaTarjeta = false;
       this.mostrarFormularioSinUltimaTarjeta = false;
       this.mostrarDeseaComprarConUltimaTarjeta = false;
+      this.navegarInicio ('inicio');
     }, 1500)
   }
   
@@ -102,7 +104,7 @@ export class TarjetaComponent {
     setTimeout(()=>{
       this.mostrarFormularioConUltimaTarjeta = false;
       this.mostrarFormularioSinUltimaTarjeta = false;
-      /* ENVIAR A INICIO */
+      this.navegarInicio ('inicio');
     }, 1500)
     }
   }

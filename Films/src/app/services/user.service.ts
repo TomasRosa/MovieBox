@@ -72,7 +72,7 @@ export class UserService {
 
     try {
       await this.http.patch<User>(url, user).toPromise();
-      return { success: true, message: 'Compra realizada con exito.' };
+      return { success: true, message: '¡Compra realizada con exito!.' };
     } catch (error) {
       console.error('Error al realizar la compra:', error);
       return { success: false, message: 'Error al realizar la compra. Por favor, inténtalo de nuevo más tarde.' };    
