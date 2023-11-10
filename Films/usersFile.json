@@ -24,22 +24,6 @@
           "stars": "Dickie Jones, \nChristian Rub, \nMel Blanc, \nDon Brodie",
           "precio": 200,
           "ofertas": false
-        },
-        {
-          "movieId": 5,
-          "title": "Bambi",
-          "year": "(1942)",
-          "link": "/title/tt0034492/?ref_=ttls_li_tt",
-          "image": "https://m.media-amazon.com/images/M/MV5BY2JhMTJmYjYtNTVkYi00OWE3LWJlMjEtOWI4MTFkMjJhMmQ3XkEyXkFqcGdeQXVyNzY1NDgwNjQ@._V1_FMjpg_UX1000_.jpg",
-          "runtime": "69 min",
-          "genre": "Animation, Adventure, Drama",
-          "summary": "The story of a young deer growing up in the forest.",
-          "rating": "7.3",
-          "metascore": "91",
-          "directors": "James Algar, \nSamuel Armstrong, \nDavid Hand, \nGraham Heid, \nBill Roberts, \nPaul Satterfield, \nNorman Wright, \nArthur Davis, \nClyde Geronimi",
-          "stars": "Hardie Albright, \nStan Alexander, \nBobette Audrey, \nPeter Behn",
-          "precio": 250,
-          "ofertas": false
         }
       ],
       "tarjeta": {

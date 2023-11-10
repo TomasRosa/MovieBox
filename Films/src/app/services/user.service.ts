@@ -75,8 +75,19 @@ export class UserService {
       return { success: true, message: 'Compra realizada con exito.' };
     } catch (error) {
       console.error('Error al realizar la compra:', error);
-      return { success: false, message: 'Error al realizar la compra. Por favor, inténtalo de nuevo más tarde.' };    }
+      return { success: false, message: 'Error al realizar la compra. Por favor, inténtalo de nuevo más tarde.' };    
+    }
   }
+
+  async devolverFilm (userActual: User, newBiblioteca: Array<Film>){
+    const url = `${this.urlJSONServer}/${userActual.id}`;
+    userActual.arrayPeliculas = newBiblioteca
+    try {
+      await this.http.patch<User>(url, userActual).toPromise();
+    } catch (error) {
+      console.error('Error al realizar la compra:', error);
+    }
+  } 
   
   async deleteUser(user: User): Promise<{ success: boolean, message: string }> {
     const url = `${this.urlJSONServer}/${user.id}`;
@@ -131,6 +142,7 @@ export class UserService {
 
     return isUserValid;
   }
+
   logout() {
     this.isLoggedIn = false;
     this.carritoService.limpiarCarrito(); // Limpia el carrito al cerrar la sesión
