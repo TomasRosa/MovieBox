@@ -17,8 +17,7 @@ import { FamiliarComponent } from './components/categorias/familiar/familiar.com
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { TarjetaComponent } from './components/tarjeta/tarjeta.component';
 import { BibliotecaComponent } from './components/biblioteca/biblioteca.component';
-/* import { CanActivate } from '@angular/router';
-import { AuthGuard } from './auth.guard';  */
+import { Permisos } from './permisos.guard';
 
 const routes: Routes = [
   { path: 'inicio', component: InicioComponent },
@@ -27,7 +26,7 @@ const routes: Routes = [
   { path: 'registrarse', component: RegisterComponent },
   { path: 'ofertas', component: OfertasComponent },
   { path: 'not-found', component: NotFoundComponent },
-  { path: 'carrito', component: CarritoComponent,  /* canActivate: [AuthGuard] */ },
+  { path: 'carrito', component: CarritoComponent,  canActivate: [Permisos] },
   { path: 'categorias', component: CategoriasComponent },
   { path: 'aventura', component: AventuraComponent },
   { path: 'accion', component: AccionComponent },
@@ -35,9 +34,9 @@ const routes: Routes = [
   { path: 'drama', component: DramaComponent },
   { path: 'comedia', component: ComediaComponent },
   { path: 'familiar', component: FamiliarComponent },
-  { path: 'perfil', component: PerfilComponent },
-  { path: 'tarjeta', component: TarjetaComponent },
-  { path: 'biblioteca', component: BibliotecaComponent },
+  { path: 'perfil', component: PerfilComponent, canActivate: [Permisos]  },
+  { path: 'tarjeta', component: TarjetaComponent, canActivate: [Permisos]  },
+  { path: 'biblioteca', component: BibliotecaComponent, canActivate: [Permisos]  },
   { path: '', redirectTo: '/inicio', pathMatch: 'full'},
   { path: '**', component: NotFoundComponent},
 ];

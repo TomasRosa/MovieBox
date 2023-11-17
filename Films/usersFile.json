@@ -8,63 +8,14 @@
       "password": "isaak123",
       "address": "",
       "dni": "12345678",
-      "arrayPeliculas": [
-        {
-          "movieId": 4,
-          "title": "Dumbo",
-          "year": "(1941)",
-          "link": "/title/tt0033563/?ref_=ttls_li_tt",
-          "image": "https://m.media-amazon.com/images/M/MV5BMmU1NjQ3YjktZGMxYS00N2IwLTllZWQtOGNjYWE4MzgxNzk2XkEyXkFqcGdeQXVyODU2MDg1NzU@._V1_FMjpg_UX1000_.jpg",
-          "runtime": "64 min",
-          "genre": "Animation, Adventure, Drama",
-          "summary": "Ridiculed because of his enormous ears, a young circus elephant is assisted by a mouse to achieve his full potential.",
-          "rating": "7.2",
-          "metascore": "96",
-          "directors": "Samuel Armstrong, \nNorman Ferguson, \nWilfred Jackson, \nJack Kinney, \nBill Roberts, \nBen Sharpsteen, \nJohn Elliotte",
-          "stars": "Sterling Holloway, \nEdward Brophy, \nHerman Bing, \nBilly Bletcher",
-          "precio": 450,
-          "ofertas": false
-        },
-        {
-          "movieId": 18,
-          "title": "The Sword in the Stone",
-          "year": "(1963)",
-          "link": "/title/tt0057546/?ref_=ttls_li_tt",
-          "image": "https://m.media-amazon.com/images/M/MV5BODc2MjAyZDYtNWYwZi00YTQwLWE0ZDMtMjM2NTJmYWMxMmQ0XkEyXkFqcGdeQXVyNTQxMTIxMTk@._V1_FMjpg_UX1000_.jpg",
-          "runtime": "79 min",
-          "genre": "Animation, Adventure, Comedy",
-          "summary": "A poor boy named Arthur learns the power of love, kindness, knowledge and bravery with the help of a wizard called Merlin in the path to become one of the most beloved kings in English history.",
-          "rating": "7.1",
-          "metascore": "61",
-          "directors": "Wolfgang Reitherman, \nClyde Geronimi, \nDavid Hand",
-          "stars": "Rickie Sorensen, \nSebastian Cabot, \nKarl Swenson, \nJunius Matthews",
-          "precio": 275,
-          "ofertas": false
-        },
-        {
-          "movieId": 19,
-          "title": "The Jungle Book",
-          "year": "(1967)",
-          "link": "/title/tt0061852/?ref_=ttls_li_tt",
-          "image": "https://m.media-amazon.com/images/M/MV5BYmY1MTA3NmUtYzJmZC00YTFjLTk2NzktYTJhMWQ0ZTlkNzJjXkEyXkFqcGdeQXVyNjc5NjEzNA@@._V1_FMjpg_UX1000_.jpg",
-          "runtime": "78 min",
-          "genre": "Animation, Adventure, Comedy",
-          "summary": "Bagheera the Panther and Baloo the Bear have a difficult time trying to convince a boy to leave the jungle for human civilization.",
-          "rating": "7.6",
-          "metascore": "65",
-          "directors": "Wolfgang Reitherman",
-          "stars": "Phil Harris, \nSebastian Cabot, \nLouis Prima, \nBruce Reitherman",
-          "precio": 600,
-          "ofertas": false
-        }
-      ],
+      "arrayPeliculas": [],
       "tarjeta": {
         "firstName": "isak",
         "lastName": "apellido",
         "nTarjeta": "1234567890123401",
         "fechaVencimiento": "10/29",
         "CVC": "345",
-        "saldo": 97804
+        "saldo": 97354
       }
     },
     {

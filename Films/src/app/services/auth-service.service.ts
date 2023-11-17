@@ -5,14 +5,13 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AuthServiceService {
-  constructor(private http: HttpClient) {
-    this.isLoggedIn = false; // Inicializa isLoggedIn en false
-  }
+  public isLoggedIn = false; // Inicializa isLoggedIn en false
+
+  constructor(private http: HttpClient) {}
 
   private urlJSONServer = 'http://localhost:5000/users';
-  isLoggedIn: boolean; // Variable para controlar el estado de autenticación
 
-  async login(email: string, password: string): Promise<boolean> {
+  async login (email: string, password: string): Promise<boolean> {
     try {
       const data: any = await this.http.get(this.urlJSONServer).toPromise();
       const user = data.users.find((user: any) => user.email === email && user.password === password);

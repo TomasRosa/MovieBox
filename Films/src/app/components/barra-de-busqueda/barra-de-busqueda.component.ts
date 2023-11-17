@@ -49,6 +49,7 @@ export class BarraDeBusquedaComponent implements OnInit {
       });
     }
   }
+  
   agregarPeliculaAlCarrito(film: Film) {
     if (this.userService.isLoggedIn) 
     {
