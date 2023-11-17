@@ -1,35 +1,50 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '../models/user';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { BehaviorSubject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { CarritoService } from './carrito.service';
+import { User } from '../models/user';
 import { Film } from '../models/film';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class UserService {
   private urlJSONServer = 'http://localhost:5000/users';
   private users: User[] = [];
+  private usuarioActualSubject: BehaviorSubject<User | null>;
   public isLoggedIn = false;
 
-  private usuarioActualSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
-  usuarioActual$ = this.usuarioActualSubject.asObservable();
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private carritoService: CarritoService
+  ) {
+    this.usuarioActualSubject = new BehaviorSubject<User | null>(null);
 
-  constructor(private http: HttpClient, private router: Router, private carritoService: CarritoService) {
-    this.loadUsersFromJSON();
+    // Intenta cargar el usuario actual desde el almacenamiento local
+    const storedUser = this.getUserFromStorage();
+    if (storedUser) {
+      this.usuarioActualSubject.next(storedUser);
+      this.isLoggedIn = true;
+    } else {
+      this.loadUsersFromJSON();
+    }
   }
 
   setUsuarioActual(usuario: User): void {
+    this.saveUserToStorage(usuario);
     this.usuarioActualSubject.next(usuario);
+    this.isLoggedIn = true;
   }
 
   getUserActual(): User | null {
     return this.usuarioActualSubject.value;
-  } 
+  }
+
+  get usuarioActual$(): Observable<User | null> {
+    return this.usuarioActualSubject.asObservable();
+  }
 
   getUsers(): User[] {
     return this.users;
@@ -145,8 +160,18 @@ export class UserService {
 
   logout() {
     this.isLoggedIn = false;
-    this.carritoService.limpiarCarrito(); // Limpia el carrito al cerrar la sesión
+    localStorage.removeItem('currentUser');
+    this.carritoService.limpiarCarrito();
     this.router.navigate(['/inicio']);
+  }
+
+  private saveUserToStorage(usuario: User): void {
+    localStorage.setItem('currentUser', JSON.stringify(usuario));
+  }
+
+  private getUserFromStorage(): User | null {
+    const storedUser = localStorage.getItem('currentUser');
+    return storedUser ? JSON.parse(storedUser) : null;
   }
 }
 
