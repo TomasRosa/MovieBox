@@ -18,6 +18,7 @@ import { PerfilComponent } from './components/perfil/perfil.component';
 import { TarjetaComponent } from './components/tarjeta/tarjeta.component';
 import { BibliotecaComponent } from './components/biblioteca/biblioteca.component';
 import { Permisos } from './permisos.guard';
+import { VerificarContenidoCarrito } from './verificar-contenido-carrito.guard';
 
 const routes: Routes = [
   { path: 'inicio', component: InicioComponent },
@@ -35,7 +36,7 @@ const routes: Routes = [
   { path: 'comedia', component: ComediaComponent },
   { path: 'familiar', component: FamiliarComponent },
   { path: 'perfil', component: PerfilComponent, canActivate: [Permisos]  },
-  { path: 'tarjeta', component: TarjetaComponent, canActivate: [Permisos]  },
+  { path: 'tarjeta', component: TarjetaComponent, canActivate: [Permisos, VerificarContenidoCarrito]  },
   { path: 'biblioteca', component: BibliotecaComponent, canActivate: [Permisos]  },
   { path: '', redirectTo: '/inicio', pathMatch: 'full'},
   { path: '**', component: NotFoundComponent},

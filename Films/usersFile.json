@@ -8,7 +8,24 @@
       "password": "isaak123",
       "address": "",
       "dni": "12345678",
-      "arrayPeliculas": [],
+      "arrayPeliculas": [
+        {
+          "movieId": 11,
+          "title": "The Adventures of Ichabod and Mr. Toad",
+          "year": "(1949)",
+          "link": "/title/tt0041094/?ref_=ttls_li_tt",
+          "image": "https://m.media-amazon.com/images/M/MV5BNjAzZDA2MWItZDdjMi00NTBlLTg5OTItYWQ1YTA1NGNiMGVhL2ltYWdlXkEyXkFqcGdeQXVyNjQ2MjQ5NzM@._V1_FMjpg_UX1000_.jpg",
+          "runtime": "68 min",
+          "genre": "Animation, Comedy, Family",
+          "summary": "An animated adaptation of \"The Wind in the Willows\" followed by an adaptation of \"The Legend of Sleepy Hollow\".",
+          "rating": "6.9",
+          "metascore": "74",
+          "directors": "James Algar, \nClyde Geronimi, \nJack Kinney",
+          "stars": "Bing Crosby, \nBasil Rathbone, \nEric Blore, \nJohn McLeish",
+          "precio": 1200,
+          "ofertas": false
+        }
+      ],
       "tarjeta": {
         "firstName": "isak",
         "lastName": "apellido",
@@ -127,6 +144,22 @@
           "directors": "William Cottrell, \nDavid Hand, \nWilfred Jackson, \nLarry Morey, \nPerce Pearce, \nBen Sharpsteen",
           "stars": "Adriana Caselotti, \nHarry Stockwell, \nLucille La Verne, \nRoy Atwell",
           "precio": 150,
+          "ofertas": false
+        },
+        {
+          "movieId": 14,
+          "title": "Peter Pan",
+          "year": "(1953)",
+          "link": "/title/tt0046183/?ref_=ttls_li_tt",
+          "image": "https://m.media-amazon.com/images/M/MV5BMzIwMzUyYTUtMjQ3My00NDc3LWIyZjQtOGUzNDJmNTFlNWUxXkEyXkFqcGdeQXVyMjA0MDQ0Mjc@._V1_FMjpg_UX1000_.jpg",
+          "runtime": "77 min",
+          "genre": "Animation, Adventure, Family",
+          "summary": "Wendy and her brothers are whisked away to the magical world of Neverland with the hero of their stories, Peter Pan.",
+          "rating": "7.3",
+          "metascore": "76",
+          "directors": "Clyde Geronimi, \nWilfred Jackson, \nHamilton Luske, \nJack Kinney",
+          "stars": "Bobby Driscoll, \nKathryn Beaumont, \nHans Conried, \nBill Thompson",
+          "precio": 950,
           "ofertas": false
         }
       ],

@@ -52,8 +52,10 @@ export class UserService {
 
   async loadUsersFromJSON() {
     try {
-      const users = await this.http.get<User[]>(this.urlJSONServer).toPromise();
-      this.users = users || [];
+      if (this.users.length === 0) {
+        const users = await this.http.get<User[]>(this.urlJSONServer).toPromise();
+        this.users = users || [];
+      }
     } catch (error) {
       console.error('Error al obtener usuarios:', error);
       this.users = [];
@@ -147,15 +149,44 @@ export class UserService {
     const isUserValid = this.users.some(
       (user) => user.email === inputEmail && user.password === inputPassword
     );
-    // Actualizar el estado del usuario
-    this.isLoggedIn = isUserValid;
-
-    if (this.isLoggedIn) {
+  
+    if (isUserValid) {
       const userActual = this.obtenerUserByEmail(inputEmail);
       this.setUsuarioActual(userActual ?? new User());
     }
-
+  
     return isUserValid;
+  }
+
+  async loadUserBibliotecaById(userId: number): Promise<User | null> {
+    const url = `${this.urlJSONServer}/${userId}`;
+    try {
+      const user = await this.http.get<User>(url).toPromise();
+      if (user) {
+        return user;
+      } else {
+        console.error('Usuario no encontrado.');
+        return null;
+      }
+    } catch (error) {
+      console.error('Error al cargar la biblioteca del usuario:', error);
+      return null;
+    }
+  }
+
+  private async loadUserBiblioteca() {
+    const userActual = this.getUserActual();
+    if (userActual) {
+      const url = `${this.urlJSONServer}/${userActual.id}`;
+      try {
+        const updatedUser = await this.http.get<User>(url).toPromise();
+        if (updatedUser) {
+          userActual.arrayPeliculas = updatedUser.arrayPeliculas;
+        }
+      } catch (error) {
+        console.error('Error al cargar la biblioteca del usuario:', error);
+      }
+    }
   }
 
   logout() {

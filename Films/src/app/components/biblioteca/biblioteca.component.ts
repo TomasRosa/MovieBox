@@ -31,11 +31,20 @@ export class BibliotecaComponent
     return filas;
   }
 
-  ngOnInit(): void {
-    this.userService.usuarioActual$.subscribe((usuario: User | null) => {
+  async ngOnInit(): Promise<void> {
+    this.userService.usuarioActual$.subscribe(async (usuario: User | null) => {
       this.usuarioActual = usuario;
+  
+      // Cargar la biblioteca del usuario actual solo si hay un usuario autenticado
+      if (this.usuarioActual) {
+        const loadedUser = await this.userService.loadUserBibliotecaById(this.usuarioActual.id);
+        if (loadedUser) {
+          this.usuarioActual.arrayPeliculas = loadedUser.arrayPeliculas;
+        }
+      }
+  
+      this.validarBibliotecaVacia();
     });
-    this.validarBibliotecaVacia ()
   }
 
   validarBibliotecaVacia (){

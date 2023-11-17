@@ -12,12 +12,15 @@ export class CarritoService {
   private carritoSubject = new BehaviorSubject<Array<Film>>([]);
   carrito$ = this.carritoSubject.asObservable();
 
-  constructor() {}
+  constructor() {
+    this.loadCarritoFromStorage();
+  }
 
   agregarAlCarrito(pelicula: Film) {
     this.carritoDeCompras.push({ ...pelicula }); // Hacer una copia de la película
     this.totalCarrito += pelicula.precio;
     this.carritoSubject.next(this.carritoDeCompras);
+    this.saveCarritoToStorage();
   }
 
   eliminarDelCarrito(pelicula: Film) {
@@ -26,6 +29,7 @@ export class CarritoService {
       this.carritoDeCompras.splice(index, 1);
       this.totalCarrito -= pelicula.precio;
       this.carritoSubject.next(this.carritoDeCompras);
+      this.saveCarritoToStorage();
     }
   }
 
@@ -33,6 +37,7 @@ export class CarritoService {
     this.carritoDeCompras = []; // Borra todas las películas en el carrito
     this.totalCarrito = 0;
     this.carritoSubject.next(this.carritoDeCompras);
+    this.saveCarritoToStorage();
   }
 
   obtenerCarrito() {
@@ -42,5 +47,18 @@ export class CarritoService {
   obtenerTotalCarrito() {
     return this.totalCarrito;
   }
+
+  private saveCarritoToStorage() {
+    localStorage.setItem('carritoDeCompras', JSON.stringify(this.carritoDeCompras));
+  }
+
+  private loadCarritoFromStorage() {
+    const storedCarrito = localStorage.getItem('carritoDeCompras');
+    if (storedCarrito) {
+      this.carritoDeCompras = JSON.parse(storedCarrito);
+      this.carritoSubject.next(this.carritoDeCompras);
+    }
+  }
 }
+
 
