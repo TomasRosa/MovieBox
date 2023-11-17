@@ -460,60 +460,6 @@
         "CVC": 789,
         "saldo": 99999
       }
-    },
-    {
-      "nombre": "Lionel",
-      "apellido": "Messi",
-      "email": "leoEmailNuevo@email.com",
-      "password": "leomessi10",
-      "address": "casa de messi",
-      "dni": "10101010",
-      "id": 14,
-      "arrayPeliculas": [],
-      "tarjeta": {
-        "firstName": "Lionel",
-        "lastName": "Messi",
-        "nTarjeta": "4444 5555 6666 7777",
-        "fechaVencimiento": "09/26",
-        "CVC": 234,
-        "saldo": 99999
-      }
-    },
-    {
-      "nombre": "Luis",
-      "apellido": "Suarez",
-      "email": "luis@gmail.com",
-      "password": "luis99",
-      "address": "casa de luis",
-      "dni": "90909090",
-      "id": 15,
-      "arrayPeliculas": [],
-      "tarjeta": {
-        "firstName": "Luis",
-        "lastName": "Suarez",
-        "nTarjeta": "5555 6666 7777 8888",
-        "fechaVencimiento": "08/25",
-        "CVC": 345,
-        "saldo": 99999
-      }
-    },
-    {
-      "firstName": "Lucas",
-      "lastName": "Gomez",
-      "email": "luca@email.com",
-      "password": "luca123",
-      "address": "casaDeLucas",
-      "dni": "45900000",
-      "id": 16,
-      "arrayPeliculas": [],
-      "tarjeta": {
-        "firstName": "",
-        "lastName": "",
-        "nTarjeta": "",
-        "fechaVencimiento": "",
-        "CVC": 0,
-        "saldo": 99999
-      }
     }
   ]
 }

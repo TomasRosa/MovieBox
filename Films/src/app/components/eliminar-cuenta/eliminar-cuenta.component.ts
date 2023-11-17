@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 
@@ -12,7 +13,7 @@ export class EliminarCuentaComponent implements OnInit {
   result: string = ''
   mostrarOpciones: boolean = false;
 
-  constructor (private userService: UserService){}
+  constructor (private userService: UserService, private routerService: Router){}
 
   ngOnInit(): void {
     this.userService.usuarioActual$.subscribe((usuario: User | null) => {
@@ -32,14 +33,21 @@ export class EliminarCuentaComponent implements OnInit {
     }
   }
 
+  navegarInicio(componente: string) {
+    this.routerService.navigate([componente]);
+  }
+
   async confirmar (){
     await this.metodoAux()
     setTimeout(()=>{
       this.mostrarOpciones=false;
+      this.navegarInicio('inicio');
+      this.userService.logout();
     }, 3000)
   }
 
   cancelar (){
     this.mostrarOpciones=false;
   }
+  
 }

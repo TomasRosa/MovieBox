@@ -146,7 +146,7 @@ export class UserService {
   logout() {
     this.isLoggedIn = false;
     this.carritoService.limpiarCarrito(); // Limpia el carrito al cerrar la sesión
-    this.router.navigate(['/login']);
+    this.router.navigate(['/inicio']);
   }
 }
 
