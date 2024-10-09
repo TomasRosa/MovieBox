@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg" style="background-color: #007bff; padding-bottom: 20px;">
+<!-- <nav class="navbar navbar-expand-lg" style="background-color: #007bff; padding-bottom: 20px;">
     <table>
         <tr>
             <th><button (click)="navegarInicio('inicio')" id="buttonInicio"><img src="https://i.imgur.com/14DiuDu.jpg" alt="Logo boton de inicio"></button></th>
@@ -7,7 +7,33 @@
             <th><app-user-aside class = "componente-esquina-boton-user"></app-user-aside></th>
         </tr>
     </table>
-  </nav>
+</nav> -->
+
+  <section id="navbar">
+    <div class="box-main-menu">
+        <button class="button-main-menu"><img class="img-main-menu" src="/assets/AdidasLogo.png" alt=""></button>
+    </div>
+    
+    <div class="box-search-bar">
+        <div class="items-for-search" [ngClass]="{ 'active': isFocused }">
+            <input class="search-bar" type="text" placeholder="Search..." (focus)="isFocused = true" (blur)="isFocused = false">
+            <img class="search-logo" src="/assets/Search.png" alt="">      
+        </div>
+    </div>
+
+    <div class="box-extras">
+        <div class="box-shopping-cart">
+           <button class="button-shopping-cart">
+               <img class="img-shopping-cart" src="/assets/Shopping cart.png" alt="">    
+           </button>
+        </div>
+        <div class="box-profile">
+            <button class="button-profile">
+               <img class="img-profile" src="/assets/person.png" alt="">             
+            </button>
+        </div>
+    </div>
+</section>
   
   
   

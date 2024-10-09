@@ -39,6 +39,142 @@ img{
     margin-top: 7.2px;
 }
 
+*{
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
+
+#navbar{
+    display: grid;
+    grid-template-columns: 14% 66% 20%; /* Distribuye los elementos a los extremos */
+    grid-template-areas: 
+    "box-main-menu  box-search-bar   box-extras";
+    padding-inline: 2rem;
+    padding-block: 1rem;
+    align-items: center;
+    border-bottom: 0.1rem solid black;
+}
+
+.box-main-menu, .box-search-bar, .box-profile{
+    border: 0rem;
+    display: flex;
+    align-items: center;
+}
+
+.box-main-menu{
+    grid-area: box-main-menu;
+    display: flex;
+    justify-content: center;
+}
+
+.img-main-menu{
+    width: 100px;
+    height: 60px;
+}
+
+.box-search-bar{
+    justify-content: center;
+    grid-area: box-search-bar;
+}
+
+.search-logo{
+    width: 50px;
+    height: 50px;
+}
+
+.items-for-search{
+    display: flex;
+    border: 0%;
+    align-items: center;
+    border-bottom: 0.11rem solid black;
+    padding-inline: 2.5rem;
+    transition: border-bottom 0.3s ease, border-radius 0.3s ease; /* Añadido */
+}
+
+.search-bar{
+    margin-block: 0.6rem;
+    margin-inline: 0.8rem;
+    padding-left: 0.4rem;
+    font-size: 1.4rem;
+    height: 3rem;
+    width: 12rem;
+    border: 0.01rem solid transparent;
+    outline: 0.03rem solid transparent;
+    margin-right: 1rem;
+}
+
+.search-bar:focus{
+    border: black;
+    border-radius: 1rem;
+    outline: 0.03rem solid black;
+}
+
+.search-bar::placeholder{
+    color: black;
+    letter-spacing: 0.2rem;
+}
+
+.active{
+    display: flex;
+    border-radius: 0rem 0rem 0.8rem 0.8rem;
+}
+
+.button-main-menu, .button-profile, .button-shopping-cart{
+    border: 0.1rem solid transparent;
+    border-radius: 0rem;
+    background: transparent;
+    transition: border 0.3s ease, border-radius 0.3s ease;
+    cursor: pointer;
+}
+
+.button-main-menu:hover, 
+.button-profile:hover, 
+.button-shopping-cart:hover{
+    background: rgb(220, 220, 220);
+}
+
+.img-profile{
+    width: 70px;
+    height: 70px;
+}
+
+.button-shopping-cart{
+    padding: 0.55rem;
+}
+
+.button-main-menu{
+    padding: 0.2rem;
+}
+
+.img-shopping-cart{
+    width: 55px;
+    height: 55px;
+}
+
+.button-main-menu:hover,
+.button-profile:hover,
+.button-shopping-cart:hover {
+    border-color: black; /* Cambia solo el color del borde */
+    border-radius: 1rem; 
+}
+
+.box-extras{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-area: box-extras;
+}
+
+.box-shopping-cart{
+    margin-right: 3.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
 
 
 

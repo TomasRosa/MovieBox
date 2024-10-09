@@ -8,6 +8,8 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
+
+  isFocused: boolean = false;
   router: string = '';
 
   constructor(private routerService: Router, private userService: UserService) {
