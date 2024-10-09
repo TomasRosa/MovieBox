@@ -46,6 +46,7 @@ export class UserAsideComponent
       this.prendido = false;
     }
   }
+  
   logout()
   {
      this.userService.logout();

@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
+import { Film } from 'src/app/models/film';
+import { CarritoService } from 'src/app/services/carrito.service';
+import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -8,11 +12,16 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-
   isFocused: boolean = false;
+
+  buscadorDeFilm: string ='';
+  films: Array<Film> = [];
+  filmsFiltradasPorBusqueda = new Array<Film>();
+  formControl = new FormControl()
+  
   router: string = '';
 
-  constructor(private routerService: Router, private userService: UserService) {
+  constructor(private routerService: Router, private userService: UserService, private filmsFromAPIService: FilmsFromAPIService , private carritoService: CarritoService) {
     this.routerService.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.router = event.url;
@@ -20,7 +29,34 @@ export class NavbarComponent {
     });
   }
 
-  navegarInicio(componente: string) {
+  async ngOnInit(): Promise<void> {
+    try {
+      const fetchedFilms = this.filmsFromAPIService.getMovies ();
+      if (fetchedFilms !== null) {
+        this.films = fetchedFilms;
+      } 
+      else 
+      {
+          console.log('array nulo');
+      }
+    }catch (error) {
+        console.error(error);
+    }
+    this.formControl.valueChanges.subscribe(query => {
+      this.buscarFilm(query);
+    });
+  }
+
+  buscarFilm(query: string) {
+    this.filmsFiltradasPorBusqueda = [];
+    if (query && this.formControl.value != '') {
+      this.filmsFiltradasPorBusqueda = this.films.filter((film) => {
+        return film.title.toLowerCase().includes(query.toLowerCase());
+      });
+    }
+  }
+
+  navegar(componente: string) {
     this.routerService.navigate([componente]);
   }
 

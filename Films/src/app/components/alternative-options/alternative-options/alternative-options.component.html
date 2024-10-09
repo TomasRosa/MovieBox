@@ -1,0 +1,23 @@
+<section class="box-alternative-options">
+    <div class="box-categories" (mouseover)="showCategories()" (mouseleave)="hideCategories()">
+        <div class="box-information-categories">
+            <button class="option-categories">
+                Categories
+                <img class="img-arrow" src="/assets/arrow_drop_down.png" alt="">
+            </button>
+        </div>
+
+        <div class="categories-container" *ngIf="isFocused">
+            <ul class="categories"> 
+                <li *ngFor="let category of categories" class="li-category">
+                    <button class="button-category">{{category}}</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="box-offers">
+        <button class="button-offers">Offers</button>
+    </div>
+</section>
+

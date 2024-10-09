@@ -1,0 +1,101 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.box-alternative-options {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.box-categories {
+    padding: 0;
+    position: relative; 
+    display: flex;
+    align-items: center;
+}
+
+.box-information-categories {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.option-categories{
+    display: flex;
+    align-items: center;
+    padding: 0.1rem;
+    font-size: 1.15rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.img-arrow {
+    display: flex;
+    align-items: center;
+    padding-top: 0.1rem;
+    width: 35px;
+    height: 40px;
+}
+
+::ng-deep .categories-container {
+    position: absolute;
+    top: 100% ; /* Coloca el recuadro justo debajo del botón */
+    left: 0;
+    background-color: rgba(21, 21, 21, 0.8) ; /* Color de fondo gris semitransparente */
+    border-radius: 0.5rem;
+    padding: 0.4rem;
+    box-shadow: 0 4px 8px rgba(77, 77, 77, 0.2); /* Sombra */
+    z-index: 10;
+    width: calc(100% + 1rem);
+}
+
+::ng-deep .categories {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    justify-content: center;
+    width: 100%; 
+}
+
+::ng-deep .li-category {
+    padding: 0.3rem 1rem;
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+}
+
+::ng-deep .li-category:hover {
+    background-color: rgba(169, 169, 169, 0.5);
+    width: 100% ; /* Asegura que el hover ocupe el ancho completo */
+}
+
+::ng-deep .button-category {
+    color: #fff;
+    background: transparent ;
+    border: none;
+    padding: 0.6rem;
+    width: 100%; /* Asegura que el botón ocupe todo el ancho del li */
+    text-align: center; /* Alinea el texto a la izquierda */
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.box-offers {
+    margin-left: 4rem;
+}
+ 
+.button-offers {
+    cursor: pointer;
+    padding: 0.7rem;
+    font-size: 1.15rem;
+    background: transparent;
+    border: none;
+}
+
+.option-categories:hover,
+.button-offers:hover{
+    color:grey;
+}

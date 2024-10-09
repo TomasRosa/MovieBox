@@ -31,6 +31,7 @@ import { CambiarEmailComponent } from './components/cambiar-email/cambiar-email.
 import { CambiarPasswordComponent } from './components/cambiar-password/cambiar-password.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { BibliotecaComponent } from './components/biblioteca/biblioteca.component';
+import { AlternativeOptionsComponent } from './components/alternative-options/alternative-options/alternative-options.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { BibliotecaComponent } from './components/biblioteca/biblioteca.componen
     CambiarEmailComponent,
     CambiarPasswordComponent,
     PerfilComponent,
-    BibliotecaComponent
+    BibliotecaComponent,
+    AlternativeOptionsComponent
   ],
   imports: [
     BrowserModule,
