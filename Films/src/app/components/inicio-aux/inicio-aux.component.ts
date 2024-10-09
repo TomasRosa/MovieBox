@@ -40,12 +40,8 @@ export class InicioAuxComponent implements OnInit{
   mostrarPeliculasRandom() {
     if (this.filteredFilms) 
     {
-      const tabla = document.createElement("table");
-      const contenedorTabla = document.getElementById("tablaPeliculas");
-    
-      let tbody = document.createElement("tbody");
-      tabla.appendChild(tbody);
-    
+      const body = document.getElementById('body')
+
       for (let i = 0; i < this.filteredFilms.length; i++) 
       {
           if (i % 5 === 0) {
@@ -56,41 +52,40 @@ export class InicioAuxComponent implements OnInit{
               if (i + j >= this.filteredFilms.length) {
                 break;
               }
-    
-              const celda = document.createElement("td");
+              
+              let celda = document.createElement ("td");
+              celda.className = "recuadroCelda"
               celda.innerHTML = `
-                <div class="tamanioCelda">
-                  <img alt="Imagen no disponible" src="${this.filteredFilms[i + j].image}" width="200" height="300">
-                  <i><b style="font-size: 15px;">${this.filteredFilms[i + j].title}</b></i>
-                  <br>
-                  <i><b style="font-size: 15px;">$${this.filteredFilms[i + j].precio}</b></i>
-                </div>
-              `;
-              celda.className = "tamanioCelda";
+                     <img alt="Imagen no disponible" src="${this.filteredFilms[i + j].image}" width="200" height="300">
+                      <b style="font-size: 15px;">${this.filteredFilms[i + j].title}</b>
+                      <br>
+                      <!-- <i><b style="font-size: 15px;">$${this.filteredFilms[i + j].precio}</b></i> -->
+                  `;
 
-              const celdaBoton = document.createElement("td");
-              celdaBoton.className = "tamanioCelda";
-              const boton = document.createElement("button");
-              boton.textContent = "🛒";
-              boton.addEventListener("click", () => this.agregarPeliculaAlCarrito(this.filteredFilms[i + j]));
-              boton.className="btn btn-primary"
               fila.appendChild(celda);
-              celdaBoton.appendChild(boton);
+              const celdaBoton = document.createElement("td");
+
+              const botonFicha = document.createElement("button");
+              botonFicha.textContent = "Ficha técnica"
+              botonFicha.className="btn btn-primary"
+              botonFicha.style.marginRight = "10px";
+
+              const botonCarrito = document.createElement("button");
+              botonCarrito.textContent = "🛒";
+              botonCarrito.addEventListener("click", () => this.agregarPeliculaAlCarrito(this.filteredFilms[i + j]));
+              botonCarrito.className="btn btn-primary"
+              
+              celdaBoton.className = "celdaBotonEspaciado";
+              celdaBoton.appendChild (botonFicha);
+              celdaBoton.appendChild(botonCarrito);
+
               filaBoton.appendChild(celdaBoton);
             }
-            
-            const body = document.getElementById('body')
             if(body){
               body.appendChild(fila);
               body.appendChild (filaBoton);
             }
           }
-      }
-    
-      if (contenedorTabla) {
-        contenedorTabla.appendChild(tabla);
-      } else {
-        console.error("No se encontró el contenedor de la tabla.");
       }
     } else {
       console.error("No se encontraron datos de películas.");

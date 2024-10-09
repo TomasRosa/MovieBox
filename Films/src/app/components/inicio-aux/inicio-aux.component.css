@@ -1,27 +1,32 @@
-*{
+* {
     text-align: center;
 }
 
 table {
-    border: 2px solid red;
+    margin: 0 auto;
 }
 
 .classDiv {
     margin: 0 auto;
-    width: 50%; 
+    width: 60%;
 }
 
-th{
-    border: 2px solid red;
-    margin-left: 100px;
+/* Estilos para el recuadro de las películas */
+::ng-deep .recuadroCelda {
+    width: 200px !important;
+    background-color: black !important;
+    color: white !important;
+    padding: 15px !important;
+    border-radius: 10px !important;
+    margin: 10px;
+    box-sizing: border-box;
 }
 
-td{
-    border: 2px solid red;
-    text-align: center;
-    margin-left: 100px;
+/* Añadir un borde blanco alrededor de cada recuadro */
+::ng-deep .recuadroCelda {
+    border: 10px solid white;
 }
 
-.tamanioCelda{
-    margin: -2rem;
+::ng-deep .celdaBotonEspaciado {
+    padding: 15px;
 }
