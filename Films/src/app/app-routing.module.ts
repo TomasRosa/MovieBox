@@ -12,6 +12,7 @@ import { TarjetaComponent } from './components/tarjeta/tarjeta.component';
 import { BibliotecaComponent } from './components/biblioteca/biblioteca.component';
 import { Permisos } from './permisos.guard';
 import { VerificarContenidoCarrito } from './verificar-contenido-carrito.guard';
+import { FilmDetailComponent } from './components/film-detail/film-detail.component';
 
 const routes: Routes = [
   { path: 'inicio', component: InicioComponent },
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'perfil', component: PerfilComponent},
   { path: 'tarjeta', component: TarjetaComponent},
   { path: 'biblioteca', component: BibliotecaComponent},
+  { path: 'film-detail/:rank', component: FilmDetailComponent},
   { path: '', redirectTo: '/inicio', pathMatch: 'full'},
   { path: '**', component: NotFoundComponent},
 ];

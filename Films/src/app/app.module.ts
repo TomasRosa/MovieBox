@@ -30,6 +30,7 @@ import { BibliotecaComponent } from './components/biblioteca/biblioteca.componen
 import { AlternativeOptionsComponent } from './components/alternative-options/alternative-options/alternative-options.component';
 import { FooterComponent } from './components/footer/footer/footer.component';
 import { MovieListComponentsComponent } from './components/movie-list-components/movie-list-components.component';
+import { FilmDetailComponent } from './components/film-detail/film-detail.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { MovieListComponentsComponent } from './components/movie-list-components
     BibliotecaComponent,
     AlternativeOptionsComponent,
     FooterComponent,
-    MovieListComponentsComponent
+    MovieListComponentsComponent,
+    FilmDetailComponent
   ],
   imports: [
     BrowserModule,

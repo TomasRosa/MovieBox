@@ -3,6 +3,7 @@ import { Film } from 'src/app/models/film';
 import { CarritoService } from 'src/app/services/carrito.service';
 import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 import { UserService } from 'src/app/services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inicio-aux',
@@ -15,7 +16,7 @@ export class InicioAuxComponent implements OnInit{
   preciosGenerados: boolean = false;
   filteredFilms: any[] = [];
 
-  constructor(private dataFilms: FilmsFromAPIService, private carritoService: CarritoService, private userService: UserService) {}
+  constructor(private dataFilms: FilmsFromAPIService, private carritoService: CarritoService, private userService: UserService, private routerService: Router) {}
 
    ngOnInit(): void 
    {
@@ -67,6 +68,7 @@ export class InicioAuxComponent implements OnInit{
 
               const botonFicha = document.createElement("button");
               botonFicha.textContent = "Ficha técnica"
+              botonFicha.addEventListener ("click", () => this.navegarFilmDetail (this.filteredFilms[i+j].rank))
               botonFicha.className="btn btn-primary"
               botonFicha.style.marginRight = "10px";
 
@@ -91,4 +93,8 @@ export class InicioAuxComponent implements OnInit{
       console.error("No se encontraron datos de películas.");
     }
   }    
+
+  navegarFilmDetail(id: number) {
+    this.routerService.navigate(['film-detail', id]);
+  }
 }
