@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 import { Film } from 'src/app/models/film';
@@ -11,14 +11,16 @@ import { Film } from 'src/app/models/film';
 export class FilmDetailComponent {
   private arrayFilms: Film[] = [];
   private filmRank: number = 0;
+  movie: Film | undefined;
 
   constructor(private route: ActivatedRoute, private films: FilmsFromAPIService) {}
 
   ngOnInit(): void
   {
-    this.arrayFilms = this.films.getMovies();
-    this.getFilmRank();
-    this.showFilm();
+    this.films.initializeData().then(() => {
+      this.arrayFilms = this.films.getMovies();
+      this.getFilmRank();
+    });
   }
 
   getFilmRank() {
@@ -27,38 +29,30 @@ export class FilmDetailComponent {
 
       if (rankParam !== null) {
         this.filmRank = +rankParam;
+        this.movie = this.searchFilmWithRank();
       } else {
-        console.error('No se encontró el parámetro "rank".');
+        console.log('No se encontró el parámetro "rank".');
       }
     });
   }
 
-  searchFilmWithRank (): Film
+  searchFilmWithRank (): Film | undefined
   {
-    let i;
-    for (i = 0; i < this.arrayFilms.length; i++)
-    {
-      if (this.filmRank == this.arrayFilms[i].rank)
-      {
-        break;
-      }
-    }
-
-    return this.arrayFilms[i];
+    return this.arrayFilms.find(film => film.rank === this.filmRank);
   }
 
-  showFilm ()
-  {
-    let image = document.getElementById ("film")
-    let movie: Film = this.searchFilmWithRank();
+  // showFilm ()
+  // {
+  //   let image = document.getElementById ("film")
+  //   this.movie = this.searchFilmWithRank();
 
-    if (image)
-    {
-      image.innerHTML = `
-        <img alt="Imagen no disponible" src="${movie.image}" width="200" height="300">
-      `
-    }
-  }
+  //   if (image && this.movie)
+  //   {
+  //     image.innerHTML = `
+  //       <img alt="Imagen no disponible" src="${this.movie.image}" width="200" height="300">
+  //     `
+  //   }
+  // }
 
 }
 
