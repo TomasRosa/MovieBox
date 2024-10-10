@@ -7,8 +7,8 @@ table {
 }
 
 .classDiv {
-    margin: 0 auto;
-    width: 60%;
+   display: flex;
+   justify-content: center;
 }
 
 /* Estilos para el recuadro de las películas */

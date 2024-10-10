@@ -32,6 +32,7 @@ import { CambiarPasswordComponent } from './components/cambiar-password/cambiar-
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { BibliotecaComponent } from './components/biblioteca/biblioteca.component';
 import { AlternativeOptionsComponent } from './components/alternative-options/alternative-options/alternative-options.component';
+import { FooterComponent } from './components/footer/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { AlternativeOptionsComponent } from './components/alternative-options/al
     CambiarPasswordComponent,
     PerfilComponent,
     BibliotecaComponent,
-    AlternativeOptionsComponent
+    AlternativeOptionsComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
