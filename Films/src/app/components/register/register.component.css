@@ -1,4 +1,26 @@
-*{
-    text-align: center;
-    margin: 15px;
-}
+.card {
+    padding: 30px; /* Mantén suficiente espacio alrededor del contenido */
+  }
+  
+  .label-spacing {
+    margin-bottom: 20px; /* Ajusta este valor según sea necesario */
+  }
+  
+  .form-control {
+    height: calc(2.5rem + 10px); /* Mantiene la altura de los inputs */
+    padding: 10px; /* Padding dentro de los inputs */
+    font-size: 1rem; /* Aumenta el tamaño del texto en los inputs */
+  }
+  .container {
+    padding: 0 50px; /* Asegura que el contenedor tenga espacio */
+  }
+  
+  h2.card-title {
+    font-size: 28px; /* Aumenta el tamaño de la fuente del título */
+  }
+  .no-border {
+    border-top: none; /* Quitar borde superior */
+    border-right: none; /* Quitar borde derecho */
+    border-left: none; /* Quitar borde izquierdo */
+    border-radius: 0; /* Eliminar bordes redondeados si es necesario */
+  }
