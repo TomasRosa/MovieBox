@@ -1,0 +1,127 @@
+.footer {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    background: rgb(120, 120, 120);
+    padding-block: 0.5rem;
+}
+
+.github-logo {
+    width: 50px;
+    height: 48px;
+}
+
+.instagram-logo {
+    width: 70px;
+    height: 50px;
+}
+
+.box-redes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* Asegúrate de que el contenedor de .box-redes sea relativo */
+}
+
+.bubbles {
+    display: none; /* Ocultar las burbujas por defecto */
+    position: absolute; /* Posicionamiento absoluto para que se muestren sobre el logo */
+    bottom: 124%; /* Coloca las burbujas por encima del logo */
+    left: 26%; /* Centra las burbujas horizontalmente */
+    transform: translateX(-50%); /* Ajuste para centrar */
+    display: flex; /* Asegúrate de que las burbujas estén en fila */
+    gap: 10px; /* Espaciado entre burbujas */
+}
+
+.ig:hover .bubbles {
+    display: flex; /* Muestra las burbujas al pasar el mouse */
+}
+
+.bubble {
+    background: linear-gradient(45deg, 
+    #F58529, /* Naranja */
+    #FEDA77, /* Amarillo */
+    #DD2A7B, /* Rosa */
+    #8134AF, /* Violeta */
+    #515BD4  /* Azul */
+    );
+    border: 1px solid rgb(120, 120, 120); /* Bordes grises */
+    border-radius: 2rem; /* Bordes redondeados */
+    padding: 0.3rem 0.6rem; /* Espaciado interno */
+    margin: 0; /* Elimina margen para alineación precisa */
+    opacity: 0; /* Inicialmente transparentes */
+    transform: translateY(10px); /* Desplazamiento hacia abajo */
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Transición suave */
+}
+
+.ig:hover .bubble {
+    opacity: 1; /* Hacerlas visibles al pasar el mouse */
+    transform: translateY(0); /* Desplazarlas a su posición original */
+}
+
+.img-ig{
+    width: 52px;
+    height: 52px;
+    border-radius: 2rem;
+}
+
+.ig{
+    margin-right: 1.5rem;
+}
+
+.github{
+    margin-right: 1.5rem;
+}
+
+.linkedin {
+    position: relative; /* Necesario para el posicionamiento absoluto de las burbujas */
+}
+
+.linkedin-logo {
+    width: 62px;
+    height: 62px;
+}
+
+.linkedin .bubbles {
+    display: none; /* Ocultar las burbujas por defecto */
+    position: absolute; /* Posicionamiento absoluto para las burbujas */
+    bottom: 124%; /* Coloca las burbujas por encima del logo */
+    left: 49%; /* Centra las burbujas horizontalmente */
+    transform: translateX(-50%); /* Ajusta el desplazamiento para centrar */
+    display: flex; /* Alinea las burbujas en fila horizontal */
+    gap: 10px; /* Espaciado entre burbujas */
+}
+
+.linkedin:hover .bubbles {
+    display: flex; /* Muestra las burbujas al pasar el mouse */
+}
+
+.linkedin .bubble {
+    background: rgba(0, 119, 181, 0.9); /* Color de fondo para LinkedIn */
+    border: 1px solid rgb(120, 120, 120); /* Bordes grises */
+    border-radius: 2rem; /* Bordes redondeados */
+    padding: 0.3rem 0.6rem; /* Espaciado interno */
+    margin: 0; /* Sin margen extra */
+    opacity: 0; /* Inicialmente transparentes */
+    transform: translateY(10px); /* Desplazamiento hacia abajo */
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Transición suave */
+}
+
+.linkedin:hover .bubble {
+    opacity: 1; /* Hacerlas visibles al pasar el mouse */
+    transform: translateY(0); /* Desplazarlas a su posición original */
+}
+
+.img-linkedin {
+    width: 52px;
+    height: 52px;
+    border-radius: 2rem;
+}
+
+.footer-section{
+    margin-top: 0.5rem;
+
+    p{
+        margin: 0%;
+    }
+}
