@@ -23,3 +23,108 @@
 #detalles{
     text-align: center;
 }
+
+*{
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
+
+.profile{
+    display: grid;
+    justify-content: center;
+}
+
+.box-mi-perfil,
+.box-datos-personales,
+.box-datos-de-cuenta,
+.box-domicilios{
+    padding-block: 0.4rem;
+    padding-inline: 2rem;
+}
+
+.contenido-infomacion-personal,
+.contenido-dni,
+.contenido-datos-de-cuenta,
+.contenido-datos-domicilios{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.box-mi-perfil{
+    display: flex;
+    align-items: center;
+}
+
+.account{
+    width: 60px;
+    height: 60px;
+}
+
+.container{
+    margin-block: 1rem;
+}
+
+.sub-title{
+    display: flex;
+    justify-content: center;
+}
+
+.img-edit{
+    width: 22px;
+    height: 22px;
+}
+
+.contenido-infomacion-personal{
+    margin-bottom: 1rem;
+}
+
+.paragraph{
+    display: flex;
+    align-items: center;
+    margin: 0%;
+    margin-top: 0.2rem;
+    color: rgb(103, 95, 95);
+}
+
+.edit{
+    margin-left: 0.8rem;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.confirm-button{
+    border: none;
+    font-size: 1.2rem;
+    border-radius: 2rem;
+    background-color: rgb(7, 185, 7);
+    margin-right: 0.2rem;
+    padding-inline: 0.4rem;
+}
+
+.cancel-button{
+    border: none;
+    font-size: 1.2rem;
+    border-radius: 2rem;
+    background-color: rgb(197, 4, 4);
+    padding-inline: 0.4rem;
+}
+
+.options-container{
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+}
+
+.edit-input{
+    width: max-content;
+    outline: none;
+    border: none;
+    border-bottom: 0.1rem black solid;
+    text-align: center;
+    color: rgb(97, 97, 97);
+    width: 13rem;
+}

@@ -1,35 +1,37 @@
-<section class="footer">
+<section class="footer" (click)="hideBubbles()">
     <div class="box-redes">
-        <div class="ig">
-            <img class="instagram-logo" src="/assets/instagram-logo.png" alt="Instagram">
-            <div class="bubbles">
-                <div class="bubble">
-                    <a href="https://www.instagram.com/tomirrrrrr/" target="_blank">
-                        <img class="img-ig" src="/assets/GitHub.webp" alt="">
-                    </a>
-                </div>
-                <div class="bubble">
-                    <a href="https://www.instagram.com/lucasgomez0804/" target="_blank">
-                        <img class="img-ig" src="/assets/Lucas.jpg" alt="">
-                    </a>
-                </div>
-                <div class="bubble">
-                    <a href="https://www.instagram.com/lautiruiz04/" target="_blank">
-                        <img class="img-ig" src="/assets/GitHub.webp" alt="">
-                    </a>
+        <div class="ig-container">
+            <div class="ig" (click)="toggleIgBubbles(); $event.stopPropagation()">
+                <img class="instagram-logo" src="/assets/instagram-logo.png" alt="Instagram">
+                <div class="bubbles" [class.show-bubbles]="showIgBubbles">
+                    <div class="bubble">
+                        <a href="https://www.instagram.com/tomirrrrrr/" target="_blank">
+                            <img class="img-ig" src="/assets/GitHub.webp" alt="">
+                        </a>
+                    </div>
+                    <div class="bubble">
+                        <a class="link" href="https://www.instagram.com/lucasgomez0804/" target="_blank">
+                            <img class="img-ig" src="/assets/Lucas.jpg" alt="">
+                        </a>
+                    </div>
+                    <div class="bubble">
+                        <a class="link" href="https://www.instagram.com/lautiruiz04/" target="_blank">
+                            <img class="img-ig" src="/assets/GitHub.webp" alt="">
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    
+
         <div class="github">
             <a href="https://github.com/TomasRosa/TPFinalRuizGomezRosa" target="_blank">
                 <img class="github-logo" src="/assets/GitHub-logo.png" alt="GitHub">
             </a>
         </div>
 
-        <div class="linkedin">
+        <div class="linkedin" (click)="toggleLinkedinBubbles(); $event.stopPropagation()">
             <img class="linkedin-logo" src="/assets/LinkedIn-logo.webp" alt="LinkedIn">
-            <div class="bubbles">
+            <div class="bubbles" [class.show-bubbles]="showLinkedinBubbles">
                 <div class="bubble">
                     <a href="https://www.linkedin.com/in/tomaslautarorosa/" target="_blank">
                         <img class="img-linkedin" src="/assets/LinkedIn-logo.webp" alt="LinkedIn 3">

@@ -1,19 +1,88 @@
-<div class="container mt-5">
-  <h2 class="mb-4 text-primary" id="titulo">Tu Perfil</h2>
-  <div class="row">
-    <div class="col-md-6">
-      <h3 class="text-info mb-3" id="detalles-del-user">Detalles del Usuario</h3>
-      <div id="detalles">
-        <app-detalles-del-perfil></app-detalles-del-perfil>
+<section class="profile">
+  <section class="box-mi-perfil">
+    <img class="account" src="/assets/account.png" alt="">
+    <h2 class="sub-title">Mi perfil</h2>
+  </section>
+
+  <section class="box-datos-personales">
+    <h3 class="sub-title">Datos personales</h3>
+    <div class="container">
+      <h4>Nombre y Apellido</h4>
+      <div class="contenido-infomacion-personal">
+        <!-- Mostrar el texto o el input basado en isEditingName -->
+        <p *ngIf="!isEditingName" class="paragraph">{{ firstNameLastName }}</p>
+        <input class="edit-input" *ngIf="isEditingName" [(ngModel)]="tempName" />
+
+        <button class="edit" *ngIf="!isEditingName" (click)="toggleEditName()">
+          <img class="img-edit" src="/assets/Edit.png" alt="">
+        </button>
+
+        <!-- Botones Confirmar/Cancelar al editar -->
+         <div class="options-container">
+           <button class="confirm-button" *ngIf="isEditingName" (click)="confirmEditName()">✔</button>
+           <button class="cancel-button" *ngIf="isEditingName" (click)="cancelEdit()">✖</button>
+         </div>
+         <div id="resultado-operacion" class="mt-3"></div>
+      </div>
+
+      <h4>DNI</h4>
+      <div class="contenido-dni">
+        <p *ngIf="!isEditingDni" class="paragraph">{{ dni }}</p>
+        <input class="edit-input" *ngIf="isEditingDni" [(ngModel)]="tempDni" />
+
+        <button class="edit" *ngIf="!isEditingDni" (click)="toggleEditDni()">
+          <img class="img-edit" src="/assets/Edit.png" alt="">
+        </button>
+
+        <div class="options-container">
+          <button class="confirm-button" *ngIf="isEditingDni" (click)="confirmEditDni()">✔</button>
+          <button class="cancel-button" *ngIf="isEditingDni" (click)="cancelEdit()">✖</button>
+        </div>
+        <div id="resultado-operacion" class="mt-3"></div>
       </div>
     </div>
-    <div class="col-md-6">
-      <h3 class="text-info mb-3" id="configuracion">Configuraciones</h3>
-      <div id="componentes-con-opciones">
-        <app-cambiar-email></app-cambiar-email>
-        <app-cambiar-password></app-cambiar-password>
-        <app-eliminar-cuenta></app-eliminar-cuenta>
+  </section>
+
+  <section class="box-datos-de-cuenta">
+    <h3 class="sub-title">Datos de Cuenta</h3>
+    <div class="container">
+      <h4>E-mail</h4>
+      <div class="contenido-datos-de-cuenta">
+        <p *ngIf="!isEditingEmail" class="paragraph">{{ email }}</p>
+        <input class="edit-input" *ngIf="isEditingEmail" [(ngModel)]="tempEmail" />
+
+        <button class="edit" *ngIf="!isEditingEmail" (click)="toggleEditEmail()">
+          <img class="img-edit" src="/assets/Edit.png" alt="">
+        </button>
+
+        <div class="options-container">
+          <button class="confirm-button" *ngIf="isEditingEmail" (click)="confirmEditEmail()">✔</button>
+          <button class="cancel-button" *ngIf="isEditingEmail" (click)="cancelEdit()">✖</button>
+        </div>
+        <div id="resultado-operacion" class="mt-3"></div>
       </div>
     </div>
-  </div>
-</div>
+  </section>
+
+  <section class="box-domicilios">
+    <h3 class="sub-title">Domicilios</h3>
+    <div class="container">
+      <h4>Direccion</h4>
+      <div class="contenido-datos-domicilios">
+        <p *ngIf="!isEditingAddress" class="paragraph">{{ address }}</p>
+        <input class="edit-input" *ngIf="isEditingAddress" [(ngModel)]="tempAddress" />
+
+        <button class="edit" *ngIf="!isEditingAddress" (click)="toggleEditAddress()">
+          <img class="img-edit" src="/assets/Edit.png" alt="">
+        </button>
+
+        <div class="options-container">
+          <button class="confirm-button" *ngIf="isEditingAddress" (click)="confirmEditAddress()">✔</button>
+          <button class="cancel-button" *ngIf="isEditingAddress" (click)="cancelEdit()">✖</button>
+        </div>
+        <div id="resultado-operacion" class="mt-3"></div>
+      </div>
+    </div>
+  </section>
+</section>
+
