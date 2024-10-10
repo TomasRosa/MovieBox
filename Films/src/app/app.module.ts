@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule, platformBrowser } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -8,7 +8,6 @@ import { TestComponent } from './test/test.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HttpClientModule } from '@angular/common/http';
-import { AsideMenuComponent } from './components/aside-menu/aside-menu.component';
 import { SobreNosotrosComponent } from './components/sobre-nosotros/sobre-nosotros.component';
 import { SharedServicesService } from './services/shared-services.service';
 import { UserService } from './services/user.service';
@@ -24,15 +23,13 @@ import { OfertasAuxComponent } from './components/ofertas-aux/ofertas-aux.compon
 import { UserAsideComponent } from './components/user-aside/user-aside.component';
 import { DetallesDelPerfilComponent } from './components/detalles-del-perfil/detalles-del-perfil.component';
 import { EliminarCuentaComponent } from './components/eliminar-cuenta/eliminar-cuenta.component';
-import { CategoriasComponent } from './components/categorias/categorias.component';
-import { AventuraComponent } from './components/categorias/aventura/aventura.component';
-import { FamiliarComponent } from './components/categorias/familiar/familiar.component';
 import { CambiarEmailComponent } from './components/cambiar-email/cambiar-email.component';
 import { CambiarPasswordComponent } from './components/cambiar-password/cambiar-password.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { BibliotecaComponent } from './components/biblioteca/biblioteca.component';
 import { AlternativeOptionsComponent } from './components/alternative-options/alternative-options/alternative-options.component';
 import { FooterComponent } from './components/footer/footer/footer.component';
+import { MovieListComponentsComponent } from './components/movie-list-components/movie-list-components.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +37,6 @@ import { FooterComponent } from './components/footer/footer/footer.component';
     TestComponent,
     LoginComponent,
     RegisterComponent,
-    AsideMenuComponent,
     SobreNosotrosComponent,
     InicioComponent,
     TarjetaComponent,
@@ -60,7 +56,8 @@ import { FooterComponent } from './components/footer/footer/footer.component';
     PerfilComponent,
     BibliotecaComponent,
     AlternativeOptionsComponent,
-    FooterComponent
+    FooterComponent,
+    MovieListComponentsComponent
   ],
   imports: [
     BrowserModule,
