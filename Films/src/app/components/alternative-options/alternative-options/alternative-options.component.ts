@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./alternative-options.component.css']
 })
 export class AlternativeOptionsComponent {
-  categories = ['Aventura', 'Accion', 'Comedia', 'Drama', 'Familiar', 'Fantasy'];
+  categories = ['Drama', 'Crime', 'Action', 'Biography', 'History', 'Adventure','Western','Romance','Sci-Fi','Fantasy','Animation','Mystery','Family','Thriller','War','Comedy','Music','Horror','Film-Noir','Musical'];
   isFocused = false;
 
   showCategories() {

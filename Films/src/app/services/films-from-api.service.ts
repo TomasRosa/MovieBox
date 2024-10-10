@@ -8,12 +8,12 @@ const options = {
     "x-rapidapi-host": "imdb-top-100-movies.p.rapidapi.com",
   },
 };
-
 @Injectable({
   providedIn: "root",
 })
 export class FilmsFromAPIService {
   private url_API = "https://imdb-top-100-movies.p.rapidapi.com/";
+  private url_JSON = "./assets/peliculas.json"
   private filmsData: Film[] = [];
   private precios: number[] = [
     150,
@@ -94,7 +94,7 @@ export class FilmsFromAPIService {
 
   async initializeData() {
     if (this.filmsData.length == 0) {
-      const response = await fetch(this.url_API, options);
+      const response = await fetch(this.url_JSON);
 
       if (response.status === 200) {
         const datos = await response.json();
