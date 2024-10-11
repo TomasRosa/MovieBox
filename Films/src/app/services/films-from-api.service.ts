@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Film } from "../models/film";
+import { HttpClient} from '@angular/common/http';
 
 const options = {
   method: "GET",
@@ -13,7 +14,7 @@ const options = {
 })
 export class FilmsFromAPIService {
   private url_API = "https://imdb-top-100-movies.p.rapidapi.com/";
-  private url_JSON = "./assets/peliculas.json"
+  private url_JSON = "./assets/peliculas.json";
   private filmsData: Film[] = [];
   private precios: number[] = [
     150,
@@ -89,8 +90,8 @@ export class FilmsFromAPIService {
     800,
     1300,
   ];
-
-  constructor() {}
+  
+  constructor(private http: HttpClient) {}
 
   async initializeData() {
     if (this.filmsData.length == 0) {
@@ -108,6 +109,34 @@ export class FilmsFromAPIService {
         }
       }
     }
+  }
+  getGenreOfMovies() {
+    let allGenres = new Set<string>();
+  
+    fetch('https://imdb-top-100-movies.p.rapidapi.com/', options)
+      .then(response => response.json())
+      .then((movies: Film[]) => { // Define el tipo de 'movies' como un array de 'Movie'
+        movies.forEach((movie: Film) => {
+          movie.genre.forEach((genre: string) => allGenres.add(genre));
+        });
+        console.log([...allGenres]); // Muestra todos los géneros únicos
+      })
+      .catch(err => console.error(err));
+
+      return allGenres;
+  }
+  getGenreOfMoviesJSON() {
+    let allGenres = new Set<string>();
+  
+    this.http.get<Film[]>(this.url_JSON).subscribe((movies: Film[]) => {
+      movies.forEach((movie: Film) => {
+        movie.genre.forEach((genre: string) => allGenres.add(genre));
+      });
+    
+      console.log([...allGenres]); // Muestra los géneros únicos
+    });
+  
+    return allGenres;
   }
   getMovies() {
     return this.filmsData;

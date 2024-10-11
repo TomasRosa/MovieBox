@@ -13,6 +13,7 @@ import { BibliotecaComponent } from './components/biblioteca/biblioteca.componen
 import { Permisos } from './permisos.guard';
 import { VerificarContenidoCarrito } from './verificar-contenido-carrito.guard';
 import { FilmDetailComponent } from './components/film-detail/film-detail.component';
+import { MovieListComponentsComponent } from './components/movie-list-components/movie-list-components.component';
 
 const routes: Routes = [
   { path: 'inicio', component: InicioComponent },
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'biblioteca', component: BibliotecaComponent},
   { path: 'film-detail/:rank', component: FilmDetailComponent},
   { path: '', redirectTo: '/inicio', pathMatch: 'full'},
+  { path: 'movies/:category', component: MovieListComponentsComponent },
   { path: '**', component: NotFoundComponent},
 ];
 

@@ -1,1 +1,8 @@
-<p>movie-list-components works!</p>
+<div *ngIf="filteredMovies.length > 0;">
+    <div *ngFor="let film of filteredMovies" class="movie-item">
+      <img [src]="film.image" alt="{{ film.title }}">
+      <h3>{{ film.title }}</h3>
+      <p>{{ film.description }}</p>
+      <span>Géneros: {{ film.genre.join(', ') }}</span>
+    </div>
+  </div>

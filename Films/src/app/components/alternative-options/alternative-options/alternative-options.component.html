@@ -10,14 +10,15 @@
         <div class="categories-container" *ngIf="isFocused">
             <ul class="categories"> 
                 <li *ngFor="let category of categories" class="li-category">
-                    <button class="button-category">{{category}}</button>
+                    <button class="button-category" (click)="selectCategory(category)">{{category}}</button>
                 </li>
             </ul>
         </div>
     </div>
 
+    <app-movie-list-components [category]="selectedCategory"></app-movie-list-components>
+
     <div class="box-offers">
         <button class="button-offers">Offers</button>
     </div>
 </section>
-
