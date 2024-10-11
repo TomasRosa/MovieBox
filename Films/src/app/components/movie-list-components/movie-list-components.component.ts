@@ -16,12 +16,14 @@ export class MovieListComponentsComponent {
   constructor(private filmsService: FilmsFromAPIService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      this.category = params.get('category') || '';
-      console.log("Categoría desde la ruta:", this.category); // Verificar que se obtiene correctamente
-      this.films = this.filmsService.getMovies(); // Obtén todas las películas
-      this.filteredMovies = this.films.filter(film => film.genre.includes(this.category)); // Filtra las películas por categoría
-      console.log("Películas filtradas:", this.filteredMovies); // Verificar películas filtradas
+    this.filmsService.initializeData().then(() => {
+      this.route.paramMap.subscribe(params => {
+        this.category = params.get('category') || '';
+        console.log("Categoría desde la ruta:", this.category); // Verificar que se obtiene correctamente
+        this.films = this.filmsService.getMovies(); // Obtén todas las películas
+        this.filteredMovies = this.films.filter(film => film.genre.includes(this.category)); // Filtra las películas por categoría
+        console.log("Películas filtradas:", this.filteredMovies); // Verificar películas filtradas
+      });
     });
   }
   
