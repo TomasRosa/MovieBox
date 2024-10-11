@@ -119,7 +119,6 @@ export class FilmsFromAPIService {
         movies.forEach((movie: Film) => {
           movie.genre.forEach((genre: string) => allGenres.add(genre));
         });
-        console.log([...allGenres]); // Muestra todos los géneros únicos
       })
       .catch(err => console.error(err));
 
@@ -132,8 +131,6 @@ export class FilmsFromAPIService {
       movies.forEach((movie: Film) => {
         movie.genre.forEach((genre: string) => allGenres.add(genre));
       });
-    
-      console.log([...allGenres]); // Muestra los géneros únicos
     });
   
     return allGenres;

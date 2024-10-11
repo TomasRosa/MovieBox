@@ -30,3 +30,19 @@ table {
 ::ng-deep .celdaBotonEspaciado {
     padding: 15px;
 }
+
+button{
+    margin-right: 10px;
+}
+
+.button-container {
+    margin-top: 10px;
+    display: none; /* Ocultar botones inicialmente */
+    text-align: center;
+    padding: 5px !important;
+  }
+  
+  /* Mostrar los botones cuando se pasa el mouse por encima de la celda */
+  .recuadroCelda:hover .button-container {
+    display: block;
+  }

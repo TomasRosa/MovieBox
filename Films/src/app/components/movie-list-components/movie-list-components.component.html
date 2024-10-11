@@ -1,8 +1,17 @@
-<div *ngIf="filteredMovies.length > 0;">
-    <div *ngFor="let film of filteredMovies" class="movie-item">
-      <img [src]="film.image" alt="{{ film.title }}">
-      <h3>{{ film.title }}</h3>
-      <!-- <p>{{ film.description }}</p>
-      <span>Géneros: {{ film.genre.join(', ') }}</span> -->
-    </div>
-  </div>
+<app-alternative-options></app-alternative-options>
+
+<div *ngIf="filteredMovies.length > 0">
+  <table>
+    <tr *ngFor="let group of getMovieGroups(filteredMovies)">
+      <td *ngFor="let film of group" class="recuadroCelda">
+          <img [src]="film.image" alt="Imagen no disponible" width="200" height="300">
+          <b style="font-size: 15px;">{{ film.title }}</b>
+
+          <div class = "button-container">
+            <button class="btn btn-primary" (click)="navegarFilmDetail(film.rank)">Ficha técnica</button>
+            <button class="btn btn-primary" (click)="agregarPeliculaAlCarrito(film)">🛒</button>
+          </div>
+      </td>
+    </tr>
+  </table>
+</div>

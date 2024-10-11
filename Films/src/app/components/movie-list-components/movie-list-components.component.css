@@ -1,0 +1,43 @@
+* {
+    text-align: center;
+}
+
+table {
+    margin: 0 auto;
+}
+
+button{
+    margin-right: 10px;
+}
+
+.classDiv {
+   display: flex;
+   justify-content: center;
+}
+
+/* Estilos para el recuadro de las películas */
+::ng-deep .recuadroCelda {
+    width: 250px !important;
+    background-color: black !important;
+    color: white !important;
+    padding: 15px !important;
+    border-radius: 10px !important;
+    margin: 10px;
+    box-sizing: border-box;
+}
+
+/* Añadir un borde blanco alrededor de cada recuadro */
+::ng-deep .recuadroCelda {
+    border: 10px solid white;
+}
+
+.button-container {
+    margin-top: 10px;
+    display: none;
+    text-align: center;
+    padding: 5px !important;
+  }
+
+  .recuadroCelda:hover .button-container {
+    display: block;
+  }

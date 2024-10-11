@@ -28,6 +28,5 @@ export class AlternativeOptionsComponent {
   }
 
   constructor(private filmsService: FilmsFromAPIService, private router: Router) {
-    console.log(this.categories);
   }
 }
