@@ -43,13 +43,30 @@
     padding-inline: 2rem;
 }
 
-.contenido-infomacion-personal,
+.contenido-datos-domicilios,
 .contenido-dni,
-.contenido-datos-de-cuenta,
-.contenido-datos-domicilios{
+.contenido-infomacion-personal,
+.contenido-datos-de-cuenta{
+    display: block;
+    text-align: center;
+}
+
+.box-1{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.box-email-edit{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.errors{
+    display: flex;
+    justify-content: center;
+    text-align: center;
 }
 
 .box-mi-perfil{

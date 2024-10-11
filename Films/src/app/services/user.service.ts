@@ -117,11 +117,69 @@ export class UserService {
     }
   }
 
-  async changeEmail(user: User, newEmail: string): Promise<{ success: boolean, message: string }> {
+  async changeFirstName(user: User, newFirstName: string): Promise<{ success: boolean, message: string }> {
     const url = `${this.urlJSONServer}/${user.id}`;
-    user.email  = newEmail; /* ASIGNO EL NUEVO EMAIL AL USER. */
+    user.firstName  = newFirstName; 
     try {
       await this.http.patch(url, user).toPromise();
+      this.usuarioActualSubject.next(user); // Actualizamos el BehaviorSubject con el nuevo valor
+      this.saveUserToStorage(user); // Actualizamos el almacenamiento local
+      return { success: true, message: 'Nombre cambiado correctamente.' };
+    } catch (error) {
+      console.error('Error al cambiar el nombre del usuario:', error);
+      return { success: false, message: 'Error al cambiar el nombre. Por favor, inténtalo de nuevo más tarde.' };
+    }
+  }
+
+  async changeLastName(user: User, newLastName: string): Promise<{ success: boolean, message: string }> {
+    const url = `${this.urlJSONServer}/${user.id}`;
+    user.lastName  = newLastName; 
+    try {
+      await this.http.patch(url, user).toPromise();
+      this.usuarioActualSubject.next(user); // Actualizamos el BehaviorSubject con el nuevo valor
+      this.saveUserToStorage(user); // Actualizamos el almacenamiento local
+      return { success: true, message: 'Apellido cambiado correctamente.' };
+    } catch (error) {
+      console.error('Error al cambiar el apellido del usuario:', error);
+      return { success: false, message: 'Error al cambiar el apellido. Por favor, inténtalo de nuevo más tarde.' };
+    }
+  }
+
+  async changeDNI(user: User, newDNI: string): Promise<{ success: boolean, message: string }> {
+    const url = `${this.urlJSONServer}/${user.id}`;
+    user.dni  = newDNI; 
+    try {
+      await this.http.patch(url, user).toPromise();
+      this.usuarioActualSubject.next(user); // Actualizamos el BehaviorSubject con el nuevo valor
+      this.saveUserToStorage(user); // Actualizamos el almacenamiento local
+      return { success: true, message: 'DNI cambiado correctamente.' };
+    } catch (error) {
+      console.error('Error al cambiar el DNI del usuario:', error);
+      return { success: false, message: 'Error al cambiar el DNI. Por favor, inténtalo de nuevo más tarde.' };
+    }
+  }
+
+  async changeAddress(user: User, newAddress: string): Promise<{ success: boolean, message: string }> {
+    const url = `${this.urlJSONServer}/${user.id}`;
+    user.address  = newAddress; 
+    try {
+      await this.http.patch(url, user).toPromise();
+      this.usuarioActualSubject.next(user); // Actualizamos el BehaviorSubject con el nuevo valor
+      this.saveUserToStorage(user); // Actualizamos el almacenamiento local
+      return { success: true, message: 'Direccion cambiada correctamente.' };
+    } catch (error) {
+      console.error('Error al cambiar la direccion del usuario:', error);
+      return { success: false, message: 'Error al cambiar la direccion. Por favor, inténtalo de nuevo más tarde.' };
+    }
+  }
+
+  async changeEmail(user: User, newEmail: string): Promise<{ success: boolean, message: string }> {
+    const url = `${this.urlJSONServer}/${user.id}`;
+    user.email  = newEmail; 
+    try {
+      await this.http.patch(url, user).toPromise();
+      this.usuarioActualSubject.next(user); // Actualizamos el BehaviorSubject con el nuevo valor
+      this.saveUserToStorage(user); // Actualizamos el almacenamiento local
       return { success: true, message: 'Email cambiado correctamente.' };
     } catch (error) {
       console.error('Error al cambiar el email del usuario:', error);
@@ -134,6 +192,8 @@ export class UserService {
     user.password  = newPassword; /* ASIGNO LA NUEVA PASSWORD AL USER. */
     try {
       await this.http.patch(url, user).toPromise();
+      this.usuarioActualSubject.next(user); // Actualizamos el BehaviorSubject con el nuevo valor
+      this.saveUserToStorage(user); // Actualizamos el almacenamiento local
       return { success: true, message: 'Contrasenia cambiada correctamente.' };
     } catch (error) {
       console.error('Error al cambiar la contrasenia del usuario:', error);

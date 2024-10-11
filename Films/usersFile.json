@@ -2,12 +2,12 @@
   "users": [
     {
       "id": 1,
-      "firstName": "Isaak",
-      "lastName": "Sterland",
-      "email": "isterland0@blinklist.com",
+      "firstName": "Isaak Isaak",
+      "lastName": "Sterland S",
+      "email": "isterlandnew1@blinklist.com",
       "password": "isaak123",
-      "address": "",
-      "dni": "12345678",
+      "address": "Calle falsa 124",
+      "dni": "12345674",
       "arrayPeliculas": [
         {
           "movieId": 11,

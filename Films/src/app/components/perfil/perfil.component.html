@@ -7,40 +7,83 @@
   <section class="box-datos-personales">
     <h3 class="sub-title">Datos personales</h3>
     <div class="container">
-      <h4>Nombre y Apellido</h4>
+      <h4>Nombre</h4>
       <div class="contenido-infomacion-personal">
-        <!-- Mostrar el texto o el input basado en isEditingName -->
-        <p *ngIf="!isEditingName" class="paragraph">{{ firstNameLastName }}</p>
-        <input class="edit-input" *ngIf="isEditingName" [(ngModel)]="tempName" />
+        <div class="box-1">
+          <p *ngIf="!isEditingFirstName" class="paragraph">{{ firstName }}</p>
+          <form action="#" [formGroup]="formGroupFirstName">
+            <input class="edit-input" *ngIf="isEditingFirstName" formControlName="firstname"/>
+          </form>
+  
+          <button class="edit" *ngIf="!isEditingFirstName" (click)="toggleEditFirstame()">
+            <img class="img-edit" src="/assets/Edit.png" alt="">
+          </button>
+  
+          <div class="options-container">
+             <button class="confirm-button" *ngIf="isEditingFirstName" (click)="confirmChangeFirstName()">✔</button>
+             <button class="cancel-button" *ngIf="isEditingFirstName" (click)="cancelEdit()">✖</button>
+          </div>
+        </div>
 
-        <button class="edit" *ngIf="!isEditingName" (click)="toggleEditName()">
-          <img class="img-edit" src="/assets/Edit.png" alt="">
-        </button>
+        <div *ngIf="!showErrors && firstname_fc?.invalid && (firstname_fc?.dirty || firstname_fc?.touched)" class="errors">
+          <div *ngIf="firstname_fc?.hasError('required')" class="text-danger">El nombre es requerido</div>
+          <div *ngIf="firstname_fc?.hasError('soloLetras')" class="text-danger">Solo letras</div>
+        </div>
 
-        <!-- Botones Confirmar/Cancelar al editar -->
-         <div class="options-container">
-           <button class="confirm-button" *ngIf="isEditingName" (click)="confirmEditName()">✔</button>
-           <button class="cancel-button" *ngIf="isEditingName" (click)="cancelEdit()">✖</button>
-         </div>
-         <div id="resultado-operacion" class="mt-3"></div>
+        <div id="resultado-operacion" class="mt-3">{{result}}</div>
+      </div>
+
+      <h4>Apellido</h4>
+      <div class="contenido-infomacion-personal">
+        <div class="box-1">
+          <p *ngIf="!isEditingLastName" class="paragraph">{{ lastName }}</p>
+          <form action="#" [formGroup]="formGroupLastName">
+            <input class="edit-input" *ngIf="isEditingLastName" formControlName="lastname"/>
+          </form>
+  
+          <button class="edit" *ngIf="!isEditingLastName" (click)="toggleEditLastName()">
+            <img class="img-edit" src="/assets/Edit.png" alt="">
+          </button>
+
+          <div class="options-container">
+             <button class="confirm-button" *ngIf="isEditingLastName" (click)="confirmChangeLastName()">✔</button>
+             <button class="cancel-button" *ngIf="isEditingLastName" (click)="cancelEdit()">✖</button>
+          </div>
+        </div>
+
+        <div *ngIf="!showErrors && lastname_fc?.invalid && (lastname_fc?.dirty || lastname_fc?.touched)" class="errors">
+          <div *ngIf="lastname_fc?.hasError('required')" class="text-danger">El apellido es requerido</div>
+          <div *ngIf="firstname_fc?.hasError('soloLetras')" class="text-danger">Solo letras</div>
+        </div>
+
+        <div id="resultado-operacion" class="mt-3">{{result}}</div>
       </div>
 
       <h4>DNI</h4>
       <div class="contenido-dni">
-        <p *ngIf="!isEditingDni" class="paragraph">{{ dni }}</p>
-        <input class="edit-input" *ngIf="isEditingDni" [(ngModel)]="tempDni" />
-
-        <button class="edit" *ngIf="!isEditingDni" (click)="toggleEditDni()">
-          <img class="img-edit" src="/assets/Edit.png" alt="">
-        </button>
-
-        <div class="options-container">
-          <button class="confirm-button" *ngIf="isEditingDni" (click)="confirmEditDni()">✔</button>
-          <button class="cancel-button" *ngIf="isEditingDni" (click)="cancelEdit()">✖</button>
+        <div class="box-1">
+          <p *ngIf="!isEditingDni" class="paragraph">{{ dni }}</p>
+          <form action="#" [formGroup]="formGroupDNI">
+            <input class="edit-input" *ngIf="isEditingDni" formControlName="dni"/>
+          </form>
+  
+          <button class="edit" *ngIf="!isEditingDni" (click)="toggleEditDni()">
+            <img class="img-edit" src="/assets/Edit.png" alt="">
+          </button>
+  
+          <div class="options-container">
+            <button class="confirm-button" *ngIf="isEditingDni" (click)="confirmChangeDNI()">✔</button>
+            <button class="cancel-button" *ngIf="isEditingDni" (click)="cancelEdit()">✖</button>
+          </div>
         </div>
-        <div id="resultado-operacion" class="mt-3"></div>
+
+        <div *ngIf="!showErrors && dni_fc?.invalid && (dni_fc?.dirty || dni_fc?.touched)" class="errors">
+          <div *ngIf="dni_fc?.hasError('required')" class="text-danger">El DNI es requerido</div>
+        </div>
+
+        <div id="resultado-operacion" class="mt-3">{{result}}</div>
       </div>
-    </div>
+    </div> 
   </section>
 
   <section class="box-datos-de-cuenta">
@@ -48,18 +91,30 @@
     <div class="container">
       <h4>E-mail</h4>
       <div class="contenido-datos-de-cuenta">
-        <p *ngIf="!isEditingEmail" class="paragraph">{{ email }}</p>
-        <input class="edit-input" *ngIf="isEditingEmail" [(ngModel)]="tempEmail" />
-
-        <button class="edit" *ngIf="!isEditingEmail" (click)="toggleEditEmail()">
-          <img class="img-edit" src="/assets/Edit.png" alt="">
-        </button>
-
-        <div class="options-container">
-          <button class="confirm-button" *ngIf="isEditingEmail" (click)="confirmEditEmail()">✔</button>
-          <button class="cancel-button" *ngIf="isEditingEmail" (click)="cancelEdit()">✖</button>
+        <div class="box-1">
+          <div class="box-email-edit">
+            <p *ngIf="!isEditingEmail" class="paragraph">{{ email }}</p>
+            <form action="#" [formGroup]="formGroupEmail">
+              <input type="email" class="edit-input" *ngIf="isEditingEmail" formControlName="email"/>
+            </form>
+    
+            <button class="edit" *ngIf="!isEditingEmail" (click)="toggleEditEmail()">
+              <img class="img-edit" src="/assets/Edit.png" alt="">
+            </button>
+          </div>
+  
+          <div class="options-container">
+            <button class="confirm-button" *ngIf="isEditingEmail" type="submit" (click)="confirmChangeEmail()">✔</button>
+            <button class="cancel-button" *ngIf="isEditingEmail" (click)="cancelEdit()">✖</button>
+          </div>
         </div>
-        <div id="resultado-operacion" class="mt-3"></div>
+
+        <div *ngIf="!showErrors && email_fc?.invalid && (email_fc?.dirty || email_fc?.touched)" class="errors">
+          <div *ngIf="email_fc?.hasError('required')" class="text-danger">El email es requerido</div>
+          <div *ngIf="email_fc?.hasError('email')" class="text-danger">Formato de Email Incorrecto</div>
+        </div>
+
+        <div id="resultado-operacion" class="mt-3">{{result}}</div>
       </div>
     </div>
   </section>
@@ -69,18 +124,27 @@
     <div class="container">
       <h4>Direccion</h4>
       <div class="contenido-datos-domicilios">
-        <p *ngIf="!isEditingAddress" class="paragraph">{{ address }}</p>
-        <input class="edit-input" *ngIf="isEditingAddress" [(ngModel)]="tempAddress" />
-
-        <button class="edit" *ngIf="!isEditingAddress" (click)="toggleEditAddress()">
-          <img class="img-edit" src="/assets/Edit.png" alt="">
-        </button>
-
-        <div class="options-container">
-          <button class="confirm-button" *ngIf="isEditingAddress" (click)="confirmEditAddress()">✔</button>
-          <button class="cancel-button" *ngIf="isEditingAddress" (click)="cancelEdit()">✖</button>
+        <div class="box-1">
+          <p *ngIf="!isEditingAddress" class="paragraph">{{ address }}</p>
+          <form action="#" [formGroup]="formGroupAddress">
+            <input class="edit-input" *ngIf="isEditingAddress" formControlName="address" />
+          </form>
+  
+          <button class="edit" *ngIf="!isEditingAddress" (click)="toggleEditAddress()">
+            <img class="img-edit" src="/assets/Edit.png" alt="">
+          </button>
+  
+          <div class="options-container">
+            <button class="confirm-button" *ngIf="isEditingAddress" (click)="confirmChangeAddress()">✔</button>
+            <button class="cancel-button" *ngIf="isEditingAddress" (click)="cancelEdit()">✖</button>
+          </div>
         </div>
-        <div id="resultado-operacion" class="mt-3"></div>
+
+        <div *ngIf="!showErrors && address_fc?.invalid && (address_fc?.dirty || address_fc?.touched)" class="errors">
+          <div *ngIf="address_fc?.hasError('required')" class="text-danger">La direccion es requerida</div>
+        </div>
+
+        <div id="resultado-operacion" class="mt-3">{{result}}</div>
       </div>
     </div>
   </section>
