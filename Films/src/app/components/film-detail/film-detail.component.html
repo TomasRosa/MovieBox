@@ -1,7 +1,31 @@
-
-<div *ngIf = "movie">
-    <div class = "recuadroFilm">
-        <img alt = "Imagen No Disponible" [src] = "movie.image">
+<div *ngIf="movie">
+    <div class="recuadroFilm">
+        <img class="img-fluid rounded" alt="Imagen No Disponible" [src]="movie.image">
     </div>
-    <h2> {{movie.title}} </h2>
+    <h2 class="mt-3">{{ movie.title }}</h2>
+
+    <!-- Sección de reseñas -->
+    <div class="reviews mt-4">
+        <h3>Reseñas:</h3>
+        <div *ngIf="movie?.reviews?.length ?? 0 > 0; else noReviews">
+            <div class="card mt-3" *ngFor="let review of movie.reviews">
+                <div class="card-body">
+                    <p class="card-text">{{ review }}</p>
+                </div>
+            </div>
+        </div>
+        <ng-template #noReviews>
+            <p>No hay reseñas aún. ¡Sé el primero en escribir una!</p>
+        </ng-template>
+    </div>
 </div>
+
+<!-- Formulario para agregar una reseña -->
+<form (ngSubmit)="addReview()" class="mt-4">
+    <div class="form-group">
+        <textarea class="form-control" [(ngModel)]="newReview" name="review" placeholder="Escribe tu reseña aquí" rows="3" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Enviar Reseña</button>
+</form>
+<p *ngIf="errorResena" class="text-danger">{{ errorResena }}</p>
+
