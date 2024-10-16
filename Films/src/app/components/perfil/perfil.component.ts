@@ -44,8 +44,12 @@ export class PerfilComponent {
   isEditingAddress = false;
 
   showErrors = false;
-  result: string = ''
-
+  resultFirstName: string = ''
+  resultLastName: string = ''
+  resultEmail: string = ''
+  resultDNI: string = ''
+  resultAddress: string = ''
+  
   constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
@@ -128,18 +132,21 @@ export class PerfilComponent {
         try {
           const resultado = await this.userService.changeEmail(this.usuarioActual as User, newEmail as string);
           if (resultado.success) {
-            this.result = 'Email cambiado con éxito';
+            this.resultEmail = 'Email cambiado con éxito';
           } else {
-            this.result = 'Error al cambiar el email';
+            this.resultEmail = 'Error al cambiar el email';
           }
         } catch (error) {
-          this.result = 'Error en la solicitud: ' + error;
+          this.resultEmail = 'Error en la solicitud: ' + error;
         }
       }
       this.isEditingEmail = false; // Salimos del modo de edición
     } else {
-      this.result = 'Por favor, ingresa un email válido.';
+      this.resultEmail = 'Por favor, ingresa un email válido.';
     }
+    setTimeout(() => {
+      this.resultEmail = '';
+    }, 2000);
   }
 
   async processFirstNameChangeRequest (){
@@ -149,39 +156,45 @@ export class PerfilComponent {
         try {
           const resultado = await this.userService.changeFirstName(this.usuarioActual as User, newFirstName as string);
           if (resultado.success) {
-            this.result = 'Nombre cambiado con éxito';
+            this.resultFirstName = 'Nombre cambiado con éxito';
           } else {
-            this.result = 'Error al cambiar el nombre';
+            this.resultFirstName = 'Error al cambiar el nombre';
           }
         } catch (error) {
-          this.result = 'Error en la solicitud: ' + error;
+          this.resultFirstName = 'Error en la solicitud: ' + error;
         }
       }
       this.isEditingFirstName = false; // Salimos del modo de edición
     } else {
-      this.result = 'Por favor, ingresa un nombre válido.';
+      this.resultFirstName = 'Por favor, ingresa un nombre válido.';
     }
+    setTimeout(() => {
+      this.resultFirstName = '';
+    }, 2000);
   }
 
   async processLastNameChangeRequest (){
-    if (this.formGroupFirstName.valid) {
+    if (this.formGroupLastName.valid) {
       const newLastName = this.formGroupLastName.value.lastname;
       if (this.usuarioActual && newLastName !== this.usuarioActual.lastName) {
         try {
           const resultado = await this.userService.changeLastName(this.usuarioActual as User, newLastName as string);
           if (resultado.success) {
-            this.result = 'Apellido cambiado con éxito';
+            this.resultLastName = 'Apellido cambiado con éxito';
           } else {
-            this.result = 'Error al cambiar el apellido';
+            this.resultLastName = 'Error al cambiar el apellido';
           }
         } catch (error) {
-          this.result = 'Error en la solicitud: ' + error;
+          this.resultLastName = 'Error en la solicitud: ' + error;
         }
       }
       this.isEditingLastName = false; // Salimos del modo de edición
     } else {
-      this.result = 'Por favor, ingresa un apellido válido.';
+      this.resultLastName = 'Por favor, ingresa un apellido válido.';
     }
+    setTimeout(() => {
+      this.resultLastName = '';
+    }, 2000);
   }
 
   async processDNIChangeRequest (){
@@ -191,18 +204,21 @@ export class PerfilComponent {
         try {
           const resultado = await this.userService.changeDNI(this.usuarioActual as User, newDNI as string);
           if (resultado.success) {
-            this.result = 'DNI cambiado con éxito';
+            this.resultDNI = 'DNI cambiado con éxito';
           } else {
-            this.result = 'Error al cambiar el DNI';
+            this.resultDNI = 'Error al cambiar el DNI';
           }
         } catch (error) {
-          this.result = 'Error en la solicitud: ' + error;
+          this.resultDNI = 'Error en la solicitud: ' + error;
         }
       }
-      this.isEditingLastName = false; // Salimos del modo de edición
+      this.isEditingDni = false; // Salimos del modo de edición
     } else {
-      this.result = 'Por favor, ingresa un DNI válido.';
+      this.resultDNI = 'Por favor, ingresa un DNI válido.';
     }
+    setTimeout(() => {
+      this.resultDNI = '';
+    }, 2000);
   }
 
   async processAddressChangeRequest (){
@@ -212,18 +228,21 @@ export class PerfilComponent {
         try {
           const resultado = await this.userService.changeAddress(this.usuarioActual as User, newAddress as string);
           if (resultado.success) {
-            this.result = 'Direccion cambiada con éxito';
+            this.resultAddress = 'Direccion cambiada con éxito';
           } else {
-            this.result = 'Error al cambiar la direccion';
+            this.resultAddress = 'Error al cambiar la direccion';
           }
         } catch (error) {
-          this.result = 'Error en la solicitud: ' + error;
+          this.resultAddress = 'Error en la solicitud: ' + error;
         }
       }
-      this.isEditingLastName = false; // Salimos del modo de edición
+      this.isEditingAddress = false; // Salimos del modo de edición
     } else {
-      this.result = 'Por favor, ingresa un DNI válido.';
+      this.resultAddress = 'Por favor, ingresa un DNI válido.';
     }
+    setTimeout(() => {
+      this.resultAddress = '';
+    }, 2000);
   }
 
   async confirmChangeFirstName (){
@@ -246,9 +265,10 @@ export class PerfilComponent {
     await this.processEmailChangeRequest()
   }
 
-  logout()
-  {
+  logout(){
     this.userService.logout();
     this.router.navigate(['/inicio']);
   }
+
+
 }

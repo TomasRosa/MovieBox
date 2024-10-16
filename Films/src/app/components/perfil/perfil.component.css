@@ -1,33 +1,16 @@
-*{
-    background-color:#f0f0f0;
-}
-
-#titulo{
-    text-align: center;
-}
-
-#detalles-del-user{
-    text-align: center;
-    color: #007bff !important;
-}
-
-#configuracion{
-    text-align: center;
-    color: #007bff !important;
-}
-
-#componentes-con-opciones{
-    text-align: center;
-}
-
-#detalles{
-    text-align: center;
-}
-
-*{
-    margin: 0%;
-    padding: 0%;
+* {
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
+}
+
+#titulo, #detalles-del-user, #configuracion, #componentes-con-opciones, #detalles {
+    text-align: center;
+}
+
+#detalles-del-user, #configuracion {
+    color: #007bff !important;
 }
 
 .profile{
