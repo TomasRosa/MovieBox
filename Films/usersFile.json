@@ -2,7 +2,7 @@
   "users": [
     {
       "id": 1,
-      "firstName": "Isaak",
+      "firstName": "Isaak Isak",
       "lastName": "Sterland S",
       "email": "isterlandnew2@blinklist.com",
       "password": "isaak123",
@@ -280,8 +280,8 @@
       }
     },
     {
-      "nombre": "Lautaro",
-      "apellido": "Ruiz",
+      "firstName": "Lautaro",
+      "lastName": "Ruiz",
       "email": "lautaroruiz04@gmail.com",
       "password": "werwer34",
       "address": "sadsadsa",
@@ -298,8 +298,8 @@
       }
     },
     {
-      "nombre": "Lautaro",
-      "apellido": "Ruiz",
+      "firstName": "Lautaro",
+      "lastName": "Ruiz",
       "email": "roman@gmail.com",
       "password": "eqreew344",
       "address": "erewrwe",
@@ -316,8 +316,8 @@
       }
     },
     {
-      "nombre": "Tomas",
-      "apellido": "Rosa",
+      "firstName": "Tomas",
+      "lastName": "Rosa",
       "email": "roman@gmail.com",
       "password": "123ertomi",
       "address": "casatomi",

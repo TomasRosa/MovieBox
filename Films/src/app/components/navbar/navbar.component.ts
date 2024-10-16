@@ -60,6 +60,13 @@ export class NavbarComponent {
     this.routerService.navigate([componente]);
   }
 
+  navegarPerfil (){
+    if (this.userService.getIsLoggedIn())
+      this.routerService.navigate (['/perfil'])
+    else
+      this.routerService.navigate (['/login'])
+  }
+
   navegarCarrito() {
     if (this.userService.isLoggedIn) {
       // El usuario está autenticado, puedes permitir que agregue películas al carrito

@@ -10,7 +10,7 @@
       <h4>Nombre</h4>
       <div class="contenido-infomacion-personal">
         <div class="box-1">
-          <p *ngIf="!isEditingFirstName" class="paragraph">{{ firstName }}</p>
+          <p *ngIf="!isEditingFirstName" class="paragraph">{{ usuarioActual?.firstName }}</p>
           <form action="#" [formGroup]="formGroupFirstName">
             <input class="edit-input" *ngIf="isEditingFirstName" formControlName="firstname"/>
           </form>
@@ -36,7 +36,7 @@
       <h4>Apellido</h4>
       <div class="contenido-infomacion-personal">
         <div class="box-1">
-          <p *ngIf="!isEditingLastName" class="paragraph">{{ lastName }}</p>
+          <p *ngIf="!isEditingLastName" class="paragraph">{{usuarioActual?.lastName}}</p>
           <form action="#" [formGroup]="formGroupLastName">
             <input class="edit-input" *ngIf="isEditingLastName" formControlName="lastname"/>
           </form>
@@ -62,7 +62,7 @@
       <h4>DNI</h4>
       <div class="contenido-dni">
         <div class="box-1">
-          <p *ngIf="!isEditingDni" class="paragraph">{{ dni }}</p>
+          <p *ngIf="!isEditingDni" class="paragraph">{{ usuarioActual?.dni }}</p>
           <form action="#" [formGroup]="formGroupDNI">
             <input class="edit-input" *ngIf="isEditingDni" formControlName="dni"/>
           </form>
@@ -93,7 +93,7 @@
       <div class="contenido-datos-de-cuenta">
         <div class="box-1">
           <div class="box-email-edit">
-            <p *ngIf="!isEditingEmail" class="paragraph">{{ email }}</p>
+            <p *ngIf="!isEditingEmail" class="paragraph">{{usuarioActual?.email}}</p>
             <form action="#" [formGroup]="formGroupEmail">
               <input type="email" class="edit-input" *ngIf="isEditingEmail" formControlName="email"/>
             </form>
@@ -125,7 +125,7 @@
       <h4>Direccion</h4>
       <div class="contenido-datos-domicilios">
         <div class="box-1">
-          <p *ngIf="!isEditingAddress" class="paragraph">{{ address }}</p>
+          <p *ngIf="!isEditingAddress" class="paragraph"> {{usuarioActual?.address}}</p>
           <form action="#" [formGroup]="formGroupAddress">
             <input class="edit-input" *ngIf="isEditingAddress" formControlName="address" />
           </form>
@@ -145,6 +145,22 @@
         </div>
 
         <div id="resultado-operacion" class="mt-3">{{result}}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="box-logout">
+    <div class="contenido-logout">
+      <button class="button-logout" (click)="openLogoutModal()">Cerrar sesión</button>
+    </div>
+
+    <div *ngIf="isLogoutModalVisible" class="modal-overlay">
+      <div class="modal-content">
+        <h3>¿Deseas cerrar sesión?</h3>
+        <div class="modal-buttons">
+          <button class="cancel-button-logout" (click)="closeLogoutModal()">Cancelar</button>
+          <button class="confirm-button-logout" (click)="logout()">Confirmar</button>
+        </div>
       </div>
     </div>
   </section>

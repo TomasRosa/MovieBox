@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { ValidacionUserPersonalizada } from 'src/app/validaciones/validacion-user-personalizada';
@@ -9,9 +10,11 @@ import { ValidacionUserPersonalizada } from 'src/app/validaciones/validacion-use
   templateUrl: './perfil.component.html',
   styleUrls: ['./perfil.component.css']
 })
+
 export class PerfilComponent {
   usuarioActual: User | null = null;
-  
+  isLogoutModalVisible: boolean = false;
+
   formGroupEmail=new FormGroup({
     email: new FormControl ('', [Validators.email, Validators.required])
   });
@@ -34,13 +37,6 @@ export class PerfilComponent {
   get dni_fc () { return this.formGroupDNI.get ('dni') }
   get address_fc () { return this.formGroupAddress.get ('address') }
 
-  // Variables para los datos originales
-  firstName: string | null | undefined = null;
-  lastName:string | null | undefined = null;
-  dni: string | null | undefined = null;
-  email: string | null | undefined = null;
-  address: string | null | undefined = null;
-
   isEditingFirstName = false;
   isEditingLastName = false;
   isEditingDni = false;
@@ -50,51 +46,58 @@ export class PerfilComponent {
   showErrors = false;
   result: string = ''
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
-    // Suscribirse al servicio para obtener los datos del usuario actual
     this.userService.usuarioActual$.subscribe((usuario: User | null) => {
       this.usuarioActual = usuario;
       if (this.usuarioActual) {
-        // Asignar los valores cuando el usuario sea cargado
-        this.firstName = this.usuarioActual.firstName;
-        this.lastName = this.usuarioActual.lastName;
-        this.dni = this.usuarioActual.dni;
-        this.email = this.usuarioActual.email;
-        this.address = this.usuarioActual.address;
-
-        this.formGroupEmail.get('email')?.setValue(this.email); // Llenamos el FormControl con el email del usuario
-        this.firstname_fc?.setValue (this.firstName)
-        this.lastname_fc?.setValue (this.lastName)
+        this.formGroupEmail.get('email')?.setValue(this.usuarioActual.email); // Llenamos el FormControl con el email del usuario
+        this.formGroupFirstName.get('firstname')?.setValue (this.usuarioActual.firstName);
+        this.formGroupLastName.get('lastname')?.setValue (this.usuarioActual.lastName);
+        this.formGroupAddress.get('address')?.setValue (this.usuarioActual.address);
+        this.formGroupDNI.get('dni')?.setValue (this.usuarioActual.dni);
       }
     });
+  }
+
+  openLogoutModal() {
+    this.isLogoutModalVisible = true;
+  }
+
+  closeLogoutModal() {
+    this.isLogoutModalVisible = false;
   }
 
   // Funciones para activar el modo de edición
   toggleEditFirstame() {
     this.isEditingFirstName = !this.isEditingFirstName;
-    this.firstname_fc?.setValue (this.firstName as string); // Resetear valor al original
+    if (this.usuarioActual)
+      this.formGroupFirstName.get('firstname')?.setValue (this.usuarioActual.firstName);
   }
 
   toggleEditLastName (){
     this.isEditingLastName = !this.isEditingLastName;
-    this.lastname_fc?.setValue (this.lastName as string); // Resetear valor al original
+    if (this.usuarioActual)
+      this.formGroupLastName.get('lastname')?.setValue (this.usuarioActual.lastName);
   }
 
   toggleEditDni() {
     this.isEditingDni = !this.isEditingDni;
-    this.dni_fc?.setValue (this.dni as string); // Resetear valor al original
+    if (this.usuarioActual)
+      this.formGroupDNI.get('dni')?.setValue (this.usuarioActual.dni);
   }
 
   toggleEditEmail() {
     this.isEditingEmail = !this.isEditingEmail;
-    this.formGroupEmail.get('email')?.setValue(this.email as string); // Resetear valor al original si se vuelve a editar
+    if (this.usuarioActual)
+      this.formGroupEmail.get('email')?.setValue(this.usuarioActual.email); // Resetear valor al original si se vuelve a editar
   }
 
   toggleEditAddress() {
     this.isEditingAddress = !this.isEditingAddress;
-    this.address_fc?.setValue (this.address as string); // Resetear valor al original
+    if (this.usuarioActual)
+      this.formGroupAddress.get('address')?.setValue (this.usuarioActual.address);
   }
 
   // Función para cancelar la edición
@@ -104,27 +107,27 @@ export class PerfilComponent {
     this.isEditingDni = false;
     this.isEditingAddress = false;
     this.isEditingEmail = false;
-
-    this.formGroupFirstName.reset ({firstname: this.firstName});
-    this.formGroupFirstName.markAsUntouched();
-    this.formGroupLastName.reset ({lastname: this.lastName});
-    this.formGroupLastName.markAsUntouched();
-    this.formGroupDNI.reset ({dni: this.dni});
-    this.formGroupDNI.markAsUntouched();
-    this.formGroupAddress.reset ({address: this.address});
-    this.formGroupAddress.markAsUntouched();
-    this.formGroupEmail.reset({ email: this.email });
-    this.formGroupEmail.markAsUntouched();
+    if (this.usuarioActual){
+      this.formGroupFirstName.reset ({firstname: this.usuarioActual.firstName});
+      this.formGroupFirstName.markAsUntouched();
+      this.formGroupLastName.reset ({lastname: this.usuarioActual.lastName});
+      this.formGroupLastName.markAsUntouched();
+      this.formGroupDNI.reset ({dni: this.usuarioActual.dni});
+      this.formGroupDNI.markAsUntouched();
+      this.formGroupAddress.reset ({address: this.usuarioActual.address});
+      this.formGroupAddress.markAsUntouched();
+      this.formGroupEmail.reset({ email: this.usuarioActual.email });
+      this.formGroupEmail.markAsUntouched();
+    }
   }
 
   private async processEmailChangeRequest (){
     if (this.formGroupEmail.valid) {
       const newEmail = this.formGroupEmail.value.email;
-      if (newEmail !== this.email) {
+      if (this.usuarioActual && newEmail !== this.usuarioActual.email) {
         try {
           const resultado = await this.userService.changeEmail(this.usuarioActual as User, newEmail as string);
           if (resultado.success) {
-            this.email = newEmail; // Actualizamos el email
             this.result = 'Email cambiado con éxito';
           } else {
             this.result = 'Error al cambiar el email';
@@ -142,11 +145,10 @@ export class PerfilComponent {
   async processFirstNameChangeRequest (){
     if (this.formGroupFirstName.valid) {
       const newFirstName = this.formGroupFirstName.value.firstname;
-      if (newFirstName !== this.firstName) {
+      if (this.usuarioActual && newFirstName !== this.usuarioActual.firstName) {
         try {
           const resultado = await this.userService.changeFirstName(this.usuarioActual as User, newFirstName as string);
           if (resultado.success) {
-            this.firstName = newFirstName; // Actualizamos el email
             this.result = 'Nombre cambiado con éxito';
           } else {
             this.result = 'Error al cambiar el nombre';
@@ -164,11 +166,10 @@ export class PerfilComponent {
   async processLastNameChangeRequest (){
     if (this.formGroupFirstName.valid) {
       const newLastName = this.formGroupLastName.value.lastname;
-      if (newLastName !== this.lastName) {
+      if (this.usuarioActual && newLastName !== this.usuarioActual.lastName) {
         try {
           const resultado = await this.userService.changeLastName(this.usuarioActual as User, newLastName as string);
           if (resultado.success) {
-            this.lastName = newLastName; // Actualizamos el email
             this.result = 'Apellido cambiado con éxito';
           } else {
             this.result = 'Error al cambiar el apellido';
@@ -186,11 +187,10 @@ export class PerfilComponent {
   async processDNIChangeRequest (){
     if (this.formGroupDNI.valid) {
       const newDNI = this.formGroupDNI.value.dni;
-      if (newDNI !== this.dni) {
+      if (this.usuarioActual && newDNI !== this.usuarioActual.dni) {
         try {
           const resultado = await this.userService.changeDNI(this.usuarioActual as User, newDNI as string);
           if (resultado.success) {
-            this.dni = newDNI; // Actualizamos el email
             this.result = 'DNI cambiado con éxito';
           } else {
             this.result = 'Error al cambiar el DNI';
@@ -208,11 +208,10 @@ export class PerfilComponent {
   async processAddressChangeRequest (){
     if (this.formGroupAddress.valid) {
       const newAddress = this.formGroupAddress.value.address;
-      if (newAddress !== this.address) {
+      if (this.usuarioActual && newAddress !== this.usuarioActual.address) {
         try {
           const resultado = await this.userService.changeAddress(this.usuarioActual as User, newAddress as string);
           if (resultado.success) {
-            this.address = newAddress; // Actualizamos el email
             this.result = 'Direccion cambiada con éxito';
           } else {
             this.result = 'Error al cambiar la direccion';
@@ -246,4 +245,10 @@ export class PerfilComponent {
   async confirmChangeEmail (){
     await this.processEmailChangeRequest()
   }
+
+  logout()
+  {
+    this.userService.logout();
+    this.router.navigate(['/inicio']);
+  }
 }

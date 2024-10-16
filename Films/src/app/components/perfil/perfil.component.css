@@ -38,7 +38,8 @@
 .box-mi-perfil,
 .box-datos-personales,
 .box-datos-de-cuenta,
-.box-domicilios{
+.box-domicilios,
+.box-logout{
     padding-block: 0.4rem;
     padding-inline: 2rem;
 }
@@ -49,6 +50,26 @@
 .contenido-datos-de-cuenta{
     display: block;
     text-align: center;
+}
+
+.box-logout{
+    display: flex;
+    justify-content: center;
+}
+
+.button-logout{
+    padding-inline: 0.4rem;
+    font-size: 1.1rem;
+    padding-block: 0.4rem;
+    background-color: rgb(120, 120, 120);
+    border: 1px solid transparent;
+    transition: border 0.3s ease, border-radius 0.3s ease;
+    cursor: pointer;
+}
+
+.button-logout:hover{
+    background-color: rgb(150, 150, 150);
+    border-radius: 1rem;
 }
 
 .box-1{
@@ -144,4 +165,52 @@
     text-align: center;
     color: rgb(97, 97, 97);
     width: 13rem;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .modal-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .confirm-button-logout, .cancel-button-logout {
+    padding: 0.4rem;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: border 0.3s ease, border-radius 0.3s ease;
+  }
+  
+  .confirm-button-logout {
+    background-color: rgb(120, 120, 120);
+    color: white;
+    border: none;
+  }
+  
+  .cancel-button-logout {
+    background-color: rgb(120, 120, 120);
+    color: white;
+    border: none;
+  }
+
+  .confirm-button-logout:hover,
+  .cancel-button-logout:hover{
+    background-color: rgb(150, 150, 150);
+    border-radius: 1rem;
 }

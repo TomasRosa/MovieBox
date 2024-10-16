@@ -9,6 +9,7 @@ import { Film } from '../models/film';
 @Injectable({
   providedIn: 'root',
 })
+
 export class UserService {
   private urlJSONServer = 'http://localhost:5000/users';
   private users: User[] = [];
@@ -40,6 +41,10 @@ export class UserService {
 
   getUserActual(): User | null {
     return this.usuarioActualSubject.value;
+  }
+
+  getIsLoggedIn (){
+    return this.isLoggedIn;
   }
 
   get usuarioActual$(): Observable<User | null> {
