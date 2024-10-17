@@ -15,6 +15,7 @@ export class UserService {
   private users: User[] = [];
   private usuarioActualSubject: BehaviorSubject<User | null>;
   public isLoggedIn = false;
+  public isLoggedInSubject: BehaviorSubject<boolean | null>;
 
   constructor(
     private http: HttpClient,
@@ -22,12 +23,14 @@ export class UserService {
     private carritoService: CarritoService
   ) {
     this.usuarioActualSubject = new BehaviorSubject<User | null>(null);
+    this.isLoggedInSubject = new BehaviorSubject<boolean | null>(null);
 
     // Intenta cargar el usuario actual desde el almacenamiento local
     const storedUser = this.getUserFromStorage();
     if (storedUser) {
       this.usuarioActualSubject.next(storedUser);
       this.isLoggedIn = true;
+      this.isLoggedInSubject.next (true);
     } else {
       this.loadUsersFromJSON();
     }
@@ -37,6 +40,7 @@ export class UserService {
     this.saveUserToStorage(usuario);
     this.usuarioActualSubject.next(usuario);
     this.isLoggedIn = true;
+    this.isLoggedInSubject.next (true);
   }
 
   getUserActual(): User | null {
@@ -45,6 +49,10 @@ export class UserService {
 
   getIsLoggedIn (){
     return this.isLoggedIn;
+  }
+
+  get isLoggedIn$ (): Observable<boolean | null > {
+    return this.isLoggedInSubject.asObservable ();
   }
 
   get usuarioActual$(): Observable<User | null> {
@@ -258,6 +266,7 @@ export class UserService {
 
   logout() {
     this.isLoggedIn = false;
+    this.isLoggedInSubject.next (false);
     localStorage.removeItem('currentUser');
     this.carritoService.limpiarCarrito();
     this.router.navigate(['/inicio']);
