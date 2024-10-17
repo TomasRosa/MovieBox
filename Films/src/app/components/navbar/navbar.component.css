@@ -47,7 +47,7 @@ img{
 
 #navbar{
     display: grid;
-    grid-template-columns: 14% 66% 20%; /* Distribuye los elementos a los extremos */
+    grid-template-columns: 20% 60% 20%; /* Distribuye los elementos a los extremos */
     grid-template-areas: 
     "box-main-menu  box-search-bar   box-extras";
     padding-inline: 2rem;
@@ -70,7 +70,7 @@ img{
 
 .img-main-menu{
     width: 100px;
-    height: 60px;
+    height: 50px;
 }
 
 .box-search-bar{
@@ -79,8 +79,8 @@ img{
 }
 
 .search-logo{
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
 }
 
 .items-for-search{
@@ -93,21 +93,20 @@ img{
 }
 
 .search-bar{
-    margin-block: 0.6rem;
-    margin-inline: 0.8rem;
-    padding-left: 0.4rem;
+    margin-block: 0.2rem;
+
+
     font-size: 1.4rem;
     height: 3rem;
     width: 12rem;
-    border: 0.01rem solid transparent;
-    outline: 0.03rem solid transparent;
+    border: 0.1rem solid transparent;
+    outline: 0.1rem solid transparent;
     margin-right: 1rem;
 }
 
 .search-bar:focus{
     border: black;
     border-radius: 1rem;
-    outline: 0.03rem solid black;
 }
 
 .search-bar::placeholder{
@@ -145,11 +144,12 @@ img{
 }
 
 .button-shopping-cart{
-    padding: 0.55rem;
+    padding: 0.45rem;
 }
 
 .button-main-menu{
     padding: 0.3rem !important;
+    margin: 0%;
 }
 
 .img-shopping-cart{
