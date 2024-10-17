@@ -71,7 +71,9 @@ export class UserService {
   {
     usuario.arrayPeliculas = [];
   }
-
+  checkEmailExists(email: string): Observable<User[]> {
+    return this.http.get<User[]>(`${this.urlJSONServer}?email=${email}`);
+  }
   async addUser(user: User): Promise<User | undefined> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'

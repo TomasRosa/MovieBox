@@ -298,24 +298,6 @@
       }
     },
     {
-      "firstName": "Lautaro",
-      "lastName": "Ruiz",
-      "email": "roman@gmail.com",
-      "password": "eqreew344",
-      "address": "erewrwe",
-      "dni": "21345452",
-      "id": 12,
-      "arrayPeliculas": [],
-      "tarjeta": {
-        "firstName": "Lautaro",
-        "lastName": "Ruiz",
-        "nTarjeta": "2222 3333 4444 5555",
-        "fechaVencimiento": "11/24",
-        "CVC": 456,
-        "saldo": 99999
-      }
-    },
-    {
       "firstName": "Tomas",
       "lastName": "Rosa",
       "email": "roman@gmail.com",
@@ -330,6 +312,78 @@
         "nTarjeta": "3333 4444 5555 6666",
         "fechaVencimiento": "10/23",
         "CVC": 789,
+        "saldo": 99999
+      }
+    },
+    {
+      "firstName": "Tomas",
+      "lastName": "ROSA",
+      "email": "pruebaCartelVerde@gmail.com",
+      "password": "ads54ad",
+      "address": "Benito Lynch 45",
+      "dni": "45539094",
+      "id": 14,
+      "arrayPeliculas": [],
+      "tarjeta": {
+        "firstName": "",
+        "lastName": "",
+        "nTarjeta": "",
+        "fechaVencimiento": "",
+        "CVC": "",
+        "saldo": 99999
+      }
+    },
+    {
+      "firstName": "Tomas",
+      "lastName": "ROSA",
+      "email": "pruebaCarteeelVerde@gmail.com",
+      "password": "ads54ad",
+      "address": "Benito Lynch 45",
+      "dni": "45539094",
+      "id": 15,
+      "arrayPeliculas": [],
+      "tarjeta": {
+        "firstName": "",
+        "lastName": "",
+        "nTarjeta": "",
+        "fechaVencimiento": "",
+        "CVC": "",
+        "saldo": 99999
+      }
+    },
+    {
+      "firstName": "Tomas",
+      "lastName": "ROSA",
+      "email": "pruebaCarteeddelVerde@gmail.com",
+      "password": "ads54ad",
+      "address": "Benito Lynch 45",
+      "dni": "45539094",
+      "id": 16,
+      "arrayPeliculas": [],
+      "tarjeta": {
+        "firstName": "",
+        "lastName": "",
+        "nTarjeta": "",
+        "fechaVencimiento": "",
+        "CVC": "",
+        "saldo": 99999
+      }
+    },
+    {
+      "firstName": "Tomas",
+      "lastName": "ROSA",
+      "email": "ahoraSiDefinitivamenteCartelVerde@gmail.com",
+      "password": "as4d5ad",
+      "address": "Benito Lynch 45",
+      "dni": "85478897",
+      "id": 17,
+      "arrayPeliculas": [],
+      "tarjeta": {
+        "firstName": "",
+        "lastName": "",
+        "nTarjeta": "",
+        "fechaVencimiento": "",
+        "CVC": "",
         "saldo": 99999
       }
     }

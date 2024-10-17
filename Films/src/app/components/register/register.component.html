@@ -71,11 +71,20 @@
             <div class="text-center">
               <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid" style="width: 100%;">Registrarse</button>
             </div>
-            
+
             <div class="text-center mt-3">
               <a [routerLink]="['/login']" class="text-muted text-primary">
                 ¿Ya tienes una cuenta? <span class="text-primary">Inicia sesión.</span>
               </a>
+            </div>
+
+            <div class="text-center mt-3">
+              <span 
+                *ngIf="mensajeRegistro" 
+                [ngClass]="{'alert-success': mensajeRegistro === 'Registrado con éxito', 'alert-danger': mensajeRegistro === 'El email ya está registrado. Intente con otro.'}" 
+                class="alert">
+                {{ mensajeRegistro }}
+              </span>
             </div>
 
           </form>

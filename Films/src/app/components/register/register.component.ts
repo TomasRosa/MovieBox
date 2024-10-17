@@ -51,16 +51,28 @@ export class RegisterComponent implements OnInit {
       if (this.address.value != null) user.address = this.address.value;
       if (this.password.value != null) user.password = this.password.value;
   
-      try {
-        const newUser = await this.userService.addUser(user);
-        console.log('Usuario agregado:', newUser);
-        this.mensajeRegistro = 'Registrado con exito';
-      } catch (error) {
-        this.mensajeRegistro = 'Oops! Ocurrio un error al registrarse';
-        console.error('Error al agregar usuario:', error);
-        // Puedes manejar el error aquí (por ejemplo, mostrar un mensaje al usuario)
-      }
+      this.userService.checkEmailExists(user.email).subscribe((users) => {
+        if (users.length > 0) {
+          this.mensajeRegistro = 'El email ya está registrado. Intente con otro.';
+          console.log(this.mensajeRegistro);
+          return; // No proceder si el email ya está registrado
+        } else {
+          // Si no existe, proceder a registrar el usuario
+          this.userService.addUser(user)
+            .then((newUser) => {
+              console.log('Usuario agregado:', newUser);
+              this.mensajeRegistro = 'Registrado con éxito';
+            })
+            .catch((error) => {
+              this.mensajeRegistro = 'Oops! Ocurrió un error al registrarse';
+              console.error('Error al agregar usuario:', error);
+            });
+            
+            setTimeout(() => {
+              this.mensajeRegistro = '';
+            }, 2000);  
+        }
+      });
     }
   }
 }
- 
