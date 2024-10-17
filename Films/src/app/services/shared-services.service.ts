@@ -13,7 +13,9 @@ export class SharedServicesService{
     private carritoService: CarritoService, 
     private userService: UserService, 
     private router: Router
-  ) {}
+  ) {
+    
+  }
 
   navegarFilmDetail(rank: number) {
     this.router.navigate(['film-detail', rank]);
