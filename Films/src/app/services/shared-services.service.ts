@@ -9,18 +9,25 @@ import { Film } from '../models/film';
 })
 export class SharedServicesService{
   
+  addFilmToCart : Boolean | null = false;
+
   constructor(
     private carritoService: CarritoService, 
     private userService: UserService, 
     private router: Router
-  ) {}
+  ) 
+  {
+    this.userService.isLoggedIn$.subscribe ((isLoggedIn: boolean | null) =>{
+      this.addFilmToCart = isLoggedIn; 
+    })
+  }
 
   navegarFilmDetail(rank: number) {
     this.router.navigate(['film-detail', rank]);
   }
 
   agregarPeliculaAlCarrito(film: Film) {
-    if (this.userService.isLoggedIn) {
+    if (this.addFilmToCart) {
       this.carritoService.agregarAlCarrito(film);
     } else {
       alert("Debes iniciar sesión para agregar películas al carrito.");

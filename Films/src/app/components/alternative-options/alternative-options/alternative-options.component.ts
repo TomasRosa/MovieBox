@@ -12,6 +12,8 @@ export class AlternativeOptionsComponent {
   isFocused = false;
   selectedCategory: string = '';
 
+  constructor(private filmsService: FilmsFromAPIService, private routerService: Router) {}
+
   showCategories()
   {
     this.isFocused= true;
@@ -24,9 +26,10 @@ export class AlternativeOptionsComponent {
 
   selectCategory(category: string) {
     this.selectedCategory = category; // Establece la categoría seleccionada
-    this.router.navigate(['/movies', category]); // Navega a la ruta de la categoría
+    this.routerService.navigate(['/movies', category]); // Navega a la ruta de la categoría
   }
 
-  constructor(private filmsService: FilmsFromAPIService, private router: Router) {
+  navegar(componente: string) {
+    this.routerService.navigate([componente]);
   }
 }

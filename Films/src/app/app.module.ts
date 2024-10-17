@@ -15,12 +15,10 @@ import { InicioComponent } from './components/inicio/inicio.component';
 import { TarjetaComponent } from './components/tarjeta/tarjeta.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { BarraDeBusquedaComponent } from './components/barra-de-busqueda/barra-de-busqueda.component';
 import { CarritoComponent } from './components/carrito/carrito.component';
 import { InicioAuxComponent } from './components/inicio-aux/inicio-aux.component';
 import { OfertasComponent } from './components/ofertas/ofertas.component';
 import { OfertasAuxComponent } from './components/ofertas-aux/ofertas-aux.component';
-import { UserAsideComponent } from './components/user-aside/user-aside.component';
 import { DetallesDelPerfilComponent } from './components/detalles-del-perfil/detalles-del-perfil.component';
 import { EliminarCuentaComponent } from './components/eliminar-cuenta/eliminar-cuenta.component';
 import { CambiarEmailComponent } from './components/cambiar-email/cambiar-email.component';
@@ -43,13 +41,10 @@ import { FilmDetailComponent } from './components/film-detail/film-detail.compon
     TarjetaComponent,
     NavbarComponent,
     NotFoundComponent,
-    BarraDeBusquedaComponent,
     CarritoComponent,
-    BarraDeBusquedaComponent,
     InicioAuxComponent,
     OfertasComponent,
     OfertasAuxComponent,
-    UserAsideComponent,
     DetallesDelPerfilComponent,
     EliminarCuentaComponent,
     CambiarEmailComponent,

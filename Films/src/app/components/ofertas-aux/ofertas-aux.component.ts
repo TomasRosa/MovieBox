@@ -13,6 +13,7 @@ export class OfertasAuxComponent implements OnInit {
   private films: any;
   private originalFilms: any;
   filteredFilms: any[] = [];
+  isLoggedIn: Boolean | null = false;
 
   constructor(private dataFilms: FilmsFromAPIService, private carritoService: CarritoService, private userService: UserService) {}
 
@@ -22,10 +23,14 @@ export class OfertasAuxComponent implements OnInit {
     this.films = [...this.originalFilms];
     this.filteredFilms = this.films.filter((film: Film) => film.precio > 1500);
     this.mostrarPeliculasEnOferta();
+    
+    this.userService.isLoggedIn$.subscribe ((isLoggedIn: boolean | null) =>{
+      this.isLoggedIn = isLoggedIn; 
+    })
   }
 
   agregarPeliculaAlCarrito (film: Film){
-    if(this.userService.isLoggedIn)
+    if(this.isLoggedIn)
     {
       this.carritoService.agregarAlCarrito(film)
     }
