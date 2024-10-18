@@ -18,9 +18,8 @@ export class FilmDetailComponent {
   newReview: string = ''; // Para almacenar la nueva reseña
 
   userActual: User | null = null;
-  isLoggedIn: boolean = false;
+  isLoggedIn: Boolean | null = false;
   errorResena: string = '';
-
 
   constructor(private route: ActivatedRoute, 
   private films: FilmsFromAPIService,
@@ -31,10 +30,13 @@ export class FilmDetailComponent {
       this.arrayFilms = this.films.getMovies();
       this.getFilmRank();
     });
-  
+    
+    this.userService.isLoggedIn$.subscribe ((isLoggedIn: boolean | null) =>{
+      this.isLoggedIn = isLoggedIn; 
+    })
+
     // Obtener el usuario actual
     this.userActual = this.userService.getUserActual();
-    this.isLoggedIn = this.userActual !== null;
   }
   
 

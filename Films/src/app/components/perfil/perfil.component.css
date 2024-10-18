@@ -27,6 +27,13 @@
     padding-inline: 2rem;
 }
 
+.box-mi-perfil{
+    padding-top: 0.4rem;
+    padding-bottom: 0.2rem;
+    margin-bottom: 0.2rem;
+    border-bottom: 0.1rem solid black;
+}
+
 .contenido-datos-domicilios,
 .contenido-dni,
 .contenido-infomacion-personal,
@@ -44,14 +51,14 @@
     padding-inline: 0.4rem;
     font-size: 1.1rem;
     padding-block: 0.4rem;
-    background-color: rgb(120, 120, 120);
+    background-color: rgb(130, 130, 130);
     border: 1px solid transparent;
     transition: border 0.3s ease, border-radius 0.3s ease;
     cursor: pointer;
 }
 
 .button-logout:hover{
-    background-color: rgb(150, 150, 150);
+    background-color: rgb(164, 164, 164);
     border-radius: 1rem;
 }
 
@@ -81,6 +88,7 @@
 .account{
     width: 60px;
     height: 60px;
+    margin-right: 0.3rem;
 }
 
 .container{
@@ -181,19 +189,19 @@
   }
   
   .confirm-button-logout {
-    background-color: rgb(120, 120, 120);
+    background-color: rgb(130, 130, 130);
     color: white;
     border: none;
   }
   
   .cancel-button-logout {
-    background-color: rgb(120, 120, 120);
+    background-color: rgb(130, 130, 130);
     color: white;
     border: none;
   }
 
   .confirm-button-logout:hover,
   .cancel-button-logout:hover{
-    background-color: rgb(150, 150, 150);
+    background-color: rgb(164, 164, 164);
     border-radius: 1rem;
 }

@@ -14,7 +14,7 @@ export class UserService {
   private urlJSONServer = 'http://localhost:5000/users';
   private users: User[] = [];
   private usuarioActualSubject: BehaviorSubject<User | null>;
-  public isLoggedIn = false;
+  public isLoggedInSubject: BehaviorSubject<boolean | null>;
 
   constructor(
     private http: HttpClient,
@@ -22,11 +22,12 @@ export class UserService {
     private carritoService: CarritoService
   ) {
     this.usuarioActualSubject = new BehaviorSubject<User | null>(null);
+    this.isLoggedInSubject = new BehaviorSubject<boolean | null>(null);
 
   const storedUser = this.getUserFromStorage();
   if (storedUser) {
     this.usuarioActualSubject.next(storedUser);
-    this.isLoggedIn = true;
+    this.isLoggedInSubject.next (true);
 
     if (!storedUser.fav_list) {
       this.loadFavouriteListFromServer(storedUser.id).subscribe(favList => {
@@ -48,7 +49,7 @@ export class UserService {
   setUsuarioActual(usuario: User): void {
     this.saveUserToStorage(usuario);
     this.usuarioActualSubject.next(usuario);
-    this.isLoggedIn = true;
+    this.isLoggedInSubject.next (true);
   }
 
   getUserActual(): User | null {
@@ -78,7 +79,11 @@ export class UserService {
   }
 
   getIsLoggedIn (){
-    return this.isLoggedIn;
+    return true;
+  }
+
+  get isLoggedIn$ (): Observable<boolean | null > {
+    return this.isLoggedInSubject.asObservable ();
   }
 
   get usuarioActual$(): Observable<User | null> {
@@ -105,7 +110,9 @@ export class UserService {
   {
     usuario.arrayPeliculas = [];
   }
-
+  checkEmailExists(email: string): Observable<User[]> {
+    return this.http.get<User[]>(`${this.urlJSONServer}?email=${email}`);
+  }
   async addUser(user: User): Promise<User | undefined> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
@@ -299,7 +306,7 @@ export class UserService {
   }
 
   logout() {
-    this.isLoggedIn = false;
+    this.isLoggedInSubject.next (false);
     localStorage.removeItem('currentUser');
     this.carritoService.limpiarCarrito();
     this.router.navigate(['/inicio']);

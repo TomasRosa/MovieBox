@@ -2,7 +2,7 @@
     <div class="box-categories" (mouseover)="showCategories()" (mouseleave)="hideCategories()">
         <div class="box-information-categories">
             <button class="option-categories">
-                Categories
+                <p>Categories</p>
                 <img class="img-arrow" src="/assets/arrow_drop_down.png" alt="">
             </button>
         </div>
@@ -17,6 +17,6 @@
     </div>
 
     <div class="box-offers">
-        <button class="button-offers">Offers</button>
+        <button class="button-offers" (click)="navegar('ofertas')">Offers</button>
     </div>
 </section>

@@ -14,6 +14,8 @@ import { Router } from '@angular/router';
     carritoDeCompras: Array<Film> = [];
     totalCarrito: number = 0;
     verSiEstaVacio = true;
+    isLoggedIn: Boolean | null = false; 
+
 
     constructor(private carritoService: CarritoService, public userService: UserService, private routerService: Router) {}
 
@@ -23,7 +25,11 @@ import { Router } from '@angular/router';
         this.actualizarTotalCarrito();
       });
       
-      if (this.userService.isLoggedIn) 
+      this.userService.isLoggedIn$.subscribe ((isLoggedIn: boolean | null) =>{
+        this.isLoggedIn = isLoggedIn; 
+      })
+
+      if (this.isLoggedIn) 
       {
         this.routerService.navigate(['/carrito']);
       } 

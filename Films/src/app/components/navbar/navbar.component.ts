@@ -13,6 +13,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class NavbarComponent {
   isFocused: boolean = false;
+  showProfileAndShoppingCart: boolean | null = false;
 
   buscadorDeFilm: string ='';
   films: Array<Film> = [];
@@ -35,16 +36,28 @@ export class NavbarComponent {
       if (fetchedFilms !== null) {
         this.films = fetchedFilms;
       } 
-      else 
-      {
-          console.log('array nulo');
+      else{
+          console.log('Array de peliculas nulo');
       }
     }catch (error) {
         console.error(error);
     }
+
+    this.userService.isLoggedIn$.subscribe ((isLoggedIn: boolean | null) =>{
+      this.showProfileAndShoppingCart = isLoggedIn; 
+    })
+    
     this.formControl.valueChanges.subscribe(query => {
       this.buscarFilm(query);
     });
+  }
+
+  signIn(){
+    this.navegar('login')
+  }
+
+  signUp(){
+    this.navegar('registrarse')
   }
 
   buscarFilm(query: string) {
@@ -68,7 +81,7 @@ export class NavbarComponent {
   }
 
   navegarCarrito() {
-    if (this.userService.isLoggedIn) {
+    if (this.showProfileAndShoppingCart) {
       // El usuario está autenticado, puedes permitir que agregue películas al carrito
       this.routerService.navigate(['/carrito']);
     } else {
