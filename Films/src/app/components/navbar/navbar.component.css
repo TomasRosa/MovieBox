@@ -69,8 +69,8 @@ img{
 }
 
 .img-main-menu{
-    width: 100px;
-    height: 50px;
+    width: 85px;
+    height: 80px;
 }
 
 .box-search-bar{
@@ -94,8 +94,6 @@ img{
 
 .search-bar{
     margin-block: 0.2rem;
-
-
     font-size: 1.4rem;
     height: 3rem;
     width: 12rem;
@@ -119,7 +117,8 @@ img{
     border-radius: 0rem 0rem 0.8rem 0.8rem;
 }
 
-.button-main-menu, .button-profile, .button-shopping-cart{
+.button-profile, 
+.button-shopping-cart{
     border: 0.1rem solid transparent;
     border-radius: 0rem; 
     background-color:transparent;
@@ -127,15 +126,31 @@ img{
     display: flex;
     justify-content: center;
     cursor: pointer;
+    outline: none; /* Quita el contorno que aparece en foco */
 }
 
 .button-profile{
     margin: 0%;
 }
 
-.button-main-menu:hover, 
-.button-profile:hover, 
-.button-shopping-cart:hover{
+.button-main-menu{
+    border-radius: 0rem; 
+    background-color:transparent;
+    transition: border 0.3s ease, border-radius 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    outline: none; 
+    transition: none;
+}
+
+.button-main-menu:hover{
+    box-shadow: 1px 1px 2px 2px rgb(11, 11, 11);
+    background-color: transparent; 
+}
+
+.button-main-menu:focus {
+    outline: none;
 }
 
 .img-profile{
@@ -147,17 +162,11 @@ img{
     padding: 0.45rem;
 }
 
-.button-main-menu{
-    padding: 0.3rem !important;
-    margin: 0%;
-}
-
 .img-shopping-cart{
     width: 47px;
     height: 47px;
 }
 
-.button-main-menu:hover,
 .button-profile:hover,
 .button-shopping-cart:hover {
     border-color: black; /* Cambia solo el color del borde */

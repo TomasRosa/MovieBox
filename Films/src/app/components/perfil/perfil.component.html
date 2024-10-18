@@ -79,6 +79,7 @@
 
         <div *ngIf="!showErrors && dni_fc?.invalid && (dni_fc?.dirty || dni_fc?.touched)" class="errors">
           <div *ngIf="dni_fc?.hasError('required')" class="text-danger">El DNI es requerido</div>
+          <div *ngIf="dni_fc?.hasError('soloNumeros')" class="text-danger">DNI contiene solo numeros</div>
         </div>
 
         <div id="resultado-operacion" class="mt-3">{{resultDNI}}</div>

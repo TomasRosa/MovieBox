@@ -27,6 +27,13 @@
     padding-inline: 2rem;
 }
 
+.box-mi-perfil{
+    padding-top: 0.4rem;
+    padding-bottom: 0.2rem;
+    margin-bottom: 0.2rem;
+    border-bottom: 0.1rem solid black;
+}
+
 .contenido-datos-domicilios,
 .contenido-dni,
 .contenido-infomacion-personal,
@@ -81,6 +88,7 @@
 .account{
     width: 60px;
     height: 60px;
+    margin-right: 0.3rem;
 }
 
 .container{
