@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { CarritoService } from './carrito.service';
 import { User } from '../models/user';
 import { Film } from '../models/film';
@@ -23,14 +23,26 @@ export class UserService {
   ) {
     this.usuarioActualSubject = new BehaviorSubject<User | null>(null);
 
-    // Intenta cargar el usuario actual desde el almacenamiento local
-    const storedUser = this.getUserFromStorage();
-    if (storedUser) {
-      this.usuarioActualSubject.next(storedUser);
-      this.isLoggedIn = true;
-    } else {
-      this.loadUsersFromJSON();
+  const storedUser = this.getUserFromStorage();
+  if (storedUser) {
+    this.usuarioActualSubject.next(storedUser);
+    this.isLoggedIn = true;
+
+    if (!storedUser.fav_list) {
+      this.loadFavouriteListFromServer(storedUser.id).subscribe(favList => {
+        storedUser.fav_list = favList;
+        this.setUsuarioActual(storedUser);
+      });
     }
+  } else {
+    this.loadUsersFromJSON();
+  }
+  }
+
+  loadFavouriteListFromServer(userId: number) {
+    return this.http.get<User>(`http://localhost:5000/users/${userId}`).pipe(
+      map(user => user.fav_list)
+    );
   }
 
   setUsuarioActual(usuario: User): void {
@@ -40,7 +52,29 @@ export class UserService {
   }
 
   getUserActual(): User | null {
-    return this.usuarioActualSubject.value;
+    const currentUser = this.usuarioActualSubject.value;
+    console.log("Usuario recuperado:", currentUser);
+    return currentUser;
+  }
+
+  getUserActualJSON(): Observable<User | null> {
+    const currentUser = this.usuarioActualSubject.value;
+    
+    if (currentUser) {
+      return this.http.get<User>(`http://localhost:5000/users/${currentUser.id}`).pipe(
+        map(userFromServer => {
+          this.usuarioActualSubject.next(userFromServer); // Actualizamos el BehaviorSubject con el valor actualizado.
+          return userFromServer;
+        })
+      );
+    } else {
+      return this.http.get<User>(`http://localhost:5000/users/1`).pipe( // Ajusta el ID de usuario si es necesario.
+        map(userFromServer => {
+          this.usuarioActualSubject.next(userFromServer);
+          return userFromServer;
+        })
+      );
+    }
   }
 
   getIsLoggedIn (){
@@ -108,6 +142,16 @@ export class UserService {
       await this.http.patch<User>(url, userActual).toPromise();
     } catch (error) {
       console.error('Error al realizar la compra:', error);
+    }
+  } 
+
+  async quitarFilmDeLista (userActual: User, newList: Array<Film>){
+    const url = `${this.urlJSONServer}/${userActual.id}`;
+    userActual.fav_list.arrayPeliculas = newList
+    try {
+      await this.http.patch<User>(url, userActual).toPromise();
+    } catch (error) {
+      console.error('Error al quitar la pelicula de la lista:', error);
     }
   } 
   

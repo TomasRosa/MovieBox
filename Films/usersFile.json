@@ -8,6 +8,7 @@
       "password": "isaak123",
       "address": "Calle falsa 124",
       "dni": "12345674",
+      "fav_list": [],
       "arrayPeliculas": [
         {
           "movieId": 11,
@@ -43,6 +44,7 @@
       "password": "alicepass",
       "address": "123 Main St",
       "dni": "23456789",
+      "fav_list": [],
       "arrayPeliculas": [],
       "tarjeta": {
         "firstName": "Alice",
@@ -61,6 +63,7 @@
       "password": "johnpass",
       "address": "456 Elm St",
       "dni": "34567890",
+      "fav_list": [],
       "arrayPeliculas": [],
       "tarjeta": {
         "firstName": "John",
@@ -79,6 +82,7 @@
       "password": "emmapass",
       "address": "789 Oak St",
       "dni": "45678901",
+      "fav_list": [],
       "arrayPeliculas": [],
       "tarjeta": {
         "firstName": "Emma",
@@ -170,6 +174,10 @@
         "fechaVencimiento": "10/30",
         "CVC": "525",
         "saldo": 97749
+      },
+      "fav_list": {
+        "name": "",
+        "arrayPeliculas": []
       }
     },
     {
@@ -180,6 +188,7 @@
       "password": "oliviapass",
       "address": "202 Cedar St",
       "dni": "67890123",
+      "fav_list": [],
       "arrayPeliculas": [
         {
           "movieId": 10,
@@ -215,6 +224,7 @@
       "password": "jamespass",
       "address": "303 Birch St",
       "dni": "78901234",
+      "fav_list": [],
       "arrayPeliculas": [],
       "tarjeta": {
         "firstName": "James",
@@ -233,6 +243,7 @@
       "password": "sophiapass",
       "address": "404 Willow St",
       "dni": "89012345",
+      "fav_list": [],
       "arrayPeliculas": [],
       "tarjeta": {
         "firstName": "Sophia",
@@ -251,6 +262,7 @@
       "password": "williampass",
       "address": "505 Maple St",
       "dni": "90123456",
+      "fav_list": [],
       "arrayPeliculas": [],
       "tarjeta": {
         "firstName": "William",
@@ -269,6 +281,7 @@
       "password": "avapass",
       "address": "606 Redwood St",
       "dni": "01234567",
+      "fav_list": [],
       "arrayPeliculas": [],
       "tarjeta": {
         "firstName": "Ava",
@@ -287,6 +300,7 @@
       "address": "Calle falsa 332",
       "dni": "12345678",
       "id": 11,
+      "fav_list": [],
       "arrayPeliculas": [],
       "tarjeta": {
         "firstName": "Lautaro",
@@ -305,6 +319,7 @@
       "address": "erewrwe",
       "dni": "21345452",
       "id": 12,
+      "fav_list": [],
       "arrayPeliculas": [],
       "tarjeta": {
         "firstName": "Lautaro",
@@ -323,6 +338,7 @@
       "address": "casatomi",
       "dni": "89898989",
       "id": 13,
+      "fav_list": [],
       "arrayPeliculas": [],
       "tarjeta": {
         "firstName": "Tomas",

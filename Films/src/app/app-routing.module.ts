@@ -10,10 +10,9 @@ import { OfertasComponent } from './components/ofertas/ofertas.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { TarjetaComponent } from './components/tarjeta/tarjeta.component';
 import { BibliotecaComponent } from './components/biblioteca/biblioteca.component';
-import { Permisos } from './permisos.guard';
-import { VerificarContenidoCarrito } from './verificar-contenido-carrito.guard';
 import { FilmDetailComponent } from './components/film-detail/film-detail.component';
 import { MovieListComponentsComponent } from './components/movie-list-components/movie-list-components.component';
+import { FavouriteListComponent } from './components/favourite-list/favourite-list.component';
 
 const routes: Routes = [
   { path: 'inicio', component: InicioComponent },
@@ -27,6 +26,7 @@ const routes: Routes = [
   { path: 'tarjeta', component: TarjetaComponent},
   { path: 'biblioteca', component: BibliotecaComponent},
   { path: 'film-detail/:rank', component: FilmDetailComponent},
+  { path: 'favourite-list', component: FavouriteListComponent},
   { path: '', redirectTo: '/inicio', pathMatch: 'full'},
   { path: 'movies/:category', component: MovieListComponentsComponent },
   { path: '**', component: NotFoundComponent},

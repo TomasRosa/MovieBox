@@ -12,11 +12,16 @@ export class SharedServicesService{
   constructor(
     private carritoService: CarritoService, 
     private userService: UserService, 
-    private router: Router
+    private router: Router,
   ) {}
 
   navegarFilmDetail(rank: number) {
     this.router.navigate(['film-detail', rank]);
+  }
+
+  navegarFavouriteList ()
+  {
+    this.router.navigate(['favourite-list']);
   }
 
   agregarPeliculaAlCarrito(film: Film) {

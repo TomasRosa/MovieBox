@@ -31,6 +31,7 @@ import { AlternativeOptionsComponent } from './components/alternative-options/al
 import { FooterComponent } from './components/footer/footer/footer.component';
 import { MovieListComponentsComponent } from './components/movie-list-components/movie-list-components.component';
 import { FilmDetailComponent } from './components/film-detail/film-detail.component';
+import { FavouriteListComponent } from './components/favourite-list/favourite-list.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { FilmDetailComponent } from './components/film-detail/film-detail.compon
     AlternativeOptionsComponent,
     FooterComponent,
     MovieListComponentsComponent,
-    FilmDetailComponent
+    FilmDetailComponent,
+    FavouriteListComponent
   ],
   imports: [
     BrowserModule,

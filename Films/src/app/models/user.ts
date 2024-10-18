@@ -1,3 +1,4 @@
+import { FavouriteList } from "./f-list";
 import { Film } from "./film";
 import { Tarjeta } from "./tarjeta";
 //user.ts es models
@@ -9,6 +10,7 @@ export class User {
     address:string='';
     dni: string='';
     id: number=0;
+    fav_list: FavouriteList = new FavouriteList();
     arrayPeliculas: Array<Film> = [];
     tarjeta: Tarjeta = new Tarjeta();
 }

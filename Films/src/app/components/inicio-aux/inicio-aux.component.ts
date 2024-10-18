@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Film } from 'src/app/models/film';
 import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 import { SharedServicesService } from 'src/app/services/shared-services.service';
+import { FavouriteListService } from 'src/app/services/favourite-list.service';
 
 @Component({
   selector: 'app-inicio-aux',
@@ -14,7 +15,7 @@ export class InicioAuxComponent implements OnInit{
   preciosGenerados: boolean = false;
   filteredFilms: any[] = [];
 
-  constructor(private dataFilms: FilmsFromAPIService, private sharedService: SharedServicesService) {}
+  constructor(private dataFilms: FilmsFromAPIService, private sharedService: SharedServicesService, private Flist: FavouriteListService) {}
 
    ngOnInit(): void 
    {
@@ -35,4 +36,32 @@ export class InicioAuxComponent implements OnInit{
   getMovieGroups(movies: any[]): any[][] {
     return this.sharedService.getMovieGroups(movies);
   }  
+
+  isFilled: boolean = false;
+
+  onMouseEnter() {
+    this.isFilled = true;
+  }
+
+  onMouseLeave() {
+    this.isFilled = false;
+  }
+
+  changeButtonStar ()
+  {
+    const boton = document.getElementById ("buttonStar");
+    if (boton)
+    {
+      boton.textContent = "★"
+      this.isFilled = true
+    }
+  }
+
+  agregarALaListaDeFavoritos (film: Film)
+  {
+    this.Flist.agregarALaLista(film);
+  }
+  navegarFavouriteList() {
+    this.sharedService.navegarFavouriteList();
+  } 
 }

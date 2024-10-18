@@ -1,9 +1,18 @@
+<!-- <button (click) = "navegarFavouriteList()">Lista favoritos</button> -->
+
 <div *ngIf="filteredFilms.length > 0">
     <table>
       <tr *ngFor="let group of getMovieGroups(filteredFilms)">
         <td *ngFor="let film of group" class="recuadroCelda">
-            <img [src]="film.image" alt="Imagen no disponible" width="200" height="300">
-            <b style="font-size: 15px;">{{ film.title }}</b>
+            <div>
+              <button id = "buttonStar" 
+                (click)="agregarALaListaDeFavoritos(film)" 
+                class = "button-star">
+                ☆
+              </button>
+            </div>
+              <img [src]="film.image" alt="Imagen no disponible" width="200" height="300">
+              <b style="font-size: 15px;">{{ film.title }}</b>
   
             <div class = "button-container">
               <button class="btn btn-primary" (click)="navegarFilmDetail(film.rank)">Ficha técnica</button>
