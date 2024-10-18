@@ -1,4 +1,4 @@
-<div *ngIf="userService.isLoggedIn">
+<div *ngIf="isLoggedIn">
     <div class="container">
             <h2>Carrito de Compras</h2>
         </div>
@@ -41,6 +41,6 @@
         <button class="btn btn-primary mt-3" (click)="comprar()" [disabled] = "verSiEstaVacio">Finalizar compra</button>
     </div>
 </div>
-    <div *ngIf="!userService.isLoggedIn">
+    <div *ngIf="!isLoggedIn">
         <p>Debes iniciar sesión para acceder al carrito.</p>
 </div>

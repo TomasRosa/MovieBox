@@ -7,12 +7,17 @@ import { UserService } from './services/user.service';
 })
 export class Permisos 
 {
+  isLoggedIn: Boolean | null = false;
+
   constructor(private userService: UserService, private router: Router) {
+    this.userService.isLoggedIn$.subscribe ((isLoggedIn: boolean | null) =>{
+      this.isLoggedIn = isLoggedIn; 
+    })
   }
 
   canActivate(): boolean 
   {
-    if (this.userService.isLoggedIn) 
+    if (this.isLoggedIn) 
     {
       return true;
     } else {
