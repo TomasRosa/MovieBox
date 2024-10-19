@@ -1,0 +1,60 @@
+<form class="tarjeta-form" [formGroup]="tarjetaForm">
+    <div class="box-field">
+        <h6 class="field">Nombre</h6>
+        <input class="input-field" type="text" name="firstName" formControlName="firstName" placeholder="Nombre.." value="">
+    </div>
+    
+    <div class="box-field"> 
+        <h6 class="field" >Apellido</h6>
+        <input class="input-field" type="text" name="lastName" formControlName="lastName"  placeholder="Apellido.." value="">
+    </div>
+
+    <div class="box-field">
+        <h6 class="field">Nº de tarjeta</h6>
+        <input class="input-field" type="text" name="nTarjeta" formControlName="nTarjeta" placeholder="N° de tarjeta.." value="">
+    </div>
+
+    <div class="box-field">
+        <h6 class="field">Fecha de Vencimiento</h6>
+        <input class="input-field" type="text" name="fechaVencimiento" formControlName="fechaVencimiento" placeholder="10/29" value="">
+    </div>
+
+    <div class="box-button-confirmar">
+        <button class="button-confirmar" (click)="onSubmit()">Confirmar</button>
+    </div>
+    
+    <div class="box-errors">
+        <section class="box-error" *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)">
+            <div *ngIf="firstName?.hasError('required')" class="error-message">El nombre es requerido.</div>
+            <div *ngIf="firstName?.hasError('soloLetras')" class="error-message">El nombre debe contener solo letras.</div>
+        </section>
+    
+        <section class="box-error" *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)">
+            <div *ngIf="lastName?.hasError('required')" class="error-message"> El apellido es requerido.</div>
+            <div *ngIf="lastName?.hasError('soloLetras')" class="error-message">El apellido debe contener solo letras.</div>
+        </section>
+    
+        <section class="box-error" *ngIf="nTarjeta && (nTarjeta.invalid && (nTarjeta.dirty || nTarjeta.touched))">
+            <div *ngIf="nTarjeta.hasError('required')" class="error-message">El Nº de tarjeta es requerido.</div>
+            <div *ngIf="nTarjeta.hasError('soloNumeros')" class="error-message">La tarjeta debe tener solo numeros. </div>
+            <div *ngIf="nTarjeta.hasError('validarTarjetaLongitud')" class="error-message">El Nº de tarjeta son 16 digitos.</div>
+        </section>
+        
+        <section class="box-error" *ngIf="fechaVencimiento && (fechaVencimiento.invalid && (fechaVencimiento.dirty || fechaVencimiento.touched))">
+            <div *ngIf="fechaVencimiento.hasError('required')">La fecha de vencimiento es requerida.</div>
+            <div *ngIf="fechaVencimiento.hasError('validarFormatoFechaVencimiento')">Formato fecha de vencimiento debe ser MM/YY.</div>
+            <div *ngIf="fechaVencimiento.hasError('validarFechaNoExpirada')">Tarjeta vencida.</div>
+        </section>
+
+        <section *ngIf="showError">
+            <div class="box-error">
+                {{errorMessage}}
+            </div>
+        </section>
+        <section *ngIf="!showError">
+            <div class="box-error">
+                {{successMessage}}
+            </div>
+        </section>
+    </div>
+</form>

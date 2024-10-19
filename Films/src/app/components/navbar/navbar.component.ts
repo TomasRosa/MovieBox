@@ -13,7 +13,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class NavbarComponent {
   isFocused: boolean = false;
-  showProfileAndShoppingCart: boolean | null = false;
+  isLoggedIn: boolean | null = false;
 
   buscadorDeFilm: string ='';
   films: Array<Film> = [];
@@ -44,7 +44,7 @@ export class NavbarComponent {
     }
 
     this.userService.isLoggedIn$.subscribe ((isLoggedIn: boolean | null) =>{
-      this.showProfileAndShoppingCart = isLoggedIn; 
+      this.isLoggedIn = isLoggedIn; 
     })
     
     this.formControl.valueChanges.subscribe(query => {
@@ -74,14 +74,14 @@ export class NavbarComponent {
   }
 
   navegarPerfil (){
-    if (this.userService.getIsLoggedIn())
+    if (this.isLoggedIn)
       this.routerService.navigate (['/perfil'])
     else
       this.routerService.navigate (['/login'])
   }
 
   navegarCarrito() {
-    if (this.showProfileAndShoppingCart) {
+    if (this.isLoggedIn) {
       // El usuario está autenticado, puedes permitir que agregue películas al carrito
       this.routerService.navigate(['/carrito']);
     } else {

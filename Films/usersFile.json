@@ -303,11 +303,11 @@
       "fav_list": [],
       "arrayPeliculas": [],
       "tarjeta": {
-        "firstName": "Lautaro",
-        "lastName": "Ruiz",
-        "nTarjeta": "1111 2222 3333 4444",
-        "fechaVencimiento": "12/25",
-        "CVC": 123,
+        "firstName": "",
+        "lastName": "",
+        "nTarjeta": "",
+        "fechaVencimiento": "",
+        "CVC": "",
         "saldo": 99999
       }
     },

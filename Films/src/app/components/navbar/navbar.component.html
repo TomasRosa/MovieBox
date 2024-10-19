@@ -11,18 +11,18 @@
     </div>
 
     <div class="box-extras">
-        <div *ngIf="showProfileAndShoppingCart" class="box-shopping-cart">
+        <div *ngIf="isLoggedIn" class="box-shopping-cart">
            <button class="button-shopping-cart" (click)="navegarCarrito()">
                <img class="img-shopping-cart" src="/assets/Shopping cart.png" alt="">    
            </button>
         </div>
-        <div *ngIf="showProfileAndShoppingCart" class="box-profile">
+        <div *ngIf="isLoggedIn" class="box-profile">
             <button class="button-profile" (click)="navegarPerfil()">
                <img class="img-profile" src="/assets/person.png" alt="">             
             </button>
         </div>
         
-        <div *ngIf="!showProfileAndShoppingCart" class="box-signIn-signUp">
+        <div *ngIf="!isLoggedIn" class="box-signIn-signUp">
             <button class="button-sign-in" (click)="signIn()">
                 Sign in
             </button>

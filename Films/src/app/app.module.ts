@@ -30,6 +30,7 @@ import { FooterComponent } from './components/footer/footer/footer.component';
 import { MovieListComponentsComponent } from './components/movie-list-components/movie-list-components.component';
 import { FilmDetailComponent } from './components/film-detail/film-detail.component';
 import { FavouriteListComponent } from './components/favourite-list/favourite-list.component';
+import { TarjetaFormComponent } from './components/tarjeta-form/tarjeta-form/tarjeta-form.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { FavouriteListComponent } from './components/favourite-list/favourite-li
     FooterComponent,
     MovieListComponentsComponent,
     FilmDetailComponent,
-    FavouriteListComponent
+    FavouriteListComponent,
+    TarjetaFormComponent
   ],
   imports: [
     BrowserModule,

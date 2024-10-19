@@ -5,6 +5,7 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { CarritoService } from './carrito.service';
 import { User } from '../models/user';
 import { Film } from '../models/film';
+import { Tarjeta } from '../models/tarjeta';
 
 @Injectable({
   providedIn: 'root',
@@ -106,13 +107,14 @@ export class UserService {
     }
   }
 
-  crearCarrito(usuario: User) 
-  {
+  crearCarrito(usuario: User) {
     usuario.arrayPeliculas = [];
   }
+
   checkEmailExists(email: string): Observable<User[]> {
     return this.http.get<User[]>(`${this.urlJSONServer}?email=${email}`);
   }
+
   async addUser(user: User): Promise<User | undefined> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
@@ -172,6 +174,58 @@ export class UserService {
       return { success: false, message: 'Error al eliminar el usuario. Por favor, inténtalo de nuevo más tarde.' };
     }
   }
+
+  async changeDataCard (user: User|null, newCard: Tarjeta){
+    if (user!=null){
+      const url = `${this.urlJSONServer}/${user.id}`;
+      user.tarjeta = newCard;
+      try {
+        await this.http.patch(url, user).toPromise();
+        this.usuarioActualSubject.next (user);
+        this.saveUserToStorage(user); // Actualizamos el almacenamiento local
+        return { success: true, message: 'Tarjeta cambiada correctamente.' };
+      } catch (error) {
+        console.error('Error al cambiar los datos de la tarjeta:', error);
+        return { success: false, message: 'Error al cambiar los datos de la tarjeta. Por favor, inténtalo de nuevo más tarde.' };
+      }
+    }
+    return { success: false, message: 'Error al eliminar la tarjeta. Por favor, inténtalo de nuevo más tarde.' };
+  }
+
+  async addCard (user: User | null, newCard: Tarjeta){
+    if (user!=null){
+      const url = `${this.urlJSONServer}/${user.id}`;
+      user.tarjeta = newCard;
+      try {
+        await this.http.patch(url, user).toPromise();
+        this.usuarioActualSubject.next (user);
+        this.saveUserToStorage(user); 
+        return { success: true, message: 'Tarjeta cargada correctamente.' };
+      } catch (error) {
+        console.error('Error al cargada la tarjeta:', error);
+        return { success: false, message: 'Error al cargada la tarjeta. Por favor, inténtalo de nuevo más tarde.' };
+      }
+    }
+    return { success: false, message: 'Error al cargar la tarjeta. Por favor, inténtalo de nuevo más tarde.' };
+  }
+
+  async deleteCard (user: User|null): Promise<{ success: boolean, message: string }> {
+    if (user!=null){
+      const url = `${this.urlJSONServer}/${user.id}`;
+      user.tarjeta = new Tarjeta ()
+      try {
+        await this.http.patch(url, user).toPromise();
+        this.usuarioActualSubject.next (user);
+        this.saveUserToStorage(user); // Actualizamos el almacenamiento local
+        return { success: true, message: 'Tarjeta eliminada correctamente.' };
+      } catch (error) {
+        console.error('Error al eliminar la tarjeta:', error);
+        return { success: false, message: 'Error al eliminar la tarjeta. Por favor, inténtalo de nuevo más tarde.' };
+      }
+    }
+    return { success: false, message: 'Error al eliminar la tarjeta. Por favor, inténtalo de nuevo más tarde.' };
+  }
+
 
   async changeFirstName(user: User, newFirstName: string): Promise<{ success: boolean, message: string }> {
     const url = `${this.urlJSONServer}/${user.id}`;

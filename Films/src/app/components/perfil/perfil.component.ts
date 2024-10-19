@@ -13,6 +13,9 @@ import { ValidacionUserPersonalizada } from 'src/app/validaciones/validacion-use
 
 export class PerfilComponent {
   usuarioActual: User | null = null;
+  cardExists: boolean | null = false;
+  formAddCard: boolean | null = false;
+  lastFourDigits: String | null = null;
   isLogoutModalVisible: boolean = false;
 
   formGroupEmail=new FormGroup({
@@ -61,6 +64,9 @@ export class PerfilComponent {
         this.formGroupLastName.get('lastname')?.setValue (this.usuarioActual.lastName);
         this.formGroupAddress.get('address')?.setValue (this.usuarioActual.address);
         this.formGroupDNI.get('dni')?.setValue (this.usuarioActual.dni);
+        this.getLastFourDigits ();
+        if (this.usuarioActual.tarjeta.firstName && this.usuarioActual.tarjeta.lastName && this.usuarioActual.tarjeta.nTarjeta && this.usuarioActual.tarjeta.fechaVencimiento)
+          this.cardExists = true;
       }
     });
   }
@@ -73,7 +79,6 @@ export class PerfilComponent {
     this.isLogoutModalVisible = false;
   }
 
-  // Funciones para activar el modo de edición
   toggleEditFirstame() {
     this.isEditingFirstName = !this.isEditingFirstName;
     if (this.usuarioActual)
@@ -104,7 +109,6 @@ export class PerfilComponent {
       this.formGroupAddress.get('address')?.setValue (this.usuarioActual.address);
   }
 
-  // Función para cancelar la edición
   cancelEdit() {
     this.isEditingFirstName = false;
     this.isEditingLastName = false;
@@ -188,7 +192,7 @@ export class PerfilComponent {
           this.resultLastName = 'Error en la solicitud: ' + error;
         }
       }
-      this.isEditingLastName = false; // Salimos del modo de edición
+      this.isEditingLastName = false;
     } else {
       this.resultLastName = 'Por favor, ingresa un apellido válido.';
     }
@@ -212,7 +216,7 @@ export class PerfilComponent {
           this.resultDNI = 'Error en la solicitud: ' + error;
         }
       }
-      this.isEditingDni = false; // Salimos del modo de edición
+      this.isEditingDni = false;
     } else {
       this.resultDNI = 'Por favor, ingresa un DNI válido.';
     }
@@ -236,7 +240,7 @@ export class PerfilComponent {
           this.resultAddress = 'Error en la solicitud: ' + error;
         }
       }
-      this.isEditingAddress = false; // Salimos del modo de edición
+      this.isEditingAddress = false;
     } else {
       this.resultAddress = 'Por favor, ingresa un DNI válido.';
     }
@@ -270,5 +274,29 @@ export class PerfilComponent {
     this.router.navigate(['/inicio']);
   }
 
+  getLastFourDigits (){
+    if (this.usuarioActual){
+      this.lastFourDigits = this.usuarioActual.tarjeta.nTarjeta.substring(this.usuarioActual.tarjeta.nTarjeta.length - 4);
+    }
+  }
+
+  async deleteCard(){
+    try{
+      await this.userService.deleteCard (this.usuarioActual);
+      this.cardExists = false;
+      alert ('Tarjeta eliminada correctamente')
+    }catch (error){
+      console.error (error)
+      alert (error)
+    }
+  }
+
+  showFormAddCard(){
+    this.formAddCard = !this.formAddCard;
+  }
+
+  hideFormAddCard(){
+    this.formAddCard = !this.formAddCard;
+  }
 
 }

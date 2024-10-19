@@ -1,0 +1,65 @@
+.tarjeta-form{
+    background-color: transparent;
+    padding: 1rem;
+    display: grid;
+    justify-content: center;
+}
+
+.field{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.box-field{
+    display: grid;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.box-button-confirmar{
+    display: flex;
+    justify-content: center;
+}
+
+.input-field{
+    margin-block: 0.2rem;
+    font-size: 1rem;
+    height: 2rem;
+    width: 12rem;
+    border: 0.1rem solid transparent;
+    outline: 0.1rem solid transparent;
+    border-radius: 0.5rem;
+    background-color: aliceblue;
+}
+
+.input-field::placeholder{
+    color: black;
+    letter-spacing: 0.1rem;
+}
+
+.button-confirmar{
+    padding-inline: 0.4rem;
+    font-size: 1.1rem;
+    padding-block: 0.4rem;
+    background-color: rgb(130, 130, 130);
+    border: 1px solid transparent;
+    transition: border 0.3s ease, border-radius 0.3s ease;
+    cursor: pointer;
+    color: white;
+}
+
+.button-confirmar:hover{
+    background-color: rgb(164, 164, 164);
+    border-radius: 1rem;
+}
+
+.box-error{
+    display: grid;
+    text-align: center;
+}
+
+.box-errors{
+    margin-top: 0.2rem;
+    color: rgb(205, 25, 25);
+}

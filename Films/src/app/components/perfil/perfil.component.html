@@ -150,6 +150,52 @@
     </div>
   </section>
 
+  <section class="box-tarjetas">
+    <h3 class="sub-title">Mis Tarjetas</h3>
+    <div class="container">
+      <div class="box-1">
+
+        <div class="mis-tarjetas">
+          
+          <div class="tarjeta" *ngIf="cardExists">
+            <div class="chip"></div>
+            <p class="dato-tarjeta nTarjeta"> **** **** **** {{lastFourDigits}}</p>
+            <p class="dato-tarjeta vencimiento">{{ usuarioActual?.tarjeta?.fechaVencimiento }}</p>
+            <div class="last-data">
+              <p class="dato-tarjeta fullname">{{usuarioActual?.tarjeta?.firstName}} {{usuarioActual?.tarjeta?.lastName}}</p>
+              <p class="dato-tarjeta tipo-tarjeta">VISA</p>
+            </div>
+          </div>
+
+          <div class="non-existent-card" *ngIf="!cardExists">
+            <p class="paragraph">Aun no tiene una tarjeta cargada...</p>
+          </div>
+
+          <div class="box-opciones-tarjeta">
+              <button *ngIf="!cardExists" class="button-new-tarjeta" (click)="showFormAddCard()"> 
+                Agregar Tarjeta
+              </button>
+              <div *ngIf="formAddCard" class="tarjeta-form-overlay">
+                <button class="cancel-form" (click)="hideFormAddCard()">X</button>
+                <app-tarjeta-form></app-tarjeta-form>
+              </div>
+              <div *ngIf="cardExists" class="card-exist">
+                <button class="button-delete" (click)="deleteCard()">
+                  <img class="delete" src="/assets/delete.png" alt="">
+                </button>
+                <button class="edit button-edit-tarjeta">
+                  <img class="img-edit-tarjeta" src="/assets/Edit.png" alt="">
+                </button>
+              </div>
+          </div>
+          <p *ngIf="!usuarioActual?.tarjeta">No tienes una tarjeta asociada</p>
+        </div>
+      
+      </div>
+    </div>
+
+  </section>
+
   <section class="box-logout">
     <div class="contenido-logout">
       <button class="button-logout" (click)="openLogoutModal()">Cerrar sesión</button>

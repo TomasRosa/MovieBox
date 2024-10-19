@@ -12,5 +12,5 @@ export class User {
     id: number=0;
     fav_list: FavouriteList = new FavouriteList();
     arrayPeliculas: Array<Film> = [];
-    tarjeta: Tarjeta = new Tarjeta();
+    tarjeta: Tarjeta = new Tarjeta ();
 }
