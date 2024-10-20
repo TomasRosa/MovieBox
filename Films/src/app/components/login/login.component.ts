@@ -57,10 +57,18 @@ export class LoginComponent implements OnInit {
         this.errorMessage = '';
         this.loginForm.controls['email'].setErrors(null);
         this.loginForm.controls['password'].setErrors(null);
-        this.router.navigate(['/inicio']);
   
         if (userActual) {
           this.userService.setUsuarioActual(userActual);
+  
+          // Verificar si es un usuario administrador
+          if (userActual.role === 'admin') {
+            // Si el rol es "admin", redirige al componente de código de admin
+            this.router.navigate(['/admin-code']);
+          } else {
+            // Si es un usuario normal, redirigir al inicio
+            this.router.navigate(['/inicio']);
+          }
         }
       } else {
         this.successMessage = '';

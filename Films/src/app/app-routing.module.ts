@@ -13,6 +13,7 @@ import { BibliotecaComponent } from './components/biblioteca/biblioteca.componen
 import { FilmDetailComponent } from './components/film-detail/film-detail.component';
 import { MovieListComponentsComponent } from './components/movie-list-components/movie-list-components.component';
 import { FavouriteListComponent } from './components/favourite-list/favourite-list.component';
+import { AdminCodeComponent } from './components/admin-code/admin-code.component';
 
 const routes: Routes = [
   { path: 'inicio', component: InicioComponent },
@@ -29,7 +30,8 @@ const routes: Routes = [
   { path: 'favourite-list', component: FavouriteListComponent},
   { path: '', redirectTo: '/inicio', pathMatch: 'full'},
   { path: 'movies/:category', component: MovieListComponentsComponent },
-  { path: '**', component: NotFoundComponent},
+  { path: 'admin-code', component: AdminCodeComponent},
+  { path: '**', component: NotFoundComponent}
 ];
 
 @NgModule({
