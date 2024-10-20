@@ -47,7 +47,7 @@ export class UserService {
     );
   }
 
-  setUsuarioActual(usuario: User): void {
+  setUsuarioActual(usuario: User | null): void {
     this.saveUserToStorage(usuario);
     this.usuarioActualSubject.next(usuario);
     this.isLoggedInSubject.next (true);
@@ -364,9 +364,10 @@ export class UserService {
     localStorage.removeItem('currentUser');
     this.carritoService.limpiarCarrito();
     this.router.navigate(['/inicio']);
+    this.setUsuarioActual(null);
   }
 
-  private saveUserToStorage(usuario: User): void {
+  private saveUserToStorage(usuario: User | null): void {
     localStorage.setItem('currentUser', JSON.stringify(usuario));
   }
 
