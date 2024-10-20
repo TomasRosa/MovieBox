@@ -55,9 +55,12 @@ export class PerfilComponent {
   
   constructor(private userService: UserService, private router: Router) {}
 
+  isLoggedIn: Boolean | null = false;
+
   ngOnInit(): void {
-    this.userService.usuarioActual$.subscribe((usuario: User | null) => {
-      this.usuarioActual = usuario;
+    this.userService.isLoggedIn$.subscribe((isLoggedIn: Boolean | null) => {
+      this.isLoggedIn = isLoggedIn;
+      this.usuarioActual = this.userService.getUserActual();
       if (this.usuarioActual) {
         this.formGroupEmail.get('email')?.setValue(this.usuarioActual.email); // Llenamos el FormControl con el email del usuario
         this.formGroupFirstName.get('firstname')?.setValue (this.usuarioActual.firstName);
@@ -271,7 +274,6 @@ export class PerfilComponent {
 
   logout(){
     this.userService.logout();
-    this.router.navigate(['/inicio']);
   }
 
   getLastFourDigits (){
