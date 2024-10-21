@@ -100,8 +100,9 @@ export class FavouriteListService {
       userFromServer => {
         if (userFromServer.fav_list && userFromServer.fav_list.arrayPeliculas) {
           this.listaFav = userFromServer.fav_list;
+          this.listaFav.name = "Tu lista de favoritos"
         } else {
-          this.listaFav = { name: 'Mi lista de favoritos', arrayPeliculas: [] };
+          this.listaFav = { name: 'Tu lista de favoritos', arrayPeliculas: [] };
         }
       },
       error => {

@@ -12,7 +12,7 @@ export class FavouriteListComponent implements OnInit {
   arrayFilms: Array<Film> = [];
 
   constructor(
-    private Flist: FavouriteListService,
+    public Flist: FavouriteListService,
     private sharedService: SharedServicesService
   ) {
     this.Flist.getChangesObservable().subscribe(() => {
@@ -23,6 +23,7 @@ export class FavouriteListComponent implements OnInit {
   ngOnInit(): void {
     this.Flist.userService.getUserActualJSON().subscribe((user) => {
       this.Flist.obtenerFilmsDeLista();
+      this.Flist.obtenerNameDeLista();
   
       this.arrayFilms = this.Flist.listaFav.arrayPeliculas;
       

@@ -1,3 +1,5 @@
+import { Review } from "./review";
+
 export class Film {
     rank: number = 0;
     title: string = '';
@@ -12,5 +14,5 @@ export class Film {
     imdb: string = '';
     imdb_link: string = '';
     precio: number = 0;
-    reviews?: string[]; // Se marca como opcional, ya que no siempre viene de la API
+    reviews?: Review[]; // Se marca como opcional, ya que no siempre viene de la API
 }

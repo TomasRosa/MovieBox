@@ -8,24 +8,48 @@
     <div class="reviews mt-4">
         <h3>Reseñas:</h3>
         <div *ngIf="movie?.reviews?.length ?? 0 > 0; else noReviews">
-            <div class="card mt-3" *ngFor="let review of movie.reviews">
-                <div class="card-body">
-                    <p class="card-text">{{ review }}</p>
-                </div>
+          <div class="card mt-3" *ngFor="let review of movie.reviews">
+            <div class="card-body position-relative">
+              <!-- Mostrar el contenido de la reseña -->
+              <p class="card-text">{{ review.userName }}: {{ review.content }}</p>
+      
+              <!-- Mostrar los íconos solo si el usuario logueado es el autor de la reseña -->
+              <div *ngIf="review.userEmail === userActual?.email" class="position-absolute top-0 end-0">
+                <!-- Icono de Editar -->
+                <i class="bi bi-pencil-square text-primary me-2" (click)="editReview(review)" style="cursor: pointer;"></i>
+                <!-- Icono de Eliminar -->
+                <i class="bi bi-trash text-danger" (click)="confirmDeleteReview(review)" style="cursor: pointer;"></i>
+              </div>
             </div>
+          </div>
         </div>
         <ng-template #noReviews>
-            <p>No hay reseñas aún. ¡Sé el primero en escribir una!</p>
+          <p>No hay reseñas aún. ¡Sé el primero en escribir una!</p>
         </ng-template>
     </div>
 </div>
 
-<!-- Formulario para agregar una reseña -->
+<!-- Confirmación de eliminación -->
+<div *ngIf="reviewToDelete" class="alert alert-danger" role="alert">
+  ¿Estás seguro que deseas eliminar esta reseña?
+  <button class="btn btn-danger ms-2" (click)="deleteReview()">Sí</button>
+  <button class="btn btn-secondary ms-2" (click)="cancelDelete()">Cancelar</button>
+</div>
+
+<!-- Formulario para agregar o editar una reseña -->
 <form (ngSubmit)="addReview()" class="mt-4">
     <div class="form-group">
         <textarea class="form-control" [(ngModel)]="newReview" name="review" placeholder="Escribe tu reseña aquí" rows="3" required></textarea>
     </div>
-    <button type="submit" class="btn btn-primary mt-2">Enviar Reseña</button>
+    
+    <!-- Mostrar "Enviar Reseña" cuando no se está editando -->
+    <button *ngIf="!editingReview" type="submit" class="btn btn-primary mt-2">Enviar Reseña</button>
+    
+    <!-- Mostrar botones de confirmar y cancelar si se está editando -->
+    <div *ngIf="editingReview" class="mt-2">
+        <button type="button" class="btn btn-success me-2" (click)="confirmEditReview()">Confirmar</button>
+        <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancelar</button>
+    </div>
 </form>
-<p *ngIf="errorResena" class="text-danger">{{ errorResena }}</p>
 
+<p *ngIf="errorResena" class="text-danger">{{ errorResena }}</p>

@@ -47,7 +47,7 @@ export class UserService {
     );
   }
 
-  setUsuarioActual(usuario: User): void {
+  setUsuarioActual(usuario: User | null): void {
     this.saveUserToStorage(usuario);
     this.usuarioActualSubject.next(usuario);
     this.isLoggedInSubject.next (true);
@@ -360,13 +360,17 @@ export class UserService {
   }
 
   logout() {
-    this.isLoggedInSubject.next (false);
-    localStorage.removeItem('currentUser');
-    this.carritoService.limpiarCarrito();
+    this.usuarioActualSubject.next(null);
+    // Actualizar estado de login a falso
+    this.isLoggedInSubject.next(false);
+  
+    // Limpiar cualquier dato guardado en el localStorage si lo estás usando
+    localStorage.removeItem('currentUser'); // O cualquier otro mecanismo de almacenamiento que uses
+  
+    // Redirigir al usuario a la página de inicio o login
     this.router.navigate(['/inicio']);
   }
-
-  private saveUserToStorage(usuario: User): void {
+  private saveUserToStorage(usuario: User | null): void {
     localStorage.setItem('currentUser', JSON.stringify(usuario));
   }
 
