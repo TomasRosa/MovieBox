@@ -159,10 +159,25 @@
           
           <div class="tarjeta" *ngIf="cardExists">
             <div class="chip"></div>
-            <p class="dato-tarjeta nTarjeta"> **** **** **** {{lastFourDigits}}</p>
-            <p class="dato-tarjeta vencimiento">{{ usuarioActual?.tarjeta?.fechaVencimiento }}</p>
+            <div class="box-datos">
+              <p class="dato-tarjeta nTarjeta" *ngIf="!permitirEditarTarjeta"> **** **** **** {{lastFourDigits}}</p>
+              <input id="nTarjeta" class="dato-tarjeta nTarjeta" *ngIf="permitirEditarTarjeta" type="text" formControlName="nTarjeta" placeholder="usuarioActual?.tarjeta?.nTarjeta">
+            </div>
+            <div class="box-datos">
+              <p class="dato-tarjeta vencimiento"  *ngIf="!permitirEditarTarjeta">{{ usuarioActual?.tarjeta?.fechaVencimiento }}</p>
+              <input id="fechaVencimiento" class="dato-tarjeta vencimiento" *ngIf="permitirEditarTarjeta" type="text" formControlName="fechaVencimiento" placeholder="usuarioActual?.tarjeta?.fechaVencimiento">
+            </div>
             <div class="last-data">
-              <p class="dato-tarjeta fullname">{{usuarioActual?.tarjeta?.firstName}} {{usuarioActual?.tarjeta?.lastName}}</p>
+              <div class="box-fullname">
+                <div class="box-datos">
+                  <p class="dato-tarjeta fullname"  *ngIf="!permitirEditarTarjeta">{{usuarioActual?.tarjeta?.firstName}}</p>
+                  <input id="firstname" class="dato-tarjeta fullname" *ngIf="permitirEditarTarjeta" type="text" formControlName="firstname" placeholder="{{usuarioActual?.tarjeta?.firstName}}">
+                </div>
+                <div class="box-datos">
+                  <p class="dato-tarjeta fullname"  *ngIf="!permitirEditarTarjeta">{{usuarioActual?.tarjeta?.lastName}}</p>
+                  <input id="lastname" class="dato-tarjeta fullname input-fullname" *ngIf="permitirEditarTarjeta" type="text" formControlName="lastname" placeholder="{{usuarioActual?.tarjeta?.lastName}}">
+                </div>
+              </div>
               <p class="dato-tarjeta tipo-tarjeta">VISA</p>
             </div>
           </div>
@@ -183,9 +198,28 @@
                 <button class="button-delete" (click)="deleteCard()">
                   <img class="delete" src="/assets/delete.png" alt="">
                 </button>
-                <button class="edit button-edit-tarjeta">
+                <button class="edit button-edit-tarjeta" (click)="toggleFormPassword()">
                   <img class="img-edit-tarjeta" src="/assets/Edit.png" alt="">
                 </button>
+
+                <div *ngIf="showFormularioPassword">
+                  <div class="form-password">
+                    <div class="box-field">
+                        <h5 class="field">Ingrese su contraseña para seguir</h5>
+                        <div class="box-input-password">
+                          <input id="input-password" type="text" placeholder="Contraseña...">
+                        </div>
+                    </div>
+                    <div class="box-options-password">
+                      <button class="button" (click)="toggleFormPassword()">Cancelar</button>
+                      <button class="button" (click)="verifyPassword()">Enviar</button>
+                    </div>
+                    <div class="box-error">
+                      {{resultInputPassword}}
+                    </div>
+                  </div>
+                </div>
+
               </div>
           </div>
           <p *ngIf="!usuarioActual?.tarjeta">No tienes una tarjeta asociada</p>

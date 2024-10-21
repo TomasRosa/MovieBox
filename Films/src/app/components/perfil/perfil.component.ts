@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
+import { ValidacionTarjeta } from 'src/app/validaciones/validacion-tarjeta';
 import { ValidacionUserPersonalizada } from 'src/app/validaciones/validacion-user-personalizada';
 
 @Component({
@@ -16,7 +17,15 @@ export class PerfilComponent {
   cardExists: boolean | null = false;
   formAddCard: boolean | null = false;
   lastFourDigits: String | null = null;
+  permitirEditarTarjeta:boolean | null = false;
+  showFormularioPassword: boolean | null = false;
+  resultInputPassword: string = '';
   isLogoutModalVisible: boolean = false;
+
+  firstName =  new FormControl([Validators.required, ValidacionUserPersonalizada.soloLetras()]);
+  lastName = new FormControl([Validators.required, ValidacionUserPersonalizada.soloLetras()]);
+  nTarjeta =  new FormControl ([Validators.required, ValidacionTarjeta.validarTarjetaLongitud(), ValidacionTarjeta.soloNumeros()]);
+  fechaVencimiento = new FormControl('', [Validators.required,ValidacionTarjeta.validarFechaNoExpirada(),ValidacionTarjeta.validarFormatoFechaVencimiento()]);
 
   formGroupEmail=new FormGroup({
     email: new FormControl ('', [Validators.email, Validators.required])
@@ -299,4 +308,24 @@ export class PerfilComponent {
     this.formAddCard = !this.formAddCard;
   }
 
+  toggleFormPassword(){
+    this.showFormularioPassword = !this.showFormularioPassword;
+  }
+
+  verifyPassword(){
+    const passwordInput = document.getElementById ('input-password') as HTMLInputElement;
+    const password = passwordInput.value;
+    if (password == this.usuarioActual?.password){
+      this.toggleFormPassword ();
+      this.permitirEditarTarjeta = true;
+      const inputFirstname = document.getElementById ('firstname');
+      const inputLastname = document.getElementById ('lastname');
+      const inputNTarjeta = document.getElementById ('nTarjeta');
+      const inputFechaVencimiento = document.getElementById ('fechaVencimiento');
+      
+    }
+    else{
+      this.resultInputPassword = 'Las contraseñas no coinciden'
+    }
+  }
 }
