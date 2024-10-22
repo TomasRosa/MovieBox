@@ -66,6 +66,22 @@
     padding-inline: 0.8rem;
 }
 
+.input-edit{
+    outline: none;
+    border: none;
+}
+
+.fullname-input{
+    width: 5.6rem;
+    padding-inline: 0.7rem;
+}
+
+#numberCard{
+    width: 18rem;
+    text-align: center;
+    letter-spacing: 0.5rem;
+}
+
 .vencimiento{
     text-align: center;
 }
@@ -101,11 +117,22 @@
     width: max-content;
 }
 
-.input-fullname{
-    border: none;
-    outline: none;
+.formEditCard{
+    margin: 0%;
+    background-color: transparent;
+    padding: 0%;
 }
 
+.box-options-edit-card{
+    display: flex;
+    justify-content: center;
+}
+
+#button-cancel-edit-card{
+    margin-right: 1.5rem;
+}
+
+.button-option-edit-card,
 .button-edit-tarjeta,
 .button-delete,
 .button-new-tarjeta{
@@ -119,12 +146,18 @@
     color: white;
 }
 
+.button-option-edit-card{
+    font-size: 1.3rem;
+    padding-inline: 0.6rem;
+}
+
 .img-edit-tarjeta{
     width: 30px;
     height: 30px;
     background-color: transparent;
 }
 
+.button-option-edit-card:hover,
 .button-edit-tarjeta:hover,
 .button-delete:hover,
 .button-new-tarjeta:hover{

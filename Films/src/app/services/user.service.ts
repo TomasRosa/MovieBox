@@ -55,7 +55,6 @@ export class UserService {
 
   getUserActual(): User | null {
     const currentUser = this.usuarioActualSubject.value;
-    console.log("Usuario recuperado:", currentUser);
     return currentUser;
   }
 

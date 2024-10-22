@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Tarjeta } from 'src/app/models/tarjeta';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { ValidacionTarjeta } from 'src/app/validaciones/validacion-tarjeta';
@@ -22,11 +23,22 @@ export class PerfilComponent {
   resultInputPassword: string = '';
   isLogoutModalVisible: boolean = false;
 
-  firstName =  new FormControl([Validators.required, ValidacionUserPersonalizada.soloLetras()]);
-  lastName = new FormControl([Validators.required, ValidacionUserPersonalizada.soloLetras()]);
-  nTarjeta =  new FormControl ([Validators.required, ValidacionTarjeta.validarTarjetaLongitud(), ValidacionTarjeta.soloNumeros()]);
-  fechaVencimiento = new FormControl('', [Validators.required,ValidacionTarjeta.validarFechaNoExpirada(),ValidacionTarjeta.validarFormatoFechaVencimiento()]);
+  activeOptionsEditCard: boolean | null = false;
+  passwordToEdit: String = '';
+  resultEditCard: String = '';
+  showOptionButtonsToCard: boolean = true;
+  cardFormGroup = new FormGroup ({
+    firstName:  new FormControl('', [Validators.required, ValidacionUserPersonalizada.soloLetras()]),
+    lastName: new FormControl('',[Validators.required, ValidacionUserPersonalizada.soloLetras()]),
+    nTarjeta:  new FormControl ('',[Validators.required, ValidacionTarjeta.validarTarjetaLongitud(), ValidacionTarjeta.soloNumeros()]),
+    fechaVencimiento: new FormControl('', [Validators.required,ValidacionTarjeta.validarFechaNoExpirada(),ValidacionTarjeta.validarFormatoFechaVencimiento()])
+  })
 
+  get firstnameCard (){return this.cardFormGroup.get ('firstName')}
+  get lastnameCard (){return this.cardFormGroup.get ('lastName')}
+  get numberCard (){return this.cardFormGroup.get ('nTarjeta')}
+  get fechaVencimientoCard (){return this.cardFormGroup.get ('fechaVencimiento')}
+  
   formGroupEmail=new FormGroup({
     email: new FormControl ('', [Validators.email, Validators.required])
   });
@@ -314,20 +326,83 @@ export class PerfilComponent {
     this.showFormularioPassword = !this.showFormularioPassword;
   }
 
+  closeFormPassword() {
+    this.showFormularioPassword = false;
+  }
+
+  allowEditCard (){
+    this.permitirEditarTarjeta = true;
+    this.showOptionButtonsToCard = false;
+  }
+
+  dontAllowEditCard (){
+    this.permitirEditarTarjeta = false;
+    this.showOptionButtonsToCard = false;
+  }
+
+  setFormControlDefaultCardValues (){
+    this.firstnameCard?.setValue (this.usuarioActual?.tarjeta.firstName as string)
+    this.lastnameCard?.setValue (this.usuarioActual?.tarjeta.lastName as string)
+    this.numberCard?.setValue (this.usuarioActual?.tarjeta.nTarjeta as string)
+    this.fechaVencimientoCard?.setValue (this.usuarioActual?.tarjeta.fechaVencimiento as string)
+  }
+
+  resetCardValues (){
+    this.setFormControlDefaultCardValues ()
+    this.cardFormGroup.markAsUntouched();
+  }
+  
+  openOptionsEditCard (){
+    this.activeOptionsEditCard = true;
+  }
+  
+  closeOptionsEditCard (){
+    this.activeOptionsEditCard = false;
+  }
+
   verifyPassword(){
-    const passwordInput = document.getElementById ('input-password') as HTMLInputElement;
-    const password = passwordInput.value;
-    if (password == this.usuarioActual?.password){
-      this.toggleFormPassword ();
-      this.permitirEditarTarjeta = true;
-      const inputFirstname = document.getElementById ('firstname');
-      const inputLastname = document.getElementById ('lastname');
-      const inputNTarjeta = document.getElementById ('nTarjeta');
-      const inputFechaVencimiento = document.getElementById ('fechaVencimiento');
-      
+    if (this.passwordToEdit === this.usuarioActual?.password){
+      this.closeFormPassword();
+      this.allowEditCard ();
+      this.openOptionsEditCard ();
+      this.setFormControlDefaultCardValues ();
     }
     else{
-      this.resultInputPassword = 'Las contraseñas no coinciden'
+      this.resultInputPassword = 'Las contraseñas no coinciden';
     }
+  }
+
+  cancelEditCard(){
+    this.dontAllowEditCard ();
+    this.closeOptionsEditCard ();
+    this.resetCardValues ();
+    this.showOptionButtonsToCard = true;
+  }
+
+  async confirmEditCard(){
+    if (this.cardFormGroup.valid){
+      const newCard = new Tarjeta ({
+        firstName: this.firstnameCard?.value ?? '', 
+        lastName:this.lastnameCard?.value ?? '', 
+        nTarjeta:this.numberCard?.value ?? '', 
+        fechaVencimiento:this.fechaVencimientoCard?.value ?? ''
+      })
+      try{
+        const resultado = await this.userService.changeDataCard (this.usuarioActual, newCard);
+        if (resultado.success)
+          this.resultEditCard = 'Tarjeta cambiada correctamente'
+        else
+          this.resultEditCard = 'Error al procesar el cambio de los datos de la tarjeta'
+        this.dontAllowEditCard ();
+        this.closeOptionsEditCard ();
+      }catch (err){
+        console.error (err)
+      }
+    }else
+      this.resultEditCard = 'Por favor, revise los campos de la tarjeta'
+
+    setTimeout(() => {
+      this.resultEditCard = '';
+    }, 2000);
   }
 }
