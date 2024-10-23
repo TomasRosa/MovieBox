@@ -194,7 +194,7 @@
             <p class="paragraph">Aun no tiene una tarjeta cargada...</p>
           </div>
 
-          <div class="box-opciones-tarjeta">
+        <div class="box-opciones-tarjeta">
               <button *ngIf="!cardExists" class="button-new-tarjeta" (click)="showFormAddCard()"> 
                 Agregar Tarjeta
               </button>
@@ -233,17 +233,38 @@
                   <button id="button-cancel-edit-card" class="button-option-edit-card" (click)="cancelEditCard()">✖</button>
                   <button class="button-option-edit-card" (click)="confirmEditCard()">✔</button>
                 </div>
-
-                <div>{{resultEditCard}}</div>
-
+              
               </div>
+
           </div>
           <p *ngIf="!usuarioActual?.tarjeta">No tienes una tarjeta asociada</p>
         </div>
-      
       </div>
     </div>
-
+    <div class="box-errors">
+      <section class="box-error" *ngIf="firstnameCard?.invalid && (firstnameCard?.dirty || firstnameCard?.touched)">
+          <div *ngIf="firstnameCard?.hasError('required')" class="error-message">El nombre es requerido.</div>
+          <div *ngIf="firstnameCard?.hasError('soloLetras')" class="error-message">El nombre debe contener solo letras.</div>
+      </section>
+  
+      <section class="box-error" *ngIf="lastnameCard?.invalid && (lastnameCard?.dirty || lastnameCard?.touched)">
+          <div *ngIf="lastnameCard?.hasError('required')" class="error-message"> El apellido es requerido.</div>
+          <div *ngIf="lastnameCard?.hasError('soloLetras')" class="error-message">El apellido debe contener solo letras.</div>
+      </section>
+  
+      <section class="box-error" *ngIf="numberCard && (numberCard.invalid && (numberCard.dirty || numberCard.touched))">
+          <div *ngIf="numberCard.hasError('required')" class="error-message">El Nº de tarjeta es requerido.</div>
+          <div *ngIf="numberCard.hasError('soloNumeros')" class="error-message">La tarjeta debe tener solo numeros. </div>
+          <div *ngIf="numberCard.hasError('validarTarjetaLongitud')" class="error-message">El Nº de tarjeta son 16 digitos.</div>
+      </section>
+      
+      <section class="box-error" *ngIf="fechaVencimientoCard && (fechaVencimientoCard.invalid && (fechaVencimientoCard.dirty || fechaVencimientoCard.touched))">
+          <div *ngIf="fechaVencimientoCard.hasError('required')">La fecha de vencimiento es requerida.</div>
+          <div *ngIf="fechaVencimientoCard.hasError('validarFormatoFechaVencimiento')">Formato fecha de vencimiento debe ser MM/YY.</div>
+          <div *ngIf="fechaVencimientoCard.hasError('validarFechaNoExpirada')">Tarjeta vencida.</div>
+      </section>
+    </div>
+    <div class="box-errors box-error">{{resultEditCard}}</div>
   </section>
 
   <section class="box-logout">

@@ -79,9 +79,12 @@ export class PerfilComponent {
   isLoggedIn: Boolean | null = false;
 
   ngOnInit(): void {
+    this.userService.usuarioActual$.subscribe((usuario: User | null) => {
+      this.usuarioActual = usuario;
+    });
+
     this.userService.isLoggedIn$.subscribe((isLoggedIn: Boolean | null) => {
       this.isLoggedIn = isLoggedIn;
-      this.usuarioActual = this.userService.getUserActual();
       if (this.usuarioActual) {
         this.formGroupEmail.get('email')?.setValue(this.usuarioActual.email); // Llenamos el FormControl con el email del usuario
         this.formGroupFirstName.get('firstname')?.setValue (this.usuarioActual.firstName);
@@ -337,7 +340,7 @@ export class PerfilComponent {
 
   dontAllowEditCard (){
     this.permitirEditarTarjeta = false;
-    this.showOptionButtonsToCard = false;
+    this.showOptionButtonsToCard = true;
   }
 
   setFormControlDefaultCardValues (){
@@ -377,6 +380,7 @@ export class PerfilComponent {
     this.closeOptionsEditCard ();
     this.resetCardValues ();
     this.showOptionButtonsToCard = true;
+    this.resultEditCard = '';
   }
 
   async confirmEditCard(){
@@ -395,14 +399,14 @@ export class PerfilComponent {
           this.resultEditCard = 'Error al procesar el cambio de los datos de la tarjeta'
         this.dontAllowEditCard ();
         this.closeOptionsEditCard ();
+        this.getLastFourDigits ();
+        setTimeout(() => {
+          this.resultEditCard = '';
+        }, 2000);
       }catch (err){
         console.error (err)
       }
     }else
       this.resultEditCard = 'Por favor, revise los campos de la tarjeta'
-
-    setTimeout(() => {
-      this.resultEditCard = '';
-    }, 2000);
   }
 }

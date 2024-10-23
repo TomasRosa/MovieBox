@@ -72,8 +72,8 @@
 }
 
 .fullname-input{
-    width: 5.6rem;
-    padding-inline: 0.7rem;
+    width: 5.7rem;
+    padding-inline: 0.67rem;
 }
 
 #numberCard{
@@ -88,6 +88,7 @@
 
 .nTarjeta{
     letter-spacing: 0.3rem;
+    text-align: center;
 }
 
 .chip {
@@ -129,7 +130,7 @@
 }
 
 #button-cancel-edit-card{
-    margin-right: 1.5rem;
+    margin-right: 0.8rem;
 }
 
 .button-option-edit-card,
@@ -148,7 +149,7 @@
 
 .button-option-edit-card{
     font-size: 1.3rem;
-    padding-inline: 0.6rem;
+    padding-inline: 0.7rem;
 }
 
 .img-edit-tarjeta{
@@ -475,4 +476,16 @@
   .cancel-button-logout:hover{
     background-color: rgb(164, 164, 164);
     border-radius: 1rem;
+}
+
+.box-error{
+    display: grid;
+    text-align: center;
+    background-color: transparent;
+}
+
+.box-errors{
+    margin-top: 0.2rem;
+    background-color: transparent;
+    color: rgb(205, 25, 25);
 }
