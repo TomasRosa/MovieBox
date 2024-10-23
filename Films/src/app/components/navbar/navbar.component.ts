@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
 import { Film } from 'src/app/models/film';
 import { CarritoService } from 'src/app/services/carrito.service';
+import { FilmSearchServiceService } from 'src/app/services/film-search-service.service';
 import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -22,7 +23,11 @@ export class NavbarComponent {
   
   router: string = '';
 
-  constructor(private routerService: Router, private userService: UserService, private filmsFromAPIService: FilmsFromAPIService , private carritoService: CarritoService) {
+  constructor(
+    private routerService: Router, 
+    private userService: UserService, private filmsFromAPIService: FilmsFromAPIService, 
+    private filmSearchService: FilmSearchServiceService,
+    private carritoService: CarritoService) {
     this.routerService.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.router = event.url;
@@ -31,10 +36,13 @@ export class NavbarComponent {
   }
 
   async ngOnInit(): Promise<void> {
+    /* Obtenemos todas las movies para luego filtrar por lo que se busca y enviar un array de movies 
+    filtradas al FilmSearchService*/
     try {
       const fetchedFilms = this.filmsFromAPIService.getMovies ();
-      if (fetchedFilms !== null) {
+      if (fetchedFilms) {
         this.films = fetchedFilms;
+        console.log(fetchedFilms)
       } 
       else{
           console.log('Array de peliculas nulo');
@@ -66,7 +74,12 @@ export class NavbarComponent {
       this.filmsFiltradasPorBusqueda = this.films.filter((film) => {
         return film.title.toLowerCase().includes(query.toLowerCase());
       });
+    } else {
+      this.filmsFiltradasPorBusqueda = this.films; // Si no hay búsqueda, mostrar todas
     }
+    console.log ('FILTRANDO PELICULAS EN BUSQUEDA');
+    console.log (this.filmsFiltradasPorBusqueda);
+    this.filmSearchService.updateFilteredFilms(this.filmsFiltradasPorBusqueda);
   }
 
   navegar(componente: string) {
