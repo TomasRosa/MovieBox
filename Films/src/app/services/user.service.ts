@@ -359,15 +359,15 @@ export class UserService {
 
   async changePassword (user: User, newPassword: string): Promise<{ success: boolean, message: string }> {
     const url = `${this.urlJSONServer}/${user.id}`;
-    user.password  = newPassword; /* ASIGNO LA NUEVA PASSWORD AL USER. */
+    user.password  = newPassword; 
     try {
       await this.http.patch(url, user).toPromise();
       this.usuarioActualSubject.next(user); // Actualizamos el BehaviorSubject con el nuevo valor
       this.saveUserToStorage(user); // Actualizamos el almacenamiento local
-      return { success: true, message: 'Contrasenia cambiada correctamente.' };
+      return { success: true, message: 'Contraseña cambiada correctamente.' };
     } catch (error) {
-      console.error('Error al cambiar la contrasenia del usuario:', error);
-      return { success: false, message: 'Error al cambiar la contrasenia. Por favor, inténtalo de nuevo más tarde.' };
+      console.error('Error al cambiar la contraseña del usuario:', error);
+      return { success: false, message: 'Error al cambiar la contraseña. Por favor, inténtalo de nuevo más tarde.' };
     }
   }
 

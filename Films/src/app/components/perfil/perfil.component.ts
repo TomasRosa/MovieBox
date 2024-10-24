@@ -14,34 +14,38 @@ import { ValidacionUserPersonalizada } from 'src/app/validaciones/validacion-use
 })
 
 export class PerfilComponent {
+  /* Generales */
   usuarioActual: User | null = null;
+  isLoggedIn: Boolean | null = false;
+  showErrors = false;
+  /* Tarjeta */
   cardExists: boolean | null = false;
   formAddCard: boolean | null = false;
   lastFourDigits: String | null = null;
   permitirEditarTarjeta:boolean | null = false;
-  showFormularioPassword: boolean | null = false;
-  resultInputPassword: string = '';
-  isLogoutModalVisible: boolean = false;
-
   activeOptionsEditCard: boolean | null = false;
   passwordToEdit: String = '';
   resultEditCard: String = '';
   showOptionButtonsToCard: boolean = true;
+  showFormularioPassword: boolean | null = false;
+  /* Password */
+  showFormToEditPassword: boolean | null = false;
+  passwordToVerify: String = '';
+  resultInputPassword: string = '';
+  isLogoutModalVisible: boolean = false;
+
   cardFormGroup = new FormGroup ({
     firstName:  new FormControl('', [Validators.required, ValidacionUserPersonalizada.soloLetras()]),
     lastName: new FormControl('',[Validators.required, ValidacionUserPersonalizada.soloLetras()]),
     nTarjeta:  new FormControl ('',[Validators.required, ValidacionTarjeta.validarTarjetaLongitud(), ValidacionTarjeta.soloNumeros()]),
     fechaVencimiento: new FormControl('', [Validators.required,ValidacionTarjeta.validarFechaNoExpirada(),ValidacionTarjeta.validarFormatoFechaVencimiento()])
-  })
-
-  get firstnameCard (){return this.cardFormGroup.get ('firstName')}
-  get lastnameCard (){return this.cardFormGroup.get ('lastName')}
-  get numberCard (){return this.cardFormGroup.get ('nTarjeta')}
-  get fechaVencimientoCard (){return this.cardFormGroup.get ('fechaVencimiento')}
-  
+  })  
   formGroupEmail=new FormGroup({
     email: new FormControl ('', [Validators.email, Validators.required])
   });
+  formGroupPassword = new FormGroup ({
+    password: new FormControl ('', [Validators.required, Validators.minLength (6), ValidacionUserPersonalizada.minDosNumeros()])
+  })
   formGroupFirstName = new FormGroup ({
     firstname:new FormControl ('', [Validators.required, ValidacionUserPersonalizada.soloLetras()])
   });
@@ -54,29 +58,33 @@ export class PerfilComponent {
   formGroupAddress = new FormGroup ({
     address: new FormControl ('', [Validators.required])
   });
-
+  
+  get firstnameCard (){return this.cardFormGroup.get ('firstName')}
+  get lastnameCard (){return this.cardFormGroup.get ('lastName')}
+  get numberCard (){return this.cardFormGroup.get ('nTarjeta')}
+  get fechaVencimientoCard (){return this.cardFormGroup.get ('fechaVencimiento')}
   get email_fc() { return this.formGroupEmail.get('email'); }
   get firstname_fc () { return this.formGroupFirstName.get('firstname') }
   get lastname_fc () { return this.formGroupLastName.get('lastname') }
   get dni_fc () { return this.formGroupDNI.get ('dni') }
   get address_fc () { return this.formGroupAddress.get ('address') }
+  get password_fc () { return this.formGroupPassword.get ('password') }
 
   isEditingFirstName = false;
   isEditingLastName = false;
   isEditingDni = false;
   isEditingEmail = false;
+  isEditingPassword = false;
   isEditingAddress = false;
 
-  showErrors = false;
   resultFirstName: string = ''
   resultLastName: string = ''
   resultEmail: string = ''
+  resultPassword: string = ''
   resultDNI: string = ''
   resultAddress: string = ''
   
   constructor(private userService: UserService, private router: Router) {}
-
-  isLoggedIn: Boolean | null = false;
 
   ngOnInit(): void {
     this.userService.usuarioActual$.subscribe((usuario: User | null) => {
@@ -127,7 +135,11 @@ export class PerfilComponent {
   toggleEditEmail() {
     this.isEditingEmail = !this.isEditingEmail;
     if (this.usuarioActual)
-      this.formGroupEmail.get('email')?.setValue(this.usuarioActual.email); // Resetear valor al original si se vuelve a editar
+      this.formGroupEmail.get('email')?.setValue(this.usuarioActual.email);
+  }
+
+  toggleFormToEditPassword(){
+    this.showFormToEditPassword = !this.showFormToEditPassword;
   }
 
   toggleEditAddress() {
@@ -142,6 +154,7 @@ export class PerfilComponent {
     this.isEditingDni = false;
     this.isEditingAddress = false;
     this.isEditingEmail = false;
+    this.isEditingPassword = false;
     if (this.usuarioActual){
       this.formGroupFirstName.reset ({firstname: this.usuarioActual.firstName});
       this.formGroupFirstName.markAsUntouched();
@@ -153,7 +166,42 @@ export class PerfilComponent {
       this.formGroupAddress.markAsUntouched();
       this.formGroupEmail.reset({ email: this.usuarioActual.email });
       this.formGroupEmail.markAsUntouched();
+      this.formGroupPassword.markAsUntouched ();
     }
+  }
+
+  verifyActualPasswordToEditNewPassword(){
+    if (this.passwordToVerify === this.usuarioActual?.password){
+      this.showFormToEditPassword = false;
+      this.isEditingPassword = true;
+    }
+    else{
+      this.resultInputPassword = 'Las contraseñas no coinciden';
+    }
+  }
+
+  async processPasswordChangeRequest (){
+    if (this.formGroupPassword.valid) {
+      const newPassword = this.formGroupPassword.value.password;
+      if (this.usuarioActual && newPassword) {
+        try {
+          const resultado = await this.userService.changePassword(this.usuarioActual as User, newPassword as string);
+          if (resultado.success) {
+            this.resultPassword = 'Contraseña cambiado con éxito';
+          } else {
+            this.resultPassword = 'Error al cambiar la contraseña';
+          }
+        } catch (error) {
+          this.resultPassword = 'Error en la solicitud: ' + error;
+        }
+      }
+      this.isEditingPassword = false; 
+    } else {
+      this.resultPassword = 'Por favor, ingresa una contraseña valida.';
+    }
+    setTimeout(() => {
+      this.resultPassword = '';
+    }, 2000);
   }
 
   private async processEmailChangeRequest (){
@@ -295,6 +343,10 @@ export class PerfilComponent {
   async confirmChangeEmail (){
     await this.processEmailChangeRequest()
   }
+
+  async confirmChangePassword (){
+    await this.processPasswordChangeRequest ();
+  }
 
   logout(){
     this.userService.logout();

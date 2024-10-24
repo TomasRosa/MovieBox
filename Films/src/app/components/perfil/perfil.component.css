@@ -339,6 +339,12 @@
     justify-content: center;
 }
 
+.box-password{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
 .box-email-edit{
     display: flex;
     align-items: center;
