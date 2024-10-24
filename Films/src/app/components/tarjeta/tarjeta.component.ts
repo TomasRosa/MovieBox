@@ -16,13 +16,18 @@ import { NavbarComponent } from '../navbar/navbar.component';
 })
 
 export class TarjetaComponent {
+  /* Generales */
+  usuarioActual: User | null = null;
+  /* Tarjeta */
+  lastFourDigits: String | null = null;
+  showFormNewCard: boolean = false;
+  showBuyWithActualCard: boolean = true;
+  showFormConfirmBuyWithActualCard: boolean = false;
+  
   errorMessage: string = '';
   successMessage: string = '';
-  usuarioActual: User | null = null;
   result: string = ''
-  mostrarFormularioConUltimaTarjeta: boolean = false;
   mostrarFormularioSinUltimaTarjeta: boolean = false;
-  mostrarDeseaComprarConUltimaTarjeta: boolean = true;
 
   tarjetaForm = new FormGroup({
     firstName: new FormControl('', [Validators.required, ValidacionUserPersonalizada.soloLetras()]),
@@ -32,7 +37,10 @@ export class TarjetaComponent {
     CVC: new FormControl ('',[Validators.required,ValidacionTarjeta.validarCVCLongitud(),ValidacionTarjeta.soloNumeros()])      
   });
 
-  constructor(private carritoService: CarritoService, private userService: UserService, private routerService: Router){}
+  constructor(
+    private carritoService: CarritoService, 
+    private userService: UserService, 
+    private routerService: Router){}
 
   ngOnInit(): void {
     this.userService.usuarioActual$.subscribe((usuario: User | null) => {
@@ -47,7 +55,7 @@ export class TarjetaComponent {
   get fechaVencimiento () {return this.tarjetaForm.get('fechaVencimiento')}
   get CVC () {return this.tarjetaForm.get('CVC')}
 
-  async comprarConUltimaTarjeta (){
+  async buyWithActualCard (){
     let res;
       const carrito = this.carritoService.obtenerCarrito()
       if(this.carritoService.obtenerTotalCarrito() != null && this.usuarioActual){
@@ -64,9 +72,9 @@ export class TarjetaComponent {
         }
       }
     setTimeout(()=>{
-      this.mostrarFormularioConUltimaTarjeta = false;
+      this.showFormConfirmBuyWithActualCard = false;
       this.mostrarFormularioSinUltimaTarjeta = false;
-      this.mostrarDeseaComprarConUltimaTarjeta = false;
+      this.showBuyWithActualCard = false;
       this.navegarInicio ('inicio');
     }, 1500)
   }
@@ -104,7 +112,7 @@ export class TarjetaComponent {
       }
 
     setTimeout(()=>{
-      this.mostrarFormularioConUltimaTarjeta = false;
+      this.showFormConfirmBuyWithActualCard = false;
       this.mostrarFormularioSinUltimaTarjeta = false;
       this.navegarInicio ('inicio');
     }, 1500)
@@ -112,11 +120,32 @@ export class TarjetaComponent {
   }
 
   validarSiTieneTarjeta (){
-    if (this.usuarioActual?.tarjeta.nTarjeta != '') this.mostrarDeseaComprarConUltimaTarjeta = true
+    if (this.usuarioActual?.tarjeta?.firstName && this.usuarioActual?.tarjeta?.lastName && this.usuarioActual?.tarjeta?.fechaVencimiento && this.usuarioActual?.tarjeta?.nTarjeta) 
+      this.showBuyWithActualCard = true
     else this.mostrarFormularioSinUltimaTarjeta=true ;
+  }
+
+
+  getLastFourDigits (){
+    if (this.usuarioActual){
+      this.lastFourDigits = this.usuarioActual.tarjeta.nTarjeta.substring(this.usuarioActual.tarjeta.nTarjeta.length - 4);
+    }
+  }
+
+  showFormToAddNewCard (){
+    this.showFormNewCard = !this.showFormNewCard;
+  }
+
+  hideFormToAddNewCard(){
+    this.showFormNewCard = !this.showFormNewCard;
+  }
+
+  showFormConfirmBuy(){
+    this.showFormConfirmBuyWithActualCard = true;
   }
 
   navegarInicio(componente: string) {
     this.routerService.navigate([componente]);
   }
+
 }
