@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
 import { Film } from 'src/app/models/film';
 import { CarritoService } from 'src/app/services/carrito.service';
+import { FilmSearchServiceService } from 'src/app/services/film-search-service.service';
 import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 import { UserService } from 'src/app/services/user.service';
 import { AdminService } from 'src/app/services/admin.service';
@@ -28,9 +29,11 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private routerService: Router, 
-    private filmsFromAPIService: FilmsFromAPIService,
-    private adminService: AdminService,
-    private sharedService: SharedServicesService
+    private userService: UserService, private filmsFromAPIService: FilmsFromAPIService, 
+    private filmSearchService: FilmSearchServiceService,
+    private carritoService: CarritoService,
+    private sharedService: SharedServicesService,
+    private adminService: AdminService
   ) {
     this.routerService.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -42,12 +45,16 @@ export class NavbarComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    /* Obtenemos todas las movies para luego filtrar por lo que se busca y enviar un array de movies 
+    filtradas al FilmSearchService*/
     try {
-      const fetchedFilms = this.filmsFromAPIService.getMovies();
-      if (fetchedFilms !== null) {
+      const fetchedFilms = this.filmsFromAPIService.getMovies ();
+      if (fetchedFilms) {
         this.films = fetchedFilms;
-      } else {
-        console.log('Array de peliculas nulo');
+        console.log(fetchedFilms)
+      } 
+      else{
+          console.log('Array de peliculas nulo');
       }
     } catch (error) {
       console.error(error);
@@ -91,7 +98,12 @@ export class NavbarComponent implements OnInit {
       this.filmsFiltradasPorBusqueda = this.films.filter((film) => {
         return film.title.toLowerCase().includes(query.toLowerCase());
       });
+    } else {
+      this.filmsFiltradasPorBusqueda = this.films; // Si no hay búsqueda, mostrar todas
     }
+    console.log ('FILTRANDO PELICULAS EN BUSQUEDA');
+    console.log (this.filmsFiltradasPorBusqueda);
+    this.filmSearchService.updateFilteredFilms(this.filmsFiltradasPorBusqueda);
   }
 
   navegar(componente: string) {
