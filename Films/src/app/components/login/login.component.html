@@ -1,8 +1,8 @@
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
   <div class="row justify-content-center">
-    <div class="col-md-15"> <!-- Aumenta el tamaño de la columna -->
-      <div class="card shadow-lg" style="border-radius: 1rem; width: 100%; padding: 20px;"> <!-- Asegúrate de que la tarjeta sea más ancha -->
-        <div class="card-body p-5"> <!-- Aumenta el padding -->
+    <div class="col-md-15">
+      <div class="card shadow-lg" style="border-radius: 1rem; width: 100%; padding: 20px;">
+        <div class="card-body p-5">
           <h2 class="card-title mb-4 text-center">INICIAR SESIÓN</h2>
           <form class="needs-validation" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
@@ -43,8 +43,28 @@
               {{ successMessage }}
             </div>
           </form>
+
+          <!-- Formulario para ingresar el código de administrador -->
+          <div *ngIf="isAdmin">
+            <h2 class="card-title mb-4 text-center">Ingrese el Código de Administrador</h2>
+            <form class="needs-validation" [formGroup]="codeForm" (ngSubmit)="verifyAdminCode()">
+              <div class="form-group mb-4">
+                <label for="code" class="label-spacing">Código de Administrador</label>
+                <input type="text" class="form-control no-border" id="code" formControlName="code" required
+                  [ngClass]="{ 'is-invalid': codeForm.get('code')?.invalid && (codeForm.get('code')?.dirty || codeForm.get('code')?.touched) }">
+                <div class="invalid-feedback">
+                  <div *ngIf="codeForm.get('code')?.hasError('required')">El código es requerido</div>
+                </div>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary" [disabled]="!codeForm.valid" style="width: 100%;">Verificar Código</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+

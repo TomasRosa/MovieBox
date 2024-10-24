@@ -13,5 +13,4 @@ export class User {
     fav_list: FavouriteList = new FavouriteList();
     arrayPeliculas: Array<Film> = [];
     tarjeta: Tarjeta = new Tarjeta ();
-    role: 'user' | 'admin' = 'user';  // Nueva propiedad para el rol del usuario
 }

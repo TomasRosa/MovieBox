@@ -1,63 +1,88 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
 import { Film } from 'src/app/models/film';
 import { CarritoService } from 'src/app/services/carrito.service';
 import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 import { UserService } from 'src/app/services/user.service';
+import { AdminService } from 'src/app/services/admin.service';
+import { SharedServicesService } from 'src/app/services/shared-services.service';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   isFocused: boolean = false;
-  isLoggedIn: boolean | null = false;
+  isAdmin: boolean = false;
+  isLoggedIn: boolean | null;
+  adminCodeVerified: boolean = false;
 
-  buscadorDeFilm: string ='';
+  buscadorDeFilm: string = '';
   films: Array<Film> = [];
   filmsFiltradasPorBusqueda = new Array<Film>();
-  formControl = new FormControl()
+  formControl = new FormControl();
   
   router: string = '';
 
-  constructor(private routerService: Router, private userService: UserService, private filmsFromAPIService: FilmsFromAPIService , private carritoService: CarritoService) {
+  constructor(
+    private routerService: Router, 
+    private filmsFromAPIService: FilmsFromAPIService,
+    private adminService: AdminService,
+    private sharedService: SharedServicesService
+  ) {
     this.routerService.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.router = event.url;
       }
     });
+
+    this.isLoggedIn = false
   }
 
   async ngOnInit(): Promise<void> {
     try {
-      const fetchedFilms = this.filmsFromAPIService.getMovies ();
+      const fetchedFilms = this.filmsFromAPIService.getMovies();
       if (fetchedFilms !== null) {
         this.films = fetchedFilms;
-      } 
-      else{
-          console.log('Array de peliculas nulo');
+      } else {
+        console.log('Array de peliculas nulo');
       }
-    }catch (error) {
-        console.error(error);
+    } catch (error) {
+      console.error(error);
     }
 
-    this.userService.isLoggedIn$.subscribe ((isLoggedIn: boolean | null) =>{
-      this.isLoggedIn = isLoggedIn; 
-    })
+    this.sharedService.isLoggedIn$.subscribe((isLoggedIn: boolean | null) => {
+      this.isLoggedIn = isLoggedIn || false;
+    });
+
+    this.adminService.isLoggedIn$.subscribe((isAdminLoggedIn: boolean | null) => {
+      this.isAdmin = isAdminLoggedIn || false;
+    });
     
     this.formControl.valueChanges.subscribe(query => {
       this.buscarFilm(query);
     });
   }
 
-  signIn(){
-    this.navegar('login')
+  getadminCodeVerified(): boolean {
+    return this.sharedService.getadminCodeVerified();
   }
 
-  signUp(){
-    this.navegar('registrarse')
+  getIsLoggedIn(): boolean | null{
+    this.sharedService.isLoggedIn$.subscribe((isLoggedIn: boolean | null) => {
+      this.isLoggedIn = isLoggedIn || false;
+    });
+    return this.isLoggedIn;
+  }
+
+  signIn() {
+    this.navegar('login');
+  }
+
+  signUp() {
+    this.navegar('registrarse');
   }
 
   buscarFilm(query: string) {
@@ -73,21 +98,20 @@ export class NavbarComponent {
     this.routerService.navigate([componente]);
   }
 
-  navegarPerfil (){
+  navegarPerfil() {
     if (this.isLoggedIn)
-      this.routerService.navigate (['/perfil'])
+      this.routerService.navigate(['/perfil']);
     else
-      this.routerService.navigate (['/login'])
+      this.routerService.navigate(['/login']);
   }
 
   navegarCarrito() {
-    if (this.isLoggedIn) {
-      // El usuario está autenticado, puedes permitir que agregue películas al carrito
+    if (this.isLoggedIn && !this.isAdmin) {
       this.routerService.navigate(['/carrito']);
     } else {
-      // El usuario no está autenticado, muestra una alerta
-      alert('Debe iniciar sesión para comprar películas.');
+      alert('Los administradores no tienen acceso al carrito.');
     }
   }
-  
 }
+
+

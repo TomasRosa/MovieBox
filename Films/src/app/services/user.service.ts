@@ -6,6 +6,9 @@ import { CarritoService } from './carrito.service';
 import { User } from '../models/user';
 import { Film } from '../models/film';
 import { Tarjeta } from '../models/tarjeta';
+import { Admin } from '../models/admin';
+import { AdminService } from './admin.service';
+import { SharedServicesService } from './shared-services.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +16,7 @@ import { Tarjeta } from '../models/tarjeta';
 
 export class UserService {
   private urlJSONServer = 'http://localhost:5000/users';
+  public urlJSONServerAdmins = 'http://localhost:5000/admins';
   private users: User[] = [];
   private usuarioActualSubject: BehaviorSubject<User | null>;
   public isLoggedInSubject: BehaviorSubject<boolean | null>;
@@ -20,7 +24,9 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private carritoService: CarritoService
+    private carritoService: CarritoService,
+    private adminService: AdminService,
+    private sharedService: SharedServicesService
   ) {
     this.usuarioActualSubject = new BehaviorSubject<User | null>(null);
     this.isLoggedInSubject = new BehaviorSubject<boolean | null>(null);
@@ -104,6 +110,62 @@ export class UserService {
       console.error('Error al obtener usuarios:', error);
       this.users = [];
     }
+  }
+
+  obtenerUserByEmail (email: string){
+    return this.users.find (user => user.email == email)
+  }
+
+  verifyUserOrAdmin(inputEmail: string, inputPassword: string): Promise<{ isUser: boolean, isAdmin: boolean, user?: User, admin?: Admin }> {
+    return new Promise(async (resolve, reject) => {
+        // Verificar usuarios
+        const isUserValid = this.users.some(
+            (user) => user.email === inputEmail && user.password === inputPassword
+        );
+
+        if (isUserValid) {
+            const user = this.users.find(user => user.email === inputEmail);
+            if (user) {
+                this.setUsuarioActual(user);
+                resolve({ isUser: true, isAdmin: false, user });
+                return;
+            }
+        }
+
+        try {
+            // Verificar administradores
+            const admins = await this.http.get<Admin[]>(`${this.urlJSONServerAdmins}`).toPromise();
+            if (admins) {
+                const isAdminValid = admins.some(
+                    (admin) => admin.email === inputEmail && admin.password === inputPassword
+                );
+
+                if (isAdminValid) {
+                    const admin = admins.find(admin => admin.email === inputEmail);
+                    if (admin) {
+                        this.adminService.setAdminActual(admin); // Almacenar el admin
+                        resolve({ isUser: false, isAdmin: true, admin });
+                        return;
+                    }
+                }
+            }
+
+            resolve({ isUser: false, isAdmin: false });
+        } catch (error) {
+            console.error('Error al verificar administradores:', error);
+            resolve({ isUser: false, isAdmin: false });
+        }
+    });
+}
+
+
+  private saveUserToStorage(usuario: User | null): void {
+    localStorage.setItem('currentUser', JSON.stringify(usuario));
+  }
+
+  private getUserFromStorage(): User | null {
+    const storedUser = localStorage.getItem('currentUser');
+    return storedUser ? JSON.parse(storedUser) : null;
   }
 
   crearCarrito(usuario: User) {
@@ -225,7 +287,6 @@ export class UserService {
     return { success: false, message: 'Error al eliminar la tarjeta. Por favor, inténtalo de nuevo más tarde.' };
   }
 
-
   async changeFirstName(user: User, newFirstName: string): Promise<{ success: boolean, message: string }> {
     const url = `${this.urlJSONServer}/${user.id}`;
     user.firstName  = newFirstName; 
@@ -310,23 +371,6 @@ export class UserService {
     }
   }
 
-  obtenerUserByEmail (email: string){
-    return this.users.find (user => user.email == email)
-  }
-
-  verifyUser(inputEmail: string, inputPassword: string): boolean {
-    const isUserValid = this.users.some(
-      (user) => user.email === inputEmail && user.password === inputPassword
-    );
-  
-    if (isUserValid) {
-      const userActual = this.obtenerUserByEmail(inputEmail);
-      this.setUsuarioActual(userActual ?? new User());
-    }
-  
-    return isUserValid;
-  }
-
   async loadUserBibliotecaById(userId: number): Promise<User | null> {
     const url = `${this.urlJSONServer}/${userId}`;
     try {
@@ -360,22 +404,14 @@ export class UserService {
 
   logout() {
     this.usuarioActualSubject.next(null);
-    // Actualizar estado de login a falso
     this.isLoggedInSubject.next(false);
+    this.sharedService.setLogged(false);
+    this.adminService.setAdminActual (null)
   
-    // Limpiar cualquier dato guardado en el localStorage si lo estás usando
-    localStorage.removeItem('currentUser'); // O cualquier otro mecanismo de almacenamiento que uses
+    localStorage.removeItem('currentUser');
   
-    // Redirigir al usuario a la página de inicio o login
     this.router.navigate(['/inicio']);
-  }
-  private saveUserToStorage(usuario: User | null): void {
-    localStorage.setItem('currentUser', JSON.stringify(usuario));
-  }
+}
 
-  private getUserFromStorage(): User | null {
-    const storedUser = localStorage.getItem('currentUser');
-    return storedUser ? JSON.parse(storedUser) : null;
-  }
 }
 
