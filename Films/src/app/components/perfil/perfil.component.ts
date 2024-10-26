@@ -20,14 +20,16 @@ export class PerfilComponent {
   showErrors = false;
   /* Tarjeta */
   cardExists: boolean | null = false;
-  formAddCard: boolean | null = false;
+  formNewCard: boolean | null = false;
+  showFormularioAddCard: boolean | null = false;
   lastFourDigits: String | null = null;
   permitirEditarTarjeta:boolean | null = false;
   activeOptionsEditCard: boolean | null = false;
   passwordToEdit: String = '';
   resultEditCard: String = '';
-  showOptionButtonsToCard: boolean = true;
+  showOptionButtonsToCard: boolean = false;
   showFormularioPassword: boolean | null = false;
+  showFormDeleteCard: boolean | null = false;
   /* Password */
   showFormToEditPassword: boolean | null = false;
   passwordToVerify: String = '';
@@ -89,7 +91,19 @@ export class PerfilComponent {
   ngOnInit(): void {
     this.userService.usuarioActual$.subscribe((usuario: User | null) => {
       this.usuarioActual = usuario;
+      if (this.usuarioActual?.tarjeta?.firstName && 
+        this.usuarioActual?.tarjeta?.lastName && 
+        this.usuarioActual?.tarjeta?.nTarjeta && 
+        this.usuarioActual?.tarjeta?.fechaVencimiento){
+          this.cardExists = true;
+          this.showOptionButtonsToCard = true;
+          this.getLastFourDigits ();
+      } 
     });
+
+    this.userService.showFormAddCard$.subscribe ((show: boolean | null) => {
+      this.showFormularioAddCard = show;
+    })
 
     this.userService.isLoggedIn$.subscribe((isLoggedIn: Boolean | null) => {
       this.isLoggedIn = isLoggedIn;
@@ -99,9 +113,6 @@ export class PerfilComponent {
         this.formGroupLastName.get('lastname')?.setValue (this.usuarioActual.lastName);
         this.formGroupAddress.get('address')?.setValue (this.usuarioActual.address);
         this.formGroupDNI.get('dni')?.setValue (this.usuarioActual.dni);
-        this.getLastFourDigits ();
-        if (this.usuarioActual.tarjeta.firstName && this.usuarioActual.tarjeta.lastName && this.usuarioActual.tarjeta.nTarjeta && this.usuarioActual.tarjeta.fechaVencimiento)
-          this.cardExists = true;
       }
     });
   }
@@ -362,19 +373,29 @@ export class PerfilComponent {
     try{
       await this.userService.deleteCard (this.usuarioActual);
       this.cardExists = false;
-      alert ('Tarjeta eliminada correctamente')
+      this.showFormDeleteCard = false;
     }catch (error){
       console.error (error)
-      alert (error)
+      alert ('No se pudo eliminar la tarjeta')
     }
+    this.router.navigate (['perfil'])
   }
 
   showFormAddCard(){
-    this.formAddCard = !this.formAddCard;
+    this.userService.toggleShowFormAddCard(true);
+    this.formNewCard = true;
   }
 
   hideFormAddCard(){
-    this.formAddCard = !this.formAddCard;
+    this.userService.toggleShowFormAddCard(false);
+  }
+
+  openDeleteCard(){
+    this.showFormDeleteCard = true;
+  }
+
+  closeDeleteCard(){
+    this.showFormDeleteCard = false;
   }
 
   toggleFormPassword(){

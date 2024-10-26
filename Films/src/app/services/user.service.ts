@@ -20,6 +20,7 @@ export class UserService {
   private users: User[] = [];
   private usuarioActualSubject: BehaviorSubject<User | null>;
   public isLoggedInSubject: BehaviorSubject<boolean | null>;
+  public showFormAddCard: BehaviorSubject <boolean | null>;
 
   constructor(
     private http: HttpClient,
@@ -30,6 +31,7 @@ export class UserService {
   ) {
     this.usuarioActualSubject = new BehaviorSubject<User | null>(null);
     this.isLoggedInSubject = new BehaviorSubject<boolean | null>(null);
+    this.showFormAddCard = new BehaviorSubject<boolean | null>(null);
 
   const storedUser = this.getUserFromStorage();
   if (storedUser) {
@@ -86,6 +88,10 @@ export class UserService {
 
   getIsLoggedIn (){
     return true;
+  }
+
+  get showFormAddCard$(): Observable<boolean | null > {
+    return this.showFormAddCard.asObservable ();
   }
 
   get isLoggedIn$ (): Observable<boolean | null > {
@@ -260,7 +266,8 @@ export class UserService {
       try {
         await this.http.patch(url, user).toPromise();
         this.usuarioActualSubject.next (user);
-        this.saveUserToStorage(user); 
+        this.showFormAddCard.next (false);
+        this.saveUserToStorage(user);
         return { success: true, message: 'Tarjeta cargada correctamente.' };
       } catch (error) {
         console.error('Error al cargada la tarjeta:', error);
@@ -268,6 +275,10 @@ export class UserService {
       }
     }
     return { success: false, message: 'Error al cargar la tarjeta. Por favor, inténtalo de nuevo más tarde.' };
+  }
+
+  toggleShowFormAddCard(show: boolean) {
+    this.showFormAddCard.next(show);
   }
 
   async deleteCard (user: User|null): Promise<{ success: boolean, message: string }> {

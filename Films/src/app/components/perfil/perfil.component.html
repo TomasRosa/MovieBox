@@ -245,18 +245,29 @@
               <button *ngIf="!cardExists" class="button-new-tarjeta" (click)="showFormAddCard()"> 
                 Agregar Tarjeta
               </button>
-              <div *ngIf="formAddCard" class="tarjeta-form-overlay">
+              <div *ngIf="formNewCard && showFormularioAddCard" class="tarjeta-form-overlay">
                 <button class="cancel-form" (click)="hideFormAddCard()">X</button>
                 <app-tarjeta-form></app-tarjeta-form>
               </div>
+
               <div *ngIf="cardExists" class="card-exist">
                 
-                <button *ngIf="showOptionButtonsToCard" class="button-delete" (click)="deleteCard()">
+                <button *ngIf="showOptionButtonsToCard" class="button-delete" (click)="openDeleteCard()">
                   <img class="delete" src="/assets/delete.png" alt="">
                 </button>
                 <button *ngIf="showOptionButtonsToCard" class="edit button-edit-tarjeta" (click)="toggleFormPassword()">
                   <img class="img-edit-tarjeta" src="/assets/Edit.png" alt="">
                 </button>
+
+                <div *ngIf="showFormDeleteCard" class="modal-overlay">
+                  <div class="modal-content">
+                    <h3>¿Eliminar Tarjeta actual?</h3>
+                    <div class="modal-buttons">
+                      <button class="cancel-button-logout" (click)="closeDeleteCard()">Cancelar</button>
+                      <button class="confirm-button-logout" (click)="deleteCard()">Confirmar</button>
+                    </div>
+                  </div>
+                </div>
 
                 <div *ngIf="showFormularioPassword">
                   <div class="form-password">

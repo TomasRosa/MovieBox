@@ -18,9 +18,11 @@ import { NavbarComponent } from '../navbar/navbar.component';
 export class TarjetaComponent {
   /* Generales */
   usuarioActual: User | null = null;
-  /* Tarjeta */
-  lastFourDigits: String | null = null;
+  showFormAddCard: boolean|null = true;
   showFormNewCard: boolean = false;
+  /* Tarjeta */
+  showFormCVC: boolean = false;
+  lastFourDigits: String | null = null;
   showBuyWithActualCard: boolean = true;
   showFormConfirmBuyWithActualCard: boolean = false;
   
@@ -45,8 +47,11 @@ export class TarjetaComponent {
   ngOnInit(): void {
     this.userService.usuarioActual$.subscribe((usuario: User | null) => {
       this.usuarioActual = usuario;
+      this.validarSiTieneTarjeta();
     });
-    this.validarSiTieneTarjeta()
+    this.userService.showFormAddCard$.subscribe ((show: boolean | null) => {
+      this.showFormAddCard = show;
+    })
   }
 
   get firstName () {return this.tarjetaForm.get('firstName')}
@@ -120,11 +125,12 @@ export class TarjetaComponent {
   }
 
   validarSiTieneTarjeta (){
-    if (this.usuarioActual?.tarjeta?.firstName && this.usuarioActual?.tarjeta?.lastName && this.usuarioActual?.tarjeta?.fechaVencimiento && this.usuarioActual?.tarjeta?.nTarjeta) 
+    if (this.usuarioActual?.tarjeta?.firstName && this.usuarioActual?.tarjeta?.lastName && this.usuarioActual?.tarjeta?.fechaVencimiento && this.usuarioActual?.tarjeta?.nTarjeta){
       this.showBuyWithActualCard = true
+      this.getLastFourDigits ();
+    } 
     else this.mostrarFormularioSinUltimaTarjeta=true ;
   }
-
 
   getLastFourDigits (){
     if (this.usuarioActual){
@@ -133,11 +139,16 @@ export class TarjetaComponent {
   }
 
   showFormToAddNewCard (){
-    this.showFormNewCard = !this.showFormNewCard;
+    this.userService.toggleShowFormAddCard(true);
+    this.showFormNewCard = true;
   }
 
   hideFormToAddNewCard(){
-    this.showFormNewCard = !this.showFormNewCard;
+    this.userService.toggleShowFormAddCard(false);
+  }
+
+  showFormSecurityCode(){
+    this.showFormCVC = true;
   }
 
   showFormConfirmBuy(){
@@ -148,4 +159,10 @@ export class TarjetaComponent {
     this.routerService.navigate([componente]);
   }
 
+  actualizarTarjeta(nuevaTarjeta: Tarjeta) {
+    if (this.usuarioActual) 
+      this.getLastFourDigits();
+    this.showFormNewCard = false; 
+    this.showFormAddCard = false; 
+  }
 }

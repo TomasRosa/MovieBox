@@ -1,5 +1,5 @@
 <div *ngIf="showBuyWithActualCard">
-    <div>
+    <div class="box-tarjeta-agregada">
         <h4>Su tarjeta actual</h4>
         <div class="tarjeta">
             <div class="chip"></div>
@@ -22,27 +22,32 @@
             </div>
         </div>
     </div>
-    <div>
+    <div class="show-buttons">
         <h4>Desea comprar con esta tarjeta?</h4>
-        <div>
-          <button (click)="showFormConfirmBuy()">Si</button>
-          <button (click)="showFormToAddNewCard()">Agregar una nueva</button>
-          <button (click)="navegarInicio('inicio')">Cancelar compra</button>
+        <div class="box-options">
+          <button id="newCard" class="button" (click)="showFormToAddNewCard()">Agregar una nueva</button>
+          <button id="yes" class="button" (click)="showFormSecurityCode()">Si</button>
+          <button class="button" (click)="navegarInicio('inicio')">Cancelar compra</button>
         </div>
     </div>
 </div>
 
-<div *ngIf="showFormNewCard">
+<div *ngIf="showFormNewCard && showFormAddCard">  
     <div class="tarjeta-form-overlay">
         <button class="cancel-form" (click)="hideFormToAddNewCard()">X</button>
         <app-tarjeta-form></app-tarjeta-form>
     </div>
 </div>
 
-<div *ngIf="showFormConfirmBuyWithActualCard" class="needs-validation">
+<div *ngIf="showFormCVC" class="needs-validation">
+  <div>
+    
+  </div>
+  <div *ngIf="showFormConfirmBuyWithActualCard">
     <form (ngSubmit)="buyWithActualCard()">
-        <button class="btn btn-primary margenBoton" type="submit">Confirmar compra </button>
+        <button class="btn btn-primary margenBoton" type="submit">Confirmar compra</button>
     </form>
+  </div>
 </div>
 
 
