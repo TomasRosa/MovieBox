@@ -18,6 +18,10 @@ import { ValidacionUserPersonalizada } from 'src/app/validaciones/validacion-use
 export class PerfilComponent {
   /* Generales */
   usuarioActual: User | null = null;
+  adminActual: Admin | null = null;
+  isLoggedIn: Boolean | null = false;
+  showErrors = false;
+  /* Tarjeta */
   cardExists: boolean | null = false;
   formNewCard: boolean | null = false;
   showFormularioAddCard: boolean | null = false;
@@ -87,21 +91,55 @@ export class PerfilComponent {
   
   constructor(private userService: UserService, private adminService: AdminService, private router: Router) {}
 
-  isLoggedIn: Boolean | null = false;
   isAdmin: boolean = false;
 
   ngOnInit(): void {
-    this.userService.usuarioActual$.subscribe((usuario: User | null) => {
-      this.usuarioActual = usuario;
-      if (this.usuarioActual?.tarjeta?.firstName && 
-        this.usuarioActual?.tarjeta?.lastName && 
-        this.usuarioActual?.tarjeta?.nTarjeta && 
-        this.usuarioActual?.tarjeta?.fechaVencimiento){
-          this.cardExists = true;
-          this.showOptionButtonsToCard = true;
-          this.getLastFourDigits ();
-      } 
-    });
+    if (this.userService.storedUser && this.userService.storedAdmin == null)
+    {
+      this.userService.usuarioActual$.subscribe(async (usuario: User | null) => {
+        this.usuarioActual = usuario;
+        console.log ("USUARIO ACTUAL: ", this.usuarioActual)
+
+        if (this.usuarioActual?.tarjeta?.firstName && 
+          this.usuarioActual?.tarjeta?.lastName && 
+          this.usuarioActual?.tarjeta?.nTarjeta && 
+          this.usuarioActual?.tarjeta?.fechaVencimiento){
+            this.cardExists = true;
+            this.showOptionButtonsToCard = true;
+            this.getLastFourDigits ();
+        } 
+    
+        // Verificar si es un usuario regular
+        await this.userService.loadUsersFromJSON();
+        const isUser = this.userService.getUsers().some((user) => user.email === this.usuarioActual?.email);
+
+        console.log ("isUser: ", isUser)
+        if (isUser) {
+          this.isAdmin = false;
+          this.cargarDatosUsuario();
+        }
+      });
+    }
+    else if (this.userService.storedUser == null && this.userService.storedAdmin)
+    {
+      console.log ("ADMIN ACTUAL STORED ADMIN: ", this.userService.storedAdmin)
+      this.userService.adminActual$.subscribe (async () =>
+      {
+        this.adminActual = this.userService.storedAdmin
+        console.log ("ADMIN ACTUAL: ", this.adminActual)
+
+        // Verificar si es un administrador
+        await this.adminService.loadAdminsFromJSON();
+        const isAdmin = this.adminService.getAdmins().some((admin) => admin.email === this.adminActual?.email);
+
+        console.log ("isAdmin: ", isAdmin)
+        this.isAdmin = isAdmin;
+
+        if (isAdmin) {
+          this.cargarDatosAdmin();
+        }
+      });
+    }
 
     this.userService.showFormAddCard$.subscribe ((show: boolean | null) => {
       this.showFormularioAddCard = show;
@@ -115,12 +153,28 @@ export class PerfilComponent {
         this.formGroupLastName.get('lastname')?.setValue (this.usuarioActual.lastName);
         this.formGroupAddress.get('address')?.setValue (this.usuarioActual.address);
         this.formGroupDNI.get('dni')?.setValue (this.usuarioActual.dni);
-        this.getLastFourDigits ();
-        if (this.usuarioActual.tarjeta.firstName && this.usuarioActual.tarjeta.lastName && this.usuarioActual.tarjeta.nTarjeta && this.usuarioActual.tarjeta.fechaVencimiento)
-          this.cardExists = true;
       }
     });
   }
+  
+  cargarDatosUsuario() {
+    this.formGroupEmail.get('email')?.setValue(this.usuarioActual!.email);
+    this.formGroupFirstName.get('firstname')?.setValue(this.usuarioActual!.firstName);
+    this.formGroupLastName.get('lastname')?.setValue(this.usuarioActual!.lastName);
+    this.formGroupAddress.get('address')?.setValue(this.usuarioActual!.address);
+    this.formGroupDNI.get('dni')?.setValue(this.usuarioActual!.dni);
+    this.getLastFourDigits();
+    if (this.usuarioActual!.tarjeta?.firstName && this.usuarioActual!.tarjeta?.lastName) {
+      this.cardExists = true;
+    }
+  }
+  
+  cargarDatosAdmin() {
+    this.formGroupEmail.get('email')?.setValue(this.adminActual!.email);
+    this.formGroupFirstName.get('firstname')?.setValue(this.adminActual!.firstName);
+    this.formGroupLastName.get('lastname')?.setValue(this.adminActual!.lastName);
+  }
+  
 
   openLogoutModal() {
     this.isLogoutModalVisible = true;
