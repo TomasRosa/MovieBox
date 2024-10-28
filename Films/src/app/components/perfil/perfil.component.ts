@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Admin } from 'src/app/models/admin';
 import { Tarjeta } from 'src/app/models/tarjeta';
 import { User } from 'src/app/models/user';
@@ -84,7 +85,7 @@ export class PerfilComponent {
   resultDNI: string = ''
   resultAddress: string = ''
   
-  constructor(private userService: UserService, private adminService: AdminService) {}
+  constructor(private userService: UserService, private adminService: AdminService, private router: Router) {}
 
   isLoggedIn: Boolean | null = false;
   isAdmin: boolean = false;
