@@ -61,13 +61,15 @@ export class LoginComponent implements OnInit {
 
     if (emailValue !== null && passwordValue !== null) {
       const isUserValid = await this.userService.verifyUserOrAdmin(emailValue, passwordValue);
-
+      
       if (isUserValid.isUser) {
         this.successMessage = 'Bienvenido a RosaGomezRuiz Peliculas';
         this.userService.setUsuarioActual(isUserValid.user!);
         this.isAdmin = false;
         this.isLoggedIn = true;
         this.sharedService.setLogged(true)
+        this.userService.storedUser = isUserValid.user!;
+        this.userService.storedAdmin = null;
         this.router.navigate(['/inicio']);
       } else if (isUserValid.isAdmin) {
         this.successMessage = 'Acceso de administrador, se requiere código';
@@ -90,6 +92,8 @@ export class LoginComponent implements OnInit {
     if (this.adminService.obtenerCodigoAdmin(this.adminService.getAdminActual()?.email!) == codeAdminValue) {
       this.successMessage = 'Código verificado con éxito';
       this.sharedService.setAdminCodeVerified(true);
+      this.userService.storedAdmin = this.adminService.getAdminActual();
+      this.userService.storedUser = null;
       this.router.navigate(['/inicio']);
     } else {
       this.errorMessage = 'Código incorrecto';

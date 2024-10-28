@@ -5,5 +5,4 @@ export class Admin {
     password: string='';
     id: number=0;
     code: string = "admin2024"
-    // isAdmin: boolean = true;
 }

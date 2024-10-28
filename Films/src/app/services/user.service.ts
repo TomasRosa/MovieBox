@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, map, Observable } from 'rxjs';
-import { CarritoService } from './carrito.service';
 import { User } from '../models/user';
 import { Film } from '../models/film';
 import { Tarjeta } from '../models/tarjeta';
@@ -19,32 +18,44 @@ export class UserService {
   public urlJSONServerAdmins = 'http://localhost:5000/admins';
   private users: User[] = [];
   private usuarioActualSubject: BehaviorSubject<User | null>;
+  private adminActualSubject: BehaviorSubject<Admin | null>;
   public isLoggedInSubject: BehaviorSubject<boolean | null>;
+  public storedUser: User | null = null;
+  public storedAdmin: Admin | null = null;
 
   constructor(
     private http: HttpClient,
     private router: Router,
-    private carritoService: CarritoService,
     private adminService: AdminService,
     private sharedService: SharedServicesService
   ) {
     this.usuarioActualSubject = new BehaviorSubject<User | null>(null);
+    this.adminActualSubject = new BehaviorSubject<Admin | null>(null);
     this.isLoggedInSubject = new BehaviorSubject<boolean | null>(null);
 
-  const storedUser = this.getUserFromStorage();
-  if (storedUser) {
-    this.usuarioActualSubject.next(storedUser);
-    this.isLoggedInSubject.next (true);
+    if (this.storedUser && this.storedAdmin == null) 
+    {
+      console.log ("ENTRE A IF 1")
+      this.usuarioActualSubject.next(this.storedUser);
+      this.isLoggedInSubject.next (true);
 
-    if (!storedUser.fav_list) {
-      this.loadFavouriteListFromServer(storedUser.id).subscribe(favList => {
-        storedUser.fav_list = favList;
-        this.setUsuarioActual(storedUser);
-      });
+      if (!this.storedUser.fav_list) {
+        this.loadFavouriteListFromServer(this.storedUser.id).subscribe(favList => {
+          this.storedUser!.fav_list = favList;
+          this.setUsuarioActual(this.storedUser);
+        });
+      }
+    } else if (this.storedUser == null && this.storedAdmin)
+    {
+      console.log ("ENTRE A IF 2")
+      this.adminActualSubject.next(this.storedAdmin);
+      this.isLoggedInSubject.next (true);
     }
-  } else {
-    this.loadUsersFromJSON();
-  }
+    else {
+      console.log ("ENTRE A ELSE")
+      this.loadUsersFromJSON();
+      this.adminService.loadAdminsFromJSON();
+    }
   }
 
   loadFavouriteListFromServer(userId: number) {
@@ -94,6 +105,10 @@ export class UserService {
 
   get usuarioActual$(): Observable<User | null> {
     return this.usuarioActualSubject.asObservable();
+  }
+
+  get adminActual$(): Observable<Admin | null> {
+    return this.adminActualSubject.asObservable();
   }
 
   getUsers(): User[] {
@@ -157,7 +172,6 @@ export class UserService {
         }
     });
 }
-
 
   private saveUserToStorage(usuario: User | null): void {
     localStorage.setItem('currentUser', JSON.stringify(usuario));
