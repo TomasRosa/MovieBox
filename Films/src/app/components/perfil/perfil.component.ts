@@ -15,35 +15,37 @@ import { ValidacionUserPersonalizada } from 'src/app/validaciones/validacion-use
 })
 
 export class PerfilComponent {
+  /* Generales */
   usuarioActual: User | null = null;
-  adminActual: Admin | null = null;
   cardExists: boolean | null = false;
-  formAddCard: boolean | null = false;
+  formNewCard: boolean | null = false;
+  showFormularioAddCard: boolean | null = false;
   lastFourDigits: String | null = null;
   permitirEditarTarjeta:boolean | null = false;
-  showFormularioPassword: boolean | null = false;
-  resultInputPassword: string = '';
-  isLogoutModalVisible: boolean = false;
-
   activeOptionsEditCard: boolean | null = false;
   passwordToEdit: String = '';
   resultEditCard: String = '';
-  showOptionButtonsToCard: boolean = true;
+  showOptionButtonsToCard: boolean = false;
+  showFormularioPassword: boolean | null = false;
+  showFormDeleteCard: boolean | null = false;
+  /* Password */
+  showFormToEditPassword: boolean | null = false;
+  passwordToVerify: String = '';
+  resultInputPassword: string = '';
+  isLogoutModalVisible: boolean = false;
+
   cardFormGroup = new FormGroup ({
     firstName:  new FormControl('', [Validators.required, ValidacionUserPersonalizada.soloLetras()]),
     lastName: new FormControl('',[Validators.required, ValidacionUserPersonalizada.soloLetras()]),
     nTarjeta:  new FormControl ('',[Validators.required, ValidacionTarjeta.validarTarjetaLongitud(), ValidacionTarjeta.soloNumeros()]),
     fechaVencimiento: new FormControl('', [Validators.required,ValidacionTarjeta.validarFechaNoExpirada(),ValidacionTarjeta.validarFormatoFechaVencimiento()])
-  })
-
-  get firstnameCard (){return this.cardFormGroup.get ('firstName')}
-  get lastnameCard (){return this.cardFormGroup.get ('lastName')}
-  get numberCard (){return this.cardFormGroup.get ('nTarjeta')}
-  get fechaVencimientoCard (){return this.cardFormGroup.get ('fechaVencimiento')}
-  
+  })  
   formGroupEmail=new FormGroup({
     email: new FormControl ('', [Validators.email, Validators.required])
   });
+  formGroupPassword = new FormGroup ({
+    password: new FormControl ('', [Validators.required, Validators.minLength (6), ValidacionUserPersonalizada.minDosNumeros()])
+  })
   formGroupFirstName = new FormGroup ({
     firstname:new FormControl ('', [Validators.required, ValidacionUserPersonalizada.soloLetras()])
   });
@@ -56,23 +58,29 @@ export class PerfilComponent {
   formGroupAddress = new FormGroup ({
     address: new FormControl ('', [Validators.required])
   });
-
+  
+  get firstnameCard (){return this.cardFormGroup.get ('firstName')}
+  get lastnameCard (){return this.cardFormGroup.get ('lastName')}
+  get numberCard (){return this.cardFormGroup.get ('nTarjeta')}
+  get fechaVencimientoCard (){return this.cardFormGroup.get ('fechaVencimiento')}
   get email_fc() { return this.formGroupEmail.get('email'); }
   get firstname_fc () { return this.formGroupFirstName.get('firstname') }
   get lastname_fc () { return this.formGroupLastName.get('lastname') }
   get dni_fc () { return this.formGroupDNI.get ('dni') }
   get address_fc () { return this.formGroupAddress.get ('address') }
+  get password_fc () { return this.formGroupPassword.get ('password') }
 
   isEditingFirstName = false;
   isEditingLastName = false;
   isEditingDni = false;
   isEditingEmail = false;
+  isEditingPassword = false;
   isEditingAddress = false;
 
-  showErrors = false;
   resultFirstName: string = ''
   resultLastName: string = ''
   resultEmail: string = ''
+  resultPassword: string = ''
   resultDNI: string = ''
   resultAddress: string = ''
   
@@ -82,68 +90,36 @@ export class PerfilComponent {
   isAdmin: boolean = false;
 
   ngOnInit(): void {
-    if (this.userService.storedUser && this.userService.storedAdmin == null)
-    {
-      this.userService.usuarioActual$.subscribe(async (usuario: User | null) => {
-        this.usuarioActual = usuario;
-        console.log ("USUARIO ACTUAL: ", this.usuarioActual)
-    
-        // Verificar si es un usuario regular
-        await this.userService.loadUsersFromJSON();
-        const isUser = this.userService.getUsers().some((user) => user.email === this.usuarioActual?.email);
+    this.userService.usuarioActual$.subscribe((usuario: User | null) => {
+      this.usuarioActual = usuario;
+      if (this.usuarioActual?.tarjeta?.firstName && 
+        this.usuarioActual?.tarjeta?.lastName && 
+        this.usuarioActual?.tarjeta?.nTarjeta && 
+        this.usuarioActual?.tarjeta?.fechaVencimiento){
+          this.cardExists = true;
+          this.showOptionButtonsToCard = true;
+          this.getLastFourDigits ();
+      } 
+    });
 
-        console.log ("isUser: ", isUser)
-        if (isUser) {
-          this.isAdmin = false;
-          this.cargarDatosUsuario();
-        }
-      });
-    }
-    else if (this.userService.storedUser == null && this.userService.storedAdmin)
-    {
-      console.log ("ADMIN ACTUAL STORED ADMIN: ", this.userService.storedAdmin)
-      this.userService.adminActual$.subscribe (async () =>
-      {
-        this.adminActual = this.userService.storedAdmin
-        console.log ("ADMIN ACTUAL: ", this.adminActual)
+    this.userService.showFormAddCard$.subscribe ((show: boolean | null) => {
+      this.showFormularioAddCard = show;
+    })
 
-        // Verificar si es un administrador
-        await this.adminService.loadAdminsFromJSON();
-        const isAdmin = this.adminService.getAdmins().some((admin) => admin.email === this.adminActual?.email);
-
-        console.log ("isAdmin: ", isAdmin)
-        this.isAdmin = isAdmin;
-
-        if (isAdmin) {
-          this.cargarDatosAdmin();
-        }
-      });
-    }
-  
-    // Verificar estado de sesión
     this.userService.isLoggedIn$.subscribe((isLoggedIn: Boolean | null) => {
       this.isLoggedIn = isLoggedIn;
+      if (this.usuarioActual) {
+        this.formGroupEmail.get('email')?.setValue(this.usuarioActual.email); // Llenamos el FormControl con el email del usuario
+        this.formGroupFirstName.get('firstname')?.setValue (this.usuarioActual.firstName);
+        this.formGroupLastName.get('lastname')?.setValue (this.usuarioActual.lastName);
+        this.formGroupAddress.get('address')?.setValue (this.usuarioActual.address);
+        this.formGroupDNI.get('dni')?.setValue (this.usuarioActual.dni);
+        this.getLastFourDigits ();
+        if (this.usuarioActual.tarjeta.firstName && this.usuarioActual.tarjeta.lastName && this.usuarioActual.tarjeta.nTarjeta && this.usuarioActual.tarjeta.fechaVencimiento)
+          this.cardExists = true;
+      }
     });
   }
-  
-  cargarDatosUsuario() {
-    this.formGroupEmail.get('email')?.setValue(this.usuarioActual!.email);
-    this.formGroupFirstName.get('firstname')?.setValue(this.usuarioActual!.firstName);
-    this.formGroupLastName.get('lastname')?.setValue(this.usuarioActual!.lastName);
-    this.formGroupAddress.get('address')?.setValue(this.usuarioActual!.address);
-    this.formGroupDNI.get('dni')?.setValue(this.usuarioActual!.dni);
-    this.getLastFourDigits();
-    if (this.usuarioActual!.tarjeta?.firstName && this.usuarioActual!.tarjeta?.lastName) {
-      this.cardExists = true;
-    }
-  }
-  
-  cargarDatosAdmin() {
-    this.formGroupEmail.get('email')?.setValue(this.adminActual!.email);
-    this.formGroupFirstName.get('firstname')?.setValue(this.adminActual!.firstName);
-    this.formGroupLastName.get('lastname')?.setValue(this.adminActual!.lastName);
-  }
-  
 
   openLogoutModal() {
     this.isLogoutModalVisible = true;
@@ -174,7 +150,11 @@ export class PerfilComponent {
   toggleEditEmail() {
     this.isEditingEmail = !this.isEditingEmail;
     if (this.usuarioActual)
-      this.formGroupEmail.get('email')?.setValue(this.usuarioActual.email); // Resetear valor al original si se vuelve a editar
+      this.formGroupEmail.get('email')?.setValue(this.usuarioActual.email);
+  }
+
+  toggleFormToEditPassword(){
+    this.showFormToEditPassword = !this.showFormToEditPassword;
   }
 
   toggleEditAddress() {
@@ -189,6 +169,7 @@ export class PerfilComponent {
     this.isEditingDni = false;
     this.isEditingAddress = false;
     this.isEditingEmail = false;
+    this.isEditingPassword = false;
     if (this.usuarioActual){
       this.formGroupFirstName.reset ({firstname: this.usuarioActual.firstName});
       this.formGroupFirstName.markAsUntouched();
@@ -200,7 +181,42 @@ export class PerfilComponent {
       this.formGroupAddress.markAsUntouched();
       this.formGroupEmail.reset({ email: this.usuarioActual.email });
       this.formGroupEmail.markAsUntouched();
+      this.formGroupPassword.markAsUntouched ();
     }
+  }
+
+  verifyActualPasswordToEditNewPassword(){
+    if (this.passwordToVerify === this.usuarioActual?.password){
+      this.showFormToEditPassword = false;
+      this.isEditingPassword = true;
+    }
+    else{
+      this.resultInputPassword = 'Las contraseñas no coinciden';
+    }
+  }
+
+  async processPasswordChangeRequest (){
+    if (this.formGroupPassword.valid) {
+      const newPassword = this.formGroupPassword.value.password;
+      if (this.usuarioActual && newPassword) {
+        try {
+          const resultado = await this.userService.changePassword(this.usuarioActual as User, newPassword as string);
+          if (resultado.success) {
+            this.resultPassword = 'Contraseña cambiado con éxito';
+          } else {
+            this.resultPassword = 'Error al cambiar la contraseña';
+          }
+        } catch (error) {
+          this.resultPassword = 'Error en la solicitud: ' + error;
+        }
+      }
+      this.isEditingPassword = false; 
+    } else {
+      this.resultPassword = 'Por favor, ingresa una contraseña valida.';
+    }
+    setTimeout(() => {
+      this.resultPassword = '';
+    }, 2000);
   }
 
   private async processEmailChangeRequest (){
@@ -343,6 +359,10 @@ export class PerfilComponent {
     await this.processEmailChangeRequest()
   }
 
+  async confirmChangePassword (){
+    await this.processPasswordChangeRequest ();
+  }
+
   logout(){
     this.userService.logout();
   }
@@ -357,19 +377,29 @@ export class PerfilComponent {
     try{
       await this.userService.deleteCard (this.usuarioActual);
       this.cardExists = false;
-      alert ('Tarjeta eliminada correctamente')
+      this.showFormDeleteCard = false;
     }catch (error){
       console.error (error)
-      alert (error)
+      alert ('No se pudo eliminar la tarjeta')
     }
+    this.router.navigate (['perfil'])
   }
 
   showFormAddCard(){
-    this.formAddCard = !this.formAddCard;
+    this.userService.toggleShowFormAddCard(true);
+    this.formNewCard = true;
   }
 
   hideFormAddCard(){
-    this.formAddCard = !this.formAddCard;
+    this.userService.toggleShowFormAddCard(false);
+  }
+
+  openDeleteCard(){
+    this.showFormDeleteCard = true;
+  }
+
+  closeDeleteCard(){
+    this.showFormDeleteCard = false;
   }
 
   toggleFormPassword(){

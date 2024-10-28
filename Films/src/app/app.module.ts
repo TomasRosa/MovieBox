@@ -31,6 +31,8 @@ import { MovieListComponentsComponent } from './components/movie-list-components
 import { FilmDetailComponent } from './components/film-detail/film-detail.component';
 import { FavouriteListComponent } from './components/favourite-list/favourite-list.component';
 import { TarjetaFormComponent } from './components/tarjeta-form/tarjeta-form/tarjeta-form.component';
+import { AdminCodeComponent } from './components/admin-code/admin-code.component';
+import { RecuperarContrasenaComponent } from './components/recuperar-contrasena/recuperar-contrasena.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,9 @@ import { TarjetaFormComponent } from './components/tarjeta-form/tarjeta-form/tar
     MovieListComponentsComponent,
     FilmDetailComponent,
     FavouriteListComponent,
-    TarjetaFormComponent
+    TarjetaFormComponent,
+    AdminCodeComponent,
+    RecuperarContrasenaComponent
   ],
   imports: [
     BrowserModule,

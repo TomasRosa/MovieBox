@@ -22,6 +22,7 @@ export class UserService {
   public isLoggedInSubject: BehaviorSubject<boolean | null>;
   public storedUser: User | null = null;
   public storedAdmin: Admin | null = null;
+  public showFormAddCard: BehaviorSubject <boolean | null>;
 
   constructor(
     private http: HttpClient,
@@ -32,6 +33,7 @@ export class UserService {
     this.usuarioActualSubject = new BehaviorSubject<User | null>(null);
     this.adminActualSubject = new BehaviorSubject<Admin | null>(null);
     this.isLoggedInSubject = new BehaviorSubject<boolean | null>(null);
+    this.showFormAddCard = new BehaviorSubject<boolean | null>(null);
 
     if (this.storedUser && this.storedAdmin == null) 
     {
@@ -97,6 +99,10 @@ export class UserService {
 
   getIsLoggedIn (){
     return true;
+  }
+
+  get showFormAddCard$(): Observable<boolean | null > {
+    return this.showFormAddCard.asObservable ();
   }
 
   get isLoggedIn$ (): Observable<boolean | null > {
@@ -274,7 +280,8 @@ export class UserService {
       try {
         await this.http.patch(url, user).toPromise();
         this.usuarioActualSubject.next (user);
-        this.saveUserToStorage(user); 
+        this.showFormAddCard.next (false);
+        this.saveUserToStorage(user);
         return { success: true, message: 'Tarjeta cargada correctamente.' };
       } catch (error) {
         console.error('Error al cargada la tarjeta:', error);
@@ -282,6 +289,10 @@ export class UserService {
       }
     }
     return { success: false, message: 'Error al cargar la tarjeta. Por favor, inténtalo de nuevo más tarde.' };
+  }
+
+  toggleShowFormAddCard(show: boolean) {
+    this.showFormAddCard.next(show);
   }
 
   async deleteCard (user: User|null): Promise<{ success: boolean, message: string }> {
@@ -373,15 +384,15 @@ export class UserService {
 
   async changePassword (user: User, newPassword: string): Promise<{ success: boolean, message: string }> {
     const url = `${this.urlJSONServer}/${user.id}`;
-    user.password  = newPassword; /* ASIGNO LA NUEVA PASSWORD AL USER. */
+    user.password  = newPassword; 
     try {
       await this.http.patch(url, user).toPromise();
       this.usuarioActualSubject.next(user); // Actualizamos el BehaviorSubject con el nuevo valor
       this.saveUserToStorage(user); // Actualizamos el almacenamiento local
-      return { success: true, message: 'Contrasenia cambiada correctamente.' };
+      return { success: true, message: 'Contraseña cambiada correctamente.' };
     } catch (error) {
-      console.error('Error al cambiar la contrasenia del usuario:', error);
-      return { success: false, message: 'Error al cambiar la contrasenia. Por favor, inténtalo de nuevo más tarde.' };
+      console.error('Error al cambiar la contraseña del usuario:', error);
+      return { success: false, message: 'Error al cambiar la contraseña. Por favor, inténtalo de nuevo más tarde.' };
     }
   }
 
@@ -415,6 +426,17 @@ export class UserService {
       }
     }
   }
+  async getUserByEmail(email: string): Promise<User | null> {
+    try {
+      const users = await this.http.get<User[]>(this.urlJSONServer).toPromise() || [];
+      return users.find(user => user.email === email) || null;
+    } catch (error) {
+      console.error('Error al obtener los usuarios:', error);
+      return null; // Manejo de error: devolver null si ocurre un problema
+    }
+  }
+  
+
 
   logout() {
     this.usuarioActualSubject.next(null);

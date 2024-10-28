@@ -249,11 +249,18 @@
     border: 0.1rem solid transparent;
     outline: 0.1rem solid transparent;
     border-radius: 0.5rem;
-    background-color: transparent;
+    background-color: aliceblue;
 }
 
 #input-password::placeholder{
-    color: black;
+    color: grey;
+    padding: 0.4rem;
+    background-color: aliceblue;
+    letter-spacing: 0.1rem;
+}
+
+#input-password:focus{
+    color: grey;
     padding: 0.4rem;
     background-color: aliceblue;
     letter-spacing: 0.1rem;
@@ -337,6 +344,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.box-password{
+    display: grid;
+    justify-content: center;
+    align-items: center;
 }
 
 .box-email-edit{

@@ -1,86 +1,55 @@
-<div *ngIf="mostrarDeseaComprarConUltimaTarjeta" class="needs-validation">
-    <p>Desea comprar con la ultima tarjeta usada?</p>
-    <button class="btn btn-primary" (click)="mostrarFormularioConUltimaTarjeta=true" (click)="mostrarFormularioSinUltimaTarjeta=false">Si</button>
-    <button class="btn btn-primary cancelar" (click)="mostrarFormularioSinUltimaTarjeta=true" (click)="mostrarFormularioConUltimaTarjeta=false">No</button>
-    <button (click)="navegarInicio('inicio')" class="btn btn-primary cancelar"> Cancelar Compra </button>
+<div *ngIf="showBuyWithActualCard">
+    <div class="box-tarjeta-agregada">
+        <h4>Su tarjeta actual</h4>
+        <div class="tarjeta">
+            <div class="chip"></div>
+            <div class="box-datos">
+              <p class="dato-tarjeta nTarjeta"> **** **** **** {{lastFourDigits}}</p>
+            </div>
+            <div class="box-datos">
+              <p class="dato-tarjeta vencimiento">{{ usuarioActual?.tarjeta?.fechaVencimiento }}</p>
+            </div>
+            <div class="last-data">
+              <div class="box-fullname">
+                <div class="box-datos">
+                  <p class="dato-tarjeta fullname">{{usuarioActual?.tarjeta?.firstName}}</p>
+                </div>
+                <div class="box-datos">
+                  <p class="dato-tarjeta fullname">{{usuarioActual?.tarjeta?.lastName}}</p>
+                </div>
+              </div>
+              <p class="dato-tarjeta tipo-tarjeta">VISA</p>
+            </div>
+        </div>
+    </div>
+    <div class="show-buttons">
+        <h4>Desea comprar con esta tarjeta?</h4>
+        <div class="box-options">
+          <button id="newCard" class="button" (click)="showFormToAddNewCard()">Agregar una nueva</button>
+          <button id="yes" class="button" (click)="showFormSecurityCode()">Si</button>
+          <button class="button" (click)="navegarInicio('inicio')">Cancelar compra</button>
+        </div>
+    </div>
 </div>
 
-<div *ngIf="mostrarFormularioConUltimaTarjeta" class="needs-validation">
-    <form (ngSubmit)="comprarConUltimaTarjeta()">
-        <button class="btn btn-primary margenBoton" type="submit">Confirmar compra </button>
+<div *ngIf="showFormNewCard && showFormAddCard">  
+    <div class="tarjeta-form-overlay">
+        <button class="cancel-form" (click)="hideFormToAddNewCard()">X</button>
+        <app-tarjeta-form></app-tarjeta-form>
+    </div>
+</div>
+
+<div *ngIf="showFormCVC" class="needs-validation">
+  <div>
+    
+  </div>
+  <div *ngIf="showFormConfirmBuyWithActualCard">
+    <form (ngSubmit)="buyWithActualCard()">
+        <button class="btn btn-primary margenBoton" type="submit">Confirmar compra</button>
     </form>
+  </div>
 </div>
 
-<div *ngIf="mostrarFormularioSinUltimaTarjeta">
-    <form class="needs-validation" [formGroup]="tarjetaForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-            <label for="firstName">Nombre</label>
-            <br>
-            <input type="text" name="firstName" formControlName="firstName" placeholder="Ingrese su nombre" value="">
-        </div>
-        
-        <div class="form-group"> 
-            <label for="lastName">Apellido</label>
-            <br>
-            <input type="text" name="lastName" formControlName="lastName"  placeholder="Ingrese su apellido" value="">
-        </div>
-
-        <div class="form-group">
-            <label for="nTarjeta">Nº de tarjeta</label>
-            <br>
-            <input type="text" name="nTarjeta" formControlName="nTarjeta" placeholder="Ingrese el n° de tarjeta" value="">
-        </div>
-
-        <div class="form-group">
-            <label for="fechaVencimiento">Fecha de Vencimiento</label>
-            <br>
-            <input type="text" name="fechaVencimiento" formControlName="fechaVencimiento" placeholder="Ejemplo 10/29" value="">
-        </div>
-
-        <div class="form-group">
-            <label for="CVC">CVC</label>
-            <br>
-            <input type="text" name="CVC" formControlName="CVC"  placeholder="CVC" value="">
-        </div>
-
-        <div class="alert alert-danger" [class.d-none]="!errorMessage" *ngIf="errorMessage">
-            {{ errorMessage }}
-        </div>
-        <div class="alert alert-success" [class.d-none]="!successMessage" *ngIf="successMessage">
-            {{ successMessage }}
-        </div>
-        
-        <section id="alertName" class="alert alert-danger" *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)">
-            <div *ngIf="firstName?.hasError('required')">El nombre es requerido</div>
-            <div *ngIf="firstName?.hasError('soloLetras')">El nombre debe contener solo letras</div>
-        </section>
-
-        <section id="alertLastName" class="alert alert-danger" *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)">
-            <div *ngIf="lastName?.hasError('required')">El apellido es requerido</div>
-            <div *ngIf="lastName?.hasError('soloLetras')">El apellido debe contener solo letras</div>
-        </section>
-
-        <section id="alertNTarjeta" class="alert alert-danger" *ngIf="nTarjeta && (nTarjeta.invalid && (nTarjeta.dirty || nTarjeta.touched))">
-            <div *ngIf="nTarjeta.hasError('required')" class="error-message">El Nº de tarjeta es requerido.</div>
-            <div *ngIf="nTarjeta.hasError('soloNumeros')" class="error-message">La tarjeta debe tener solo numeros. </div>
-            <div *ngIf="nTarjeta.hasError('validarTarjetaLongitud')" class="error-message">La longitud de la tarjeta debe ser exactamente de 16 digitos.</div>
-        </section>
-        
-        <section id="alertCVC" class="alert alert-danger" *ngIf="CVC && (CVC.invalid && (CVC.dirty || CVC.touched))">
-            <div *ngIf="CVC.hasError('required')">El CVC es requerido. </div>
-            <div *ngIf="CVC.hasError('soloNumeros')" class="error-message"> El CVC debe tener solo numeros. </div>
-            <div *ngIf="CVC.hasError('validarCVCLongitud')" class="error-message">La longitud del CVC debe ser de 3 o 4 numeros.</div>
-        </section>
-        
-        <section id="alertFechaVencimiento" class="alert alert-danger" *ngIf="fechaVencimiento && (fechaVencimiento.invalid && (fechaVencimiento.dirty || fechaVencimiento.touched))">
-            <div *ngIf="fechaVencimiento.hasError('required')">La fecha de vencimiento es requerida.</div>
-            <div *ngIf="fechaVencimiento.hasError('validarFormatoFechaVencimiento')">El formato de la fecha de vencimiento debe ser MM/YY</div>
-            <div *ngIf="fechaVencimiento.hasError('validarFechaNoExpirada')">Tarjeta vencida</div>
-        </section>
-
-        <button class="btn btn-primary margenBoton" type="submit" [disabled]="!tarjetaForm.valid" > Confirmar compra </button>
-    </form>
-</div>
 
 <div id = "exitoCompra">
     {{result}}

@@ -154,7 +154,7 @@
       <div *ngIf = "!isAdmin"> 
         <div class="contenido-datos-de-cuenta">
           <div class="box-1">
-            <div class="box-email-edit">
+            <div class="box-1">
               <p *ngIf="!isEditingEmail" class="paragraph">{{usuarioActual?.email}}</p>
               <form action="#" [formGroup]="formGroupEmail">
                 <input type="email" class="edit-input" *ngIf="isEditingEmail" formControlName="email"/>
@@ -206,6 +206,53 @@
           </div>
   
           <div id="resultado-operacion" class="mt-3">{{resultEmail}}</div>
+        </div>
+      </div>
+
+      <h4>Contraseña</h4>
+      <div class="contenido-datos-de-cuenta">
+        <div class="box-password">
+          <div class="box-1">
+            <p *ngIf="!isEditingPassword" class="paragraph"> * * * * * * * * </p>
+            <form action="#" [formGroup]="formGroupPassword">
+              <input type="password" class="edit-input" *ngIf="isEditingPassword" formControlName="password"/>
+            </form>
+
+            <button class="edit" *ngIf="!isEditingPassword" (click)="toggleFormToEditPassword()">
+              <img class="img-edit" src="/assets/Edit.png" alt="">
+            </button>
+
+            <div class="options-container">
+              <button class="confirm-button" *ngIf="isEditingPassword" type="submit" (click)="confirmChangePassword()">✔</button>
+              <button class="cancel-button" *ngIf="isEditingPassword" (click)="cancelEdit()">✖</button>
+            </div>
+
+            <div *ngIf="showFormToEditPassword">
+              <div class="form-password">
+                <div class="box-field">
+                    <h5 class="field">Ingrese su contraseña actual para seguir</h5>
+                    <div class="box-input-password">
+                      <input id="input-password" [(ngModel)]="passwordToVerify" type="password" placeholder="Contraseña actual...">
+                    </div>
+                </div>
+                <div class="box-options-password">
+                  <button class="button" (click)="toggleFormToEditPassword()">Cancelar</button>
+                  <button class="button" (click)="verifyActualPasswordToEditNewPassword()">Enviar</button>
+                </div>
+                <div class="box-error">
+                  {{resultInputPassword}}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="!showErrors && password_fc?.invalid && (password_fc?.dirty || password_fc?.touched)" class="box-password">
+            <div class="text-danger" *ngIf="password_fc?.hasError('required')">La contraseña es requerida</div>
+            <div class="text-danger" *ngIf="password_fc?.hasError('minDosNumeros')">La contraseña debe contener mínimo 2 números</div>
+            <div class="text-danger" *ngIf="password_fc?.hasError('minlength')">La contraseña debe contener mínimo 6 caracteres</div>
+          </div>
+  
+          <div id="resultado-operacion" class="mt-3">{{resultPassword}}</div>
         </div>
       </div>
     </div>
@@ -292,25 +339,36 @@
               <button *ngIf="!cardExists" class="button-new-tarjeta" (click)="showFormAddCard()"> 
                 Agregar Tarjeta
               </button>
-              <div *ngIf="formAddCard" class="tarjeta-form-overlay">
+              <div *ngIf="formNewCard && showFormularioAddCard" class="tarjeta-form-overlay">
                 <button class="cancel-form" (click)="hideFormAddCard()">X</button>
                 <app-tarjeta-form></app-tarjeta-form>
               </div>
+
               <div *ngIf="cardExists" class="card-exist">
                 
-                <button *ngIf="showOptionButtonsToCard" class="button-delete" (click)="deleteCard()">
+                <button *ngIf="showOptionButtonsToCard" class="button-delete" (click)="openDeleteCard()">
                   <img class="delete" src="/assets/delete.png" alt="">
                 </button>
                 <button *ngIf="showOptionButtonsToCard" class="edit button-edit-tarjeta" (click)="toggleFormPassword()">
                   <img class="img-edit-tarjeta" src="/assets/Edit.png" alt="">
                 </button>
 
+                <div *ngIf="showFormDeleteCard" class="modal-overlay">
+                  <div class="modal-content">
+                    <h3>¿Eliminar Tarjeta actual?</h3>
+                    <div class="modal-buttons">
+                      <button class="cancel-button-logout" (click)="closeDeleteCard()">Cancelar</button>
+                      <button class="confirm-button-logout" (click)="deleteCard()">Confirmar</button>
+                    </div>
+                  </div>
+                </div>
+
                 <div *ngIf="showFormularioPassword">
                   <div class="form-password">
                     <div class="box-field">
                         <h5 class="field">Ingrese su contraseña para seguir</h5>
                         <div class="box-input-password">
-                          <input id="input-password" [(ngModel)]="passwordToEdit" type="text" placeholder="Contraseña...">
+                          <input id="input-password" [(ngModel)]="passwordToEdit" type="password" placeholder="Contraseña...">
                         </div>
                     </div>
                     <div class="box-options-password">

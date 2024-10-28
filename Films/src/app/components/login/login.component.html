@@ -36,6 +36,12 @@
               </a>
             </div>
 
+            <div class="text-center mt-3">
+              <a [routerLink]="['/recuperar-contrasena']" class="text-muted text-primary">
+                ¿Olvidaste tu contraseña?
+              </a>
+            </div>
+
             <div class="alert alert-danger mt-3" *ngIf="errorMessage">
               {{ errorMessage }}
             </div>
