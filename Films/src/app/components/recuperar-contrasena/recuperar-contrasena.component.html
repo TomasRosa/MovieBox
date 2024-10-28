@@ -1,0 +1,31 @@
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card p-4 shadow-lg" style="width: 400px;">
+      <h4 class="mb-3 text-center">Recuperar Contraseña</h4>
+      <form (ngSubmit)="enviarCodigo()" *ngIf="!codigoEnviado">
+        <div class="form-group mb-3">
+          <label for="email">Ingrese su email</label>
+          <input type="email" id="email" class="form-control" [(ngModel)]="email" name="email" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Enviar Código</button>
+      </form>
+      
+      <form (ngSubmit)="verificarCodigo()" *ngIf="codigoEnviado && !codigoVerificado">
+        <div class="form-group mb-3">
+          <label for="codigo">Ingrese el código enviado</label>
+          <input type="text" id="codigo" class="form-control" [(ngModel)]="codigo" name="codigo" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Verificar Código</button>
+      </form>
+      
+      <form (ngSubmit)="cambiarContrasena()" *ngIf="codigoVerificado">
+        <div class="form-group mb-3">
+          <label for="newPassword">Ingrese nueva contraseña</label>
+          <input type="password" id="newPassword" class="form-control" [(ngModel)]="nuevaContrasena" name="nuevaContrasena" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Cambiar Contraseña</button>
+      </form>
+      
+      <div *ngIf="mensaje" class="alert alert-info mt-3">{{ mensaje }}</div>
+    </div>
+  </div>
+  
