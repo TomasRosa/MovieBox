@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Tarjeta } from 'src/app/models/tarjeta';
@@ -17,7 +17,7 @@ export class TarjetaFormComponent {
   successMessage: string = '';
   showError: boolean = false;
   usuarioActual: User | null = null;
-  result: string = ''
+  result: string = '';
 
   tarjetaForm = new FormGroup({
     firstName: new FormControl('', [Validators.required, ValidacionUserPersonalizada.soloLetras()]),
@@ -56,8 +56,6 @@ export class TarjetaFormComponent {
       await this.userService.addCard (this.usuarioActual, tarjeta);
       this.successMessage = 'Tarjeta agregada correctamente'; // Mensaje de éxito
       this.errorMessage = ''; // Limpiar el mensaje de error
-
-      this.navegar ('perfil'); 
     }else{
       this.errorMessage = 'Error! Los datos de la tarjeta no son los correctos.'; // Mostrar mensaje de error
       this.showError = true; // Mostrar la sección de error

@@ -1,4 +1,5 @@
-import { Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { CarritoService } from './carrito.service';
 import { UserService } from './user.service';
 import { Router } from '@angular/router';
@@ -7,27 +8,43 @@ import { Film } from '../models/film';
 @Injectable({
   providedIn: 'root'
 })
-export class SharedServicesService{
+export class SharedServicesService {
+  addFilmToCart: Boolean | null = false;
   
-  addFilmToCart : Boolean | null = false;
+  public isLoggedInSubject = new BehaviorSubject<boolean>(false);
+  
+  private adminCodeVerified: boolean = false;
 
   constructor(
     private carritoService: CarritoService, 
-    private userService: UserService, 
     private router: Router
-  ) 
-  {
-    this.userService.isLoggedIn$.subscribe ((isLoggedIn: boolean | null) =>{
+  ) {
+    this.isLoggedIn$.subscribe((isLoggedIn: boolean | null) => {
       this.addFilmToCart = isLoggedIn; 
-    })
+    });
+  }
+
+  getadminCodeVerified(): boolean {
+    return this.adminCodeVerified;
+  }
+
+  setAdminCodeVerified(value: boolean): void {
+    this.adminCodeVerified = value;
+  }
+
+  get isLoggedIn$(): Observable<boolean | null> { 
+    return this.isLoggedInSubject.asObservable();
+  }
+
+  setLogged(value: boolean): void {
+    this.isLoggedInSubject.next(value);
   }
 
   navegarFilmDetail(rank: number) {
     this.router.navigate(['film-detail', rank]);
   }
 
-  navegarFavouriteList ()
-  {
+  navegarFavouriteList() {
     this.router.navigate(['favourite-list']);
   }
 
@@ -47,3 +64,4 @@ export class SharedServicesService{
     return groupedMovies;
   }
 }
+

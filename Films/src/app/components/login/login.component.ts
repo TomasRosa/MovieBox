@@ -1,86 +1,105 @@
-import { Component } from '@angular/core';
-import { User } from 'src/app/models/user';
-import { UserService } from 'src/app/services/user.service';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ValidacionUserPersonalizada } from 'src/app/validaciones/validacion-user-personalizada';
-import { OnInit } from '@angular/core';
-import { CarritoService } from 'src/app/services/carrito.service';
-
+import { UserService } from 'src/app/services/user.service';
+import { AdminService } from 'src/app/services/admin.service'; 
+import { User } from 'src/app/models/user';
+import { Admin } from 'src/app/models/admin';
+import { SharedServicesService } from 'src/app/services/shared-services.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-
 export class LoginComponent implements OnInit {
   errorMessage: string = '';
   successMessage: string = '';
   users: Array<User> = [];
+  isLoggedIn: boolean | null;
+  admins: Array<Admin> = [];
+  isAdmin: boolean = false; // Indica si el usuario actual es un administrador
 
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [
       Validators.required,
       Validators.minLength(6),
-      ValidacionUserPersonalizada.minDosNumeros(),
     ]),
   });
+
+  codeForm = new FormGroup({
+    code: new FormControl('', [Validators.required]),
+  });
+
+  constructor(
+    private userService: UserService,
+    private adminService: AdminService,
+    private router: Router,
+    private sharedService: SharedServicesService
+  ) {
+    this.isLoggedIn = false
+  }
+
   ngOnInit() {
     this.userService.loadUsersFromJSON().then(() => {
       this.users = this.userService.getUsers();
     });
-  }
-  constructor(private userService: UserService, private router: Router, private carritoService: CarritoService) {}
 
-  get email() {
-    return this.loginForm.get('email');
+    this.adminService.loadAdminsFromJSON().then(() => {
+      this.admins = this.adminService.getAdmins();
+    });
+
+    this.sharedService.isLoggedIn$.subscribe((isLoggedIn: boolean | null) => {
+      this.isLoggedIn = isLoggedIn || false;
+    });
   }
-  get password() {
-    return this.loginForm.get('password');
-  }
+
   async onSubmit() {
     const emailValue: string | null = this.loginForm.controls['email']?.value ?? null;
     const passwordValue: string | null = this.loginForm.controls['password']?.value ?? null;
-    let userActual: User | undefined;
-  
+
     if (emailValue !== null && passwordValue !== null) {
-      const isUserValid = await this.userService.verifyUser(
-        emailValue as string,
-        passwordValue as string
-      );
-  
-      if (isUserValid) {
-        userActual = this.userService.obtenerUserByEmail(emailValue as string);
+      const isUserValid = await this.userService.verifyUserOrAdmin(emailValue, passwordValue);
+
+      if (isUserValid.isUser) {
         this.successMessage = 'Bienvenido a RosaGomezRuiz Peliculas';
-        this.errorMessage = '';
-        this.loginForm.controls['email'].setErrors(null);
-        this.loginForm.controls['password'].setErrors(null);
-  
-        if (userActual) {
-          this.userService.setUsuarioActual(userActual);
-  
-          // Verificar si es un usuario administrador
-          if (userActual.role === 'admin') {
-            // Si el rol es "admin", redirige al componente de código de admin
-            this.router.navigate(['/admin-code']);
-          } else {
-            // Si es un usuario normal, redirigir al inicio
-            this.router.navigate(['/inicio']);
-          }
-        }
+        this.userService.setUsuarioActual(isUserValid.user!);
+        this.isAdmin = false;
+        this.isLoggedIn = true;
+        this.sharedService.setLogged(true)
+        this.router.navigate(['/inicio']);
+      } else if (isUserValid.isAdmin) {
+        this.successMessage = 'Acceso de administrador, se requiere código';
+        this.adminService.setAdminActual(isUserValid.admin!);
+        this.isAdmin = true;
+        this.isLoggedIn = true;
+        this.sharedService.setLogged(true)
       } else {
-        this.successMessage = '';
-        this.loginForm.controls['email'].setErrors({ incorrecto: true });
-        this.loginForm.controls['password'].setErrors({ incorrecto: true });
+        this.errorMessage = 'Credenciales incorrectas';
       }
     } else {
       this.errorMessage = 'El email o contraseña son nulos';
     }
   }
-  logout() {
-    this.userService.logout();
-    this.router.navigate(['/inicio']); // Redirige al usuario a la página de inicio después de cerrar sesión
+
+  verifyAdminCode() {
+    const codeAdminValue: string | null = this.codeForm.controls['code']?.value ?? null;
+    console.log("CODIGO ADMIN: ", codeAdminValue);
+    
+    if (this.adminService.obtenerCodigoAdmin(this.adminService.getAdminActual()?.email!) == codeAdminValue) {
+      this.successMessage = 'Código verificado con éxito';
+      this.sharedService.setAdminCodeVerified(true);
+      this.router.navigate(['/inicio']);
+    } else {
+      this.errorMessage = 'Código incorrecto';
+    }
   }
+  
 }
+
+
+
+
+
+

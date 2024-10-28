@@ -3,6 +3,7 @@ import { Film } from 'src/app/models/film';
 import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 import { SharedServicesService } from 'src/app/services/shared-services.service';
 import { FavouriteListService } from 'src/app/services/favourite-list.service';
+import { FilmSearchServiceService } from 'src/app/services/film-search-service.service';
 
 @Component({
   selector: 'app-inicio-aux',
@@ -14,14 +15,23 @@ export class InicioAuxComponent implements OnInit{
   films: any;
   preciosGenerados: boolean = false;
   filteredFilms: any[] = [];
+  searchFilms: Film [] = [];
 
-  constructor(private dataFilms: FilmsFromAPIService, private sharedService: SharedServicesService, private Flist: FavouriteListService) {}
+  constructor(
+    private dataFilms: FilmsFromAPIService, 
+    private sharedService: SharedServicesService, 
+    private Flist: FavouriteListService,
+    private filmSearchService: FilmSearchServiceService) {}
 
    ngOnInit(): void 
    {
     this.dataFilms.initializeData().then(() => {
       this.films = this.dataFilms.getMovies();
       this.filteredFilms = this.films.filter((film:Film) => film.precio <= 1500);
+    });
+
+    this.filmSearchService.filteredFilms$.subscribe(films => {
+      this.searchFilms = films;
     });
   }
 
