@@ -10,6 +10,7 @@ import { SharedServicesService } from 'src/app/services/shared-services.service'
 })
 export class FavouriteListComponent implements OnInit {
   arrayFilms: Array<Film> = [];
+  isLoggedIn: Boolean | null = false
 
   constructor(
     public Flist: FavouriteListService,
@@ -20,7 +21,17 @@ export class FavouriteListComponent implements OnInit {
   });
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void 
+  {
+    this.Flist.userService.isLoggedIn$.subscribe ((isLoggedIn: boolean | null) =>{
+      this.isLoggedIn = isLoggedIn; 
+    })
+
+    if (!this.isLoggedIn)
+    {
+      alert ("Debe iniciar sesión para ver su lista de favoritos.")
+    }
+
     this.Flist.userService.getUserActualJSON().subscribe((user) => {
       this.Flist.obtenerFilmsDeLista();
       this.Flist.obtenerNameDeLista();

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Film } from '../models/film';
 import { FavouriteList } from '../models/f-list';
 import { User } from '../models/user';
@@ -14,40 +14,59 @@ export class FavouriteListService {
   public listaFav: FavouriteList = new FavouriteList;
 
   constructor(public userService: UserService, private http: HttpClient) { 
-    this.userService.getUserActualJSON().subscribe(
-      (user) => {
-        this.user = user;
-        if (this.user) {
-          this.loadFavouriteListFromServer(this.user.id);
-        }
+    this.userService.usuarioActual$.subscribe((user) => {
+      this.user = user;
+      if (this.user) {
+        this.loadFavouriteListFromServer(this.user.id);
       }
-    );
+    });
+    
   }
   
-  agregarALaLista(film: Film) {
-    this.listaFav.arrayPeliculas.push(film);
+  agregarALaLista(film: Film) 
+  {
+    if (this.verificarRepetidos(film))
+    {
+      alert("La pelicula ya se encuentra en su lista")
+    }
+    else
+    {
+      this.listaFav.arrayPeliculas.push(film);
   
-    if (this.user) {
-      const updatedUser = { ...this.user, fav_list: this.listaFav };
-  
-      this.http.put(`http://localhost:5000/users/${this.user.id}`, updatedUser)
-        .subscribe(
-          () => {
-            console.log("Lista de favoritos actualizada en el servidor.");
-            if (this.user)
-            {
-              this.loadFavouriteListFromServer(this.user.id);
+      if (this.user) {
+        const updatedUser = { ...this.user, fav_list: this.listaFav };
+    
+        this.http.put(`http://localhost:5000/users/${this.user.id}`, updatedUser)
+          .subscribe(
+            () => {
+              console.log("Lista de favoritos actualizada en el servidor.");
+              if (this.user)
+              {
+                this.loadFavouriteListFromServer(this.user.id);
+              }
+            },
+            (error) => {
+              console.error("Error al actualizar la lista de favoritos en el servidor: ", error);
             }
-          },
-          (error) => {
-            console.error("Error al actualizar la lista de favoritos en el servidor: ", error);
-          }
-        );
+          );
+      }
     }
   }
 
+  verificarRepetidos (film: Film): Boolean
+  {
+    for (let i = 0; i < this.listaFav.arrayPeliculas.length; i++)
+    {
+      if (this.listaFav.arrayPeliculas[i].title == film.title)
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
   ngOnInit() {
-    this.loadFavouriteListFromServer(this.user!.id); // Cargar al inicializar
+    this.loadFavouriteListFromServer(this.user!.id);
   }
   
 

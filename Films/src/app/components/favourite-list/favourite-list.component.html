@@ -1,23 +1,30 @@
-<h2> {{Flist.listaFav.name}} </h2>
+<div *ngIf = "isLoggedIn">
+  <h2> {{Flist.listaFav.name}} </h2>
 
-<div *ngIf="arrayFilms.length > 0">
-    <table>
-      <tr *ngFor="let group of getMovieGroups(arrayFilms)">
-        <td *ngFor="let film of group" class="recuadroCelda">
-          <img [src]="film.image" alt="Imagen no disponible" width="200" height="300">
-          <b style="font-size: 15px;">{{ film.title }}</b>
-  
-          <div class="button-container">
-            <button class="btn btn-primary" (click)="navegarFilmDetail(film.rank)">Ficha técnica</button>
-            <button class="btn btn-primary" (click)="agregarPeliculaAlCarrito(film)">🛒</button>
-            <button class="btn btn-danger" (click)="quitarFilmDeFlist(film)">Quitar de la lista</button>
-          </div>
-        </td>
-      </tr>
-    </table>
-  </div>
-  
-  <div *ngIf="arrayFilms.length === 0">
-    <p>No tienes películas en tu lista de favoritos.</p>
-  </div>
+  <div *ngIf="arrayFilms.length > 0">
+      <table>
+        <tr *ngFor="let group of getMovieGroups(arrayFilms)">
+          <td *ngFor="let film of group" class="recuadroCelda">
+            <img [src]="film.image" alt="Imagen no disponible" width="200" height="300">
+            <b style="font-size: 15px;">{{ film.title }}</b>
+    
+            <div class="button-container">
+              <button class="btn btn-primary" (click)="navegarFilmDetail(film.rank)">Ficha técnica</button>
+              <button class="btn btn-primary" (click)="agregarPeliculaAlCarrito(film)">🛒</button>
+              <button class="btn btn-danger" (click)="quitarFilmDeFlist(film)">Quitar de la lista</button>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    
+    <div *ngIf="arrayFilms.length === 0">
+      <p>No tienes películas en tu lista de favoritos.</p>
+    </div>
+</div>
+
+<div *ngIf = "!isLoggedIn">
+  <p>Debes iniciar sesión para acceder a la lista de favoritos</p>
+</div>
+
   
