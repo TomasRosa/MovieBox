@@ -48,6 +48,10 @@ export class SharedServicesService {
     this.router.navigate(['favourite-list']);
   }
 
+  navegarBiblioteca (){
+    this.router.navigate(['biblioteca']) 
+  }
+
   agregarPeliculaAlCarrito(film: Film) {
     if (this.addFilmToCart) {
       this.carritoService.agregarAlCarrito(film);

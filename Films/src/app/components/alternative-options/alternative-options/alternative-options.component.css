@@ -19,6 +19,12 @@
     margin-right: 2rem;
 }
 
+.box-offers,
+.box-fav-list,
+.box-biblioteca{
+    margin-right: 2rem;
+}
+
 .box-information-categories {
     display: flex;
     align-items: center;
@@ -89,7 +95,7 @@
     cursor: pointer;
 }
  
-.button-offers {
+.button {
     background-color: rgb(207, 204, 204);
     cursor: pointer;
     padding: 0.7rem;
@@ -100,6 +106,6 @@
 }
 
 .option-categories:hover,
-.button-offers:hover{
+.button:hover{
     color: rgb(63, 63, 63);
 }

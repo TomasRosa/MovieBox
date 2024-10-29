@@ -71,6 +71,7 @@ export class InicioAuxComponent implements OnInit{
   {
     this.Flist.agregarALaLista(film);
   }
+  
   navegarFavouriteList() {
     this.sharedService.navegarFavouriteList();
   } 

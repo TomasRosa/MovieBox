@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
+import { SharedServicesService } from 'src/app/services/shared-services.service';
 
 @Component({
   selector: 'app-alternative-options',
@@ -12,7 +13,7 @@ export class AlternativeOptionsComponent {
   isFocused = false;
   selectedCategory: string = '';
 
-  constructor(private filmsService: FilmsFromAPIService, private routerService: Router) {}
+  constructor(private filmsService: FilmsFromAPIService, private routerService: Router, private sharedService: SharedServicesService) {}
 
   showCategories()
   {
@@ -31,5 +32,13 @@ export class AlternativeOptionsComponent {
 
   navegar(componente: string) {
     this.routerService.navigate([componente]);
+  }
+
+  navegarFavouriteList() {
+    this.sharedService.navegarFavouriteList();
+  }
+  
+  navegarBiblioteca (){
+    this.sharedService.navegarBiblioteca ();
   }
 }
