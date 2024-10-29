@@ -95,6 +95,7 @@ export class FilmDetailComponent {
     this.editingReview = true;
     this.reviewToEdit = review; // Guardar la reseña que estamos editando
   }
+  
   searchFilmWithRank(): Film | undefined {
     const foundFilm = this.arrayFilms.find(film => film.rank === this.filmRank);
     
