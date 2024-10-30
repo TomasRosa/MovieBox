@@ -5,27 +5,46 @@
         <div class="card-body p-5">
           <h2 class="card-title mb-4 text-center">INICIAR SESIÓN</h2>
           <form class="needs-validation" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-
             <div class="form-group mb-4">
               <label for="email" class="label-spacing">Email</label>
-              <input type="text" class="form-control no-border" id="email" name="email" formControlName="email" required 
-                [ngClass]="{ 'is-invalid': loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched) }">
+              <input 
+                type="text" 
+                class="form-control no-border" 
+                id="email" 
+                name="email" 
+                formControlName="email" 
+                required>
               <div class="invalid-feedback">
                 <div *ngIf="loginForm.get('email')?.hasError('required')">El email es requerido</div>
                 <div *ngIf="loginForm.get('email')?.hasError('email')">El formato del email es incorrecto</div>
               </div>
             </div>
-
             <div class="form-group mb-4">
               <label for="password" class="label-spacing">Contraseña</label>
-              <input type="password" class="form-control no-border" id="password" name="password" formControlName="password" required 
-                [ngClass]="{ 'is-invalid': loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched) }">
+              <div class="input-group">
+                <input 
+                  [type]="mostrarContrasena ? 'text' : 'password'" 
+                  class="form-control no-border" 
+                  id="password" 
+                  name="password" 
+                  formControlName="password" 
+                  placeholder="Ingrese su contraseña" 
+                  required>
+                <div class="input-group-append">
+                  <button 
+                    type="button" 
+                    class="btn btn-link" 
+                    (click)="toggleMostrarContrasena()">
+                    <i [ngClass]="mostrarContrasena ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+                  </button>
+                </div>
+              </div>
               <div class="invalid-feedback">
                 <div *ngIf="loginForm.get('password')?.hasError('required')">La contraseña es requerida</div>
                 <div *ngIf="loginForm.get('password')?.hasError('minlength')">La contraseña debe contener mínimo 6 caracteres</div>
               </div>
             </div>
-
+            
             <div class="text-center">
               <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid" style="width: 100%;">Iniciar Sesión</button>
             </div>
@@ -56,8 +75,7 @@
             <form class="needs-validation" [formGroup]="codeForm" (ngSubmit)="verifyAdminCode()">
               <div class="form-group mb-4">
                 <label for="code" class="label-spacing">Código de Administrador</label>
-                <input type="text" class="form-control no-border" id="code" formControlName="code" required
-                  [ngClass]="{ 'is-invalid': codeForm.get('code')?.invalid && (codeForm.get('code')?.dirty || codeForm.get('code')?.touched) }">
+                <input type="text" class="form-control no-border" id="code" formControlName="code" required>
                 <div class="invalid-feedback">
                   <div *ngIf="codeForm.get('code')?.hasError('required')">El código es requerido</div>
                 </div>
@@ -72,5 +90,3 @@
     </div>
   </div>
 </div>
-
-

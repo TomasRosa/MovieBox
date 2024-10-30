@@ -13,6 +13,7 @@ import { ValidacionUserPersonalizada } from 'src/app/validaciones/validacion-use
 
 export class RegisterComponent implements OnInit {
   mensajeRegistro: string = '';
+  mostrarContrasena: boolean = false;
 
   userForm = new FormGroup ({
     firstName: new FormControl ('', [Validators.required, ValidacionUserPersonalizada.soloLetras(),]),
@@ -74,5 +75,8 @@ export class RegisterComponent implements OnInit {
         }
       });
     }
+  }
+  toggleMostrarContrasena() {
+    this.mostrarContrasena = !this.mostrarContrasena;
   }
 }
