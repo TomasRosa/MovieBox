@@ -61,6 +61,7 @@
 }
 
 .li-category {
+    transition: 0.4s;
     padding: 0.2rem 1rem;
     width: 100%; /* Ocupa todo el ancho del contenedor */
 }
