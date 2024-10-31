@@ -1,44 +1,52 @@
-<div *ngIf="isLoggedIn">
-    <div class="container">
-            <h2>Carrito de Compras</h2>
-        </div>
-    <section class="padded">
-        <div class="container">
-            <table class="table table-bordered table-hover">
+<div *ngIf="isLoggedIn" class="box-carrito">
+    <div class="title">
+            <h2 class="title-text">Carrito de Compras</h2>
+    </div>
+    <section class="padded box-content-shopping-cart">
+        <div class="container justify-content-center">
+            <div *ngIf="carritoDeCompras.length==0" class="box-empty">
+                <p class="text-empty"> Aun no agregaste ninguna pelicula a tu carrito! </p>
+            </div>
+
+            <table *ngIf="carritoDeCompras.length!=0" class="table table-bordered table-hover text-center">
                 <thead>
                     <tr>
-                        <th>IMAGEN</th>
-                        <th>TITULO</th>
-                        <th>GENERO</th>
-                        <th>STORY</th>
-                        <th>RATING</th>
-                        <th>PRECIO</th>
-                        <th>Eliminar</th>
+                        <th class="align-middle column-title">IMAGEN</th>
+                        <th class="align-middle column-title">TITULO</th>
+                        <th class="align-middle column-title">GENERO</th>
+                        <th class="align-middle column-title">RATING</th>
+                        <th class="align-middle column-title">PRECIO</th>
+                        <th class="align-middle column-title">ELIMINAR</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let pelicula of carritoDeCompras">
-                        <td><img [src]="pelicula.image" alt="Imagen de la película" width="50rem" height="50rem"></td>
-                        <td>{{ pelicula.title }}</td>
-                        <td>{{ pelicula.genre }}</td>
-                        <td>{{ pelicula.rating }}</td>
-                        <td>{{ pelicula.precio }}</td>
-                        <td>
-                            <button class="btn btn-primary mt-3"  (click)="eliminarDelCarrito(pelicula)">Eliminar</button>
+                        <td class="align-middle"><img class="film-img"  [src]="pelicula.image" alt="Imagen de la película"></td>
+                        <td class="align-middle paragraph">{{ pelicula.title }}</td>
+                        <td class="align-middle paragraph">{{ pelicula.genre }}</td>
+                        <td class="align-middle paragraph">{{ pelicula.rating }}</td>
+                        <td class="align-middle paragraph">{{ pelicula.precio }}</td>
+                        <td class="align-middle">
+                            <button class="button"  (click)="eliminarDelCarrito(pelicula)">Eliminar</button>
                         </td>
                     </tr>
                     <tr>
-                        <td><button class="btn btn-primary mt-3" (click)="limpiarCarrito()">Limpiar carrito</button></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><button class="button" (click)="limpiarCarrito()">Limpiar carrito</button></td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </section>
     <div class="container">
-        <p>Total del Carrito: {{ totalCarrito | currency: 'ARS' }}</p>
+        <p class="paragraph">Total del Carrito: {{ totalCarrito | currency: 'ARS $' }}</p>
     </div>
     <div class="container">
-        <button class="btn btn-primary mt-3" (click)="comprar()" [disabled] = "verSiEstaVacio">Finalizar compra</button>
+        <button class="button" (click)="comprar()" [disabled] = "verSiEstaVacio">Finalizar compra</button>
     </div>
 </div>
     <div *ngIf="!isLoggedIn">
