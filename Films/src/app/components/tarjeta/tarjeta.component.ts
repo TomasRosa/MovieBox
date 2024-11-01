@@ -25,11 +25,12 @@ export class TarjetaComponent {
   lastFourDigits: String | null = null;
   showBuyWithActualCard: boolean = true;
   showFormConfirmBuyWithActualCard: boolean = false;
-  
+  /* Proceso de compra */
+  isLoading: boolean = false;
   errorMessage: string = '';
   successMessage: string = '';
   result: string = ''
-  mostrarFormularioSinUltimaTarjeta: boolean = false;
+  cardIsEmpty: boolean = false;
 
   cvcFormGroup = new FormGroup ({
     cvc: new FormControl ('',[Validators.required,ValidacionTarjeta.validarCVCLongitud(),ValidacionTarjeta.soloNumeros()])      
@@ -68,7 +69,10 @@ export class TarjetaComponent {
         this.usuarioActual.tarjeta.saldo -= total
         res = await this.userService.cargarBiblioteca(this.usuarioActual as User, carrito)
         if (res){
-          if (res.success) this.result = res.message; 
+          if (res.success){
+            this.result = res.message; 
+            this.isLoading = true;
+          } 
           else this.result = res.message;
         }
         this.carritoService.limpiarCarrito()
@@ -77,17 +81,18 @@ export class TarjetaComponent {
       }
     }
     setTimeout(()=>{
+      this.isLoading = false;
       this.showBuyWithActualCard = false;
       this.navegarInicio ('inicio');
-    }, 1500)
+    }, 2000)
   }
 
   validarSiTieneTarjeta (){
     if (this.usuarioActual?.tarjeta?.firstName && this.usuarioActual?.tarjeta?.lastName && this.usuarioActual?.tarjeta?.fechaVencimiento && this.usuarioActual?.tarjeta?.nTarjeta){
-      this.showBuyWithActualCard = true
+      this.showBuyWithActualCard = true;
       this.getLastFourDigits ();
     } 
-    else this.mostrarFormularioSinUltimaTarjeta=true ;
+    else this.showBuyWithActualCard = false;
   }
 
   getLastFourDigits (){

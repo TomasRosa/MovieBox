@@ -27,7 +27,7 @@ table {
     position: relative;
     overflow: hidden;
     width: 290px;
-    height: 550px;
+    height: 555px;
     background-color: black !important;
     color: white !important;
     border-radius: 10px !important;
@@ -86,7 +86,7 @@ table {
 .image{
     height: 350px;
     width: 215px;
-    margin-bottom: 2rem;
+    margin-bottom: 1.8rem;
 }
 
 .button{
