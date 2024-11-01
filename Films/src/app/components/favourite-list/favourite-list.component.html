@@ -23,8 +23,13 @@
     </div>
 </div>
 
-<div *ngIf = "!isLoggedIn">
-  <p>Debes iniciar sesión para acceder a la lista de favoritos</p>
+<div *ngIf = "!isAdmin">
+  <div *ngIf = "!isLoggedIn">
+    <p>Debes iniciar sesión para acceder a la lista de favoritos</p>
+  </div>
+</div>
+<div *ngIf = "isAdmin">
+  <p>Los administradores no tienen lista de favoritos</p>
 </div>
 
   

@@ -92,7 +92,7 @@ export class PerfilComponent {
   constructor(private userService: UserService, private adminService: AdminService, private router: Router) {}
 
   isAdmin: boolean = false;
-
+  
   ngOnInit(): void {
     if (this.userService.storedUser && this.userService.storedAdmin == null)
     {
@@ -130,7 +130,7 @@ export class PerfilComponent {
 
         // Verificar si es un administrador
         await this.adminService.loadAdminsFromJSON();
-        const isAdmin = this.adminService.getAdmins().some((admin) => admin.email === this.adminActual?.email);
+        const isAdmin = this.adminService.getAdmins().some((admin) => admin.id === this.adminActual?.id);
 
         console.log ("isAdmin: ", isAdmin)
         this.isAdmin = isAdmin;
@@ -186,14 +186,30 @@ export class PerfilComponent {
 
   toggleEditFirstame() {
     this.isEditingFirstName = !this.isEditingFirstName;
-    if (this.usuarioActual)
-      this.formGroupFirstName.get('firstname')?.setValue (this.usuarioActual.firstName);
+    if (!this.isAdmin)
+    {
+      if (this.usuarioActual)
+        this.formGroupFirstName.get('firstname')?.setValue (this.usuarioActual.firstName);
+    }
+    else
+    {
+      if (this.adminActual)
+        this.formGroupFirstName.get('firstname')?.setValue (this.adminActual.firstName);
+    }
   }
 
   toggleEditLastName (){
     this.isEditingLastName = !this.isEditingLastName;
-    if (this.usuarioActual)
-      this.formGroupLastName.get('lastname')?.setValue (this.usuarioActual.lastName);
+    if (!this.isAdmin)
+    {
+      if (this.usuarioActual)
+        this.formGroupLastName.get('lastname')?.setValue (this.usuarioActual.lastName);
+    }
+    else
+    {
+      if (this.adminActual)
+        this.formGroupLastName.get('lastname')?.setValue (this.adminActual.lastName);
+    }
   }
 
   toggleEditDni() {
@@ -204,8 +220,16 @@ export class PerfilComponent {
 
   toggleEditEmail() {
     this.isEditingEmail = !this.isEditingEmail;
-    if (this.usuarioActual)
-      this.formGroupEmail.get('email')?.setValue(this.usuarioActual.email);
+    if (!this.isAdmin)
+    {
+      if (this.usuarioActual)
+        this.formGroupEmail.get('email')?.setValue(this.usuarioActual.email);
+    }
+    else
+    {
+      if (this.adminActual)
+        this.formGroupEmail.get('email')?.setValue(this.adminActual.email);
+    }
   }
 
   toggleFormToEditPassword(){
@@ -225,44 +249,92 @@ export class PerfilComponent {
     this.isEditingAddress = false;
     this.isEditingEmail = false;
     this.isEditingPassword = false;
-    if (this.usuarioActual){
-      this.formGroupFirstName.reset ({firstname: this.usuarioActual.firstName});
-      this.formGroupFirstName.markAsUntouched();
-      this.formGroupLastName.reset ({lastname: this.usuarioActual.lastName});
-      this.formGroupLastName.markAsUntouched();
-      this.formGroupDNI.reset ({dni: this.usuarioActual.dni});
-      this.formGroupDNI.markAsUntouched();
-      this.formGroupAddress.reset ({address: this.usuarioActual.address});
-      this.formGroupAddress.markAsUntouched();
-      this.formGroupEmail.reset({ email: this.usuarioActual.email });
-      this.formGroupEmail.markAsUntouched();
-      this.formGroupPassword.markAsUntouched ();
+    if (!this.isAdmin)
+    {
+      if (this.usuarioActual){
+        this.formGroupFirstName.reset ({firstname: this.usuarioActual.firstName});
+        this.formGroupFirstName.markAsUntouched();
+        this.formGroupLastName.reset ({lastname: this.usuarioActual.lastName});
+        this.formGroupLastName.markAsUntouched();
+        this.formGroupDNI.reset ({dni: this.usuarioActual.dni});
+        this.formGroupDNI.markAsUntouched();
+        this.formGroupAddress.reset ({address: this.usuarioActual.address});
+        this.formGroupAddress.markAsUntouched();
+        this.formGroupEmail.reset({ email: this.usuarioActual.email });
+        this.formGroupEmail.markAsUntouched();
+        this.formGroupPassword.markAsUntouched ();
+      }
+    }
+    else
+    {
+      if (this.adminActual){
+        this.formGroupFirstName.reset ({firstname: this.adminActual.firstName});
+        this.formGroupFirstName.markAsUntouched();
+        this.formGroupLastName.reset ({lastname: this.adminActual.lastName});
+        this.formGroupLastName.markAsUntouched();
+        this.formGroupEmail.reset({ email: this.adminActual.email });
+        this.formGroupEmail.markAsUntouched();
+        this.formGroupPassword.markAsUntouched ();
+      }
     }
   }
 
-  verifyActualPasswordToEditNewPassword(){
-    if (this.passwordToVerify === this.usuarioActual?.password){
-      this.showFormToEditPassword = false;
-      this.isEditingPassword = true;
+  verifyActualPasswordToEditNewPassword()
+  {
+    if (!this.isAdmin)
+    {
+      if (this.passwordToVerify === this.usuarioActual?.password){
+        this.showFormToEditPassword = false;
+        this.isEditingPassword = true;
+      }
+      else{
+        this.resultInputPassword = 'Las contraseñas no coinciden';
+      }
     }
-    else{
-      this.resultInputPassword = 'Las contraseñas no coinciden';
+    else
+    {
+      if (this.passwordToVerify === this.adminActual?.password){
+        this.showFormToEditPassword = false;
+        this.isEditingPassword = true;
+      }
+      else{
+        this.resultInputPassword = 'Las contraseñas no coinciden';
+      }
     }
   }
 
-  async processPasswordChangeRequest (){
+  async processPasswordChangeRequest ()
+  {
     if (this.formGroupPassword.valid) {
       const newPassword = this.formGroupPassword.value.password;
-      if (this.usuarioActual && newPassword) {
-        try {
-          const resultado = await this.userService.changePassword(this.usuarioActual as User, newPassword as string);
-          if (resultado.success) {
-            this.resultPassword = 'Contraseña cambiado con éxito';
-          } else {
-            this.resultPassword = 'Error al cambiar la contraseña';
+      if (!this.isAdmin)
+      {
+        if (this.usuarioActual && newPassword) {
+          try {
+            const resultado = await this.userService.changePassword(this.usuarioActual as User, newPassword as string);
+            if (resultado.success) {
+              this.resultPassword = 'Contraseña cambiado con éxito';
+            } else {
+              this.resultPassword = 'Error al cambiar la contraseña';
+            }
+          } catch (error) {
+            this.resultPassword = 'Error en la solicitud: ' + error;
           }
-        } catch (error) {
-          this.resultPassword = 'Error en la solicitud: ' + error;
+        }
+      }
+      else
+      {
+        if (this.adminActual && newPassword) {
+          try {
+            const resultado = await this.userService.changePasswordAdmin(this.adminActual as Admin, newPassword as string);
+            if (resultado.success) {
+              this.resultPassword = 'Contraseña cambiado con éxito';
+            } else {
+              this.resultPassword = 'Error al cambiar la contraseña';
+            }
+          } catch (error) {
+            this.resultPassword = 'Error en la solicitud: ' + error;
+          }
         }
       }
       this.isEditingPassword = false; 
@@ -277,16 +349,34 @@ export class PerfilComponent {
   private async processEmailChangeRequest (){
     if (this.formGroupEmail.valid) {
       const newEmail = this.formGroupEmail.value.email;
-      if (this.usuarioActual && newEmail !== this.usuarioActual.email) {
-        try {
-          const resultado = await this.userService.changeEmail(this.usuarioActual as User, newEmail as string);
-          if (resultado.success) {
-            this.resultEmail = 'Email cambiado con éxito';
-          } else {
-            this.resultEmail = 'Error al cambiar el email';
+      if (!this.isAdmin)
+      {
+        if (this.usuarioActual && newEmail !== this.usuarioActual.email) {
+          try {
+            const resultado = await this.userService.changeEmail(this.usuarioActual as User, newEmail as string);
+            if (resultado.success) {
+              this.resultEmail = 'Email cambiado con éxito';
+            } else {
+              this.resultEmail = 'Error al cambiar el email';
+            }
+          } catch (error) {
+            this.resultEmail = 'Error en la solicitud: ' + error;
           }
-        } catch (error) {
-          this.resultEmail = 'Error en la solicitud: ' + error;
+        }
+      }
+      else
+      {
+        if (this.adminActual && newEmail !== this.adminActual.email) {
+          try {
+            const resultado = await this.userService.changeEmailAdmin(this.adminActual as Admin, newEmail as string);
+            if (resultado.success) {
+              this.resultEmail = 'Email cambiado con éxito';
+            } else {
+              this.resultEmail = 'Error al cambiar el email';
+            }
+          } catch (error) {
+            this.resultEmail = 'Error en la solicitud: ' + error;
+          }
         }
       }
       this.isEditingEmail = false; // Salimos del modo de edición
@@ -298,21 +388,42 @@ export class PerfilComponent {
     }, 2000);
   }
 
-  async processFirstNameChangeRequest (){
+  async processFirstNameChangeRequest ()
+  {
     if (this.formGroupFirstName.valid) {
       const newFirstName = this.formGroupFirstName.value.firstname;
-      if (this.usuarioActual && newFirstName !== this.usuarioActual.firstName) {
-        try {
-          const resultado = await this.userService.changeFirstName(this.usuarioActual as User, newFirstName as string);
-          if (resultado.success) {
-            this.resultFirstName = 'Nombre cambiado con éxito';
-          } else {
-            this.resultFirstName = 'Error al cambiar el nombre';
+
+      if (!this.isAdmin)
+      {
+        if (this.usuarioActual && newFirstName !== this.usuarioActual.firstName) {
+          try {
+            const resultado = await this.userService.changeFirstName(this.usuarioActual as User, newFirstName as string);
+            if (resultado.success) {
+              this.resultFirstName = 'Nombre cambiado con éxito';
+            } else {
+              this.resultFirstName = 'Error al cambiar el nombre';
+            }
+          } catch (error) {
+            this.resultFirstName = 'Error en la solicitud: ' + error;
           }
-        } catch (error) {
-          this.resultFirstName = 'Error en la solicitud: ' + error;
         }
       }
+      else
+      {
+        if (this.adminActual && newFirstName !== this.adminActual.firstName) {
+          try {
+            const resultado = await this.userService.changeFirstNameAdmin(this.adminActual as Admin, newFirstName as string);
+            if (resultado.success) {
+              this.resultFirstName = 'Nombre cambiado con éxito';
+            } else {
+              this.resultFirstName = 'Error al cambiar el nombre';
+            }
+          } catch (error) {
+            this.resultFirstName = 'Error en la solicitud: ' + error;
+          }
+        }
+      }
+
       this.isEditingFirstName = false; // Salimos del modo de edición
     } else {
       this.resultFirstName = 'Por favor, ingresa un nombre válido.';
@@ -323,20 +434,40 @@ export class PerfilComponent {
   }
 
   async processLastNameChangeRequest (){
-    if (this.formGroupLastName.valid) {
+    if (this.formGroupLastName.valid) 
+    {
       const newLastName = this.formGroupLastName.value.lastname;
-      if (this.usuarioActual && newLastName !== this.usuarioActual.lastName) {
-        try {
-          const resultado = await this.userService.changeLastName(this.usuarioActual as User, newLastName as string);
-          if (resultado.success) {
-            this.resultLastName = 'Apellido cambiado con éxito';
-          } else {
-            this.resultLastName = 'Error al cambiar el apellido';
+      if (!this.isAdmin)
+      {
+        if (this.usuarioActual && newLastName !== this.usuarioActual.lastName) {
+          try {
+            const resultado = await this.userService.changeLastName(this.usuarioActual as User, newLastName as string);
+            if (resultado.success) {
+              this.resultLastName = 'Apellido cambiado con éxito';
+            } else {
+              this.resultLastName = 'Error al cambiar el apellido';
+            }
+          } catch (error) {
+            this.resultLastName = 'Error en la solicitud: ' + error;
           }
-        } catch (error) {
-          this.resultLastName = 'Error en la solicitud: ' + error;
         }
       }
+      else
+      {
+        if (this.adminActual && newLastName !== this.adminActual.lastName) {
+          try {
+            const resultado = await this.userService.changeLastNameAdmin(this.adminActual as Admin, newLastName as string);
+            if (resultado.success) {
+              this.resultLastName = 'Apellido cambiado con éxito';
+            } else {
+              this.resultLastName = 'Error al cambiar el apellido';
+            }
+          } catch (error) {
+            this.resultLastName = 'Error en la solicitud: ' + error;
+          }
+        }
+      }
+      
       this.isEditingLastName = false;
     } else {
       this.resultLastName = 'Por favor, ingresa un apellido válido.';

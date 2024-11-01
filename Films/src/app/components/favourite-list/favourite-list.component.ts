@@ -11,6 +11,7 @@ import { SharedServicesService } from 'src/app/services/shared-services.service'
 export class FavouriteListComponent implements OnInit {
   arrayFilms: Array<Film> = [];
   isLoggedIn: Boolean | null = false
+  isAdmin: Boolean | null = false
 
   constructor(
     public Flist: FavouriteListService,
@@ -27,9 +28,21 @@ export class FavouriteListComponent implements OnInit {
       this.isLoggedIn = isLoggedIn; 
     })
 
-    if (!this.isLoggedIn)
+    if (this.Flist.userService.storedAdmin)
     {
-      alert ("Debe iniciar sesión para ver su lista de favoritos.")
+      this.isAdmin = true;
+    }
+
+    if (!this.isAdmin)
+    {
+      if (!this.isLoggedIn)
+        {
+          alert ("Debe iniciar sesión para ver su lista de favoritos.")
+        }
+    }
+    else
+    {
+      alert ("Los administradores no tienen lista de favoritos.")
     }
 
     this.Flist.userService.getUserActualJSON().subscribe((user) => {

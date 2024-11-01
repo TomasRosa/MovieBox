@@ -46,8 +46,8 @@ export class AdminService {
     }
   }
 
-  obtenerCodigoAdmin(email: string): string | null {
-    const admin = this.admins.find((admin) => admin.email === email);
+  obtenerCodigoAdmin(id: number): string | null {
+    const admin = this.admins.find((admin) => admin.id === id);
     return admin ? admin.code : null;
   }
 }

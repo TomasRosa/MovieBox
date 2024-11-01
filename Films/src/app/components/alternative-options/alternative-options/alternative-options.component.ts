@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 import { SharedServicesService } from 'src/app/services/shared-services.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-alternative-options',
@@ -12,9 +13,17 @@ export class AlternativeOptionsComponent {
   categories: Set<string> = this.filmsService.getGenreOfMoviesJSON();
   isFocused = false;
   selectedCategory: string = '';
+  isAdmin: Boolean | null = false
 
-  constructor(private filmsService: FilmsFromAPIService, private routerService: Router, private sharedService: SharedServicesService) {}
+  constructor(private filmsService: FilmsFromAPIService, private routerService: Router, private sharedService: SharedServicesService, private userService: UserService) {}
 
+  ngOnInit ()
+  {
+    if (this.userService.storedAdmin)
+    {
+      this.isAdmin = true;
+    }
+  }
   showCategories()
   {
     this.isFocused= true;
