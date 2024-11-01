@@ -1,21 +1,33 @@
-<div class="classDiv">
-  <h3 *ngIf="!bibliotecaVacia" id="title">Biblioteca</h3>
-    <table>
-      <tr *ngFor="let fila of filas">
-        <td *ngFor="let film of fila">
-          <img alt="Imagen no disponible" src="{{film.image}}" width="200" height="300">
-          <br>
-          <i><b style="font-size: 15px;">{{film.title}}</b></i>
-          <br>
-          <button class="btn btn-danger" (click)="devolverPelicula(film)">Devolver Pelicula</button>
-        </td>
-      </tr>
-    </table>
+<div *ngIf = "isLoggedIn">
+  <div class="classDiv">
+    <h3 *ngIf="!bibliotecaVacia" id="title">Biblioteca</h3>
+      <table>
+        <tr *ngFor="let fila of filas">
+          <td *ngFor="let film of fila">
+            <img alt="Imagen no disponible" src="{{film.image}}" width="200" height="300">
+            <br>
+            <i><b style="font-size: 15px;">{{film.title}}</b></i>
+            <br>
+            <button class="btn btn-danger" (click)="devolverPelicula(film)">Devolver Pelicula</button>
+          </td>
+        </tr>
+      </table>
+  </div>
+  
+  <div *ngIf="bibliotecaVacia" class="classDiv" id="bibliotecaVacia">
+    Su biblioteca se encuentra vacia! 
+  </div>
 </div>
 
-<div *ngIf="bibliotecaVacia" class="classDiv" id="bibliotecaVacia">
-  Su biblioteca se encuentra vacia! 
+<div *ngIf = "!isAdmin">
+  <div *ngIf = "!isLoggedIn">
+    <p>Debes iniciar sesión para acceder a la biblioteca</p>
+  </div>
 </div>
+<div *ngIf = "isAdmin">
+  <p>Los administradores no tienen biblioteca</p>
+</div>
+
 
   
   

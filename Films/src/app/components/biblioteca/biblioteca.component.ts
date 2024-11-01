@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { Film } from 'src/app/models/film';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
@@ -13,6 +12,8 @@ export class BibliotecaComponent
 {
   usuarioActual: User | null = null;
   bibliotecaVacia: boolean = true;
+  isLoggedIn: Boolean | null = false
+  isAdmin: Boolean | null = false
 
   constructor (private userService: UserService) {}
 
@@ -32,6 +33,27 @@ export class BibliotecaComponent
   }
 
   async ngOnInit(): Promise<void> {
+    this.userService.isLoggedIn$.subscribe ((isLoggedIn: boolean | null) =>{
+      this.isLoggedIn = isLoggedIn; 
+    })
+
+    if (this.userService.storedAdmin)
+      {
+        this.isAdmin = true;
+      }
+  
+      if (!this.isAdmin)
+      {
+        if (!this.isLoggedIn)
+          {
+            alert ("Debe iniciar sesión para ver su biblioteca.")
+          }
+      }
+      else
+      {
+        alert ("Los administradores no tienen biblioteca.")
+      }
+
     this.userService.usuarioActual$.subscribe(async (usuario: User | null) => {
       this.usuarioActual = usuario;
   

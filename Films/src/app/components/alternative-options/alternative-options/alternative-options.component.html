@@ -16,12 +16,16 @@
         </div>
     </div>
 
-    <div class="box-fav-list">
-        <button class="button" (click) = "navegarFavouriteList()">Lista favoritos</button>
+    <div *ngIf = "!isAdmin">
+        <div class="box-fav-list">
+            <button class="button" (click) = "navegarFavouriteList()">Lista favoritos</button>
+        </div>
     </div>
 
-    <div class="box-biblioteca">
-        <button class="button" (click)="navegarBiblioteca ()" > Mi biblioteca </button>
+    <div *ngIf = !isAdmin>
+        <div class="box-biblioteca">
+            <button class="button" (click)="navegarBiblioteca ()" > Mi biblioteca </button>
+        </div>
     </div>
 
     <div class="box-offers">
