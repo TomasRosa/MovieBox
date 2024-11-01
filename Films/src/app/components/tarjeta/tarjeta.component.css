@@ -149,3 +149,95 @@
     top: 10px; /* Ajusta la distancia desde la parte superior */
     right: 40px; /* Ajusta la distancia desde la parte derecha */
 }
+
+.box-error{
+    display: grid;
+    text-align: center;
+}
+
+.box-errors{
+    margin-top: 0.2rem;
+    color: rgb(205, 25, 25);
+}
+
+.box-cvc{
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+}
+
+.box-content-cvc{
+    position: fixed; /* Para que se mantenga en la pantalla */
+    top: 50%; /* Centra verticalmente */
+    left: 50%; /* Centra horizontalmente */
+    transform: translate(-50%, -50%); /* Ajusta el centro real */
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.8); 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra */ 
+    padding: 2rem; /* Espaciado alrededor del formulario */
+    border-radius: 10px;
+}
+
+.field{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    background-color: transparent;
+    color: aliceblue;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.box-field{
+    display: grid;
+    padding: 0.2rem;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    background-color: transparent;
+}
+
+.form{
+    display: flex;
+    justify-content: center;
+    background-color: transparent;
+}
+
+.input-cvc{
+    display: flex;
+    justify-content: center;
+    margin-block: 0.2rem;
+    font-size: 1rem;
+    height: 2rem;
+    width: 12rem;
+    border: 0.1rem solid transparent;
+    outline: 0.1rem solid transparent;
+    border-radius: 0.5rem;
+    background-color: aliceblue;
+}
+
+.input-cvc::placeholder{
+    color: grey;
+    padding: 0.4rem;
+    background-color: aliceblue;
+    letter-spacing: 0.1rem;
+}
+
+.input-cvc:focus{
+    color: grey;
+    padding: 0.4rem;
+    background-color: aliceblue;
+    letter-spacing: 0.1rem;
+}
+
+.box-result{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+}

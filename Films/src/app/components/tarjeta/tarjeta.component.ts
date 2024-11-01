@@ -31,13 +31,10 @@ export class TarjetaComponent {
   result: string = ''
   mostrarFormularioSinUltimaTarjeta: boolean = false;
 
-  tarjetaForm = new FormGroup({
-    firstName: new FormControl('', [Validators.required, ValidacionUserPersonalizada.soloLetras()]),
-    lastName: new FormControl('', [Validators.required, ValidacionUserPersonalizada.soloLetras()]),
-    nTarjeta: new FormControl('', [Validators.required,ValidacionTarjeta.soloNumeros(),ValidacionTarjeta.validarTarjetaLongitud()]),
-    fechaVencimiento: new FormControl ('',[Validators.required,ValidacionTarjeta.validarFechaNoExpirada(),ValidacionTarjeta.validarFormatoFechaVencimiento()]),
-    CVC: new FormControl ('',[Validators.required,ValidacionTarjeta.validarCVCLongitud(),ValidacionTarjeta.soloNumeros()])      
+  cvcFormGroup = new FormGroup ({
+    cvc: new FormControl ('',[Validators.required,ValidacionTarjeta.validarCVCLongitud(),ValidacionTarjeta.soloNumeros()])      
   });
+  get cvc () {return this.cvcFormGroup.get('cvc')}
 
   constructor(
     private carritoService: CarritoService, 
@@ -54,74 +51,35 @@ export class TarjetaComponent {
     })
   }
 
-  get firstName () {return this.tarjetaForm.get('firstName')}
-  get lastName () {return this.tarjetaForm.get('lastName')}
-  get nTarjeta () {return this.tarjetaForm.get('nTarjeta')}
-  get fechaVencimiento () {return this.tarjetaForm.get('fechaVencimiento')}
-  get CVC () {return this.tarjetaForm.get('CVC')}
-
   async buyWithActualCard (){
+    if (!this.cvcFormGroup.valid){
+      this.result = 'Hay errores en el codigo de seguridad'
+      return;
+    }
+    const carrito = this.carritoService.obtenerCarrito()
+    if (!carrito){
+      this.result = 'Su carrito se encuentra vacio'
+      return;
+    }
     let res;
-      const carrito = this.carritoService.obtenerCarrito()
-      if(this.carritoService.obtenerTotalCarrito() != null && this.usuarioActual){
-        if (this.usuarioActual.tarjeta.saldo >= this.carritoService.obtenerTotalCarrito()){
-          this.usuarioActual.tarjeta.saldo -= this.carritoService.obtenerTotalCarrito()
-          res = await this.userService.cargarBiblioteca(this.usuarioActual as User, carrito)
-          if (res){
-            if (res.success) this.result = res.message; 
-            else this.result = res.message;
-          }
-          this.carritoService.limpiarCarrito()
-        }else{
-          this.result = 'Saldo insufuciente! Intente mas tarde'
+    const total = this.carritoService.obtenerTotalCarrito()
+    if(total != null && this.usuarioActual){
+      if (this.usuarioActual.tarjeta.saldo >= total){
+        this.usuarioActual.tarjeta.saldo -= total
+        res = await this.userService.cargarBiblioteca(this.usuarioActual as User, carrito)
+        if (res){
+          if (res.success) this.result = res.message; 
+          else this.result = res.message;
         }
+        this.carritoService.limpiarCarrito()
+      }else{
+        this.result = 'Saldo insufuciente! Intente mas tarde'
       }
+    }
     setTimeout(()=>{
-      this.showFormConfirmBuyWithActualCard = false;
-      this.mostrarFormularioSinUltimaTarjeta = false;
       this.showBuyWithActualCard = false;
       this.navegarInicio ('inicio');
     }, 1500)
-  }
-  
-  async onSubmit ()
-  {
-    if(this.tarjetaForm.valid){
-      let tarjeta = new Tarjeta()
-      
-      if (this.firstName && this.lastName && this.nTarjeta && this.CVC && this.fechaVencimiento){
-        if (this.CVC.value != null) tarjeta.CVC = this.CVC.value 
-        if (this.firstName.value != null) tarjeta.firstName = this.firstName.value
-        if (this.lastName.value != null) tarjeta.lastName = this.lastName.value
-        if (this.nTarjeta.value != null) tarjeta.nTarjeta = this.nTarjeta.value
-        if (this.fechaVencimiento.value != null) tarjeta.fechaVencimiento = this.fechaVencimiento.value
-      }
-
-      if (tarjeta && this.usuarioActual?.tarjeta)
-      this.usuarioActual.tarjeta = tarjeta
-
-      let res;
-      const carrito = this.carritoService.obtenerCarrito()
-      if(this.carritoService.obtenerTotalCarrito() != null && this.usuarioActual){
-        if (this.usuarioActual.tarjeta.saldo >= this.carritoService.obtenerTotalCarrito()){
-          this.usuarioActual.tarjeta.saldo -= this.carritoService.obtenerTotalCarrito()
-          res = await this.userService.cargarBiblioteca(this.usuarioActual as User, carrito)
-          if (res){
-            if (res.success) this.result = res.message; 
-            else this.result = res.message;
-          }
-          this.carritoService.limpiarCarrito()
-        }else{
-           this.result = 'Saldo insufuciente! Intente mas tarde'
-        }
-      }
-
-    setTimeout(()=>{
-      this.showFormConfirmBuyWithActualCard = false;
-      this.mostrarFormularioSinUltimaTarjeta = false;
-      this.navegarInicio ('inicio');
-    }, 1500)
-    }
   }
 
   validarSiTieneTarjeta (){
@@ -149,10 +107,6 @@ export class TarjetaComponent {
 
   showFormSecurityCode(){
     this.showFormCVC = true;
-  }
-
-  showFormConfirmBuy(){
-    this.showFormConfirmBuyWithActualCard = true;
   }
 
   navegarInicio(componente: string) {

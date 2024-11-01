@@ -76,7 +76,12 @@ table {
     font-size: 40px;
     background: none;
     color: white;
+    transition: 0.3s;
 } 
+
+.button-star:hover {
+    color: gold; /* Cambia el color de la estrella al pasar el mouse */
+}
 
 .image{
     height: 350px;

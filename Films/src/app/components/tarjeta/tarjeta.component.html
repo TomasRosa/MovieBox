@@ -39,18 +39,33 @@
     </div>
 </div>
 
-<div *ngIf="showFormCVC" class="needs-validation">
-  <div>
+<div class="box-cvc" *ngIf="showFormCVC">
+  <div class="box-content-cvc">
+    <div class="box-field">
+      <p class="field">Ingrese el codigo de seguridad de su tarjeta</p>
+      <form action="" [formGroup]="cvcFormGroup" class="form">
+        <input class="input-cvc" type="number" placeholder="CVC" formControlName="cvc">
+      </form>
+    </div>
+
+    <div class="box-errors">
+      <div class="box-error" *ngIf="cvc && (cvc.invalid && (cvc.dirty || cvc.touched))">
+        <div *ngIf="cvc.hasError('required')">El codigo de seguridad es requerido.</div>
+        <div *ngIf="cvc.hasError('validarCVCLongitud')">El codigo de seguridad es de 3 digitos.</div>
+        <div *ngIf="cvc.hasError('soloNumeros')">Solo se permiten numeros.</div>
+      </div>
+    </div>
+
+    <div *ngIf="cvcFormGroup.valid">
+      <form (ngSubmit)="buyWithActualCard()">
+          <button class="btn btn-primary margenBoton" type="submit">Confirmar compra</button>
+      </form>
+    </div>
     
+    <div class="box-result">
+        {{result}}
+    </div>
   </div>
-  <div *ngIf="showFormConfirmBuyWithActualCard">
-    <form (ngSubmit)="buyWithActualCard()">
-        <button class="btn btn-primary margenBoton" type="submit">Confirmar compra</button>
-    </form>
-  </div>
+  
 </div>
 
-
-<div id = "exitoCompra">
-    {{result}}
-</div>

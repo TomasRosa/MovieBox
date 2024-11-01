@@ -45,10 +45,10 @@
     <div class="container">
         <p class="paragraph">Total del Carrito: {{ totalCarrito | currency: 'ARS $' }}</p>
     </div>
-    <div class="container">
-        <button class="button" (click)="comprar()" [disabled] = "verSiEstaVacio">Finalizar compra</button>
+    <div class="container" *ngIf="!isEmpty">
+        <button class="button" (click)="comprar()">Finalizar compra</button>
     </div>
 </div>
-    <div *ngIf="!isLoggedIn">
-        <p>Debes iniciar sesión para acceder al carrito.</p>
+<div *ngIf="!isLoggedIn">
+    <p>Debes iniciar sesión para acceder al carrito.</p>
 </div>

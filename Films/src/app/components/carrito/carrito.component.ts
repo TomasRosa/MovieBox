@@ -13,9 +13,8 @@ import { Router } from '@angular/router';
   export class CarritoComponent implements OnInit {
     carritoDeCompras: Array<Film> = [];
     totalCarrito: number = 0;
-    verSiEstaVacio = true;
+    isEmpty = true;
     isLoggedIn: Boolean | null = false; 
-
 
     constructor(private carritoService: CarritoService, public userService: UserService, private routerService: Router) {}
 
@@ -29,64 +28,43 @@ import { Router } from '@angular/router';
         this.isLoggedIn = isLoggedIn; 
       })
 
-      if (this.isLoggedIn) 
-      {
+      if (this.isLoggedIn)
         this.routerService.navigate(['/carrito']);
-      } 
-      else 
-      {
-        alert('Debe iniciar sesión para comprar películas.');
-      }
-      
-      if (this.carritoDeCompras.length > 0)
-      {
-        this.verSiEstaVacio = false;
-      }
       else
-      {
-        this.verSiEstaVacio = true;
-      }
+        alert('Debe iniciar sesión para comprar películas.');
+
+      if (this.carritoDeCompras.length > 0)
+        this.isEmpty = false;
     }
 
-    private actualizarTotalCarrito() 
-    {
+    private actualizarTotalCarrito() {
       this.totalCarrito = this.carritoDeCompras.reduce((total, pelicula) => total + (pelicula.precio = this.verificarPrecioPelicula(pelicula)), 0);
     }
 
-    verificarPrecioPelicula (pelicula: Film): number
-    {
+    verificarPrecioPelicula (pelicula: Film): number {
       if (pelicula.precio > 1500)
-      {
         pelicula.precio = pelicula.precio/2;
-      }
-
       return pelicula.precio;
     }
 
     eliminarDelCarrito(pelicula: Film) {
       this.carritoService.eliminarDelCarrito(pelicula);
-      if (this.carritoDeCompras.length == 0)
-      {
-        this.verSiEstaVacio = true;
-      }
+      if (this.carritoDeCompras.length == 0) 
+        this.isEmpty = true;
     }
 
     limpiarCarrito() {
       this.carritoService.limpiarCarrito();
       if (this.carritoDeCompras.length == 0)
-      {
-        this.verSiEstaVacio = true;
-      }
+        this.isEmpty = true;
     }
 
-    logout()
-    {
+    logout(){
       this.userService.logout();
       this.carritoService.limpiarCarrito();
     }
 
-    comprar()
-    {
+    comprar() {
       this.routerService.navigate(['/tarjeta']);
     }
 }
