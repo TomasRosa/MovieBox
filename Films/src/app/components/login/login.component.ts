@@ -19,6 +19,8 @@ export class LoginComponent implements OnInit {
   isLoggedIn: boolean | null;
   admins: Array<Admin> = [];
   isAdmin: boolean = false; // Indica si el usuario actual es un administrador
+  mostrarContrasena: boolean = false;
+
 
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -84,7 +86,9 @@ export class LoginComponent implements OnInit {
       this.errorMessage = 'El email o contraseña son nulos';
     }
   }
-
+  toggleMostrarContrasena() {
+    this.mostrarContrasena = !this.mostrarContrasena;
+  }
   verifyAdminCode() {
     const codeAdminValue: string | null = this.codeForm.controls['code']?.value ?? null;
     console.log("CODIGO ADMIN: ", codeAdminValue);
@@ -101,9 +105,3 @@ export class LoginComponent implements OnInit {
   }
   
 }
-
-
-
-
-
-

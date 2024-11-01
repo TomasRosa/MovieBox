@@ -2,7 +2,7 @@
     display: grid;
     justify-content: center;
     align-items: center;
-    background: rgb(120, 120, 120);
+    background-color: rgb(150, 150, 150);
     padding-block: 0.5rem;
 }
 

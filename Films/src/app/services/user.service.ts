@@ -426,18 +426,6 @@ export class UserService {
       }
     }
   }
-  async getUserByEmail(email: string): Promise<User | null> {
-    try {
-      const users = await this.http.get<User[]>(this.urlJSONServer).toPromise() || [];
-      return users.find(user => user.email === email) || null;
-    } catch (error) {
-      console.error('Error al obtener los usuarios:', error);
-      return null; // Manejo de error: devolver null si ocurre un problema
-    }
-  }
-  
-
-
   logout() {
     this.usuarioActualSubject.next(null);
     this.isLoggedInSubject.next(false);

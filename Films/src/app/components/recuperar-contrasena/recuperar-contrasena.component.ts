@@ -27,6 +27,14 @@ export class RecuperarContrasenaComponent {
   }
 
   enviarCodigo() {
+    const usuario = this.userService.obtenerUserByEmail(this.email);
+
+    if (!usuario) {
+      this.mensaje = 'Oh, no hemos podido encontrar ese email en nuestra base de datos.';
+      this.codigoEnviado = false; // Asegura que no cambie el estado si el usuario no existe
+      return;
+    }
+
     this.codigoGenerado = this.generarCodigo();
     this.codigoEnviado = true;
 
@@ -55,7 +63,8 @@ export class RecuperarContrasenaComponent {
 
   async cambiarContrasena() {
     // Obtener el usuario correspondiente al email
-    const usuario = await this.userService.getUserByEmail(this.email);
+    const usuario = await this.userService.obtenerUserByEmail(this.email);
+    console.log(usuario);
     if (!usuario) {
       this.mensaje = 'Usuario no encontrado. Verifique el email ingresado.';
       return;

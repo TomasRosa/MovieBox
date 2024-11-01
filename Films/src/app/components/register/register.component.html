@@ -58,7 +58,10 @@
               </div>
               <div class="col-md-6 mb-5">
                 <label for="password" class="form-label label-spacing">Contraseña</label>
-                <input type="password" class="form-control no-border" id="password" name="password" formControlName="password" placeholder="Ingrese su contraseña" required>
+                <div class="input-group">
+                  <input [type]="mostrarContrasena ? 'text' : 'password'" class="form-control no-border" id="password" name="password" formControlName="password" placeholder="Ingrese su contraseña" required/>
+                  <button type="button" class="btn btn-link" (click)="toggleMostrarContrasena()"><i [ngClass]="mostrarContrasena ? 'bi bi-eye-slash' : 'bi bi-eye'"></i></button>
+                </div>
                 <span class="text-danger" *ngIf="password?.invalid && (password?.dirty || password?.touched)">
                   <div *ngIf="password?.hasError('required')">La contraseña es requerida</div>
                   <div *ngIf="password?.hasError('minDosNumeros')">La contraseña debe contener mínimo 2 números</div>
@@ -66,7 +69,6 @@
                 </span>
               </div>
             </div>
-            
             <!-- Botón de registro -->
             <div class="text-center">
               <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid" style="width: 100%;">Registrarse</button>

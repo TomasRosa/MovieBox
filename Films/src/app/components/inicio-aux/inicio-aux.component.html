@@ -1,24 +1,23 @@
-<!-- <button (click) = "navegarFavouriteList()">Lista favoritos</button> -->
-
-<div *ngIf="filteredFilms.length > 0">
-    <table>
-      <tr *ngFor="let group of getMovieGroups(filteredFilms)">
-        <td *ngFor="let film of group" class="recuadroCelda">
-            <div>
-              <button id = "buttonStar" 
-                (click)="agregarALaListaDeFavoritos(film)" 
-                class = "button-star">
+<section *ngIf="filteredFilms.length > 0">
+      <div *ngFor="let group of getMovieGroups(filteredFilms)" class="box-group-films">
+        <div *ngFor="let film of group" class="recuadroCelda film">  
+          <div class="box-star">
+            <button id = "buttonStar" (click)="agregarALaListaDeFavoritos(film)" class = "button-star">
                 ☆
-              </button>
-            </div>
-              <img [src]="film.image" alt="Imagen no disponible" width="200" height="300">
-              <b style="font-size: 15px;">{{ film.title }}</b>
-  
-            <div class = "button-container">
-              <button class="btn btn-primary" (click)="navegarFilmDetail(film.rank)">Ficha técnica</button>
-              <button class="btn btn-primary" (click)="agregarPeliculaAlCarrito(film)">🛒</button>
-            </div>
-        </td>
-      </tr>
-    </table>
-  </div>
+            </button>
+          </div>
+
+          <div class="box-img-title">
+            <img class="image" [src]="film.image" alt="Imagen no disponible">
+            <p class="title-text">{{film.title}}</p>
+          </div>
+
+          <div class="box-options">
+            <button class="button ficha-tecnica" (click)="navegarFilmDetail(film.rank)">Detalles</button>
+            <button class="button btn-carrito" (click)="agregarPeliculaAlCarrito(film)">
+              <img class="carrito-logo" src="/assets/carrito.png" alt="">
+            </button>
+          </div>
+        </div>
+      </div>
+</section>
