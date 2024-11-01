@@ -326,6 +326,20 @@ export class UserService {
     }
   }
 
+  async changeFirstNameAdmin(admin: Admin, newFirstName: string): Promise<{ success: boolean, message: string }> {
+    const url = `${this.urlJSONServerAdmins}/${admin.id}`;
+    admin.firstName = newFirstName; 
+    try {
+      await this.http.patch(url, admin).toPromise();
+      this.adminActualSubject.next(admin); // Actualizamos el BehaviorSubject con el nuevo valor
+      this.adminService.setAdminActual (admin);
+      return { success: true, message: 'Nombre cambiado correctamente.' };
+    } catch (error) {
+      console.error('Error al cambiar el nombre del usuario:', error);
+      return { success: false, message: 'Error al cambiar el nombre. Por favor, inténtalo de nuevo más tarde.' };
+    }
+  }
+
   async changeLastName(user: User, newLastName: string): Promise<{ success: boolean, message: string }> {
     const url = `${this.urlJSONServer}/${user.id}`;
     user.lastName  = newLastName; 
@@ -333,6 +347,20 @@ export class UserService {
       await this.http.patch(url, user).toPromise();
       this.usuarioActualSubject.next(user); // Actualizamos el BehaviorSubject con el nuevo valor
       this.saveUserToStorage(user); // Actualizamos el almacenamiento local
+      return { success: true, message: 'Apellido cambiado correctamente.' };
+    } catch (error) {
+      console.error('Error al cambiar el apellido del usuario:', error);
+      return { success: false, message: 'Error al cambiar el apellido. Por favor, inténtalo de nuevo más tarde.' };
+    }
+  }
+
+  async changeLastNameAdmin(admin: Admin, newLastName: string): Promise<{ success: boolean, message: string }> {
+    const url = `${this.urlJSONServerAdmins}/${admin.id}`;
+    admin.lastName  = newLastName; 
+    try {
+      await this.http.patch(url, admin).toPromise();
+      this.adminActualSubject.next(admin); // Actualizamos el BehaviorSubject con el nuevo valor
+      this.adminService.setAdminActual(admin);
       return { success: true, message: 'Apellido cambiado correctamente.' };
     } catch (error) {
       console.error('Error al cambiar el apellido del usuario:', error);
@@ -382,6 +410,20 @@ export class UserService {
     }
   }
 
+  async changeEmailAdmin(admin: Admin, newEmail: string): Promise<{ success: boolean, message: string }> {
+    const url = `${this.urlJSONServerAdmins}/${admin.id}`;
+    admin.email = newEmail; 
+    try {
+      await this.http.patch(url, admin).toPromise();
+      this.adminActualSubject.next(admin); // Actualizamos el BehaviorSubject con el nuevo valor
+      this.adminService.setAdminActual(admin);
+      return { success: true, message: 'Email cambiado correctamente.' };
+    } catch (error) {
+      console.error('Error al cambiar el email del usuario:', error);
+      return { success: false, message: 'Error al cambiar el email. Por favor, inténtalo de nuevo más tarde.' };
+    }
+  }
+
   async changePassword (user: User, newPassword: string): Promise<{ success: boolean, message: string }> {
     const url = `${this.urlJSONServer}/${user.id}`;
     user.password  = newPassword; 
@@ -393,6 +435,20 @@ export class UserService {
     } catch (error) {
       console.error('Error al cambiar la contraseña del usuario:', error);
       return { success: false, message: 'Error al cambiar la contraseña. Por favor, inténtalo de nuevo más tarde.' };
+    }
+  }
+
+async changePasswordAdmin (admin: Admin, newPassword: string): Promise<{ success: boolean, message: string }> {
+  const url = `${this.urlJSONServerAdmins}/${admin.id}`;
+  admin.password  = newPassword; 
+  try {
+    await this.http.patch(url, admin).toPromise();
+    this.adminActualSubject.next(admin); // Actualizamos el BehaviorSubject con el nuevo valor
+    this.adminService.setAdminActual(admin);
+    return { success: true, message: 'Contraseña cambiada correctamente.' };
+  } catch (error) {
+    console.error('Error al cambiar la contraseña del usuario:', error);
+    return { success: false, message: 'Error al cambiar la contraseña. Por favor, inténtalo de nuevo más tarde.' };
     }
   }
 
@@ -426,6 +482,16 @@ export class UserService {
       }
     }
   }
+  async getUserByEmail(email: string): Promise<User | null> {
+    try {
+      const users = await this.http.get<User[]>(this.urlJSONServer).toPromise() || [];
+      return users.find(user => user.email === email) || null;
+    } catch (error) {
+      console.error('Error al obtener los usuarios:', error);
+      return null; // Manejo de error: devolver null si ocurre un problema
+    }
+  }
+  
   logout() {
     this.usuarioActualSubject.next(null);
     this.isLoggedInSubject.next(false);

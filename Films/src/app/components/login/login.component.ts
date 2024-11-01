@@ -93,7 +93,7 @@ export class LoginComponent implements OnInit {
     const codeAdminValue: string | null = this.codeForm.controls['code']?.value ?? null;
     console.log("CODIGO ADMIN: ", codeAdminValue);
     
-    if (this.adminService.obtenerCodigoAdmin(this.adminService.getAdminActual()?.email!) == codeAdminValue) {
+    if (this.adminService.obtenerCodigoAdmin(this.adminService.getAdminActual()?.id!) == codeAdminValue) {
       this.successMessage = 'Código verificado con éxito';
       this.sharedService.setAdminCodeVerified(true);
       this.userService.storedAdmin = this.adminService.getAdminActual();
