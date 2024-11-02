@@ -225,12 +225,19 @@
 }
 
 .box-field{
-    display: grid;
+    display: flex;
     padding: 0.2rem;
     justify-content: center;
+    align-items: center;
     text-align: center;
     margin-bottom: 1.5rem;
     background-color: transparent;
+}
+
+.box-eye{
+    margin: 0%;
+    background-color: transparent;
+    margin-left: 1rem;
 }
 
 .box-input-password{
@@ -502,4 +509,41 @@
     margin-top: 0.2rem;
     background-color: transparent;
     color: rgb(205, 25, 25);
+}
+
+.no-border {
+    border-top: none; /* Quitar borde superior */
+    border-right: none; /* Quitar borde derecho */
+    border-left: none; /* Quitar borde izquierdo */
+    border-radius: 0; /* Eliminar bordes redondeados si es necesario */
+    background-color: transparent;  
+}
+  
+.input-group {
+    position: relative; /* Asegúrate de que el grupo de entrada tenga una posición relativa */
+    background-color: transparent;  
+}
+  
+.btn-link {
+    z-index: 2; /* Asegúrate de que el botón esté por encima del input */
+    color: #007bff; /* Color del ícono */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    background-color: transparent;
+}
+  
+.btn-link:hover {
+    background-color: transparent;
+    color: #0056b3; /* Color del ícono al pasar el mouse */
+}
+
+.bi{
+    background-color: transparent;
+}
+
+.bi-eye-slash{
+    background-color: transparent;
+}
+
+.bi-eye{
+    background-color: transparent;
 }

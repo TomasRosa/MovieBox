@@ -229,10 +229,21 @@
 
             <div *ngIf="showFormToEditPassword">
               <div class="form-password">
+                <h5 class="field">Ingrese su contraseña actual para seguir</h5>
                 <div class="box-field">
-                    <h5 class="field">Ingrese su contraseña actual para seguir</h5>
                     <div class="box-input-password">
-                      <input id="input-password" [(ngModel)]="passwordToVerify" type="password" placeholder="Contraseña actual...">
+                      <input id="input-password" 
+                      [(ngModel)]="passwordToVerify" 
+                      [type]="showPassword ? 'text' : 'password'" 
+                      placeholder="Contraseña actual...">
+                    </div>
+                    <div class="box-eye">
+                      <button 
+                        type="button" 
+                        class="btn btn-link" 
+                        (click)="toggleShowPassword()">
+                        <i [ngClass]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+                      </button>
                     </div>
                 </div>
                 <div class="box-options-password">
@@ -365,10 +376,21 @@
 
                 <div *ngIf="showFormularioPassword">
                   <div class="form-password">
+                    <h5 class="field">Ingrese su contraseña para seguir</h5>
                     <div class="box-field">
-                        <h5 class="field">Ingrese su contraseña para seguir</h5>
                         <div class="box-input-password">
-                          <input id="input-password" [(ngModel)]="passwordToEdit" type="password" placeholder="Contraseña...">
+                          <input id="input-password" 
+                          [(ngModel)]="passwordToEdit" 
+                          [type]="showPassword ? 'text' : 'password'" 
+                          placeholder="Contraseña...">
+                        </div>
+                        <div class="box-eye">
+                          <button 
+                            type="button" 
+                            class="btn btn-link" 
+                            (click)="toggleShowPassword()">
+                            <i [ngClass]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+                          </button>
                         </div>
                     </div>
                     <div class="box-options-password">

@@ -32,6 +32,7 @@ export class PerfilComponent {
   resultEditCard: String = '';
   showOptionButtonsToCard: boolean = false;
   showFormularioPassword: boolean | null = false;
+  showPassword: boolean | null = false;
   showFormDeleteCard: boolean | null = false;
   /* Password */
   showFormToEditPassword: boolean | null = false;
@@ -156,6 +157,10 @@ export class PerfilComponent {
       }
     });
   }
+
+  toggleShowPassword() {
+    this.showPassword = !this.showPassword;
+  }
   
   cargarDatosUsuario() {
     this.formGroupEmail.get('email')?.setValue(this.usuarioActual!.email);
@@ -175,7 +180,6 @@ export class PerfilComponent {
     this.formGroupLastName.get('lastname')?.setValue(this.adminActual!.lastName);
   }
   
-
   openLogoutModal() {
     this.isLogoutModalVisible = true;
   }
@@ -234,6 +238,7 @@ export class PerfilComponent {
 
   toggleFormToEditPassword(){
     this.showFormToEditPassword = !this.showFormToEditPassword;
+    this.showPassword = false;
   }
 
   toggleEditAddress() {
@@ -590,6 +595,7 @@ export class PerfilComponent {
 
   toggleFormPassword(){
     this.showFormularioPassword = !this.showFormularioPassword;
+    this.showPassword = false;
   }
 
   closeFormPassword() {
