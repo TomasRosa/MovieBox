@@ -11,6 +11,16 @@
     font-size: 1.75rem;
 }
 
+.box-title{
+    margin-bottom: 1.7rem;
+    padding: 1rem;
+    background-color: #CFCCCC;
+}
+
+.title{
+    margin: 0%;
+}
+
 .box-empty{
     padding: 1rem;
     display: flex;
@@ -24,9 +34,10 @@
     margin-block: 4rem;
 }
 
-
 .text-empty{
     margin: 0%;
+    font-size: 40px;
+    font-family: 'Times New Roman', Times, serif;
 }
 
 .box-content-shopping-cart{

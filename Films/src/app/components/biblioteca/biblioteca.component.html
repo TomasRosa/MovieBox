@@ -1,31 +1,35 @@
-<div *ngIf = "isLoggedIn">
-  <div class="classDiv">
-    <h3 *ngIf="!bibliotecaVacia" id="title">Biblioteca</h3>
-      <table>
-        <tr *ngFor="let fila of filas">
-          <td *ngFor="let film of fila">
-            <img alt="Imagen no disponible" src="{{film.image}}" width="200" height="300">
-            <br>
-            <i><b style="font-size: 15px;">{{film.title}}</b></i>
-            <br>
-            <button class="btn btn-danger" (click)="devolverPelicula(film)">Devolver Pelicula</button>
-          </td>
-        </tr>
-      </table>
-  </div>
-  
-  <div *ngIf="bibliotecaVacia" class="classDiv" id="bibliotecaVacia">
-    Su biblioteca se encuentra vacia! 
-  </div>
-</div>
+<section *ngIf="movieLibrary.length > 0" class="box">
+  <div class="box-title">
+    <h4 class="title">MI BIBLIOTECA</h4>
+  </div>  
+  <div *ngFor="let group of getMovieGroups(movieLibrary)" class="box-group-films">
+      <div *ngFor="let film of group" class="recuadroCelda film">  
+        <div class="box-star">
+          <button id = "buttonStar" (click)="agregarALaListaDeFavoritos(film)" class = "button-star">
+            ☆
+          </button>
+        </div>
 
-<div *ngIf = "!isAdmin">
-  <div *ngIf = "!isLoggedIn">
-    <p>Debes iniciar sesión para acceder a la biblioteca</p>
+        <div class="box-img-title">
+          <img class="image" [src]="film.image" alt="Imagen no disponible">
+          <p class="title-text">{{film.title}}</p>
+        </div>
+
+        <div class="box-options">
+          <button class="button ficha-tecnica" (click)="navegarFilmDetail(film.rank)">Detalles</button>
+          <button class="button-devolucion" (click)="devolverPelicula(film)">Devolver Pelicula</button>
+        </div>
+      </div>
+    </div>
+</section>
+
+<div *ngIf="bibliotecaVacia" class="classDiv">
+  <div class="box-title">
+    <h3 class="title">MI BIBLIOTECA</h3>
   </div>
-</div>
-<div *ngIf = "isAdmin">
-  <p>Los administradores no tienen biblioteca</p>
+  <div class="box-empty">
+    <p class="text-empty">Su biblioteca se encuentra vacia!</p> 
+  </div> 
 </div>
 
 
