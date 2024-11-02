@@ -2,61 +2,170 @@
     text-align: center;
 }
 
-table {
-    margin: 0 auto;
+.box-title{
+    margin-bottom: 1.7rem;
+    padding: 1rem;
+    background-color: #CFCCCC;
 }
 
-img {
-    margin-top: 1px;
+.title{
+    margin: 0%;
+}
+
+.box{
+    transition: 2s;
+    margin-block: 2rem;
 }
 
 .classDiv {
-   display: flex;
+   display: block;
    justify-content: center;
+   align-items: center;
+   margin-block: 2rem;
 }
 
 /* Estilos para el recuadro de las películas */
-::ng-deep .recuadroCelda {
-    width: 200px !important;
-    background-color: black !important;
-    color: white !important;
-    padding: 15px !important;
-    border-radius: 10px !important;
-    margin: 10px;
-    box-sizing: border-box;
-}
 
 /* Añadir un borde blanco alrededor de cada recuadro */
-::ng-deep .recuadroCelda {
-    border: 10px solid white;
-}
-
-::ng-deep .celdaBotonEspaciado {
+.celdaBotonEspaciado {
     padding: 15px;
 }
 
-::ng-deep .button-star 
-{
+.box-group-films{
+    display: flex;
+    justify-content: center;
+}
+
+.recuadroCelda {
+    position: relative;
+    overflow: hidden;
+    width: 290px;
+    height: 555px;
+    background-color: black !important;
+    color: white !important;
+    border-radius: 10px !important;
+    margin: 8px;
+    padding: 0.2rem;
+    transition: 0.5s;
+    border: 1px solid white;
+}
+
+.recuadroCelda:hover{
+    box-shadow: rgb(56, 56, 56) 5px 3.5px;
+}
+
+.recuadroCelda:hover .image {
+    filter: brightness(0.6); /* Efecto de sombreado en la imagen */
+}
+
+.film{
+    display: block;
+}
+
+.box-img-title{
+    display: block;
+}
+
+.title-text{
+    margin: 0rem;
+    font-size: 1.2rem;
+    padding-inline: 0.2rem;
+    width: auto;
+    font-weight: 800;
+}
+
+.box-star{
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centra el botón dentro del contenedor */
+    margin-block:0.7rem;
+}
+
+.button-star {
+    display: flex;
+    justify-content: center;
     text-align: right !important;
-    margin-bottom: 10px;
     border: none;
     font-size: 40px;
     background: none;
     color: white;
+    transition: 0.3s;
 } 
 
-button{
-    margin-right: 10px;
+.button-star:hover {
+    color: gold; /* Cambia el color de la estrella al pasar el mouse */
 }
 
-.button-container {
-    margin-top: 10px;
-    display: none; /* Ocultar botones inicialmente */
-    text-align: center;
+.image{
+    height: 350px;
+    width: 215px;
+    margin-bottom: 1.8rem;
+}
+
+.button{
+    width: auto;
+    border-radius: 0.5rem;
+    padding-inline: 0.4rem;
+    font-size: 1.1rem;
+    padding-block: 0.4rem;
+    background-color:aliceblue;
+    border: 1px solid transparent;
+    transition: border 0.3s ease, border-radius 0.3s ease;
+    cursor: pointer;
+    color: black;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.button:hover{
+    background-color: rgb(164, 164, 164);
+}
+
+.btn-carrito{
+    padding: 0.2rem;
+    border-radius: 50%;
+    background-color:aliceblue;
+}
+
+.carrito-logo{
+    height: 45px;
+    width: 45px;
+}
+
+.box-options {
+    position: absolute;
+    top: 50%; /* Centra verticalmente los botones */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px; /* Espacio entre los botones */
+    opacity: 0; /* Ocultar inicialmente */
+    transition: opacity 0.3s ease;
     padding: 5px !important;
-  }
-  
-  /* Mostrar los botones cuando se pasa el mouse por encima de la celda */
-.recuadroCelda:hover .button-container {
-    display: block;
-  }
+}
+
+.recuadroCelda:hover .box-options {
+    opacity: 1;
+}
+
+.box-empty{
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    background-color: rgb(190, 190, 190);
+    box-shadow: 0px 0px 0px 10px rgb(204, 204, 204);
+    width: max-content;
+    margin: 0 auto;
+    margin-block: 4rem;
+}
+
+.text-empty{
+    margin: 0%;
+    font-size: 40px;
+    font-family: 'Times New Roman', Times, serif;
+}

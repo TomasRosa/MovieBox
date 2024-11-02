@@ -22,26 +22,20 @@ export class FavouriteListComponent implements OnInit {
   });
   }
 
-  ngOnInit(): void 
-  {
+  ngOnInit(): void {
     this.Flist.userService.isLoggedIn$.subscribe ((isLoggedIn: boolean | null) =>{
       this.isLoggedIn = isLoggedIn; 
     })
 
-    if (this.Flist.userService.storedAdmin)
-    {
+    if (this.Flist.userService.storedAdmin){
       this.isAdmin = true;
     }
 
-    if (!this.isAdmin)
-    {
-      if (!this.isLoggedIn)
-        {
-          alert ("Debe iniciar sesión para ver su lista de favoritos.")
-        }
-    }
-    else
-    {
+    if (!this.isAdmin){
+      if (!this.isLoggedIn){
+        alert ("Debe iniciar sesión para ver su lista de favoritos.")
+      }
+    }else{
       alert ("Los administradores no tienen lista de favoritos.")
     }
 
@@ -64,8 +58,7 @@ export class FavouriteListComponent implements OnInit {
     });
   }
   
-  quitarFilmDeFlist (film: Film)
-  {
+  quitarFilmDeFlist (film: Film){
     this.Flist.eliminarDeLaListaFavoritos(film);
   }
 

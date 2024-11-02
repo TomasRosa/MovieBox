@@ -1,35 +1,38 @@
-<div *ngIf = "isLoggedIn">
-  <h2> {{Flist.listaFav.name}} </h2>
+<section *ngIf="arrayFilms.length > 0" class="box">
+  <div class="box-title">
+    <h4 class="title"> {{Flist.listaFav.name.toUpperCase()}} </h4>
+  </div>  
+  <div *ngFor="let group of getMovieGroups(arrayFilms)" class="box-group-films">
+      <div *ngFor="let film of group" class="recuadroCelda film">  
+        <div class="box-star">
+          <button id = "buttonStar" (click)="quitarFilmDeFlist(film)" class = "button-star">
+            ★
+          </button>
+        </div>
 
-  <div *ngIf="arrayFilms.length > 0">
-      <table>
-        <tr *ngFor="let group of getMovieGroups(arrayFilms)">
-          <td *ngFor="let film of group" class="recuadroCelda">
-            <img [src]="film.image" alt="Imagen no disponible" width="200" height="300">
-            <b style="font-size: 15px;">{{ film.title }}</b>
-    
-            <div class="button-container">
-              <button class="btn btn-primary" (click)="navegarFilmDetail(film.rank)">Ficha técnica</button>
-              <button class="btn btn-primary" (click)="agregarPeliculaAlCarrito(film)">🛒</button>
-              <button class="btn btn-danger" (click)="quitarFilmDeFlist(film)">Quitar de la lista</button>
-            </div>
-          </td>
-        </tr>
-      </table>
-    </div>
-    
-    <div *ngIf="arrayFilms.length === 0">
-      <p>No tienes películas en tu lista de favoritos.</p>
-    </div>
-</div>
+        <div class="box-img-title">
+          <img class="image" [src]="film.image" alt="Imagen no disponible">
+          <p class="title-text">{{film.title}}</p>
+        </div>
 
-<div *ngIf = "!isAdmin">
-  <div *ngIf = "!isLoggedIn">
-    <p>Debes iniciar sesión para acceder a la lista de favoritos</p>
+        <div class="box-options">
+          <button class="button ficha-tecnica" (click)="navegarFilmDetail(film.rank)">Detalles</button>
+          <button class="button btn-carrito" (click)="agregarPeliculaAlCarrito(film)">
+            <img class="carrito-logo" src="/assets/carrito.png" alt="">
+          </button>
+        </div>
+      </div>
+    </div>
+</section>
+
+<div *ngIf="arrayFilms.length === 0" class="classDiv">
+  <div class="box-title">
+    <h4 class="title"> {{Flist.listaFav.name.toUpperCase()}} </h4>
   </div>
+  <div class="box-empty">
+    <p class="text-empty">No tienes películas en tu lista de favoritos.</p> 
+  </div> 
 </div>
-<div *ngIf = "isAdmin">
-  <p>Los administradores no tienen lista de favoritos</p>
-</div>
+
 
   
