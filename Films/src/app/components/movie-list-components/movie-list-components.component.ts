@@ -3,6 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { FilmsFromAPIService } from "src/app/services/films-from-api.service";
 import { Film } from "src/app/models/film";
 import { SharedServicesService } from "src/app/services/shared-services.service";
+import { FavouriteListService } from "src/app/services/favourite-list.service";
 
 @Component({
   selector: "app-movie-list-components",
@@ -12,34 +13,46 @@ import { SharedServicesService } from "src/app/services/shared-services.service"
 export class MovieListComponentsComponent {
   @Input() category: string = '';
   films: Film[] = this.filmsService.getMovies();
-  filteredMovies: Film[] = [];
+  filteredFilms: Film[] = [];
 
-  constructor(private filmsService: FilmsFromAPIService, private route: ActivatedRoute, public service: SharedServicesService) {}
+  constructor(private filmsService: FilmsFromAPIService, 
+    private route: ActivatedRoute, 
+    private sharedService: SharedServicesService,
+    private Flist: FavouriteListService) {}
 
   ngOnInit() {
     this.filmsService.initializeData().then(() => {
       this.route.paramMap.subscribe(params => {
         this.category = params.get('category') || '';
         this.films = this.filmsService.getMovies(); // Obtén todas las películas
-        this.filteredMovies = this.films.filter(film => film.genre.includes(this.category)); // Filtra las películas por categoría
+        this.filteredFilms = this.films.filter(film => film.genre.includes(this.category)); // Filtra las películas por categoría
       });
     });
   }
   
   ngOnChanges() {
     // Filtra las películas si la categoría cambia
-    this.filteredMovies = this.films.filter(film => film.genre.includes(this.category));
+    this.filteredFilms = this.films.filter(film => film.genre.includes(this.category));
   }
 
   getMovieGroups(movies: any[]): any[][] {
-    return this.service.getMovieGroups(movies);
+    return this.sharedService.getMovieGroups(movies);
   }
 
   navegarFilmDetail(rank: number) {
-    this.service.navegarFilmDetail(rank);
+    this.sharedService.navegarFilmDetail(rank);
   }
 
   agregarPeliculaAlCarrito(film: Film) {
-    this.service.agregarPeliculaAlCarrito(film);
+    this.sharedService.agregarPeliculaAlCarrito(film);
   }
+
+  agregarALaListaDeFavoritos (film: Film) {
+    this.Flist.agregarALaLista(film);
+  }
+  
+  navegarFavouriteList() {
+    this.sharedService.navegarFavouriteList();
+  } 
+
 }
