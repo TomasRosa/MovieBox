@@ -57,18 +57,15 @@ export class InicioAuxComponent implements OnInit{
     this.isFilled = false;
   }
 
-  changeButtonStar ()
-  {
+  changeButtonStar () {
     const boton = document.getElementById ("buttonStar");
-    if (boton)
-    {
+    if (boton) {
       boton.textContent = "★"
       this.isFilled = true
     }
   }
 
-  agregarALaListaDeFavoritos (film: Film)
-  {
+  agregarALaListaDeFavoritos (film: Film) {
     this.Flist.agregarALaLista(film);
   }
   

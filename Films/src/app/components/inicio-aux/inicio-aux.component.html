@@ -1,5 +1,8 @@
-<section *ngIf="filteredFilms.length > 0">
-      <div *ngFor="let group of getMovieGroups(filteredFilms)" class="box-group-films">
+<section *ngIf="filteredFilms.length > 0" class="box">
+    <div class="box-title">
+      <h4 class="title">CATALOGO PRINCIPAL</h4>
+    </div>  
+    <div *ngFor="let group of getMovieGroups(filteredFilms)" class="box-group-films">
         <div *ngFor="let film of group" class="recuadroCelda film">  
           <div class="box-star">
             <button id = "buttonStar" (click)="agregarALaListaDeFavoritos(film)" class = "button-star">

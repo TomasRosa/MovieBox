@@ -2,8 +2,18 @@
     text-align: center;
 }
 
-table {
-    margin: 0 auto;
+.box-title{
+    margin-bottom: 1.7rem;
+    padding: 1rem;
+    background-color: rgb(174, 174, 174);
+}
+
+.title{
+    margin: 0%;
+}
+
+.box{
+    transition: 2s;
 }
 
 .classDiv {
