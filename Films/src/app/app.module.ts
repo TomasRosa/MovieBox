@@ -33,7 +33,6 @@ import { FavouriteListComponent } from './components/favourite-list/favourite-li
 import { TarjetaFormComponent } from './components/tarjeta-form/tarjeta-form/tarjeta-form.component';
 import { AdminCodeComponent } from './components/admin-code/admin-code.component';
 import { RecuperarContrasenaComponent } from './components/recuperar-contrasena/recuperar-contrasena.component';
-
 @NgModule({
   declarations: [
     AppComponent,

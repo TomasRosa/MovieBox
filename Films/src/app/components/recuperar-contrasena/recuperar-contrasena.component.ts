@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import emailjs from 'emailjs-com';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ValidacionUserPersonalizada } from 'src/app/validaciones/validacion-user-personalizada';
 
 @Component({
   selector: 'app-recuperar-contrasena',
@@ -11,15 +13,33 @@ import { UserService } from 'src/app/services/user.service';
 export class RecuperarContrasenaComponent {
   email: string = '';
   codigo: string = '';
-  nuevaContrasena: string = '';
   codigoGenerado: string = '';
   codigoEnviado: boolean = false;
   codigoVerificado: boolean = false;
   mensaje: string = '';
+  mostrarContrasena: boolean = false;
+
+  // Formulario de restablecimiento de contraseña
+  restablecerForm = new FormGroup({
+    nuevaContrasena: new FormControl('', [
+      Validators.required,
+      Validators.minLength(6),
+      ValidacionUserPersonalizada.minDosNumeros()
+    ])
+  });
 
   constructor(private router: Router, private userService: UserService) 
   {
-    console.log(this.email);
+    console.log("Componente Recuperar Contrase")
+  }
+
+  // Acceso rápido al FormControl de la nueva contraseña
+  get nuevaContrasena() {
+    return this.restablecerForm.get('nuevaContrasena');
+  }
+
+  toggleMostrarContrasena() {
+    this.mostrarContrasena = !this.mostrarContrasena;
   }
 
   generarCodigo(): string {
@@ -31,7 +51,7 @@ export class RecuperarContrasenaComponent {
 
     if (!usuario) {
       this.mensaje = 'Oh, no hemos podido encontrar ese email en nuestra base de datos.';
-      this.codigoEnviado = false; // Asegura que no cambie el estado si el usuario no existe
+      this.codigoEnviado = false;
       return;
     }
 
@@ -62,16 +82,22 @@ export class RecuperarContrasenaComponent {
   }
 
   async cambiarContrasena() {
+    // Verificar que el formulario de restablecimiento sea válido
+    if (this.restablecerForm.invalid) {
+      this.mensaje = 'La contraseña no cumple con los requisitos';
+      return;
+    }
+
     // Obtener el usuario correspondiente al email
     const usuario = await this.userService.obtenerUserByEmail(this.email);
-    console.log(usuario);
     if (!usuario) {
       this.mensaje = 'Usuario no encontrado. Verifique el email ingresado.';
       return;
     }
-  
+
     // Cambiar la contraseña utilizando el método changePassword
-    const result = await this.userService.changePassword(usuario, this.nuevaContrasena);
+    const nuevaPasswordValue = this.nuevaContrasena?.value ?? ''; // Asegura que siempre haya un string
+    const result = await this.userService.changePassword(usuario, nuevaPasswordValue);
     
     if (result.success) {
       this.mensaje = 'Contraseña cambiada con éxito. Redirigiendo al inicio de sesión...';
