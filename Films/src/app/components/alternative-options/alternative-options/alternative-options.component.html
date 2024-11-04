@@ -31,4 +31,10 @@
     <div class="box-offers">
         <button class="button" (click)="navegar('ofertas')">Offers</button>
     </div>
+
+    <div *ngIf = "isAdmin">
+        <div class="box-users">
+            <button class="button" (click)="navegar('showUsers')">Users</button>
+        </div>
+    </div>
 </section>
