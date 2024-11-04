@@ -12,6 +12,11 @@
         <img class="star" src="/assets/star.png" alt="">
       </div>
       <h3 class="data"> $ {{movie.precio}} </h3>
+      <div class="box-carrito">
+        <button class="btn-carrito" (click)="agregarPeliculaAlCarrito(movie)">
+          <img class="carrito-logo" src="/assets/carrito.png" alt="">
+        </button>
+      </div>
     </div>
   </div>
 

@@ -1,3 +1,4 @@
+<app-alternative-options></app-alternative-options>
 <section *ngIf="arrayFilms.length > 0" class="box">
   <div class="box-title">
     <h4 class="title"> {{Flist.listaFav.name.toUpperCase()}} </h4>
@@ -19,6 +20,7 @@
           <button class="button ficha-tecnica" (click)="navegarFilmDetail(film.rank)">Detalles</button>
           <button class="button btn-carrito" (click)="agregarPeliculaAlCarrito(film)">
             <img class="carrito-logo" src="/assets/carrito.png" alt="">
+            <span class="precio">$ {{ film.precio }}</span>
           </button>
         </div>
       </div>

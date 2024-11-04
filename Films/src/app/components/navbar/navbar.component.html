@@ -32,8 +32,26 @@
           </button>
         </div>
       </div>
-      
+
+      <section class="box-result-search" *ngIf="filmsFiltradasPorBusqueda.length > 0">
+        <button *ngFor="let film of filmsFiltradasPorBusqueda" class="result-item" (click)="navegarFilmDetail(film.rank)">
+          <img [src]="film.image" alt="{{ film.title }}" class="result-image">
+          <div class="result-info">
+            <h3 class="result-title">{{ film.title }}</h3>
+            <p class="result-rating">Rating: {{ film.rating }}</p>
+          </div>
+        </button>
+      </section>
+      <section class="box-result-search" *ngIf="filmsFiltradasPorBusqueda.length == 0 && showNoResults">
+        <div class="no-result">
+          <div class="result-info">
+            <h3 class="result-title">No hay resultados...</h3>
+          </div>
+        </div>
+      </section>
+
 </section>
+
 
 
 

@@ -20,6 +20,7 @@ export class NavbarComponent implements OnInit {
   isLoggedIn: boolean | null;
   adminCodeVerified: boolean = false;
 
+  showNoResults: boolean = false;
   buscadorDeFilm: string = '';
   films: Array<Film> = [];
   filmsFiltradasPorBusqueda = new Array<Film>();
@@ -45,8 +46,6 @@ export class NavbarComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    /* Obtenemos todas las movies para luego filtrar por lo que se busca y enviar un array de movies 
-    filtradas al FilmSearchService*/
     try {
       const fetchedFilms = this.filmsFromAPIService.getMovies ();
       if (fetchedFilms) {
@@ -94,20 +93,27 @@ export class NavbarComponent implements OnInit {
 
   buscarFilm(query: string) {
     this.filmsFiltradasPorBusqueda = [];
+    this.showNoResults = true;
     if (query && this.formControl.value != '') {
       this.filmsFiltradasPorBusqueda = this.films.filter((film) => {
         return film.title.toLowerCase().includes(query.toLowerCase());
       });
     } else {
-      this.filmsFiltradasPorBusqueda = this.films; // Si no hay búsqueda, mostrar todas
+      this.filmsFiltradasPorBusqueda = new Array ();
+      this.showNoResults = false;
     }
-    console.log ('FILTRANDO PELICULAS EN BUSQUEDA');
-    console.log (this.filmsFiltradasPorBusqueda);
     this.filmSearchService.updateFilteredFilms(this.filmsFiltradasPorBusqueda);
   }
 
   navegar(componente: string) {
     this.routerService.navigate([componente]);
+  }
+
+  navegarFilmDetail(id: number) {
+    this.filmsFiltradasPorBusqueda = new Array ();
+    this.showNoResults = false;
+    this.formControl.setValue('');
+    this.sharedService.navegarFilmDetail (id);
   }
 
   navegarPerfil() {

@@ -123,14 +123,46 @@
 
 .btn-carrito{
     padding: 0.2rem;
-    border-radius: 50%;
     background-color:aliceblue;
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    transition: width 0.3s ease; /* Ensancha el botón suavemente */
+    width: 52.5px;
 }
 
 .carrito-logo{
     height: 45px;
     width: 45px;
+    transition: transform 0.3s ease;
 }
+
+.precio {
+    opacity: 0;
+    margin-left: 2px;
+    transition: opacity 0.3s ease; /* Transición de opacidad */
+    white-space: nowrap;
+    color: black; /* Ajusta el color según el diseño */
+    font-weight: bold;
+}
+
+.btn-carrito:hover {
+    width: 115px; /* Ancho que alcanza el botón al hacer hover */
+    border-radius: 10%;
+    background-color:aliceblue;
+}
+  
+  /* Deslizar logo y mostrar precio */
+.btn-carrito:hover .carrito-logo {
+    transform: translateX(-2px); /* Desliza el logo hacia la izquierda */
+}
+  
+.btn-carrito:hover .precio {
+    opacity: 1; /* Muestra el precio */
+}
+
+
 
 .box-options {
     position: absolute;

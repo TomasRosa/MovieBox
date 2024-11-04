@@ -5,6 +5,7 @@ import { Film } from 'src/app/models/film';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { Review } from 'src/app/models/review';
+import { SharedServicesService } from 'src/app/services/shared-services.service';
 
 @Component({
   selector: 'app-film-detail',
@@ -27,7 +28,8 @@ export class FilmDetailComponent {
 
   constructor(private route: ActivatedRoute, 
   private films: FilmsFromAPIService,
-  private userService: UserService) {}
+  private userService: UserService,
+  private sharedService: SharedServicesService) {}
 
   ngOnInit(): void {
     this.films.initializeData().then(() => {
@@ -43,6 +45,9 @@ export class FilmDetailComponent {
     this.userActual = this.userService.getUserActual();
   }
   
+  agregarPeliculaAlCarrito(film: Film) {
+    this.sharedService.agregarPeliculaAlCarrito (film);
+  } 
 
   getFilmRank() {
     this.route.paramMap.subscribe(params => {
