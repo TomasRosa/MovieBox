@@ -1,37 +1,40 @@
 <app-alternative-options></app-alternative-options>
 <section *ngIf="movieLibrary.length > 0" class="box">
   <div class="box-title">
-    <h4 class="title">MI BIBLIOTECA</h4>
-  </div>  
+    <h4 class="title"> {{ isAdmin ? 'BIBLIOTECA DEL USUARIO' : 'MI BIBLIOTECA' }} </h4>
+  </div>
   <div *ngFor="let group of getMovieGroups(movieLibrary)" class="box-group-films">
-      <div *ngFor="let film of group" class="recuadroCelda film">  
-        <div class="box-star">
-          <button id = "buttonStar" (click)="agregarALaListaDeFavoritos(film)" class = "button-star">
-            ☆
-          </button>
-        </div>
-
-        <div class="box-img-title">
-          <img class="image" [src]="film.image" alt="Imagen no disponible">
-          <p class="title-text">{{film.title}}</p>
-        </div>
-
-        <div class="box-options">
-          <button class="button ficha-tecnica" (click)="navegarFilmDetail(film.rank)">Detalles</button>
-          <button class="button-devolucion" (click)="devolverPelicula(film)">Devolver Pelicula</button>
-        </div>
+    <div *ngFor="let film of group" class="recuadroCelda film">  
+      <div class="box-star">
+        <button id="buttonStar" (click)="agregarALaListaDeFavoritos(film)" class="button-star">☆</button>
+      </div>
+      <div class="box-img-title">
+        <img class="image" [src]="film.image" alt="Imagen no disponible">
+        <p class="title-text">{{film.title}}</p>
+      </div>
+      <div class="box-options">
+        <button class="button ficha-tecnica" (click)="navegarFilmDetail(film.rank)">Detalles</button>
+        <button *ngIf="!isAdmin" class="button-devolucion" (click)="devolverPelicula(film)">Devolver Pelicula</button>
       </div>
     </div>
+  </div>
 </section>
 
 <div *ngIf="bibliotecaVacia" class="classDiv">
-  <div class="box-title">
+  <div *ngIf = "!isAdmin" class="box-title">
     <h3 class="title">MI BIBLIOTECA</h3>
   </div>
-  <div class="box-empty">
+  <div *ngIf = "!isAdmin" class="box-empty">
     <p class="text-empty">Su biblioteca se encuentra vacia!</p> 
-  </div> 
+  </div>
+  <div *ngIf = "isAdmin" class="box-title">
+    <h3 class="title">BIBLIOTECA DEL USUARIO</h3>
+  </div>
+  <div *ngIf = "isAdmin" class="box-empty">
+    <p class="text-empty">La biblioteca se encuentra vacia</p> 
+  </div>
 </div>
+
 
 
   

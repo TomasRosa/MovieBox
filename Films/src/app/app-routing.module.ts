@@ -15,6 +15,7 @@ import { MovieListComponentsComponent } from './components/movie-list-components
 import { FavouriteListComponent } from './components/favourite-list/favourite-list.component';
 import { AdminCodeComponent } from './components/admin-code/admin-code.component';
 import { RecuperarContrasenaComponent } from './components/recuperar-contrasena/recuperar-contrasena.component';
+import { ShowUsersComponent } from './components/show-users/show-users.component';
 
 const routes: Routes = [
   { path: 'inicio', component: InicioComponent },
@@ -27,12 +28,14 @@ const routes: Routes = [
   { path: 'perfil', component: PerfilComponent},
   { path: 'tarjeta', component: TarjetaComponent},
   { path: 'biblioteca', component: BibliotecaComponent},
+  { path: 'biblioteca/:userId', component: BibliotecaComponent },
   { path: 'film-detail/:rank', component: FilmDetailComponent},
   { path: 'favourite-list', component: FavouriteListComponent},
   { path: '', redirectTo: '/inicio', pathMatch: 'full'},
   { path: 'movies/:category', component: MovieListComponentsComponent },
   { path: 'admin-code', component: AdminCodeComponent},
   { path: 'recuperar-contrasena',component:RecuperarContrasenaComponent},
+  { path: 'showUsers',component:ShowUsersComponent},
   { path: '**', component: NotFoundComponent}
 ];
 
