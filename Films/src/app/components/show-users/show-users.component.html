@@ -1,6 +1,6 @@
 <div *ngFor = "let user of users">
     <div>{{user.firstName}} {{user.lastName}}
-        <button> Ver Biblioteca </button>
+        <button (click)="verBiblioteca(user.id)"> Ver Biblioteca </button>
         <button> Ver Pagos Pendientes </button>
     </div>
 </div>

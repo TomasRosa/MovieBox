@@ -4,6 +4,7 @@ import { User } from 'src/app/models/user';
 import { FavouriteListService } from 'src/app/services/favourite-list.service';
 import { SharedServicesService } from 'src/app/services/shared-services.service';
 import { UserService } from 'src/app/services/user.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-biblioteca',
@@ -18,40 +19,53 @@ export class BibliotecaComponent
   isLoggedIn: Boolean | null = false
   isAdmin: Boolean | null = false
 
-  constructor (
+  constructor(
     private userService: UserService,
     private Flist: FavouriteListService,
-    private sharedService: SharedServicesService) {}
-
+    private sharedService: SharedServicesService,
+    private route: ActivatedRoute // Importar el servicio de rutas activas
+  ) { }
+  
   async ngOnInit(): Promise<void> {
-    this.userService.isLoggedIn$.subscribe ((isLoggedIn: boolean | null) =>{
-      this.isLoggedIn = isLoggedIn; 
-    })
-
-    if (this.userService.storedAdmin){
+    this.userService.isLoggedIn$.subscribe((isLoggedIn: boolean | null) => {
+      this.isLoggedIn = isLoggedIn;
+    });
+  
+    if (this.userService.storedAdmin) {
       this.isAdmin = true;
     }
   
-    if (!this.isAdmin){
-      if (!this.isLoggedIn){
-          alert ("Debe iniciar sesión para ver su biblioteca.")
-        }
-    }else{
-      alert ("Los administradores no tienen biblioteca.")
-    }
-
-    this.userService.usuarioActual$.subscribe(async (usuario: User | null) => {
-      this.usuarioActual = usuario;
-      // Cargar la biblioteca del usuario actual solo si hay un usuario autenticado
-      if (this.usuarioActual) {
-        const loadedUser = await this.userService.loadUserBibliotecaById(this.usuarioActual.id);
+    if (!this.isAdmin && !this.isLoggedIn) {
+      alert("Debe iniciar sesión para ver su biblioteca.");
+      return;
+    } else if (this.isAdmin) {
+      // Obtener el userId desde los parámetros de la URL
+      let userId =+ this.route.snapshot.paramMap.get('userId')!;
+      console.log ("USER ID: ", userId)
+      if (userId) {
+        const loadedUser = await this.userService.loadUserBibliotecaById(userId);
+        console.log ("LOADED USER: ", loadedUser)
         if (loadedUser) {
+          this.usuarioActual = loadedUser;
           this.movieLibrary = loadedUser.arrayPeliculas;
+          this.validarBibliotecaVacia();
         }
+      } else {
+        alert("Usuario no encontrado.");
       }
-  
-      this.validarBibliotecaVacia();
-    });
+    } else {
+      // Caso para un usuario logueado no admin
+      this.userService.usuarioActual$.subscribe(async (usuario: User | null) => {
+        this.usuarioActual = usuario;
+        if (this.usuarioActual) {
+          const loadedUser = await this.userService.loadUserBibliotecaById(this.usuarioActual.id);
+          if (loadedUser) {
+            this.movieLibrary = loadedUser.arrayPeliculas;
+          }
+        }
+        this.validarBibliotecaVacia();
+      });
+    }
   }
 
   validarBibliotecaVacia (){

@@ -28,6 +28,7 @@ const routes: Routes = [
   { path: 'perfil', component: PerfilComponent},
   { path: 'tarjeta', component: TarjetaComponent},
   { path: 'biblioteca', component: BibliotecaComponent},
+  { path: 'biblioteca/:userId', component: BibliotecaComponent },
   { path: 'film-detail/:rank', component: FilmDetailComponent},
   { path: 'favourite-list', component: FavouriteListComponent},
   { path: '', redirectTo: '/inicio', pathMatch: 'full'},
