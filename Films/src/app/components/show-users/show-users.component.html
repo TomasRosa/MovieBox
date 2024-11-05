@@ -1,6 +1,18 @@
-<div *ngFor = "let user of users">
-    <div>{{user.firstName}} {{user.lastName}}
-        <button (click)="verBiblioteca(user.id)"> Ver Biblioteca </button>
-        <button (click)="verPagosPendientes(user.id)"> Ver Pagos Pendientes </button>
+<section class="box-users">
+    <div class="box-title">
+        <h4 class="title"> LISTA DE USUARIOS </h4>
+    </div> 
+
+    <div class="content-user" *ngFor="let user of users">
+        <div class="box">
+            <div class="info-user">
+                <h5  class="paragraph"> {{user.firstName}} {{user.lastName}} </h5>
+                <h5  class="paragraph"> {{user.email}} </h5>
+            </div>
+            <div class="box-options">
+                <button class="button library" (click)="verBiblioteca(user.id)"> Ver Biblioteca </button>
+                <button class="button" (click)="verPagosPendientes(user.id)"> Ver Pagos Pendientes </button>
+            </div>
+        </div>
     </div>
-</div>
+</section>

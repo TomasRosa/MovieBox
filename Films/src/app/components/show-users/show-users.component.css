@@ -1,3 +1,77 @@
-*{
+.box-users{
+    margin-block: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.box-title{
     text-align: center;
+    margin-bottom: 1.7rem;
+    padding: 1rem;
+    background-color: #CFCCCC;
+    width: 100%;
+}
+
+.title{
+    margin: 0%;
+}
+
+.paragraph{
+    display: flex;
+    font-size: 1.2rem;
+    align-items: center;
+    padding: 0.1rem;
+    margin: 0%;
+    color: rgb(103, 95, 95);
+}
+
+.content-user{
+    display: flex;
+    justify-content: center;
+    align-items:start;
+    margin-block: 0.5rem;
+}
+
+.box{
+    padding: 0.2rem;
+    display: flex;
+    align-items: center;
+    border-bottom: grey 1px solid;
+    width: 100%; /* Asegura que todas las cajas tengan el mismo ancho */
+    max-width: 550px;
+}
+
+.info-user{
+    margin-right: 1rem;
+}
+
+.box-options{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.info-user, .box-options {
+    flex: 1; /* Cada sección toma el mismo espacio disponible */
+}
+
+.library{
+    margin-bottom: 0.1rem;
+}
+
+.button{
+    padding-inline: 0.2rem;
+    font-size: 1.1rem;
+    padding-block: 0.2rem;
+    background-color: rgb(130, 130, 130);
+    border: 1px solid transparent;
+    transition: border 0.3s ease, border-radius 0.3s ease;
+    cursor: pointer;
+    color: white;
+}
+
+.button:hover{
+    background-color: rgb(164, 164, 164);
+    border-radius: 1rem;
 }
