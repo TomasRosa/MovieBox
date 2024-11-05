@@ -1,49 +1,55 @@
 <div *ngIf="showBuyWithActualCard">
-    <div class="box-tarjeta-agregada">
-        <h4>Su tarjeta actual</h4>
-        <div class="tarjeta">
-            <div class="chip"></div>
-            <div class="box-datos">
-              <p class="dato-tarjeta nTarjeta"> **** **** **** {{lastFourDigits}}</p>
-            </div>
-            <div class="box-datos">
-              <p class="dato-tarjeta vencimiento">{{ usuarioActual?.tarjeta?.fechaVencimiento }}</p>
-            </div>
-            <div class="last-data">
-              <div class="box-fullname">
-                <div class="box-datos">
-                  <p class="dato-tarjeta fullname">{{usuarioActual?.tarjeta?.firstName}}</p>
-                </div>
-                <div class="box-datos">
-                  <p class="dato-tarjeta fullname">{{usuarioActual?.tarjeta?.lastName}}</p>
-                </div>
-              </div>
-              <p class="dato-tarjeta tipo-tarjeta">VISA</p>
-            </div>
+  <div class="box-tarjeta-agregada">
+    <h4>Su tarjeta actual</h4>
+    <div class="tarjeta">
+      <div class="chip"></div>
+      <div class="box-datos">
+        <p class="dato-tarjeta nTarjeta"> **** **** **** {{lastFourDigits}}</p>
+      </div>
+      <div class="box-datos">
+        <p class="dato-tarjeta vencimiento">{{ usuarioActual?.tarjeta?.fechaVencimiento }}</p>
+      </div>
+      <div class="last-data">
+        <div class="box-fullname">
+          <div class="box-datos">
+            <p class="dato-tarjeta fullname">{{usuarioActual?.tarjeta?.firstName}}</p>
+          </div>
+          <div class="box-datos">
+            <p class="dato-tarjeta fullname">{{usuarioActual?.tarjeta?.lastName}}</p>
+          </div>
         </div>
+        <p class="dato-tarjeta tipo-tarjeta">VISA</p>
+      </div>
     </div>
-    <div class="show-buttons">
-        <h4>Desea comprar con esta tarjeta?</h4>
-        <div class="box-options">
-          <button id="newCard" class="button" (click)="showFormToAddNewCard()">Agregar una nueva</button>
-          <button id="yes" class="button" (click)="showFormSecurityCode()">Si</button>
-          <button class="button" (click)="navegarInicio('inicio')">Cancelar compra</button>
-        </div>
+  </div>
+  <div class="show-buttons">
+    <h4>Desea comprar con esta tarjeta?</h4>
+    <div class="box-options">
+      <button id="newCard" class="button" (click)="showFormToAddNewCard()">Agregar una nueva</button>
+      <button id="yes" class="button" (click)="showFormSecurityCode()">Si</button>
+      <button class="button" (click)="navegarInicio('inicio')">Cancelar compra</button>
+      <button class="button margen-extra" (click)="pagarEnEfectivo()">Pagar en efectivo</button>
     </div>
+  </div>
 </div>
 
 <div *ngIf="!showBuyWithActualCard">
-    <div class="card-is-empty">
-      <h4 class="guide">Necesita una tarjeta para continuar la operacion</h4>
-      <button id="newCard" class="button" (click)="showFormToAddNewCard()">Agregar una tarjeta</button>
-    </div>
+  <div class="card-is-empty">
+    <h4 class="guide">Necesita una tarjeta para continuar la operacion</h4>
+    <button id="newCard" class="button" (click)="showFormToAddNewCard()">Agregar una tarjeta</button>
+  </div>
+</div>
+
+<!-- Aquí agregas el div para mostrar mensajes -->
+<div *ngIf="result" class="alert" [ngClass]="{'alert-success': result.includes('exitoso'), 'alert-danger': result.includes('error')}">
+  {{ result }}
 </div>
 
 <div *ngIf="showFormNewCard && showFormAddCard">  
-    <div class="tarjeta-form-overlay">
-        <button class="cancel-form" (click)="hideFormToAddNewCard()">X</button>
-        <app-tarjeta-form></app-tarjeta-form>
-    </div>
+  <div class="tarjeta-form-overlay">
+    <button class="cancel-form" (click)="hideFormToAddNewCard()">X</button>
+    <app-tarjeta-form></app-tarjeta-form>
+  </div>
 </div>
 
 <div class="box-cvc" *ngIf="showFormCVC">
@@ -65,17 +71,15 @@
 
     <div *ngIf="cvcFormGroup.valid">
       <form (ngSubmit)="buyWithActualCard()">
-          <button class="btn btn-primary margenBoton" type="submit">Confirmar compra</button>
+        <button class="btn btn-primary margenBoton" type="submit">Confirmar compra</button>
       </form>
     </div>
   </div>
 
   <div *ngIf="isLoading" class="loading-overlay">
     <div class="loading-content">
-        <div class="spinner"></div>
-        <p>{{ result }}</p>
+      <div class="spinner"></div>
+      <p>{{ result }}</p>
     </div>
   </div>
-  
 </div>
-

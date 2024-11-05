@@ -284,6 +284,10 @@
     margin-bottom: 1rem;
 }
 
+.margen-extra {
+    margin-left: 20px;
+  }
+
 .card-is-empty{
     display: block;
     margin-block: 4rem;

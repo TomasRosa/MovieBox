@@ -34,6 +34,7 @@ import { TarjetaFormComponent } from './components/tarjeta-form/tarjeta-form/tar
 import { AdminCodeComponent } from './components/admin-code/admin-code.component';
 import { RecuperarContrasenaComponent } from './components/recuperar-contrasena/recuperar-contrasena.component';
 import { ShowUsersComponent } from './components/show-users/show-users.component';
+import { EntregasPendientesComponent } from './components/entregas-pendientes/entregas-pendientes.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -63,7 +64,8 @@ import { ShowUsersComponent } from './components/show-users/show-users.component
     TarjetaFormComponent,
     AdminCodeComponent,
     RecuperarContrasenaComponent,
-    ShowUsersComponent
+    ShowUsersComponent,
+    EntregasPendientesComponent
   ],
   imports: [
     BrowserModule,

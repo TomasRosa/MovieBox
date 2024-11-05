@@ -15,5 +15,6 @@ export class User {
     tarjeta: Tarjeta = new Tarjeta();
     role: 'user' | 'admin' = 'user';  // Rol del usuario
     adminCode?: string;  // Código para admins (opcional)
+    entregasPendientes: Array<Film> = [];
   }
 

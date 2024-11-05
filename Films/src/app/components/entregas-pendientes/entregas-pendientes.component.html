@@ -1,0 +1,11 @@
+<h2>Entregas Pendientes para {{ usuarioActual?.firstName }} {{ usuarioActual?.lastName }}</h2>
+<div *ngIf="entregasPendientes.length > 0; else noPendientes">
+  <div *ngFor="let pelicula of entregasPendientes">
+    <p>{{ pelicula.title }}</p>
+    <button (click)="aceptarEntrega(pelicula)">Aceptar</button>
+    <button (click)="rechazarEntrega(pelicula)">Rechazar</button>
+  </div>
+</div>
+<ng-template #noPendientes>
+  <p>No hay entregas pendientes.</p>
+</ng-template>

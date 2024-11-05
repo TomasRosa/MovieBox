@@ -16,6 +16,7 @@ import { FavouriteListComponent } from './components/favourite-list/favourite-li
 import { AdminCodeComponent } from './components/admin-code/admin-code.component';
 import { RecuperarContrasenaComponent } from './components/recuperar-contrasena/recuperar-contrasena.component';
 import { ShowUsersComponent } from './components/show-users/show-users.component';
+import { EntregasPendientesComponent } from './components/entregas-pendientes/entregas-pendientes.component';
 
 const routes: Routes = [
   { path: 'inicio', component: InicioComponent },
@@ -36,6 +37,8 @@ const routes: Routes = [
   { path: 'admin-code', component: AdminCodeComponent},
   { path: 'recuperar-contrasena',component:RecuperarContrasenaComponent},
   { path: 'showUsers',component:ShowUsersComponent},
+  { path: 'entregas-pendientes',component:EntregasPendientesComponent},
+  { path: 'entregas-pendientes/:id',component:EntregasPendientesComponent},
   { path: '**', component: NotFoundComponent}
 ];
 

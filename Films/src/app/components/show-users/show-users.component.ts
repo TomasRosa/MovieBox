@@ -21,4 +21,9 @@ export class ShowUsersComponent
   verBiblioteca(id: number) {
     this.router.navigate(['/biblioteca', id]);
   }
+
+  verPagosPendientes(id: number)
+  {
+    this.router.navigate(['/entregas-pendientes',id]);
+  }
 }
