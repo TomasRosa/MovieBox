@@ -1,11 +1,30 @@
-<h2>Entregas Pendientes para {{ usuarioActual?.firstName }} {{ usuarioActual?.lastName }}</h2>
-<div *ngIf="entregasPendientes.length > 0; else noPendientes">
-  <div *ngFor="let pelicula of entregasPendientes">
-    <p>{{ pelicula.title }}</p>
-    <button (click)="aceptarEntrega(pelicula)">Aceptar</button>
-    <button (click)="rechazarEntrega(pelicula)">Rechazar</button>
+<section class="box-entregas-pendientes">
+  <div class="box-title">
+    <h4 class="title">ENTREGAS PENDIENTES DE {{ usuarioActual?.firstName?.toUpperCase() }} {{ usuarioActual?.lastName?.toUpperCase() }}</h4>
+  </div> 
+
+  <div class="box-films" *ngIf="entregasPendientes.length > 0; else noPendientes">
+    
+    <div class="box-film-options" *ngFor="let film of entregasPendientes">
+      <div class="box">
+        <div class="box-film">
+          <img class="image" [src]="film.image" alt="Imagen no disponible">
+          <p class="title-text">{{film.title}}</p>
+        </div> 
+  
+        <div class="box-options">
+          <button class="button entrega" (click)="aceptarEntrega(film)">Aceptar</button>
+          <button class="button" (click)="rechazarEntrega(film)">Rechazar</button>
+        </div>
+      </div>
+    </div>
+
   </div>
-</div>
-<ng-template #noPendientes>
-  <p>No hay entregas pendientes.</p>
-</ng-template>
+
+  <ng-template #noPendientes>
+    <div class="box-sin-entregas">
+      <p class="sin-entregas-text">No hay entregas pendientes.</p>
+    </div>
+  </ng-template>
+</section>
+
