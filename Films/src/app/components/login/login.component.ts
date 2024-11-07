@@ -30,10 +30,6 @@ export class LoginComponent implements OnInit {
     ]),
   });
 
-  codeForm = new FormGroup({
-    code: new FormControl('', [Validators.required]),
-  });
-
   constructor(
     private userService: UserService,
     private adminService: AdminService,
@@ -74,11 +70,8 @@ export class LoginComponent implements OnInit {
         this.userService.storedAdmin = null;
         this.router.navigate(['/inicio']);
       } else if (isUserValid.isAdmin) {
-        this.successMessage = 'Acceso de administrador, se requiere código';
         this.adminService.setAdminActual(isUserValid.admin!);
-        this.isAdmin = true;
-        this.isLoggedIn = true;
-        this.sharedService.setLogged(true)
+        this.navegarAdminCode(isUserValid.isAdmin)
       } else {
         this.errorMessage = 'Credenciales incorrectas';
       }
@@ -89,18 +82,12 @@ export class LoginComponent implements OnInit {
   toggleMostrarContrasena() {
     this.mostrarContrasena = !this.mostrarContrasena;
   }
-  verifyAdminCode() {
-    const codeAdminValue: string | null = this.codeForm.controls['code']?.value ?? null;
-    console.log("CODIGO ADMIN: ", codeAdminValue);
-    
-    if (this.adminService.obtenerCodigoAdmin(this.adminService.getAdminActual()?.id!) == codeAdminValue) {
-      this.successMessage = 'Código verificado con éxito';
-      this.sharedService.setAdminCodeVerified(true);
-      this.userService.storedAdmin = this.adminService.getAdminActual();
-      this.userService.storedUser = null;
-      this.router.navigate(['/inicio']);
-    } else {
-      this.errorMessage = 'Código incorrecto';
+
+  navegarAdminCode (isAdmin: boolean)
+  {
+    if (isAdmin)
+    {
+      this.router.navigate(['admin-code']);
     }
   }
   

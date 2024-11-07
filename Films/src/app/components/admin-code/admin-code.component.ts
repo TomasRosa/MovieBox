@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AdminService } from 'src/app/services/admin.service';
+import { SharedServicesService } from 'src/app/services/shared-services.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -11,17 +14,31 @@ export class AdminCodeComponent {
   adminCode: string = '';
   errorMessage: string = '';
 
-  constructor(private router: Router, private userService: UserService) {}
+  codeForm = new FormGroup({
+    code: new FormControl('', [Validators.required]),
+  });
+
+  constructor(private router: Router, private adminService: AdminService, private userService: UserService, private sharedService: SharedServicesService) {}
 
   onSubmit() {
-    const currentUser = this.userService.getUserActual();
+    this.verifyAdminCode()
+  }
 
-    if (currentUser?.role === 'admin' && currentUser?.adminCode === this.adminCode) {
-      // Código correcto, redirigir a la página principal
+  verifyAdminCode() {
+    const codeAdminValue: string | null = this.codeForm.controls['code']?.value ?? null;
+    console.log("CODIGO ADMIN: ", codeAdminValue);
+    
+    if (this.adminService.obtenerCodigoAdmin(this.adminService.getAdminActual()?.id!) == codeAdminValue) {
+      this.sharedService.setAdminCodeVerified(true);
+      this.sharedService.setLogged(true);
+      this.userService.isLoggedInSubject.next(true)
+      this.userService.storedAdmin = this.adminService.getAdminActual();
+      this.userService.storedUser = null;
+      this.adminService.isLoggedInSubject.next (true)
       this.router.navigate(['/inicio']);
-    } else {
-      // Mostrar mensaje de error
-      this.errorMessage = 'Código de administrador incorrecto';
+    } else 
+    {
+      this.errorMessage = 'Código incorrecto';
     }
   }
 }

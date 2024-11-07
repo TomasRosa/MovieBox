@@ -32,7 +32,6 @@ export class NavbarComponent implements OnInit {
     private routerService: Router, 
     private userService: UserService, private filmsFromAPIService: FilmsFromAPIService, 
     private filmSearchService: FilmSearchServiceService,
-    private carritoService: CarritoService,
     private sharedService: SharedServicesService,
     private adminService: AdminService
   ) {
@@ -59,14 +58,25 @@ export class NavbarComponent implements OnInit {
       console.error(error);
     }
 
-    this.sharedService.isLoggedIn$.subscribe((isLoggedIn: boolean | null) => {
+    this.userService.isLoggedIn$.subscribe((isLoggedIn: boolean | null) => {
       this.isLoggedIn = isLoggedIn || false;
+      console.log ("IS LOGGED IN NAVBAR: ", this.isLoggedIn)
+      if (this.isLoggedIn)
+      {
+        if (this.isAdmin)
+        {
+          this.isAdmin = false
+          this.adminService.isLoggedInSubject.next(false)
+        }
+        else
+        {
+          this.adminService.isLoggedIn$.subscribe((isAdminLoggedIn: boolean | null) => {
+            this.isAdmin = isAdminLoggedIn || false;
+         });
+        }
+      }
     });
 
-    this.adminService.isLoggedIn$.subscribe((isAdminLoggedIn: boolean | null) => {
-      this.isAdmin = isAdminLoggedIn || false;
-    });
-    
     this.formControl.valueChanges.subscribe(query => {
       this.buscarFilm(query);
     });
@@ -124,7 +134,7 @@ export class NavbarComponent implements OnInit {
   }
 
   navegarCarrito() {
-    if (this.isLoggedIn && !this.isAdmin) {
+    if (this.isLoggedIn) {
       this.routerService.navigate(['/carrito']);
     } else {
       alert('Los administradores no tienen acceso al carrito.');

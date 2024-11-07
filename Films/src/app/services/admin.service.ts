@@ -9,7 +9,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class AdminService {
   private admins: Admin[] = [];
   private adminActualSubject: BehaviorSubject<Admin | null>;
-  private isLoggedInSubject: BehaviorSubject<boolean | null>;
+  isLoggedInSubject: BehaviorSubject<boolean | null>;
 
   constructor(private http: HttpClient) {
     this.adminActualSubject = new BehaviorSubject<Admin | null>(null);

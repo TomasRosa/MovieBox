@@ -3,16 +3,16 @@
       <div class="col-md-12">
         <div class="card shadow-lg" style="border-radius: 1rem; width: 100%; padding: 20px; min-width: 400px; max-width: 600px;">
           <div class="card-body p-5">
-            <h2 class="card-title mb-4 text-center">ADMINISTRADOR</h2>
-            <form (ngSubmit)="onSubmit()">
+            <h2 class="card-title mb-4 text-center">Acceso de Administrador, se requiere código</h2>
+            <form (ngSubmit)="onSubmit()" [formGroup]="codeForm">
               <div class="form-group mb-4">
                 <label for="adminCode">Ingrese su código de admin</label>
                 <input
-                  type="password"
+                  type="text"
                   class="form-control no-border"
-                  id="adminCode"
-                  [(ngModel)]="adminCode"
+                  id="code"
                   name="adminCode"
+                  formControlName="code"
                   required
                 />
               </div>
@@ -28,4 +28,3 @@
       </div>
     </div>
   </div>
-  

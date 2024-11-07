@@ -551,7 +551,7 @@ async changePasswordAdmin (admin: Admin, newPassword: string): Promise<{ success
     this.usuarioActualSubject.next(null);
     this.isLoggedInSubject.next(false);
     this.sharedService.setLogged(false);
-    this.adminService.setAdminActual (null)
+    this.adminService.setAdminActual(null)
   
     localStorage.removeItem('currentUser');
   

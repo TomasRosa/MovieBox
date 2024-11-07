@@ -16,15 +16,18 @@
         </div>
     </div>
 
-    <div *ngIf = "!isAdmin">
-        <div class="box-fav-list">
-            <button class="button" (click) = "navegarFavouriteList()">Lista favoritos</button>
+    <div *ngIf = "isLoggedIn">
+        <div *ngIf = "!isAdmin">
+            <div class="box-fav-list">
+                <button class="button" (click) = "navegarFavouriteList()">Lista favoritos</button>
+            </div>
         </div>
     </div>
-
-    <div *ngIf = !isAdmin>
-        <div class="box-biblioteca">
-            <button class="button" (click)="navegarBiblioteca ()" > Mi biblioteca </button>
+    <div *ngIf = "isLoggedIn">
+        <div *ngIf = !isAdmin>
+            <div class="box-biblioteca">
+                <button class="button" (click)="navegarBiblioteca ()" > Mi biblioteca </button>
+            </div>
         </div>
     </div>
 
@@ -32,9 +35,11 @@
         <button class="button" (click)="navegar('ofertas')">Offers</button>
     </div>
 
-    <div *ngIf = "isAdmin">
-        <div class="box-users">
-            <button class="button" (click)="navegar('showUsers')">Users</button>
+    <div *ngIf = "isLoggedIn">
+        <div *ngIf = "isAdmin">
+            <div class="box-users">
+                <button class="button" (click)="navegar('showUsers')">Users</button>
+            </div>
         </div>
     </div>
 </section>

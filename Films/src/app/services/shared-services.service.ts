@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CarritoService } from './carrito.service';
-import { UserService } from './user.service';
 import { Router } from '@angular/router';
 import { Film } from '../models/film';
 

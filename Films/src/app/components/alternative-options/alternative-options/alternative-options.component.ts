@@ -14,11 +14,16 @@ export class AlternativeOptionsComponent {
   isFocused = false;
   selectedCategory: string = '';
   isAdmin: Boolean | null = false
+  isLoggedIn: Boolean | null = false
 
   constructor(private filmsService: FilmsFromAPIService, private routerService: Router, private sharedService: SharedServicesService, private userService: UserService) {}
 
   ngOnInit ()
   {
+    this.userService.isLoggedIn$.subscribe((isLoggedIn: boolean | null) => {
+      this.isLoggedIn = isLoggedIn;
+    });
+
     if (this.userService.storedAdmin)
     {
       this.isAdmin = true;

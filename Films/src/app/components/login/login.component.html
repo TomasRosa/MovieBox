@@ -46,7 +46,9 @@
             </div>
             
             <div class="text-center">
-              <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid" style="width: 100%;">Iniciar Sesión</button>
+              <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid" style="width: 100%;" >
+              Iniciar Sesión
+            </button>
             </div>
 
             <div class="text-center mt-3">
@@ -68,23 +70,6 @@
               {{ successMessage }}
             </div>
           </form>
-
-          <!-- Formulario para ingresar el código de administrador -->
-          <div *ngIf="isAdmin">
-            <h2 class="card-title mb-4 text-center">Ingrese el Código de Administrador</h2>
-            <form class="needs-validation" [formGroup]="codeForm" (ngSubmit)="verifyAdminCode()">
-              <div class="form-group mb-4">
-                <label for="code" class="label-spacing">Código de Administrador</label>
-                <input type="text" class="form-control no-border" id="code" formControlName="code" required>
-                <div class="invalid-feedback">
-                  <div *ngIf="codeForm.get('code')?.hasError('required')">El código es requerido</div>
-                </div>
-              </div>
-              <div class="text-center">
-                <button type="submit" class="btn btn-primary" [disabled]="!codeForm.valid" style="width: 100%;">Verificar Código</button>
-              </div>
-            </form>
-          </div>
         </div>
       </div>
     </div>
