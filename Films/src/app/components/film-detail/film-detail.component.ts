@@ -20,6 +20,7 @@ export class FilmDetailComponent {
   newReview: string = ''; // Para almacenar la nueva reseña
   userActual: User | null = null;
   isLoggedIn: Boolean | null = false;
+  isAdmin: Boolean | null = false;
   errorResena: string = '';
 
   editingReview: boolean = false; // Indicador para saber si estamos editando
@@ -40,6 +41,11 @@ export class FilmDetailComponent {
     this.userService.isLoggedIn$.subscribe ((isLoggedIn: boolean | null) =>{
       this.isLoggedIn = isLoggedIn; 
     })
+    
+    if (this.userService.storedAdmin)
+    {
+      this.isAdmin = true;
+    }
 
     // Obtener el usuario actual
     this.userActual = this.userService.getUserActual();
