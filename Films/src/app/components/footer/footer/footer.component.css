@@ -9,6 +9,7 @@
 .github-logo {
     width: 50px;
     height: 48px;
+    cursor: pointer;
 }
 
 .instagram-logo {
@@ -47,38 +48,71 @@
     transform: translateX(-50%) translateY(10px); /* Ajusta la posición centrada sobre Instagram */
 }
 
+.ig .bubble {
+    background: linear-gradient(45deg, #F58529, #FEDA77, #DD2A7B, #8134AF, #515BD4); /* Degradado para Instagram */
+}
+
 .linkedin .bubbles {
     bottom: 116%;
     left: 49%; /* Alinea las burbujas con el logo de LinkedIn */
     transform: translateX(-50%) translateY(10px); /* Ajusta la posición centrada sobre LinkedIn */
 }
 
+.linkedin .bubble {
+    background: linear-gradient(45deg, #0077b5, #0a66c2, #005582, #004182); /* Tonos de azul para LinkedIn */
+}
+
+.github .bubbles {
+    bottom: 130%; /* Ajusta según sea necesario para la posición de las burbujas */
+    left: 50%;
+    transform: translateX(-50%) translateY(10px); /* Centrado sobre el logo de GitHub */
+}
+
+.github .bubble {
+    background: linear-gradient(45deg, #333333, #24292e, #0d1117, #161b22); /* Tonos oscuros para GitHub */
+}
+
 .bubble {
+    border: 1px solid rgb(120, 120, 120);
+    border-radius: 1rem;
     background: linear-gradient(45deg, 
     #F58529, 
     #FEDA77, 
     #DD2A7B, 
     #8134AF, 
     #515BD4);
-    border: 1px solid rgb(120, 120, 120);
-    border-radius: 2rem;
-    padding: 0.3rem 0.35rem;
+    padding: 0.15rem;
     margin: 0;
     opacity: 1; /* Las burbujas dentro deben ser visibles, se maneja con el padre */
     transform: translateY(0);
 }
 
-.img-ig{
-    width: 52px;
-    height: 52px;
+.img-linkedin {
+    width: 70px;
+    height: 70px;
     border-radius: 2rem;
+    object-fit: cover;
+}
+
+.img-github{
+    width: 70px;
+    height: 70px;
+    border-radius: 2rem;
+    object-fit: cover;
+}
+
+.img-ig{
+    width: 70px;
+    height: 70px;
+    border-radius: 2rem;
+    object-fit: cover;
 }
 
 .ig{
     margin-right: 1.5rem;
 }
 
-.github{
+.box-github{
     margin-right: 1.5rem;
 }
 
@@ -86,12 +120,6 @@
     width: 62px;
     height: 62px;
     cursor: pointer;
-}
-
-.img-linkedin {
-    width: 52px;
-    height: 52px;
-    border-radius: 2rem;
 }
 
 .footer-section{
@@ -102,7 +130,6 @@
     }
 }
 
-.ig, .linkedin {
+.ig, .linkedin, .github {
     position: relative; /* Asegura que las burbujas se posicionen respecto a los logos */
 }
-

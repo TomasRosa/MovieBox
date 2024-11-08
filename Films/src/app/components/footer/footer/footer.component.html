@@ -16,17 +16,34 @@
                     </div>
                     <div class="bubble">
                         <a class="link" href="https://www.instagram.com/lautiruiz04/" target="_blank">
-                            <img class="img-ig" src="/assets/GitHub.webp" alt="">
+                            <img class="img-ig" src="/assets/Lautaro Ruiz profile img.jpg" alt="">
                         </a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="github">
-            <a href="https://github.com/TomasRosa/TPFinalRuizGomezRosa" target="_blank">
+        <div class="box-github">
+            <div class="github" (click)="toggleGitHubBubbles(); $event.stopPropagation()">
                 <img class="github-logo" src="/assets/GitHub-logo.png" alt="GitHub">
-            </a>
+                <div class="bubbles" [class.show-bubbles]="showGitHubBubbles">
+                    <div class="bubble">
+                        <a class="link" href="https://github.com/TomasRosa" target="_blank">
+                            <img class="img-github" src="/assets/GitHub.webp" alt="">
+                        </a>
+                    </div>
+                    <div class="bubble">
+                        <a class="link" href="https://github.com/JoelLucasGomez" target="_blank">
+                            <img class="img-github" src="/assets/Lucas.jpg" alt="">
+                        </a>
+                    </div>
+                    <div class="bubble">
+                        <a class="link" href="https://github.com/Lautaro-Ruiz" target="_blank">
+                            <img class="img-github" src="/assets/Lautaro Ruiz profile img.jpg" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="linkedin" (click)="toggleLinkedinBubbles(); $event.stopPropagation()">
@@ -44,7 +61,7 @@
                 </div>
                 <div class="bubble">
                     <a href="https://www.linkedin.com/in/lautaro-hern%C3%A1n-ruiz/" target="_blank">
-                        <img class="img-linkedin" src="/assets/LinkedIn-logo.webp" alt="LinkedIn 2">
+                        <img class="img-linkedin" src="/assets/Lautaro Ruiz profile img.jpg" alt="LinkedIn 2">
                     </a>
                 </div>
             </div>

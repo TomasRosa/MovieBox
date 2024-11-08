@@ -8,18 +8,29 @@ import { Component } from '@angular/core';
 export class FooterComponent {
   showIgBubbles = false;
   showLinkedinBubbles = false;
+  showGitHubBubbles = false;
 
   toggleIgBubbles() {
     this.showIgBubbles = !this.showIgBubbles;
     if (this.showIgBubbles) {
-      this.showLinkedinBubbles = false; // Ocultar las burbujas de LinkedIn si se muestra Instagram
+      this.showLinkedinBubbles = false; 
+      this.showGitHubBubbles = false;
+    }
+  }
+
+  toggleGitHubBubbles(){
+    this.showGitHubBubbles = !this.showGitHubBubbles
+    if (this.showGitHubBubbles){
+      this.showLinkedinBubbles = false;
+      this.showIgBubbles = false;
     }
   }
 
   toggleLinkedinBubbles() {
     this.showLinkedinBubbles = !this.showLinkedinBubbles;
     if (this.showLinkedinBubbles) {
-      this.showIgBubbles = false; // Ocultar las burbujas de Instagram si se muestra LinkedIn
+      this.showIgBubbles = false; 
+      this.showGitHubBubbles = false;
     }
   }
 
