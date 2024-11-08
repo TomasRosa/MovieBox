@@ -12,6 +12,7 @@ export class User {
     id: number = 0;
     fav_list: FavouriteList = new FavouriteList();
     arrayPeliculas: Array<Film> = [];
+    deuda: number = 0;
     tarjeta: Tarjeta = new Tarjeta();
     role: 'user' | 'admin' = 'user';  // Rol del usuario
     adminCode?: string;  // Código para admins (opcional)

@@ -14,10 +14,10 @@ import { SharedServicesService } from './shared-services.service';
 })
 
 export class UserService {
-  private urlJSONServer = 'http://localhost:5000/users';
+  urlJSONServer = 'http://localhost:5000/users';
   public urlJSONServerAdmins = 'http://localhost:5000/admins';
   private users: User[] = [];
-  private usuarioActualSubject: BehaviorSubject<User | null>;
+  usuarioActualSubject: BehaviorSubject<User | null>;
   private adminActualSubject: BehaviorSubject<Admin | null>;
   public isLoggedInSubject: BehaviorSubject<boolean | null>;
   public storedUser: User | null = null;
@@ -179,7 +179,7 @@ export class UserService {
     });
 }
 
-  private saveUserToStorage(usuario: User | null): void {
+  saveUserToStorage(usuario: User | null): void {
     localStorage.setItem('currentUser', JSON.stringify(usuario));
   }
 
@@ -212,7 +212,9 @@ export class UserService {
 
   async cargarBiblioteca (user: User, carrito: Array<Film>): Promise<{ success: boolean, message: string }> {
     const url = `${this.urlJSONServer}/${user.id}`;
-    carrito.forEach(film =>{
+    carrito.forEach(film =>
+    {
+      film.fechaDeAgregado = new Date().toISOString();
       user.arrayPeliculas.push(film)
     }) /* AGREGAMOS LAS NUEVAS PELICULAS A SU BIBLIOTECA */
 

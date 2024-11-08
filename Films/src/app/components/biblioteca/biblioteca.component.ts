@@ -5,6 +5,7 @@ import { FavouriteListService } from 'src/app/services/favourite-list.service';
 import { SharedServicesService } from 'src/app/services/shared-services.service';
 import { UserService } from 'src/app/services/user.service';
 import { ActivatedRoute } from '@angular/router';
+import { DeudaService } from 'src/app/services/deuda.service';
 
 @Component({
   selector: 'app-biblioteca',
@@ -18,6 +19,9 @@ export class BibliotecaComponent
   movieLibrary:Film[] = [];
   isLoggedIn: Boolean | null = false
   isAdmin: Boolean | null = false
+  deuda: number = 0;
+  intervalId: any;
+  countdowns: { [key: number]: string } = {};
 
   constructor(
     private userService: UserService,
@@ -26,7 +30,12 @@ export class BibliotecaComponent
     private route: ActivatedRoute // Importar el servicio de rutas activas
   ) { }
   
-  async ngOnInit(): Promise<void> {
+  async ngOnInit(){
+    await this.initializateLibrary()
+  }
+
+  async initializateLibrary (): Promise<void>
+  {
     this.userService.isLoggedIn$.subscribe((isLoggedIn: boolean | null) => {
       this.isLoggedIn = isLoggedIn;
     });
@@ -66,6 +75,43 @@ export class BibliotecaComponent
         this.validarBibliotecaVacia();
       });
     }
+    this.startCountdown();
+  }
+
+  ngOnDestroy(): void {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+  }
+
+  getTiempoRestante(fechaDeAgregado: string): string {
+    const hoy = new Date();
+    const fechaAgregada = new Date(fechaDeAgregado);
+    const diferencia = 7 * 24 * 60 * 60 * 1000 - (hoy.getTime() - fechaAgregada.getTime());
+
+    if (diferencia <= 0) {
+      return '00:00:00';
+    }
+
+    const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+    const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+    if (dias > 0) {
+      return `${dias} d ${horas} hs ${minutos} m ${segundos} s`;
+    } else {
+      return `${horas}:${minutos}:${segundos}`;
+    }
+  }
+
+  startCountdown(): void {
+    this.intervalId = setInterval(() => {
+      this.movieLibrary.forEach(film => {
+        const timeRemaining = this.getTiempoRestante(film.fechaDeAgregado!);
+        this.countdowns[film.id] = timeRemaining;
+      });
+    }, 1000);
   }
 
   validarBibliotecaVacia (){
@@ -79,6 +125,10 @@ export class BibliotecaComponent
       if (index !== -1) {
         this.movieLibrary.splice(index, 1);
         await this.userService.devolverFilm (this.usuarioActual as User, this.movieLibrary)
+        if (this.movieLibrary.length == 0)
+        {
+          this.bibliotecaVacia = true;
+        }
       }
     }
   }

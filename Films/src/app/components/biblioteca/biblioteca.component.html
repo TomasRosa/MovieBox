@@ -1,8 +1,14 @@
 <app-alternative-options></app-alternative-options>
+
+<div *ngIf = "!isAdmin" class="box-title">
+  <h3 class="title">MI BIBLIOTECA</h3>
+</div>
+
+<div *ngIf = "isAdmin" class="box-title">
+  <h3 class="title">BIBLIOTECA DEL USUARIO</h3>
+</div>
+
 <section *ngIf="movieLibrary.length > 0" class="box">
-  <div class="box-title">
-    <h4 class="title"> {{ isAdmin ? 'BIBLIOTECA DEL USUARIO' : 'MI BIBLIOTECA' }} </h4>
-  </div>
   <div *ngFor="let group of getMovieGroups(movieLibrary)" class="box-group-films">
     <div *ngFor="let film of group" class="recuadroCelda film">  
       <div class="box-star">
@@ -11,6 +17,13 @@
       <div class="box-img-title">
         <img class="image" [src]="film.image" alt="Imagen no disponible">
         <p class="title-text">{{film.title}}</p>
+
+      <!-- Mostrar días, horas, minutos y segundos restantes -->
+      <div class="box-deuda-info" title="Tiempo hasta que comience la deuda">
+        <p>
+          {{ countdowns[film.id] || 'Cargando...' }}
+        </p>
+      </div>
       </div>
       <div class="box-options">
         <button class="button ficha-tecnica" (click)="navegarFilmDetail(film.rank)">Detalles</button>
@@ -20,10 +33,18 @@
   </div>
 </section>
 
-<div *ngIf="bibliotecaVacia" class="classDiv">
-  <div *ngIf = "!isAdmin" class="box-title">
-    <h3 class="title">MI BIBLIOTECA</h3>
+<!-- <div *ngIf="!bibliotecaVacia">
+  <div>Deuda: 
+    <div *ngIf = "deuda == 0">
+      ¡No posee deuda!
+    </div>
+    <div *ngIf = "deuda != 0">
+      {{deuda}}
+    </div>
   </div>
+</div> -->
+
+<div *ngIf="bibliotecaVacia" class="classDiv">
   <div *ngIf = "!isAdmin" class="box-empty">
     <p class="text-empty">Su biblioteca se encuentra vacia!</p> 
   </div>

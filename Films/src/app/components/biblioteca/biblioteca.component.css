@@ -64,7 +64,7 @@
     position: relative;
     overflow: hidden;
     width: 290px;
-    height: 555px;
+    height: 600px;
     background-color: black !important;
     color: white !important;
     border-radius: 10px !important;
@@ -72,6 +72,10 @@
     padding: 0.2rem;
     transition: 0.5s;
     border: 1px solid white;
+}
+
+.box-deuda-info{
+    margin-top: 0.2rem;
 }
 
 .recuadroCelda:hover{

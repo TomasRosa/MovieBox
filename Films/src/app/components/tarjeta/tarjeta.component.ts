@@ -8,6 +8,7 @@ import { UserService } from "src/app/services/user.service";
 import { User } from "src/app/models/user";
 import { Router } from "@angular/router";
 import { NavbarComponent } from "../navbar/navbar.component";
+import { DeudaService } from "src/app/services/deuda.service";
 
 @Component({
   selector: "app-tarjeta",
@@ -45,7 +46,8 @@ export class TarjetaComponent {
   constructor(
     private carritoService: CarritoService,
     private userService: UserService,
-    private routerService: Router
+    private routerService: Router,
+    private deudaService: DeudaService
   ) {}
 
   ngOnInit(): void {
@@ -85,6 +87,7 @@ export class TarjetaComponent {
           } else this.result = res.message;
         }
         this.carritoService.limpiarCarrito();
+        // this.deudaService.iniciarDeuda();
       } else {
         this.result = "Saldo insufuciente! Intente mas tarde";
       }
