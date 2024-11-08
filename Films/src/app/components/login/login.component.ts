@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   users: Array<User> = [];
   isLoggedIn: boolean | null;
   admins: Array<Admin> = [];
-  isAdmin: boolean = false; // Indica si el usuario actual es un administrador
+  isAdmin: boolean = false; 
   mostrarContrasena: boolean = false;
 
 

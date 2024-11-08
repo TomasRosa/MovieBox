@@ -411,7 +411,6 @@
               </div>
 
           </div>
-          <p *ngIf="!usuarioActual?.tarjeta">No tienes una tarjeta asociada</p>
         </div>
       </div>
     </div>
@@ -444,7 +443,18 @@
 
   <section class="box-logout">
     <div class="contenido-logout">
-      <button class="button-logout" (click)="openLogoutModal()">Cerrar sesión</button>
+      <button class="button-logout logout" (click)="openLogoutModal()">Cerrar sesión</button>
+      <button class="button-logout" (click)="openDeleteAccountModal()" >Eliminar cuenta</button>
+    </div>
+
+    <div *ngIf="isDeleteAccountModalVisible" class="modal-overlay">
+      <div class="modal-content">
+        <h3>Desea eliminar su cuenta?</h3>
+        <div class="modal-buttons">
+          <button class="cancel-button-logout" (click)="closeDeleteAccountModal()">Cancelar</button>
+          <button class="confirm-button-logout" (click)="deleteAccount()">Confirmar</button>
+        </div>
+      </div>
     </div>
 
     <div *ngIf="isLogoutModalVisible" class="modal-overlay">
