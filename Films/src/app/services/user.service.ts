@@ -133,6 +133,25 @@ export class UserService {
     }
   }
 
+  async deleteUser(userToDelete: User): Promise<{ success: boolean, message: string }> {
+    const url = `${this.urlJSONServer}/${userToDelete.id}`;
+    let flag = false;
+    try {
+      await this.http.delete<User>(url).toPromise();
+      flag = true;
+      if (flag){
+        this.logout ()
+        console.log (this.users)
+        this.users = this.users.filter(user => user.id !== userToDelete.id);
+        console.log (this.users)
+      }
+      return { success: true, message: 'Usuario eliminado correctamente.' };
+    } catch (error) {
+      console.error('Error al eliminar el usuario:', error);
+      return { success: false, message: 'Error al eliminar el usuario. Por favor, inténtalo de nuevo más tarde.' };
+    }
+  }
+
   obtenerUserByEmail (email: string){
     return this.users.find (user => user.email == email)
   }
@@ -247,17 +266,6 @@ export class UserService {
     }
   } 
   
-  async deleteUser(user: User): Promise<{ success: boolean, message: string }> {
-    const url = `${this.urlJSONServer}/${user.id}`;
-    try {
-      await this.http.delete<User>(url).toPromise();
-      return { success: true, message: 'Usuario eliminado correctamente.' };
-    } catch (error) {
-      console.error('Error al eliminar el usuario:', error);
-      return { success: false, message: 'Error al eliminar el usuario. Por favor, inténtalo de nuevo más tarde.' };
-    }
-  }
-
   async changeDataCard (user: User|null, newCard: Tarjeta){
     if (user!=null){
       const url = `${this.urlJSONServer}/${user.id}`;
@@ -548,7 +556,8 @@ async changePasswordAdmin (admin: Admin, newPassword: string): Promise<{ success
         user.entregasPendientes = user.entregasPendientes.filter(p => p.id !== pelicula.id);
         await this.http.patch<User>(`${this.urlJSONServer}/${user.id}`, user).toPromise(); // Actualiza en el backend
     }
-}
+  }
+
   logout() {
     this.usuarioActualSubject.next(null);
     this.isLoggedInSubject.next(false);
@@ -556,9 +565,8 @@ async changePasswordAdmin (admin: Admin, newPassword: string): Promise<{ success
     this.adminService.setAdminActual(null)
   
     localStorage.removeItem('currentUser');
-  
     this.router.navigate(['/inicio']);
-}
+  }
 
 }
 

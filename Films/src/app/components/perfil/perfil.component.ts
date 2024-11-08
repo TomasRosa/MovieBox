@@ -41,6 +41,7 @@ export class PerfilComponent {
   passwordToVerify: String = '';
   resultInputPassword: string = '';
   isLogoutModalVisible: boolean = false;
+  isDeleteAccountModalVisible: boolean = false
 
   cardFormGroup = new FormGroup ({
     firstName:  new FormControl('', [Validators.required, ValidacionUserPersonalizada.soloLetras()]),
@@ -200,9 +201,22 @@ export class PerfilComponent {
   openLogoutModal() {
     this.isLogoutModalVisible = true;
   }
-
+  
   closeLogoutModal() {
     this.isLogoutModalVisible = false;
+  }
+
+  openDeleteAccountModal (){
+    this.isDeleteAccountModalVisible = true;
+  }
+
+  async deleteAccount(){
+    if (this.usuarioActual)
+      await this.userService.deleteUser (this.usuarioActual);
+  }
+  
+  closeDeleteAccountModal (){
+    this.isDeleteAccountModalVisible = false;
   }
 
   toggleEditFirstame() {

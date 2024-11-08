@@ -360,6 +360,10 @@
     color: white;
 }
 
+.logout{
+    margin-right: 1rem;
+}
+
 .button-logout:hover{
     background-color: rgb(164, 164, 164);
     border-radius: 1rem;
