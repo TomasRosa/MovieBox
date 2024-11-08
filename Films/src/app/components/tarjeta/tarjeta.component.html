@@ -18,7 +18,7 @@
             <p class="dato-tarjeta fullname">{{usuarioActual?.tarjeta?.lastName}}</p>
           </div>
         </div>
-        <p class="dato-tarjeta tipo-tarjeta">VISA</p>
+        <div class="dato-tarjeta tipo-tarjeta"><img [ngClass]="imgTypeCardClass" src="{{typeCard}}" alt=""></div>
       </div>
     </div>
   </div>

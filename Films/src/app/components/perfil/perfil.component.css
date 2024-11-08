@@ -64,6 +64,7 @@
 .fullname{
     width: max-content;
     padding-inline: 0.8rem;
+    padding-block: 0rem;
 }
 
 .input-edit{
@@ -71,8 +72,12 @@
     border: none;
 }
 
+.firstname-edit{
+
+}
+
 .fullname-input{
-    width: 5.7rem;
+    width: 6.25rem;
     padding-inline: 0.67rem;
 }
 
@@ -97,6 +102,7 @@
     background: linear-gradient(135deg, #d1cdbb, #b2ae94);
     border-radius: 5px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 0.2rem;
 }
 
 .delete{
@@ -116,6 +122,18 @@
 .tipo-tarjeta{
     text-align: right;
     width: max-content;
+}
+
+.visa-logo{
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+}
+
+.mastercard-logo{
+    background-color: transparent;
+    width: 40px;
+    height: 40px;
 }
 
 .formEditCard{
