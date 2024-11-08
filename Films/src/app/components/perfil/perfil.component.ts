@@ -22,6 +22,8 @@ export class PerfilComponent {
   isLoggedIn: Boolean | null = false;
   showErrors = false;
   /* Tarjeta */
+  imgTypeCardClass: string = '';
+  typeCard: String = '';
   cardExists: boolean | null = false;
   formNewCard: boolean | null = false;
   showFormularioAddCard: boolean | null = false;
@@ -99,7 +101,6 @@ export class PerfilComponent {
     {
       this.userService.usuarioActual$.subscribe(async (usuario: User | null) => {
         this.usuarioActual = usuario;
-        console.log ("USUARIO ACTUAL: ", this.usuarioActual)
 
         if (this.usuarioActual?.tarjeta?.firstName && 
           this.usuarioActual?.tarjeta?.lastName && 
@@ -108,13 +109,13 @@ export class PerfilComponent {
             this.cardExists = true;
             this.showOptionButtonsToCard = true;
             this.getLastFourDigits ();
+            this.identificarTarjeta ();
         } 
     
         // Verificar si es un usuario regular
         await this.userService.loadUsersFromJSON();
         const isUser = this.userService.getUsers().some((user) => user.email === this.usuarioActual?.email);
 
-        console.log ("isUser: ", isUser)
         if (isUser) {
           this.isAdmin = false;
           this.cargarDatosUsuario();
@@ -156,6 +157,22 @@ export class PerfilComponent {
         this.formGroupDNI.get('dni')?.setValue (this.usuarioActual.dni);
       }
     });
+  }
+
+  identificarTarjeta() {
+    const visaRegex = /^4[0-9]{12}(?:[0-9]{3})?$/;
+    const mastercardRegex = /^(5[1-5][0-9]{14}|2(2[2-9][0-9]{12}|[3-6][0-9]{13}|7[0-1][0-9]{12}|720[0-9]{12}))$/;
+
+    if (visaRegex.test(this.usuarioActual?.tarjeta.nTarjeta as string)) {
+        this.typeCard = '/assets/visa.png';
+        this.imgTypeCardClass = 'visa-logo';
+    } else if (mastercardRegex.test(this.usuarioActual?.tarjeta.nTarjeta as string)) {
+        this.typeCard = '/assets/mastercard-logo.png';
+        this.imgTypeCardClass = 'mastercard-logo';
+    } else{
+      this.typeCard = '/assets/visa.png';
+      this.imgTypeCardClass = 'visa-logo';
+    } 
   }
 
   toggleShowPassword() {

@@ -29,6 +29,7 @@
     background: linear-gradient(135deg, #d1cdbb, #b2ae94);
     border-radius: 5px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 0.2rem;
 }
 
 .tarjeta {
@@ -84,6 +85,19 @@
 .tipo-tarjeta{
     text-align: right;
     width: max-content;
+}
+
+
+.visa-logo{
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+}
+
+.mastercard-logo{
+    background-color: transparent;
+    width: 40px;
+    height: 40px;
 }
 
 .box-options{
@@ -284,12 +298,13 @@
     margin-bottom: 1rem;
 }
 
-.margen-extra {
-    margin-left: 20px;
-  }
 
 .card-is-empty{
     display: block;
     margin-block: 4rem;
     justify-content: center;
+}
+
+.cash{
+    margin-block: 2rem;
 }

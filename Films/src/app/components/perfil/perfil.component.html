@@ -328,7 +328,7 @@
                 <div class="box-datos">
                   <p class="dato-tarjeta fullname"  *ngIf="!permitirEditarTarjeta">{{usuarioActual?.tarjeta?.firstName}}</p>
                   <form class="formEditCard dato-tarjeta" action="#" [formGroup]="cardFormGroup" *ngIf="permitirEditarTarjeta">
-                    <input id="firstname" class="dato-tarjeta fullname-input input-edit" type="text" formControlName="firstName">
+                    <input id="firstname" class="dato-tarjeta fullname-input input-edit firstname-edit" type="text" formControlName="firstName">
                   </form>
                 </div>
                 <div class="box-datos">
@@ -338,7 +338,7 @@
                   </form>
                 </div>
               </div>
-              <p class="dato-tarjeta tipo-tarjeta">VISA</p>
+              <div class="dato-tarjeta tipo-tarjeta"><img [ngClass]="imgTypeCardClass" src="{{typeCard}}" alt=""></div>
             </div>
           </div>
 

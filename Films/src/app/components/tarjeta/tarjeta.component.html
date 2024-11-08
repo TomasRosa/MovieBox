@@ -18,7 +18,7 @@
             <p class="dato-tarjeta fullname">{{usuarioActual?.tarjeta?.lastName}}</p>
           </div>
         </div>
-        <p class="dato-tarjeta tipo-tarjeta">VISA</p>
+        <div class="dato-tarjeta tipo-tarjeta"><img [ngClass]="imgTypeCardClass" src="{{typeCard}}" alt=""></div>
       </div>
     </div>
   </div>
@@ -35,8 +35,14 @@
 
 <div *ngIf="!showBuyWithActualCard">
   <div class="card-is-empty">
-    <h4 class="guide">Necesita una tarjeta para continuar la operacion</h4>
-    <button id="newCard" class="button" (click)="showFormToAddNewCard()">Agregar una tarjeta</button>
+    <div>
+      <h4 class="guide">Necesita una tarjeta para continuar la operacion</h4>
+      <button class="button" (click)="showFormToAddNewCard()">Agregar una tarjeta</button>
+    </div>
+    <div class="cash">
+      <h4 class="guide">Tambien puede continuar abonando en efectivo</h4>
+      <button class="button margen-extra" (click)="pagarEnEfectivo()">Pagar en efectivo</button>
+    </div>
   </div>
 </div>
 

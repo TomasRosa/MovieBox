@@ -21,6 +21,8 @@ export class TarjetaComponent {
   showFormAddCard: boolean | null = true;
   showFormNewCard: boolean = false;
   /* Tarjeta */
+  imgTypeCardClass: string = '';
+  typeCard: String = '';
   showFormCVC: boolean = false;
   lastFourDigits: String | null = null;
   showBuyWithActualCard: boolean = true;
@@ -53,12 +55,28 @@ export class TarjetaComponent {
   ngOnInit(): void {
     this.userService.usuarioActual$.subscribe((usuario: User | null) => {
       this.usuarioActual = usuario;
-      console.log("Usuario actual:", this.usuarioActual); // Agregar esto para depurar
       this.validarSiTieneTarjeta();
+      this.identificarTarjeta ();
     });
     this.userService.showFormAddCard$.subscribe((show: boolean | null) => {
       this.showFormAddCard = show;
     });
+  }
+
+  identificarTarjeta() {
+    const visaRegex = /^4[0-9]{12}(?:[0-9]{3})?$/;
+    const mastercardRegex = /^(5[1-5][0-9]{14}|2(2[2-9][0-9]{12}|[3-6][0-9]{13}|7[0-1][0-9]{12}|720[0-9]{12}))$/;
+
+    if (visaRegex.test(this.usuarioActual?.tarjeta.nTarjeta as string)) {
+        this.typeCard = '/assets/visa.png';
+        this.imgTypeCardClass = 'visa-logo';
+    } else if (mastercardRegex.test(this.usuarioActual?.tarjeta.nTarjeta as string)) {
+        this.typeCard = '/assets/mastercard-logo.png';
+        this.imgTypeCardClass = 'mastercard-logo';
+    } else{
+      this.typeCard = '/assets/visa.png';
+      this.imgTypeCardClass = 'visa-logo';
+    } 
   }
 
   async buyWithActualCard() {
