@@ -17,6 +17,7 @@ export class EntregasPendientesComponent implements OnInit {
   isLoggedIn: Boolean | null = false;
   users: User[] = [];
   isLoggedInSubscription: Subscription = new Subscription();
+  totalCarrito: number = 0;
 
   constructor(
     private userService: UserService,
@@ -51,6 +52,7 @@ export class EntregasPendientesComponent implements OnInit {
         this.usuarioActual = loadedUser; // Asignar el usuario cargado
         this.entregasPendientes = loadedUser.entregasPendientes || []; // Cargar entregas pendientes
         console.log("Entregas pendientes:", this.entregasPendientes);
+        this.calcularTotalCarrito(this.entregasPendientes);
       } else {
         alert("Usuario no encontrado.");
       }
@@ -76,13 +78,19 @@ export class EntregasPendientesComponent implements OnInit {
     }
   }
 
+  calcularTotalCarrito(carrito: Array<Film>){
+    this.totalCarrito = carrito.reduce((total, film) => total + (film.precio || 0), 0);
+  }
+
   async aceptarEntrega(pelicula: Film) {
     await this.userService.agregarPeliculaABiblioteca(this.usuarioActual!.id, pelicula); // Esperar a que se agregue
     await this.eliminarEntregaPendiente(pelicula); // Esperar a que se elimine
+    this.calcularTotalCarrito(this.entregasPendientes);
   }
 
   rechazarEntrega(pelicula: Film) {
     this.eliminarEntregaPendiente(pelicula);
+    this.calcularTotalCarrito(this.entregasPendientes);
   }
 
   async eliminarEntregaPendiente(pelicula: Film) {

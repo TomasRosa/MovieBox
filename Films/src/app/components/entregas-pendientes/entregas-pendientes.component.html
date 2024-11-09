@@ -2,9 +2,13 @@
   <div class="box-title">
     <h4 class="title">ENTREGAS PENDIENTES DE {{ usuarioActual?.firstName?.toUpperCase() }} {{ usuarioActual?.lastName?.toUpperCase() }}</h4>
   </div> 
-
+  
+  <div class="box-total-carrito" *ngIf="entregasPendientes.length > 0">
+    <p class="paragraph"> Total del carrito: ARS $ {{totalCarrito}} </p>
+  </div>
+  
   <div class="box-films" *ngIf="entregasPendientes.length > 0; else noPendientes">
-    
+
     <div class="box-film-options" *ngFor="let film of entregasPendientes">
       <div class="box">
         <div class="box-film">
