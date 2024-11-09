@@ -16,6 +16,7 @@
 .profile{
     display: grid;
     justify-content: center;
+    margin-bottom: 1rem;
 }
 
 .box-opciones-tarjeta{
@@ -70,10 +71,6 @@
 .input-edit{
     outline: none;
     border: none;
-}
-
-.firstname-edit{
-
 }
 
 .fullname-input{
