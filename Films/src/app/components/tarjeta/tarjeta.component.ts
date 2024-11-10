@@ -159,29 +159,34 @@ export class TarjetaComponent {
     this.showFormNewCard = false;
     this.showFormAddCard = false;
   }
-  pagarEnEfectivo(): void {
+  async pagarEnEfectivo(): Promise<void> {
     const peliculasCarrito = this.carritoService.obtenerCarrito();
     if (this.usuarioActual && peliculasCarrito.length > 0) {
-      this.userService
-        .agregarEntregaPendiente(this.usuarioActual, peliculasCarrito)
-        .then((response) => {
-          if (response.success) {
-            this.result = "Pago en efectivo exitoso: " + response.message; // Mensaje de éxito
-            this.carritoService.limpiarCarrito();
-          } else {
-            this.result = "Error al pagar en efectivo: " + response.message; // Mensaje de error
-          }
-          this.manejarMensaje();
-        })
-        .catch((error) => {
-          this.result = "Ocurrió un error al procesar el pago en efectivo: " + error.message; // Mensaje de error
-          this.manejarMensaje();
-        });
+        const user = await this.userService.getUserById(this.usuarioActual.id);
+        if (user) {
+            this.usuarioActual = user;
+            this.userService
+                .agregarEntregaPendiente(this.usuarioActual, peliculasCarrito)
+                .then((response) => {
+                    if (response.success) {
+                        this.result = "Pago en efectivo exitoso: " + response.message;
+                        this.carritoService.limpiarCarrito();
+                    } else {
+                        this.result = "Error al pagar en efectivo: " + response.message;
+                    }
+                    this.manejarMensaje();
+                })
+                .catch((error) => {
+                    this.result = "Ocurrió un error al procesar el pago en efectivo: " + error.message;
+                    this.manejarMensaje();
+                });
+        }
     } else {
-      this.result = "El carrito está vacío o no hay usuario activo."; // Mensaje si el carrito está vacío
-      this.manejarMensaje();
+        this.result = "El carrito está vacío o no hay usuario activo.";
+        this.manejarMensaje();
     }
-  }
+}
+
   manejarMensaje() {
     setTimeout(() => {
       this.result = ""; // Ocultar el mensaje

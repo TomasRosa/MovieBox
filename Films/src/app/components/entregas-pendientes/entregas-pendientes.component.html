@@ -3,6 +3,11 @@
     <h4 class="title">ENTREGAS PENDIENTES DE {{ usuarioActual?.firstName?.toUpperCase() }} {{ usuarioActual?.lastName?.toUpperCase() }}</h4>
   </div> 
 
+  <div class="box-total-carrito" *ngIf="entregasPendientes.length > 0">
+    <p class="paragraph"> Total del carrito: ARS $ {{totalCarrito}} </p>
+    <button class="button aceptar-todas" (click)="aceptarTodasLasEntregas()">Aceptar todas</button>
+  </div>
+
   <div class="box-films" *ngIf="entregasPendientes.length > 0; else noPendientes">
     
     <div class="box-film-options" *ngFor="let film of entregasPendientes">

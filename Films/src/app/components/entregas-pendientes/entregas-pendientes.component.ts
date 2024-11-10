@@ -4,6 +4,7 @@ import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { BibliotecaComponent } from '../biblioteca/biblioteca.component';
 
 @Component({
   selector: 'app-entregas-pendientes',
@@ -17,6 +18,8 @@ export class EntregasPendientesComponent implements OnInit {
   isLoggedIn: Boolean | null = false;
   users: User[] = [];
   isLoggedInSubscription: Subscription = new Subscription();
+  biblioteca: Film [] = []
+  totalCarrito: number = 0;
 
   constructor(
     private userService: UserService,
@@ -24,73 +27,71 @@ export class EntregasPendientesComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    // Suscribirse a la observable de login para saber si el usuario está logueado
-    this.userService.isLoggedIn$.subscribe((isLoggedIn: boolean | null) => {
-      this.isLoggedIn = isLoggedIn;
-    });
-  
-    // Verificar si el usuario es administrador
     this.isAdmin = !!this.userService.storedAdmin;
-  
-    // Si no es admin ni está logueado, mostrar alerta
-    if (!this.isAdmin) {
-      alert("No tienes permisos para ver las entregas pendientes.");
-      return;
-    } 
-  
-    // Obtener el userId desde los parámetros de la URL
-    const userId = +this.route.snapshot.paramMap.get('id')!;
-    console.log("USER ID: ", userId);
-  
-    if (userId) {
-      // Cargar el usuario por ID
-      const loadedUser = await this.userService.loadUserBibliotecaById(userId);
-      console.log("LOADED USER: ", loadedUser);
-      
-      if (loadedUser) {
-        this.usuarioActual = loadedUser; // Asignar el usuario cargado
-        this.entregasPendientes = loadedUser.entregasPendientes || []; // Cargar entregas pendientes
-        console.log("Entregas pendientes:", this.entregasPendientes);
-      } else {
-        alert("Usuario no encontrado.");
-      }
-    } else {
-      alert("ID de usuario no válido.");
-    }
-  }
 
-  async cargarUsuarios(userId: number) {
-    try {
-      const loadedUser = await this.userService.getUserById(userId);
-      console.log("Usuario cargado:", loadedUser); // Verifica qué usuario se está cargando
-      if (loadedUser) {
-        this.usuarioActual = loadedUser; // Se obtiene todas las propiedades del usuario
-        this.entregasPendientes = loadedUser.entregasPendientes || [];
-        console.log("Entregas pendientes:", this.entregasPendientes);
-      } else {
-        alert("Usuario no encontrado.");
-      }
-    } catch (error) {
-      console.error("Error al obtener usuarios:", error);
-      alert("Hubo un problema al cargar los usuarios.");
+    if (!this.isAdmin) {
+        alert("No tienes permisos para ver las entregas pendientes.");
+        return;
     }
-  }
+
+    const userId = +this.route.snapshot.paramMap.get('id')!;
+    if (userId) {
+        await this.loadUserData(userId);  // Cargar datos iniciales del usuario
+        if (this.usuarioActual)
+        {
+          this.calcularTotalCarrito(this.usuarioActual.entregasPendientes);
+        }  
+    } else {
+        alert("ID de usuario no válido.");
+    }
+}
+
+async loadUserData(userId: number): Promise<void> {
+    const user = await this.userService.getUserById(userId);
+    if (user) {
+        this.usuarioActual = user;
+        this.entregasPendientes = user.entregasPendientes;
+        this.biblioteca = user.arrayPeliculas;
+    } else {
+        console.error('Error: Usuario no encontrado');
+    }
+}
 
   async aceptarEntrega(pelicula: Film) {
-    await this.userService.agregarPeliculaABiblioteca(this.usuarioActual!.id, pelicula); // Esperar a que se agregue
-    await this.eliminarEntregaPendiente(pelicula); // Esperar a que se elimine
+    if (this.usuarioActual) {
+      await this.userService.agregarPeliculaABiblioteca(this.usuarioActual.id, pelicula);
+      await this.rechazarEntrega(pelicula);
+      this.calcularTotalCarrito(this.usuarioActual.entregasPendientes);
+
+      // Recargar usuario actualizado después de la aceptación
+      await this.loadUserData(this.usuarioActual.id);
+    }
   }
 
-  rechazarEntrega(pelicula: Film) {
-    this.eliminarEntregaPendiente(pelicula);
+  async aceptarTodasLasEntregas() {
+    try {
+      for (const film of this.entregasPendientes) { // Copiar el array para evitar mutaciones
+        await this.aceptarEntrega(film);
+      }
+      console.log("Todas las entregas aceptadas y actualizadas en la biblioteca del usuario.");
+    } catch (error) {
+      console.error("Error al aceptar todas las entregas:", error);
+      alert("Hubo un problema al aceptar todas las entregas.");
+    }
+  }
+  
+  async rechazarEntrega(pelicula: Film) {
+    if (this.usuarioActual) {
+      await this.userService.eliminarEntregaPendiente(this.usuarioActual.id, pelicula);
+      this.calcularTotalCarrito(this.usuarioActual.entregasPendientes);
+      
+      // Recargar usuario actualizado después del rechazo
+      await this.loadUserData(this.usuarioActual.id);
+    }
   }
 
-  async eliminarEntregaPendiente(pelicula: Film) {
-    await this.userService.eliminarEntregaPendiente(this.usuarioActual!.id, pelicula);
-    this.entregasPendientes = this.entregasPendientes.filter(p => p.id !== pelicula.id);
+  calcularTotalCarrito(carrito: Array<Film>){
+    this.totalCarrito = carrito.reduce((total, film) => total + (film.precio || 0), 0);
   }
-
-  ngOnDestroy() {
-    this.isLoggedInSubscription.unsubscribe(); // Asegúrate de limpiar la suscripción
-  }
+  
 }
