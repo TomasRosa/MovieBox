@@ -107,3 +107,13 @@
     text-align: center;
     font-size: 1.2rem;
 }
+
+.box-total-carrito{
+    text-align: center;
+    margin-bottom: 1rem; /* Espacio entre el total y la lista de películas */
+}
+
+.paragraph{
+    font-size: 1.3rem;
+    font-weight: 450;
+}

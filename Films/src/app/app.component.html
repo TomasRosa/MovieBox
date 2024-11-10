@@ -1,14 +1,23 @@
-<header>
-    <nav>
-        <app-navbar></app-navbar>
-    </nav>
-</header>
-
-<main class="content-wrapper">
-    <router-outlet></router-outlet>
-</main>
-
-<footer>
-    <app-footer></app-footer>
-</footer>
+<body>
+    <header id="header">
+        <nav>
+            <app-navbar></app-navbar>
+        </nav>
+    </header>
+    
+    <main class="content-wrapper">
+        <router-outlet></router-outlet>
+        <div class="box-arrow-up">
+            <a (click)="scrollToTopSmooth(700)" class="scroll-to-top">
+                <svg xmlns="http://www.w3.org/2000/svg" class="arrow-upward" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e8eaed">
+                    <path d="M450-160v-526L202-438l-42-42 320-320 320 320-42 42-248-248v526h-60Z"/>
+                </svg>
+            </a>
+        </div>
+    </main>
+    
+    <footer>
+        <app-footer></app-footer>
+    </footer>
+</body>
 
