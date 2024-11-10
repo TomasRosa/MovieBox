@@ -511,52 +511,49 @@ async changePasswordAdmin (admin: Admin, newPassword: string): Promise<{ success
         return null;
     }
 }
-  async agregarEntregaPendiente(user: User, peliculas: Film[]): Promise<{ success: boolean, message: string }> {
-    const url = `${this.urlJSONServer}/${user.id}`;
-  
-    // Si no tiene entregas pendientes, inicializamos el array
-    if (!user.entregasPendientes) {
+async agregarEntregaPendiente(user: User, peliculas: Film[]): Promise<{ success: boolean, message: string }> {
+  const url = `${this.urlJSONServer}/${user.id}`;
+
+  if (!user.entregasPendientes) {
       user.entregasPendientes = [];
-    }
-  
-    // Agregamos las películas al array de entregas pendientes
-    user.entregasPendientes.push(...peliculas); // Agrega todas las películas
-  
-    try {
-      await this.http.patch<User>(url, user).toPromise();
+  }
+
+  peliculas.forEach(p => {
+      if (!user.entregasPendientes.find(ep => ep.id === p.id)) {
+          user.entregasPendientes.push(p);
+      }
+  });
+
+  try {
+      await this.http.patch<User>(url, { entregasPendientes: user.entregasPendientes }).toPromise();
       return { success: true, message: 'Películas agregadas a entregas pendientes correctamente.' };
-    } catch (error) {
+  } catch (error) {
       console.error('Error al agregar películas a entregas pendientes:', error);
       return { success: false, message: 'Error al agregar películas. Por favor, inténtalo de nuevo más tarde.' };
-    }
   }
-  async agregarPeliculaABiblioteca(userId: number, pelicula: Film) {
-    const user = await this.getUserById(userId); // Espera a que la promesa se resuelva
-    console.log("User:", user); // Verifica el usuario
-    if (user) {
-      if (!user.arrayPeliculas) {
-        user.arrayPeliculas = []; // Inicializa si no existe
-      }
-      user.arrayPeliculas.push(pelicula);
+}
+
+  async agregarPeliculaABiblioteca(userId: number, pelicula: Film): Promise<void> {
+    const url = `${this.urlJSONServer}/${userId}`;
+    const user = await this.getUserById(userId);
+    
+    if (!user) throw new Error('Usuario no encontrado');
   
-      // Guardar cambios en el backend
-      try {
-        await this.http.patch<User>(`${this.urlJSONServer}/${user.id}`, user).toPromise();
-      } catch (error) {
-        console.error("Error al agregar película a la biblioteca:", error);
-      }
-    } else {
-      console.error(`No se encontró el usuario con ID: ${userId}`);
-    }
+    // Agregar la película a la biblioteca
+    user.arrayPeliculas.push(pelicula);
+  
+    await this.http.patch<User>(url, { arrayPeliculas: user.arrayPeliculas }).toPromise();
   }
   
-  async eliminarEntregaPendiente(userId: number, pelicula: Film) {
-    const user = await this.getUserById(userId); // Espera a que la promesa se resuelva
-    if (user) {
-        user.entregasPendientes = user.entregasPendientes.filter(p => p.id !== pelicula.id);
-        await this.http.patch<User>(`${this.urlJSONServer}/${user.id}`, user).toPromise(); // Actualiza en el backend
-    }
-  }
+ // Eliminar película de entregas pendientes en el servidor
+async eliminarEntregaPendiente(userId: number, pelicula: Film): Promise<void> {
+  const url = `${this.urlJSONServer}/${userId}`;
+  const user = await this.getUserById(userId);
+  if (!user) throw new Error('Usuario no encontrado');
+
+  user.entregasPendientes = user.entregasPendientes.filter(p => p.id !== pelicula.id);
+  await this.http.patch<User>(url, { entregasPendientes: user.entregasPendientes }).toPromise();
+}
 
   logout() {
     this.usuarioActualSubject.next(null);

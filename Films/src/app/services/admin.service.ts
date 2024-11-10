@@ -38,7 +38,6 @@ export class AdminService {
       if (this.admins.length === 0) {
         const admins = await this.http.get<Admin[]>('http://localhost:5000/admins').toPromise();
         this.admins = admins || [];
-        console.log("ADMINS: ", this.admins);
       }
     } catch (error) {
       console.error('Error al obtener admins:', error);

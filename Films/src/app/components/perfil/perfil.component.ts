@@ -125,17 +125,14 @@ export class PerfilComponent {
     }
     else if (this.userService.storedUser == null && this.userService.storedAdmin)
     {
-      console.log ("ADMIN ACTUAL STORED ADMIN: ", this.userService.storedAdmin)
       this.userService.adminActual$.subscribe (async () =>
       {
         this.adminActual = this.userService.storedAdmin
-        console.log ("ADMIN ACTUAL: ", this.adminActual)
 
         // Verificar si es un administrador
         await this.adminService.loadAdminsFromJSON();
         const isAdmin = this.adminService.getAdmins().some((admin) => admin.id === this.adminActual?.id);
 
-        console.log ("isAdmin: ", isAdmin)
         this.isAdmin = isAdmin;
 
         if (isAdmin) {

@@ -26,7 +26,6 @@ export class AdminCodeComponent {
 
   verifyAdminCode() {
     const codeAdminValue: string | null = this.codeForm.controls['code']?.value ?? null;
-    console.log("CODIGO ADMIN: ", codeAdminValue);
     
     if (this.adminService.obtenerCodigoAdmin(this.adminService.getAdminActual()?.id!) == codeAdminValue) {
       this.sharedService.setAdminCodeVerified(true);

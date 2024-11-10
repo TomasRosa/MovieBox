@@ -117,3 +117,18 @@
     font-size: 1.3rem;
     font-weight: 450;
 }
+
+.aceptar-todas {
+    padding: 0.8rem 1.2rem;
+    font-size: 1.1rem;
+    background-color: #4CAF50; /* Verde para indicar aceptación */
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 1rem;
+    border-radius: 5px;
+  }
+  
+  .aceptar-todas:hover {
+    background-color: #45a049;
+  }

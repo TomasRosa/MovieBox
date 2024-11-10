@@ -40,6 +40,8 @@ export class CarritoService {
   }
 
   obtenerCarrito() {
+    console.log ('CARRITO DE COMPRAS')
+    console.log (this.carritoDeCompras)
     return this.carritoDeCompras;
   }
 
