@@ -5,7 +5,10 @@
 
   <div class="box-total-carrito" *ngIf="entregasPendientes.length > 0">
     <p class="paragraph"> Total del carrito: ARS $ {{totalCarrito}} </p>
-    <button class="button aceptar-todas" (click)="aceptarTodasLasEntregas()">Aceptar todas</button>
+    <div class="box-opciones-con-entrega">
+      <button class="button aceptar-todas" (click)="aceptarTodasLasEntregas()">Aceptar todas</button>
+      <button class="button rechazar-todas" (click)="rechazarTodasLasEntregas()">Rechazar todas</button>
+    </div>
   </div>
 
   <div class="box-films" *ngIf="entregasPendientes.length > 0; else noPendientes">

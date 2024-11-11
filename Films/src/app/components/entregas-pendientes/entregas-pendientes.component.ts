@@ -70,12 +70,24 @@ async loadUserData(userId: number): Promise<void> {
 
   async aceptarTodasLasEntregas() {
     try {
-      for (const film of this.entregasPendientes) { // Copiar el array para evitar mutaciones
+      for (const film of this.entregasPendientes) { 
         await this.aceptarEntrega(film);
       }
       console.log("Todas las entregas aceptadas y actualizadas en la biblioteca del usuario.");
     } catch (error) {
       console.error("Error al aceptar todas las entregas:", error);
+      alert("Hubo un problema al aceptar todas las entregas.");
+    }
+  }
+
+  async rechazarTodasLasEntregas (){
+    try {
+      for (const film of this.entregasPendientes) { 
+        await this.rechazarEntrega (film);
+      }
+      console.log("Todas las entregas rechazadas y actualizadas en la biblioteca del usuario.");
+    } catch (error) {
+      console.error("Error al rechazar todas las entregas:", error);
       alert("Hubo un problema al aceptar todas las entregas.");
     }
   }

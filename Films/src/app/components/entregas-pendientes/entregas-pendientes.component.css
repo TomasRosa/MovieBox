@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-block: 2rem;
+    margin-block: 1.8rem;
 }
 
 .box-title{
@@ -125,10 +125,29 @@
     color: white;
     border: none;
     cursor: pointer;
-    margin-top: 1rem;
-    border-radius: 5px;
-  }
+    border-radius: 5px; 
+    margin-right: 1rem;
+}
   
-  .aceptar-todas:hover {
+.aceptar-todas:hover {
     background-color: #45a049;
-  }
+}
+
+.rechazar-todas{
+    padding: 0.8rem 1.2rem;
+    font-size: 1.1rem;
+    background-color: #c71f1f;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px; 
+}
+
+.rechazar-todas:hover{
+    background-color: #dd1e1e;
+}
+
+.box-opciones-con-entrega{
+    display: flex;
+    justify-content: center;
+}
