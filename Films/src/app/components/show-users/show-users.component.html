@@ -10,9 +10,20 @@
                 <h5  class="paragraph"> {{user.email}} </h5>
             </div>
             <div class="box-options">
-                <button class="button library" (click)="verBiblioteca(user.id)"> Ver Biblioteca </button>
-                <button class="button" (click)="verPagosPendientes(user.id)"> Ver Pagos Pendientes </button>
+                <button class="button option" (click)="verBiblioteca(user.id)"> Ver Biblioteca </button>
+                <button class="button option" (click)="verPagosPendientes(user.id)"> Ver Pagos Pendientes </button>
+                <button class="button option" (click)="openDeleteUserAccountModal(user.firstName, user.lastName, user.id)">Dar de Baja</button>
             </div>
         </div>
     </div>
+    <div *ngIf="openDeleteUserAccount" class="modal-overlay">
+        <div class="modal-content">
+          <h3 class="info-user-to-delete">Está seguro de dar de baja a {{fullnameUserToDelete}}?</h3>
+          <div class="modal-buttons">
+            <button class="button" (click)="closeDeleteUserAccountModal()">Cancelar</button>
+            <button class="button" (click)="deleteUserAccount(idUserToDelete)">Confirmar</button>
+          </div>
+        </div>
+    </div>
+
 </section>
