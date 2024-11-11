@@ -3,7 +3,6 @@
 }
 
 .box-title{
-    margin-bottom: 1.7rem;
     padding: 1rem;
     background-color: #CFCCCC;
 }
@@ -92,6 +91,31 @@
     transition: 0.3s;
 } 
 
+.box-vaciar{
+    margin-top: 0.5rem;
+    display: flex;
+    flex: flex-start;
+    justify-content: center;
+}
+
+.button-vaciar{
+    width: auto;
+    padding-inline: 0.4rem;
+    font-size: 1.1rem;
+    padding-block: 0.4rem;
+    background-color: rgb(207, 204, 204);
+    border: 1px solid transparent;
+    transition: border 0.3s ease, border-radius 0.3s ease;
+    cursor: pointer;
+    color: black;
+    transition: 0.3s;
+}
+
+.button-vaciar:hover{
+    border-radius: 1rem;
+    background-color: rgb(160, 160, 160);
+}
+
 .button-star:hover {
     color: gold; /* Cambia el color de la estrella al pasar el mouse */
 }
@@ -161,8 +185,6 @@
 .btn-carrito:hover .precio {
     opacity: 1; /* Muestra el precio */
 }
-
-
 
 .box-options {
     position: absolute;

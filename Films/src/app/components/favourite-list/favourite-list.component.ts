@@ -57,6 +57,12 @@ export class FavouriteListComponent implements OnInit {
       console.log("Lista de películas actualizada: ", this.arrayFilms);
     });
   }
+
+  vaciarFavouriteList (){
+    for (const film of this.arrayFilms){
+      this.quitarFilmDeFlist (film);
+    }
+  }
   
   quitarFilmDeFlist (film: Film){
     this.Flist.eliminarDeLaListaFavoritos(film);

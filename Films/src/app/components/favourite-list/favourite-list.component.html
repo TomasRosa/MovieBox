@@ -3,6 +3,11 @@
   <div class="box-title">
     <h4 class="title"> {{Flist.listaFav.name.toUpperCase()}} </h4>
   </div>  
+
+  <div class="box-vaciar">
+    <button class="button-vaciar" (click)="vaciarFavouriteList()"> Vaciar Lista </button>
+  </div>
+
   <div *ngFor="let group of getMovieGroups(arrayFilms)" class="box-group-films">
       <div *ngFor="let film of group" class="recuadroCelda film">  
         <div class="box-star">
