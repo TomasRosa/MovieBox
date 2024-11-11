@@ -229,20 +229,29 @@ export class UserService {
     }
   }
 
-  async cargarBiblioteca (user: User, carrito: Array<Film>): Promise<{ success: boolean, message: string }> {
-    const url = `${this.urlJSONServer}/${user.id}`;
-    carrito.forEach(film =>
-    {
+  async cargarBiblioteca(user: User, carrito: Array<Film>): Promise<{ success: boolean, message: string }> {
+    const updatedUser = await this.getUserById(user.id);
+    if (updatedUser) {
+      user.arrayPeliculas = [...updatedUser.arrayPeliculas];
+    }
+  
+    carrito.forEach(film => {
       film.fechaDeAgregado = new Date().toISOString();
-      user.arrayPeliculas.push(film)
-    }) /* AGREGAMOS LAS NUEVAS PELICULAS A SU BIBLIOTECA */
+      user.arrayPeliculas.push(film);
+    });
+  
+    return await this.actualizarBiblioteca(user.id, user.arrayPeliculas);
+  }
 
+  async actualizarBiblioteca(userId: number, arrayPeliculas: Film[]): Promise<{ success: boolean, message: string }> {
+    const url = `${this.urlJSONServer}/${userId}`;
+  
     try {
-      await this.http.patch<User>(url, user).toPromise();
-      return { success: true, message: '¡Compra realizada con exito!.' };
+      await this.http.patch<User>(url, { arrayPeliculas }).toPromise();
+      return { success: true, message: 'Biblioteca actualizada correctamente.' };
     } catch (error) {
-      console.error('Error al realizar la compra:', error);
-      return { success: false, message: 'Error al realizar la compra. Por favor, inténtalo de nuevo más tarde.' };    
+      console.error('Error al actualizar la biblioteca:', error);
+      return { success: false, message: 'Error al actualizar la biblioteca. Inténtalo de nuevo más tarde.' };
     }
   }
 

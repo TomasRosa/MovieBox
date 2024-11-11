@@ -34,8 +34,7 @@ export class BibliotecaComponent
     await this.initializateLibrary()
   }
 
-  async initializateLibrary (): Promise<void>
-  {
+  async initializateLibrary(): Promise<void> {
     this.userService.isLoggedIn$.subscribe((isLoggedIn: boolean | null) => {
       this.isLoggedIn = isLoggedIn;
     });
@@ -49,14 +48,16 @@ export class BibliotecaComponent
       return;
     } else if (this.isAdmin) {
       // Obtener el userId desde los parámetros de la URL
-      let userId =+ this.route.snapshot.paramMap.get('userId')!;
-      console.log ("USER ID: ", userId)
+      const userId = +this.route.snapshot.paramMap.get('userId')!;
+      console.log("USER ID: ", userId);
+      
       if (userId) {
         const loadedUser = await this.userService.loadUserBibliotecaById(userId);
-        console.log ("LOADED USER: ", loadedUser)
+        console.log("LOADED USER: ", loadedUser);
+        
         if (loadedUser) {
           this.usuarioActual = loadedUser;
-          this.movieLibrary = loadedUser.arrayPeliculas;
+          this.movieLibrary = [...loadedUser.arrayPeliculas]; // Clonamos arrayPeliculas
           this.validarBibliotecaVacia();
         }
       } else {
@@ -66,18 +67,21 @@ export class BibliotecaComponent
       // Caso para un usuario logueado no admin
       this.userService.usuarioActual$.subscribe(async (usuario: User | null) => {
         this.usuarioActual = usuario;
+        
         if (this.usuarioActual) {
           const loadedUser = await this.userService.loadUserBibliotecaById(this.usuarioActual.id);
+          
           if (loadedUser) {
-            this.movieLibrary = loadedUser.arrayPeliculas;
+            this.movieLibrary = [...loadedUser.arrayPeliculas]; // Clonamos arrayPeliculas
           }
         }
         this.validarBibliotecaVacia();
       });
     }
+  
     this.startCountdown();
   }
-
+  
   ngOnDestroy(): void {
     if (this.intervalId) {
       clearInterval(this.intervalId);
@@ -119,19 +123,27 @@ export class BibliotecaComponent
     else this.bibliotecaVacia = false
   }
 
-  async devolverPelicula (film: Film | undefined){
-    if (this.movieLibrary && film){
-      const index = this.movieLibrary.indexOf(film); 
+  async devolverPelicula(film: Film | undefined): Promise<void> {
+    if (this.usuarioActual && film) {
+      const loadedUser = await this.userService.getUserById(this.usuarioActual.id);
+      if (loadedUser) {
+        this.usuarioActual = loadedUser;
+        this.movieLibrary = [...loadedUser.arrayPeliculas];
+      }
+  
+      const index = this.movieLibrary.findIndex(p => p.id === film.id);
       if (index !== -1) {
         this.movieLibrary.splice(index, 1);
-        await this.userService.devolverFilm (this.usuarioActual as User, this.movieLibrary)
-        if (this.movieLibrary.length == 0)
-        {
+        
+        // Sincronizar la biblioteca en el servidor
+        await this.userService.actualizarBiblioteca(this.usuarioActual.id, this.movieLibrary);
+        if (this.movieLibrary.length === 0) {
           this.bibliotecaVacia = true;
         }
       }
     }
   }
+  
 
   navegarFilmDetail(id: number) {
     this.sharedService.navegarFilmDetail (id);

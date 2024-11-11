@@ -27,7 +27,7 @@
       </div>
       <div class="box-options">
         <button class="button ficha-tecnica" (click)="navegarFilmDetail(film.rank)">Detalles</button>
-        <button *ngIf="!isAdmin" class="button-devolucion" (click)="devolverPelicula(film)">Devolver Pelicula</button>
+        <button *ngIf="isAdmin" class="button-devolucion" (click)="devolverPelicula(film)">Devolver Pelicula</button>
       </div>
     </div>
   </div>
@@ -47,9 +47,6 @@
 <div *ngIf="bibliotecaVacia" class="classDiv">
   <div *ngIf = "!isAdmin" class="box-empty">
     <p class="text-empty">Su biblioteca se encuentra vacia!</p> 
-  </div>
-  <div *ngIf = "isAdmin" class="box-title">
-    <h3 class="title">BIBLIOTECA DEL USUARIO</h3>
   </div>
   <div *ngIf = "isAdmin" class="box-empty">
     <p class="text-empty">La biblioteca se encuentra vacia</p> 
