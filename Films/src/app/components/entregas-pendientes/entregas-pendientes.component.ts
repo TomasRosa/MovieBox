@@ -5,6 +5,7 @@ import { UserService } from 'src/app/services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BibliotecaComponent } from '../biblioteca/biblioteca.component';
+import { DeudaService } from 'src/app/services/deuda.service';
 
 @Component({
   selector: 'app-entregas-pendientes',
@@ -23,6 +24,7 @@ export class EntregasPendientesComponent implements OnInit {
 
   constructor(
     private userService: UserService,
+    private deudaService: DeudaService,
     private route: ActivatedRoute
   ) {}
 
@@ -59,12 +61,16 @@ async loadUserData(userId: number): Promise<void> {
 
   async aceptarEntrega(pelicula: Film) {
     if (this.usuarioActual) {
-      await this.userService.agregarPeliculaABiblioteca(this.usuarioActual.id, pelicula);
+      let peliculas: Film [] = []
+      peliculas.push(pelicula)
+      // Recargar usuario actualizado después de la aceptación
+      await this.userService.cargarBiblioteca (this.usuarioActual, peliculas)
+
       await this.rechazarEntrega(pelicula);
       this.calcularTotalCarrito(this.usuarioActual.entregasPendientes);
-
-      // Recargar usuario actualizado después de la aceptación
+      
       await this.loadUserData(this.usuarioActual.id);
+      await this.deudaService.startCountdown(this.usuarioActual.entregasPendientes)
     }
   }
 

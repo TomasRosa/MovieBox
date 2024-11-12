@@ -21,6 +21,7 @@ export class SharedServicesService {
     this.isLoggedIn$.subscribe((isLoggedIn: boolean | null) => {
       this.addFilmToCart = isLoggedIn; 
     });
+
   }
 
   getadminCodeVerified(): boolean {

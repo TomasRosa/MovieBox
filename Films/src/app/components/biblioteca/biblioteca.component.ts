@@ -27,6 +27,7 @@ export class BibliotecaComponent
     private userService: UserService,
     private Flist: FavouriteListService,
     private sharedService: SharedServicesService,
+    public deudaService: DeudaService,
     private route: ActivatedRoute // Importar el servicio de rutas activas
   ) { }
   
@@ -49,15 +50,19 @@ export class BibliotecaComponent
     } else if (this.isAdmin) {
       // Obtener el userId desde los parámetros de la URL
       const userId = +this.route.snapshot.paramMap.get('userId')!;
-      console.log("USER ID: ", userId);
       
       if (userId) {
         const loadedUser = await this.userService.loadUserBibliotecaById(userId);
-        console.log("LOADED USER: ", loadedUser);
         
         if (loadedUser) {
           this.usuarioActual = loadedUser;
-          this.movieLibrary = [...loadedUser.arrayPeliculas]; // Clonamos arrayPeliculas
+          this.movieLibrary = [...this.usuarioActual.arrayPeliculas]; // Clonamos arrayPeliculas
+
+          let flag = await this.deudaService.startCountdown(this.movieLibrary);
+          if (flag)
+          {
+             this.intervalId = this.deudaService.intervalId;
+          }
           this.validarBibliotecaVacia();
         }
       } else {
@@ -73,50 +78,28 @@ export class BibliotecaComponent
           
           if (loadedUser) {
             this.movieLibrary = [...loadedUser.arrayPeliculas]; // Clonamos arrayPeliculas
+
+            let flag = await this.deudaService.startCountdown(this.movieLibrary);
+            if (flag)
+            {
+              this.intervalId = this.deudaService.intervalId;
+            }
           }
         }
         this.validarBibliotecaVacia();
       });
     }
-  
-    this.startCountdown();
+
+    this.countdowns = this.deudaService.countdowns;
   }
   
-  ngOnDestroy(): void {
+  ngOnDestroy(): void 
+  {
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
   }
 
-  getTiempoRestante(fechaDeAgregado: string): string {
-    const hoy = new Date();
-    const fechaAgregada = new Date(fechaDeAgregado);
-    const diferencia = 7 * 24 * 60 * 60 * 1000 - (hoy.getTime() - fechaAgregada.getTime());
-
-    if (diferencia <= 0) {
-      return '00:00:00';
-    }
-
-    const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-    const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
-    const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
-
-    if (dias > 0) {
-      return `${dias} d ${horas} hs ${minutos} m ${segundos} s`;
-    } else {
-      return `${horas}:${minutos}:${segundos}`;
-    }
-  }
-
-  startCountdown(): void {
-    this.intervalId = setInterval(() => {
-      this.movieLibrary.forEach(film => {
-        const timeRemaining = this.getTiempoRestante(film.fechaDeAgregado!);
-        this.countdowns[film.id] = timeRemaining;
-      });
-    }, 1000);
-  }
 
   validarBibliotecaVacia (){
     if (this.movieLibrary.length == 0) this.bibliotecaVacia = true
