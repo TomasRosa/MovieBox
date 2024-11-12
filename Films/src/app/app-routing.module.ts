@@ -17,29 +17,30 @@ import { AdminCodeComponent } from './components/admin-code/admin-code.component
 import { RecuperarContrasenaComponent } from './components/recuperar-contrasena/recuperar-contrasena.component';
 import { ShowUsersComponent } from './components/show-users/show-users.component';
 import { EntregasPendientesComponent } from './components/entregas-pendientes/entregas-pendientes.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
-  { path: 'inicio', component: InicioComponent },
-  { path: 'sobre-nosotros', component: SobreNosotrosComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'registrarse', component: RegisterComponent },
-  { path: 'ofertas', component: OfertasComponent },
-  { path: 'not-found', component: NotFoundComponent },
-  { path: 'carrito', component: CarritoComponent},
-  { path: 'perfil', component: PerfilComponent},
-  { path: 'tarjeta', component: TarjetaComponent},
-  { path: 'biblioteca', component: BibliotecaComponent},
-  { path: 'biblioteca/:userId', component: BibliotecaComponent },
-  { path: 'film-detail/:rank', component: FilmDetailComponent},
-  { path: 'favourite-list', component: FavouriteListComponent},
-  { path: '', redirectTo: '/inicio', pathMatch: 'full'},
-  { path: 'movies/:category', component: MovieListComponentsComponent },
-  { path: 'admin-code', component: AdminCodeComponent},
-  { path: 'recuperar-contrasena',component:RecuperarContrasenaComponent},
-  { path: 'showUsers',component:ShowUsersComponent},
-  { path: 'entregas-pendientes',component:EntregasPendientesComponent},
-  { path: 'entregas-pendientes/:id',component:EntregasPendientesComponent},
-  { path: '**', component: NotFoundComponent}
+  { path: 'inicio', component: InicioComponent }, // Ruta pública sin AuthGuard
+  { path: 'sobre-nosotros', component: SobreNosotrosComponent }, // Ruta pública sin AuthGuard
+  { path: 'login', component: LoginComponent }, // Ruta pública sin AuthGuard
+  { path: 'registrarse', component: RegisterComponent }, // Ruta pública sin AuthGuard
+  { path: 'ofertas', component: OfertasComponent }, // Ruta pública sin AuthGuard
+  { path: 'not-found', component: NotFoundComponent }, // Ruta pública sin AuthGuard
+  { path: 'carrito', component: CarritoComponent, canActivate: [AuthGuard] }, // Ruta protegida
+  { path: 'perfil', component: PerfilComponent, canActivate: [AuthGuard] }, // Ruta protegida
+  { path: 'tarjeta', component: TarjetaComponent, canActivate: [AuthGuard] }, // Ruta protegida
+  { path: 'biblioteca', component: BibliotecaComponent, canActivate: [AuthGuard] }, // Ruta protegida
+  { path: 'biblioteca/:userId', component: BibliotecaComponent, canActivate: [AuthGuard] }, // Ruta protegida
+  { path: 'film-detail/:rank', component: FilmDetailComponent }, // Ruta pública sin AuthGuard
+  { path: 'favourite-list', component: FavouriteListComponent, canActivate: [AuthGuard] }, // Ruta protegida
+  { path: '', redirectTo: '/inicio', pathMatch: 'full' }, // Redirección a la página de inicio
+  { path: 'movies/:category', component: MovieListComponentsComponent }, // Ruta pública sin AuthGuard
+  { path: 'admin-code', component: AdminCodeComponent, canActivate: [AuthGuard] }, // Ruta protegida por admin
+  { path: 'recuperar-contrasena', component: RecuperarContrasenaComponent }, // Ruta pública sin AuthGuard
+  { path: 'showUsers', component: ShowUsersComponent, canActivate: [AuthGuard] }, // Ruta protegida por admin
+  { path: 'entregas-pendientes', component: EntregasPendientesComponent, canActivate: [AuthGuard] }, // Ruta protegida
+  { path: 'entregas-pendientes/:id', component: EntregasPendientesComponent, canActivate: [AuthGuard] }, // Ruta protegida
+  { path: '**', component: NotFoundComponent } // Ruta para errores
 ];
 
 @NgModule({

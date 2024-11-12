@@ -14,13 +14,13 @@ import { User } from 'src/app/models/user';
   styleUrls: ['./inicio-aux.component.css']
 })
 
-export class InicioAuxComponent implements OnInit{
+export class InicioAuxComponent implements OnInit {
   films: any;
-  usuarioActual: User = new User ();
+  usuarioActual: User = new User();
   preciosGenerados: boolean = false;
   filteredFilms: any[] = [];
-  favouriteFilms: Array<Film> = [];
-  searchFilms: Film [] = [];
+  favouriteFilms: Array<Film> = [];  // Inicialización como arreglo vacío
+  searchFilms: Film[] = [];
   isLoggedIn: Boolean | null = false;
   isAdmin: Boolean | null = false;
 
@@ -32,26 +32,26 @@ export class InicioAuxComponent implements OnInit{
     private userService: UserService
   ) {}
 
-   async ngOnInit(): Promise<void> {
-    this.userService.isLoggedIn$.subscribe ( (isLoggedIn) =>{
-      this.isLoggedIn = isLoggedIn
-    })
-    
-    if (this.userService.storedAdmin){
+  async ngOnInit(): Promise<void> {
+    this.userService.isLoggedIn$.subscribe(isLoggedIn => {
+      this.isLoggedIn = isLoggedIn;
+    });
+
+    if (this.userService.storedAdmin) {
       this.isAdmin = true;
     }
 
     this.dataFilms.initializeData().then(() => {
       this.films = this.dataFilms.getMovies();
       this.filteredFilms = this.films.filter((film: Film) => film.precio <= 1500);
-    })
+    });
 
-    if (this.isLoggedIn){
-      this.userService.usuarioActual$.subscribe ((user)=>{
+    if (this.isLoggedIn) {
+      this.userService.usuarioActual$.subscribe(user => {
         this.usuarioActual = user as User;
-        this.favouriteFilms = this.usuarioActual.fav_list.arrayPeliculas;
-        this.Flist.loadFavouriteListFromServer (this.usuarioActual.id)
-      })
+        this.favouriteFilms = this.usuarioActual.fav_list?.arrayPeliculas || [];  // Asegurarse de que sea un arreglo
+        this.Flist.loadFavouriteListFromServer(this.usuarioActual.id);
+      });
     }
 
     this.Flist.getChangesObservable().subscribe(() => {
@@ -63,7 +63,11 @@ export class InicioAuxComponent implements OnInit{
     });
   }
 
+  // Verifica que favouriteFilms no sea undefined antes de intentar acceder a 'some'
   isFavourite(film: Film): boolean {
+    if (!this.favouriteFilms) {
+      return false; // Si favouriteFilms no está definido, devuelve false
+    }
     return this.favouriteFilms.some((favFilm) => favFilm.id === film.id);
   }
 
@@ -77,16 +81,16 @@ export class InicioAuxComponent implements OnInit{
   }
 
   agregarPeliculaAlCarrito(film: Film) {
-    this.sharedService.agregarPeliculaAlCarrito (film);
-  } 
+    this.sharedService.agregarPeliculaAlCarrito(film);
+  }
 
   navegarFilmDetail(id: number) {
-    this.sharedService.navegarFilmDetail (id);
+    this.sharedService.navegarFilmDetail(id);
   }
 
   getMovieGroups(movies: any[]): any[][] {
     return this.sharedService.getMovieGroups(movies);
-  }  
+  }
 
   isFilled: boolean = false;
 
@@ -98,19 +102,19 @@ export class InicioAuxComponent implements OnInit{
     this.isFilled = false;
   }
 
-  changeButtonStar () {
-    const boton = document.getElementById ("buttonStar");
+  changeButtonStar() {
+    const boton = document.getElementById("buttonStar");
     if (boton) {
-      boton.textContent = "★"
-      this.isFilled = true
+      boton.textContent = "★";
+      this.isFilled = true;
     }
   }
 
-  agregarALaListaDeFavoritos (film: Film) {
+  agregarALaListaDeFavoritos(film: Film) {
     this.Flist.agregarALaLista(film);
   }
-  
+
   navegarFavouriteList() {
     this.sharedService.navegarFavouriteList();
-  } 
+  }
 }
