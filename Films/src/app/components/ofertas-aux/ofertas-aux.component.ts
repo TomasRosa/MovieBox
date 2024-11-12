@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Film } from 'src/app/models/film';
+import { User } from 'src/app/models/user';
 import { CarritoService } from 'src/app/services/carrito.service';
 import { FavouriteListService } from 'src/app/services/favourite-list.service';
 import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
@@ -16,6 +17,8 @@ export class OfertasAuxComponent implements OnInit {
   private originalFilms: any;
   filteredFilms: any[] = [];
   isLoggedIn: Boolean | null = false;
+  usuarioActual: User = new User ();
+  favouriteFilms: Array<Film> = [];
 
   constructor(
     private dataFilms: FilmsFromAPIService, 
@@ -33,7 +36,33 @@ export class OfertasAuxComponent implements OnInit {
     this.userService.isLoggedIn$.subscribe ((isLoggedIn: boolean | null) =>{
       this.isLoggedIn = isLoggedIn; 
     })
+
+    if (this.isLoggedIn){
+      this.userService.usuarioActual$.subscribe ((user)=>{
+        this.usuarioActual = user as User;
+        this.favouriteFilms = this.usuarioActual.fav_list.arrayPeliculas;
+        this.Flist.loadFavouriteListFromServer (this.usuarioActual.id)
+      })
+    }
+
+    this.Flist.getChangesObservable().subscribe(() => {
+      this.favouriteFilms = [...this.Flist.listaFav.arrayPeliculas];
+    });
   }
+
+  isFavourite(film: Film): boolean {
+    return this.favouriteFilms.some((favFilm) => favFilm.id === film.id);
+  }
+
+  async toggleFavourite(film: Film) {
+    if (this.isFavourite(film)) {
+      await this.Flist.eliminarDeLaListaFavoritos(film);  // Quitar de favoritos
+    } else {
+      await this.Flist.agregarALaLista(film); // Agregar a favoritos
+    }
+    this.Flist.loadFavouriteListFromServer(this.usuarioActual.id);
+  }
+
 
   getMovieGroups(movies: any[]): any[][] {
     return this.sharedService.getMovieGroups(movies);

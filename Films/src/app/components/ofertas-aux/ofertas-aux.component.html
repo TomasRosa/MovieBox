@@ -6,8 +6,11 @@
     <div *ngFor="let group of getMovieGroups(filteredFilms)" class="box-group-films">
       <div *ngFor="let film of group" class="recuadroCelda film">  
         <div class="box-star">
-          <button id = "buttonStar" (click)="agregarALaListaDeFavoritos(film)" class = "button-star">
-            ☆
+          <button 
+            (click)="toggleFavourite(film)" 
+            class="button-star"
+          >
+            {{ isFavourite(film) ? '★' : '☆' }}
           </button>
         </div>
 
