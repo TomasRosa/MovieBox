@@ -141,10 +141,23 @@ export class UserService {
       flag = true;
       if (flag){
         this.logout ()
-        console.log (this.users)
         this.users = this.users.filter(user => user.id !== userToDelete.id);
-        console.log (this.users)
       }
+      return { success: true, message: 'Usuario eliminado correctamente.' };
+    } catch (error) {
+      console.error('Error al eliminar el usuario:', error);
+      return { success: false, message: 'Error al eliminar el usuario. Por favor, inténtalo de nuevo más tarde.' };
+    }
+  }
+
+  async deleteUserByAdmin (userIdToDelete: number): Promise<{ success: boolean, message: string }>{
+    const url = `${this.urlJSONServer}/${userIdToDelete}`;
+    let flag = false;
+    try {
+      await this.http.delete<User>(url).toPromise();
+      flag = true;
+      if (flag)
+        this.users = this.users.filter(user => user.id !== userIdToDelete);   
       return { success: true, message: 'Usuario eliminado correctamente.' };
     } catch (error) {
       console.error('Error al eliminar el usuario:', error);

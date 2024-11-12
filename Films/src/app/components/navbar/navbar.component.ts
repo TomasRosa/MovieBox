@@ -49,7 +49,6 @@ export class NavbarComponent implements OnInit {
       const fetchedFilms = this.filmsFromAPIService.getMovies ();
       if (fetchedFilms) {
         this.films = fetchedFilms;
-        console.log(fetchedFilms)
       } 
       else{
           console.log('Array de peliculas nulo');
@@ -60,7 +59,6 @@ export class NavbarComponent implements OnInit {
 
     this.userService.isLoggedIn$.subscribe((isLoggedIn: boolean | null) => {
       this.isLoggedIn = isLoggedIn || false;
-      console.log ("IS LOGGED IN NAVBAR: ", this.isLoggedIn)
       if (this.isLoggedIn)
       {
         if (this.isAdmin)

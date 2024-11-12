@@ -56,8 +56,8 @@
     flex: 1; /* Cada sección toma el mismo espacio disponible */
 }
 
-.library{
-    margin-bottom: 0.1rem;
+.option{
+    margin-top: 0.1rem;
 }
 
 .button{
@@ -74,4 +74,34 @@
 .button:hover{
     background-color: rgb(164, 164, 164);
     border-radius: 1rem;
+}
+
+.info-user-to-delete{
+    color: aliceblue;
+}
+
+.modal-overlay {
+    background-color: rgba(0, 0, 0, 0.8); 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 10%; 
+    left: 50%;
+    transform: translate(-50%, -20%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+  
+.modal-content {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+  
+.modal-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
 }
