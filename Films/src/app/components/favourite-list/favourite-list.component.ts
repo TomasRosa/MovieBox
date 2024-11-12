@@ -19,7 +19,7 @@ export class FavouriteListComponent implements OnInit {
   ) {
     this.Flist.getChangesObservable().subscribe(() => {
       this.arrayFilms = this.Flist.listaFav.arrayPeliculas;
-  });
+    });
   }
 
   ngOnInit(): void {

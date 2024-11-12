@@ -93,6 +93,14 @@
     color: gold; /* Cambia el color de la estrella al pasar el mouse */
 }
 
+.button-star {
+    color: gray;
+  }
+  
+.button-star.filled {
+    color: gold;
+}
+
 .image{
     height: 350px;
     width: 215px;

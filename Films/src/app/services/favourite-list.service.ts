@@ -4,7 +4,7 @@ import { FavouriteList } from '../models/f-list';
 import { User } from '../models/user';
 import { UserService } from './user.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -23,16 +23,9 @@ export class FavouriteListService {
     
   }
   
-  agregarALaLista(film: Film) 
-  {
-    if (this.verificarRepetidos(film))
-    {
-      alert("La pelicula ya se encuentra en su lista")
-    }
-    else
-    {
+  agregarALaLista(film: Film) {
       this.listaFav.arrayPeliculas.push(film);
-  
+      this.notifyChanges(); 
       if (this.user) {
         const updatedUser = { ...this.user, fav_list: this.listaFav };
     
@@ -40,8 +33,7 @@ export class FavouriteListService {
           .subscribe(
             () => {
               console.log("Lista de favoritos actualizada en el servidor.");
-              if (this.user)
-              {
+              if (this.user){
                 this.loadFavouriteListFromServer(this.user.id);
               }
             },
@@ -50,7 +42,6 @@ export class FavouriteListService {
             }
           );
       }
-    }
   }
 
   verificarRepetidos (film: Film): Boolean
@@ -90,8 +81,7 @@ export class FavouriteListService {
     return this.changesSubject.asObservable();
   }
 
-  obtenerFilmsDeLista() 
-  {
+  obtenerFilmsDeLista() {
     if (this.listaFav.arrayPeliculas.length == 0)
     {
        this.listaFav.arrayPeliculas = this.user!.fav_list.arrayPeliculas
@@ -120,6 +110,7 @@ export class FavouriteListService {
         if (userFromServer.fav_list && userFromServer.fav_list.arrayPeliculas) {
           this.listaFav = userFromServer.fav_list;
           this.listaFav.name = "Tu lista de favoritos"
+          this.notifyChanges();
         } else {
           this.listaFav = { name: 'Tu lista de favoritos', arrayPeliculas: [] };
         }
