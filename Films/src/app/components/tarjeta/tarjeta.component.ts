@@ -105,7 +105,6 @@ export class TarjetaComponent {
           } else this.result = res.message;
         }
         this.carritoService.limpiarCarrito();
-        // this.deudaService.iniciarDeuda();
       } else {
         this.result = "Saldo insufuciente! Intente mas tarde";
       }
