@@ -3,42 +3,52 @@ import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from
 import { UserService } from './services/user.service';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import { AdminService } from './services/admin.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private userService: UserService, private router: Router, private adminService: AdminService) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> {
     const user = this.userService.getUserActual(); // Obtenemos el usuario actual del servicio
-    const isAdmin = user?.role === 'admin'; // Verificamos si el usuario es un administrador
-
+    const isAdminLoggedIn = this.userService.getAdminActual();
+    
     // Rutas públicas que todos los usuarios pueden ver, sin importar su estado de login
     const publicRoutes = [
-      '/inicio', '/sobre-nosotros', '/ofertas', '/not-found',
-      '/film-detail', '/movies'
+      'inicio', 
+      'sobre-nosotros', 
+      'ofertas', 
+      'not-found',
+      'film-detail', 
+      'movies'
     ];
 
     // Rutas que solo pueden ver los usuarios logueados
     const loggedRoutes = [
-      '/carrito', '/tarjeta', '/biblioteca', '/favourite-list'
+      'carrito', 
+      'tarjeta', 
+      'biblioteca', 
+      'favourite-list'
     ];
 
     // Rutas que solo los administradores pueden ver
     const adminRoutes = [
-      '/biblioteca/:userId', '/admin-code', '/showUsers',
-      '/entregas-pendientes', '/entregas-pendientes/:id'
+      'biblioteca/:id', 
+      'admin-code', 
+      'showUsers',
+      'entregas-pendientes'
     ];
 
     // Rutas que solo los usuarios no logueados pueden ver (invitados)
-    const guestRoutes = ['/login', '/registrarse', '/recuperar-contrasena'];
+    const guestRoutes = ['login', 'registrarse', 'recuperar-contrasena'];
 
     // Ruta del perfil, solo accesible para usuarios logueados
-    const profileRoute = ['/perfil'];
+    const profileRoute = ['perfil'];
 
     const path = route.routeConfig?.path || ''; // Obtenemos la ruta actual
 
@@ -47,8 +57,6 @@ export class AuthGuard implements CanActivate {
       map((isLoggedIn: boolean | null) => {
         // Si isLoggedIn es null o false, significa que el usuario no está logueado
         const loggedInStatus = isLoggedIn !== null && isLoggedIn !== false;
-
-        console.log(loggedInStatus);
 
         // Lógica de acceso para las rutas públicas: Accesibles para todos los usuarios
         if (publicRoutes.some(route => path.startsWith(route))) {
@@ -61,10 +69,10 @@ export class AuthGuard implements CanActivate {
         }
 
         // Lógica de acceso para rutas de administradores
-        if (adminRoutes.some(route => path.startsWith(route))) {
-          if (isAdmin) return true; // Solo los administradores pueden acceder a estas rutas
+        if (adminRoutes.some(route => path.startsWith(route.replace(':id', '')))) {
+          if (isAdminLoggedIn) return true;
         }
-
+        
         // Lógica de acceso para rutas de usuarios no logueados (invitados)
         if (guestRoutes.some(route => path.startsWith(route))) {
           if (!loggedInStatus) return true; // Solo los usuarios no logueados pueden acceder
@@ -74,7 +82,7 @@ export class AuthGuard implements CanActivate {
         if (profileRoute.some(route => path.startsWith(route))) {
           if (loggedInStatus) return true; // Solo logueados pueden acceder al perfil
         }
-
+        console.log('Redireccionando a inicio, no se cumplen las condiciones de acceso');
         // Si no se cumple ninguna de las condiciones anteriores, redirigimos a la página de inicio
         this.router.navigate(['/inicio']);
         return false;

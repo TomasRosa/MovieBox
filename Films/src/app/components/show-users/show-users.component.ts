@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
@@ -8,14 +8,18 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './show-users.component.html',
   styleUrls: ['./show-users.component.css']
 })
-export class ShowUsersComponent {
+export class ShowUsersComponent implements OnInit{
   users: User[] = [];
   openDeleteUserAccount: boolean = false;
   fullnameUserToDelete: String = '';
   idUserToDelete: number = -1;
 
-  constructor (private userService: UserService, private router: Router){
-    this.users = userService.getUsers();
+  constructor (private userService: UserService, private router: Router){}
+
+  async ngOnInit (){
+    const usersFromJSON = await this.userService.getUsersFromJSON();
+    if (usersFromJSON)
+      this.users = usersFromJSON;
   }
 
   verBiblioteca(id: number) {

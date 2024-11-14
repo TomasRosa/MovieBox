@@ -57,22 +57,12 @@ export class NavbarComponent implements OnInit {
       console.error(error);
     }
 
+    if (this.userService.getAdminFromStorage ()){
+      this.isAdmin = true;
+    }
+
     this.userService.isLoggedIn$.subscribe((isLoggedIn: boolean | null) => {
       this.isLoggedIn = isLoggedIn || false;
-      if (this.isLoggedIn)
-      {
-        if (this.isAdmin)
-        {
-          this.isAdmin = false
-          this.adminService.isLoggedInSubject.next(false)
-        }
-        else
-        {
-          this.adminService.isLoggedIn$.subscribe((isAdminLoggedIn: boolean | null) => {
-            this.isAdmin = isAdminLoggedIn || false;
-         });
-        }
-      }
     });
 
     this.formControl.valueChanges.subscribe(query => {

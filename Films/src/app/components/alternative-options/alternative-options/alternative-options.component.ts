@@ -18,19 +18,17 @@ export class AlternativeOptionsComponent {
 
   constructor(private filmsService: FilmsFromAPIService, private routerService: Router, private sharedService: SharedServicesService, private userService: UserService) {}
 
-  ngOnInit ()
-  {
+  ngOnInit (){
     this.userService.isLoggedIn$.subscribe((isLoggedIn: boolean | null) => {
       this.isLoggedIn = isLoggedIn;
     });
 
-    if (this.userService.storedAdmin)
-    {
+    if (this.userService.getAdminFromStorage ()){
       this.isAdmin = true;
     }
   }
-  showCategories()
-  {
+
+  showCategories(){
     this.isFocused= true;
   }
 

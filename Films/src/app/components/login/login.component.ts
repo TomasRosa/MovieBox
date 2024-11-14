@@ -70,6 +70,7 @@ export class LoginComponent implements OnInit {
         this.userService.storedAdmin = null;
         this.router.navigate(['/inicio']);
       } else if (isUserValid.isAdmin) {
+        this.userService.setAdminActual(isUserValid.admin!);
         this.adminService.setAdminActual(isUserValid.admin!);
         this.navegarAdminCode(isUserValid.isAdmin)
       } else {

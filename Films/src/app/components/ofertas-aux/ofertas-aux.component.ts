@@ -80,12 +80,10 @@ export class OfertasAuxComponent implements OnInit {
     this.sharedService.navegarFavouriteList();
   } 
 
-  agregarPeliculaAlCarrito (film: Film){
-    if(this.isLoggedIn){
-      this.carritoService.agregarAlCarrito(film)
-    }
-    else{
-      alert("Debes iniciar sesion para agregar peliculas al carrito. ");
-    }
-  } 
+  agregarPeliculaAlCarrito(film: Film) {
+    if (this.isLoggedIn)
+      this.sharedService.agregarPeliculaAlCarrito(film);
+    else
+      alert ('Debes iniciar sesion para agregar al carrito.')
+  }
 }

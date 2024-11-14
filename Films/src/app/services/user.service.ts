@@ -8,6 +8,7 @@ import { Tarjeta } from '../models/tarjeta';
 import { Admin } from '../models/admin';
 import { AdminService } from './admin.service';
 import { SharedServicesService } from './shared-services.service';
+import { useAnimation } from '@angular/animations';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,7 @@ export class UserService {
   private users: User[] = [];
   usuarioActualSubject: BehaviorSubject<User | null>;
   private adminActualSubject: BehaviorSubject<Admin | null>;
-  public isLoggedInSubject: BehaviorSubject<boolean | null>;
+  public isLoggedInSubject: BehaviorSubject<boolean>;
   public storedUser: User | null = null;
   public storedAdmin: Admin | null = null;
   public showFormAddCard: BehaviorSubject <boolean | null>;
@@ -27,54 +28,86 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private adminService: AdminService,
-    private sharedService: SharedServicesService
+    private adminService: AdminService
   ) {
-    this.usuarioActualSubject = new BehaviorSubject<User | null>(null);
-    this.adminActualSubject = new BehaviorSubject<Admin | null>(null);
-    this.isLoggedInSubject = new BehaviorSubject<boolean | null>(null);
+    this.usuarioActualSubject = new BehaviorSubject<User | null>(this.getUserFromStorage());
+    this.adminActualSubject = new BehaviorSubject<Admin | null>(this.getAdminFromStorage());
+    this.isLoggedInSubject = new BehaviorSubject<boolean>(!!this.getUserFromStorage() || !!this.getAdminFromStorage());
     this.showFormAddCard = new BehaviorSubject<boolean | null>(null);
 
-    if (this.storedUser && this.storedAdmin == null) 
-    {
-      console.log ("ENTRE A IF 1")
-      this.usuarioActualSubject.next(this.storedUser);
-      this.isLoggedInSubject.next (true);
+    this.loadUsersFromJSON();
+    this.adminService.loadAdminsFromJSON();
+  }
 
-      if (!this.storedUser.fav_list) {
-        this.loadFavouriteListFromServer(this.storedUser.id).subscribe(favList => {
-          this.storedUser!.fav_list = favList;
-          this.setUsuarioActual(this.storedUser);
-        });
-      }
-    } else if (this.storedUser == null && this.storedAdmin)
-    {
-      console.log ("ENTRE A IF 2")
-      this.adminActualSubject.next(this.storedAdmin);
-      this.isLoggedInSubject.next (true);
+  saveUserToStorage(usuario: User | null): void {
+    if (usuario) {
+      this.usuarioActualSubject.next (usuario);
+      localStorage.setItem('currentUser', JSON.stringify(usuario));
+    } else {
+      localStorage.removeItem('currentUser');
     }
-    else {
-      console.log ("ENTRE A ELSE")
-      this.loadUsersFromJSON();
-      this.adminService.loadAdminsFromJSON();
+  }
+
+  // Cargar usuario de localStorage
+  getUserFromStorage(): User | null {
+    const storedUser = localStorage.getItem('currentUser');
+    return storedUser ? JSON.parse(storedUser) : null;
+  }
+
+  // Guardar administrador en localStorage
+  private saveAdminToStorage(admin: Admin | null): void {
+    if (admin) {
+      this.adminService.setAdminActual (admin);
+      localStorage.setItem('currentAdmin', JSON.stringify(admin));
+    } else {
+      localStorage.removeItem('currentAdmin');
     }
+  }
+
+  // Cargar administrador de localStorage
+  getAdminFromStorage(): Admin | null {
+    const storedAdmin = localStorage.getItem('currentAdmin');
+    return storedAdmin ? JSON.parse(storedAdmin) : null;
+  }
+
+  setUsuarioActual(usuario: User | null): void {
+    this.saveUserToStorage(usuario);
+    this.usuarioActualSubject.next(usuario);
+    this.isLoggedInSubject.next(true);
+  }
+
+  // Establecer administrador actual
+  setAdminActual(admin: Admin | null): void {
+    this.saveAdminToStorage(admin);
+    this.adminActualSubject.next(admin);
+    this.isLoggedInSubject.next(true);
+  }
+
+  
+  getUserActual(): User | null {
+    return this.usuarioActualSubject.value;
+  }
+
+  getAdminActual(): Admin | null {
+    return this.adminActualSubject.value;
+  }
+  
+  get isLoggedIn$ (): Observable<boolean | null > {
+    return this.isLoggedInSubject.asObservable ();
+  }
+
+  get usuarioActual$(): Observable<User | null> {
+    return this.usuarioActualSubject.asObservable();
+  }
+
+  get adminActual$(): Observable<Admin | null> {
+    return this.adminActualSubject.asObservable();
   }
 
   loadFavouriteListFromServer(userId: number) {
     return this.http.get<User>(`http://localhost:5000/users/${userId}`).pipe(
       map(user => user.fav_list)
     );
-  }
-
-  setUsuarioActual(usuario: User | null): void {
-    this.saveUserToStorage(usuario);
-    this.usuarioActualSubject.next(usuario);
-    this.isLoggedInSubject.next (true);
-  }
-
-  getUserActual(): User | null {
-    const currentUser = this.usuarioActualSubject.value;
-    return currentUser;
   }
 
   getUserActualJSON(): Observable<User | null> {
@@ -105,20 +138,18 @@ export class UserService {
     return this.showFormAddCard.asObservable ();
   }
 
-  get isLoggedIn$ (): Observable<boolean | null > {
-    return this.isLoggedInSubject.asObservable ();
-  }
-
-  get usuarioActual$(): Observable<User | null> {
-    return this.usuarioActualSubject.asObservable();
-  }
-
-  get adminActual$(): Observable<Admin | null> {
-    return this.adminActualSubject.asObservable();
-  }
-
   getUsers(): User[] {
     return this.users;
+  }
+
+  async getUsersFromJSON (): Promise<User[] | null>{
+    try{
+      const users = await this.http.get<User[]>(this.urlJSONServer).toPromise();
+      return users ?? [];
+    }catch (error){
+      console.error('Error al obtener usuarios:', error);
+    }
+    return null;
   }
 
   async loadUsersFromJSON() {
@@ -131,42 +162,6 @@ export class UserService {
       console.error('Error al obtener usuarios:', error);
       this.users = [];
     }
-  }
-
-  async deleteUser(userToDelete: User): Promise<{ success: boolean, message: string }> {
-    const url = `${this.urlJSONServer}/${userToDelete.id}`;
-    let flag = false;
-    try {
-      await this.http.delete<User>(url).toPromise();
-      flag = true;
-      if (flag){
-        this.logout ()
-        this.users = this.users.filter(user => user.id !== userToDelete.id);
-      }
-      return { success: true, message: 'Usuario eliminado correctamente.' };
-    } catch (error) {
-      console.error('Error al eliminar el usuario:', error);
-      return { success: false, message: 'Error al eliminar el usuario. Por favor, inténtalo de nuevo más tarde.' };
-    }
-  }
-
-  async deleteUserByAdmin (userIdToDelete: number): Promise<{ success: boolean, message: string }>{
-    const url = `${this.urlJSONServer}/${userIdToDelete}`;
-    let flag = false;
-    try {
-      await this.http.delete<User>(url).toPromise();
-      flag = true;
-      if (flag)
-        this.users = this.users.filter(user => user.id !== userIdToDelete);   
-      return { success: true, message: 'Usuario eliminado correctamente.' };
-    } catch (error) {
-      console.error('Error al eliminar el usuario:', error);
-      return { success: false, message: 'Error al eliminar el usuario. Por favor, inténtalo de nuevo más tarde.' };
-    }
-  }
-
-  obtenerUserByEmail (email: string){
-    return this.users.find (user => user.email == email)
   }
 
   verifyUserOrAdmin(inputEmail: string, inputPassword: string): Promise<{ isUser: boolean, isAdmin: boolean, user?: User, admin?: Admin }> {
@@ -209,15 +204,6 @@ export class UserService {
             resolve({ isUser: false, isAdmin: false });
         }
     });
-}
-
-  saveUserToStorage(usuario: User | null): void {
-    localStorage.setItem('currentUser', JSON.stringify(usuario));
-  }
-
-  private getUserFromStorage(): User | null {
-    const storedUser = localStorage.getItem('currentUser');
-    return storedUser ? JSON.parse(storedUser) : null;
   }
 
   crearCarrito(usuario: User) {
@@ -240,6 +226,42 @@ export class UserService {
       console.error('Error al agregar el usuario:', error);
       throw error;
     }
+  }
+
+  async deleteUser(userToDelete: User): Promise<{ success: boolean, message: string }> {
+    const url = `${this.urlJSONServer}/${userToDelete.id}`;
+    let flag = false;
+    try {
+      await this.http.delete<User>(url).toPromise();
+      flag = true;
+      if (flag){
+        this.logout ()
+        this.users = this.users.filter(user => user.id !== userToDelete.id);
+      }
+      return { success: true, message: 'Usuario eliminado correctamente.' };
+    } catch (error) {
+      console.error('Error al eliminar el usuario:', error);
+      return { success: false, message: 'Error al eliminar el usuario. Por favor, inténtalo de nuevo más tarde.' };
+    }
+  }
+
+  async deleteUserByAdmin (userIdToDelete: number): Promise<{ success: boolean, message: string }>{
+    const url = `${this.urlJSONServer}/${userIdToDelete}`;
+    let flag = false;
+    try {
+      await this.http.delete<User>(url).toPromise();
+      flag = true;
+      if (flag)
+        this.users = this.users.filter(user => user.id !== userIdToDelete);   
+      return { success: true, message: 'Usuario eliminado correctamente.' };
+    } catch (error) {
+      console.error('Error al eliminar el usuario:', error);
+      return { success: false, message: 'Error al eliminar el usuario. Por favor, inténtalo de nuevo más tarde.' };
+    }
+  }
+
+  obtenerUserByEmail (email: string){
+    return this.users.find (user => user.email == email)
   }
 
   async cargarBiblioteca(user: User, carrito: Array<Film>): Promise<{ success: boolean, message: string }> {
@@ -287,6 +309,8 @@ export class UserService {
       console.error('Error al quitar la pelicula de la lista:', error);
     }
   } 
+
+  /* METODOS DE CAMBIAR DATOS, OBTENER USERS BY, LOGOUT */
   
   async changeDataCard (user: User|null, newCard: Tarjeta){
     if (user!=null){
@@ -514,6 +538,7 @@ async changePasswordAdmin (admin: Admin, newPassword: string): Promise<{ success
       }
     }
   }
+
   async getUserByEmail(email: string): Promise<User | null> {
     try {
       const users = await this.http.get<User[]>(this.urlJSONServer).toPromise() || [];
@@ -523,6 +548,7 @@ async changePasswordAdmin (admin: Admin, newPassword: string): Promise<{ success
       return null; // Manejo de error: devolver null si ocurre un problema
     }
   }
+
   async getUserById(id: number): Promise<User | null> {
     try {
         const users = await this.http.get<User[]>(this.urlJSONServer).toPromise() || [];
@@ -532,28 +558,29 @@ async changePasswordAdmin (admin: Admin, newPassword: string): Promise<{ success
         console.error('Error al obtener los usuarios:', error);
         return null;
     }
-}
-async agregarEntregaPendiente(user: User, peliculas: Film[]): Promise<{ success: boolean, message: string }> {
-  const url = `${this.urlJSONServer}/${user.id}`;
-
-  if (!user.entregasPendientes) {
-      user.entregasPendientes = [];
+  
   }
+  async agregarEntregaPendiente(user: User, peliculas: Film[]): Promise<{ success: boolean, message: string }> {
+    const url = `${this.urlJSONServer}/${user.id}`;
 
-  peliculas.forEach(p => {
-      if (!user.entregasPendientes.find(ep => ep.id === p.id)) {
-          user.entregasPendientes.push(p);
-      }
-  });
+    if (!user.entregasPendientes) {
+        user.entregasPendientes = [];
+    }
 
-  try {
-      await this.http.patch<User>(url, { entregasPendientes: user.entregasPendientes }).toPromise();
-      return { success: true, message: 'Películas agregadas a entregas pendientes correctamente.' };
-  } catch (error) {
-      console.error('Error al agregar películas a entregas pendientes:', error);
-      return { success: false, message: 'Error al agregar películas. Por favor, inténtalo de nuevo más tarde.' };
+    peliculas.forEach(p => {
+        if (!user.entregasPendientes.find(ep => ep.id === p.id)) {
+            user.entregasPendientes.push(p);
+        }
+    });
+
+    try {
+        await this.http.patch<User>(url, { entregasPendientes: user.entregasPendientes }).toPromise();
+        return { success: true, message: 'Películas agregadas a entregas pendientes correctamente.' };
+    } catch (error) {
+        console.error('Error al agregar películas a entregas pendientes:', error);
+        return { success: false, message: 'Error al agregar películas. Por favor, inténtalo de nuevo más tarde.' };
+    }
   }
-}
 
   async agregarPeliculaABiblioteca(userId: number, pelicula: Film): Promise<void> {
     const url = `${this.urlJSONServer}/${userId}`;
@@ -568,24 +595,25 @@ async agregarEntregaPendiente(user: User, peliculas: Film[]): Promise<{ success:
   }
   
  // Eliminar película de entregas pendientes en el servidor
-async eliminarEntregaPendiente(userId: number, pelicula: Film): Promise<void> {
-  const url = `${this.urlJSONServer}/${userId}`;
-  const user = await this.getUserById(userId);
-  if (!user) throw new Error('Usuario no encontrado');
+  async eliminarEntregaPendiente(userId: number, pelicula: Film): Promise<void> {
+    const url = `${this.urlJSONServer}/${userId}`;
+    const user = await this.getUserById(userId);
+    if (!user) throw new Error('Usuario no encontrado');
 
-  user.entregasPendientes = user.entregasPendientes.filter(p => p.id !== pelicula.id);
-  await this.http.patch<User>(url, { entregasPendientes: user.entregasPendientes }).toPromise();
-}
-
-  logout() {
-    this.usuarioActualSubject.next(null);
-    this.isLoggedInSubject.next(false);
-    this.sharedService.setLogged(false);
-    this.adminService.setAdminActual(null)
-  
-    localStorage.removeItem('currentUser');
-    this.router.navigate(['/inicio']);
+    user.entregasPendientes = user.entregasPendientes.filter(p => p.id !== pelicula.id);
+    await this.http.patch<User>(url, { entregasPendientes: user.entregasPendientes }).toPromise();
   }
 
+  logout(): void {
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('currentAdmin');
+    this.usuarioActualSubject.next(null);
+    this.isLoggedInSubject.next(false);
+
+    this.adminActualSubject.next(null);
+    this.adminService.setAdminActual(null);
+
+    this.router.navigate(['/inicio']);
+  }
 }
 

@@ -37,7 +37,7 @@ export class InicioAuxComponent implements OnInit {
       this.isLoggedIn = isLoggedIn;
     });
 
-    if (this.userService.storedAdmin) {
+    if (this.userService.getAdminFromStorage ()){
       this.isAdmin = true;
     }
 
@@ -81,7 +81,10 @@ export class InicioAuxComponent implements OnInit {
   }
 
   agregarPeliculaAlCarrito(film: Film) {
-    this.sharedService.agregarPeliculaAlCarrito(film);
+    if (this.isLoggedIn)
+      this.sharedService.agregarPeliculaAlCarrito(film);
+    else
+      alert ('Debes iniciar sesion para agregar al carrito.')
   }
 
   navegarFilmDetail(id: number) {

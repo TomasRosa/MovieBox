@@ -54,7 +54,6 @@ export class FavouriteListComponent implements OnInit {
   
     this.Flist.getChangesObservable().subscribe(() => {
       this.arrayFilms = this.Flist.listaFav.arrayPeliculas;
-      console.log("Lista de películas actualizada: ", this.arrayFilms);
     });
   }
 
@@ -77,6 +76,9 @@ export class FavouriteListComponent implements OnInit {
   }
 
   agregarPeliculaAlCarrito(film: Film) {
-    this.sharedService.agregarPeliculaAlCarrito(film);
+    if (this.isLoggedIn)
+      this.sharedService.agregarPeliculaAlCarrito(film);
+    else
+      alert ('Debes iniciar sesion para agregar al carrito.')
   }
 }
