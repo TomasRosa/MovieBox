@@ -4,6 +4,7 @@ import { OnInit, Input } from '@angular/core';
 import { ReactiveFormsModule,FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user';
 import { ValidacionUserPersonalizada } from 'src/app/validaciones/validacion-user-personalizada';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -24,7 +25,7 @@ export class RegisterComponent implements OnInit {
     DNI: new FormControl ('', [Validators.required, Validators.minLength(8), Validators.maxLength(8),ValidacionUserPersonalizada.soloNumeros()])
   })
 
-  constructor (private userService: UserService){}
+  constructor (private userService: UserService, private router: Router){}
   
   ngOnInit ()
   {
@@ -62,7 +63,9 @@ export class RegisterComponent implements OnInit {
           this.userService.addUser(user)
             .then((newUser) => {
               console.log('Usuario agregado:', newUser);
+              this.userService.setUsuarioActual (newUser!)
               this.mensajeRegistro = 'Registrado con éxito';
+              this.router.navigate(['inicio']) 
             })
             .catch((error) => {
               this.mensajeRegistro = 'Oops! Ocurrió un error al registrarse';
