@@ -1,90 +1,117 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { UserService } from './services/user.service';
-import { Observable, of } from 'rxjs';
-import { map, take, filter, switchMap, defaultIfEmpty } from 'rxjs/operators';
-import { User } from './models/user';
+import { Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
+import { AdminService } from './services/admin.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private userService: UserService, private router: Router, private adminService: AdminService) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> {
-    const path = route.routeConfig?.path || ''; // Obtener la ruta actual
-    console.log("path de entrar a la suscripcion; " + path);
-  
+    const user = this.userService.getUserActual(); // Obtenemos el usuario actual del servicio
+    let isAdminLoggedIn = this.userService.getAdminActual();
+    if (!isAdminLoggedIn)
+    {
+      isAdminLoggedIn = this.adminService.getAdminActual()
+    }
+    
+    // Rutas públicas que todos los usuarios pueden ver, sin importar su estado de login
+    const publicRoutes = [
+      'inicio', 
+      'sobre-nosotros', 
+      'ofertas', 
+      'not-found',
+      'film-detail', 
+      'movies'
+    ];
+
+    // Rutas que solo pueden ver los usuarios logueados
+    const loggedRoutes = [
+      'carrito', 
+      'tarjeta', 
+      'biblioteca', 
+      'favourite-list'
+    ];
+
+    // Rutas que solo los administradores pueden ver
+    const adminRoutes = [
+      'biblioteca/:id', 
+      'admin-code', 
+      'showUsers',
+      'entregas-pendientes'
+    ];
+
+    // Rutas que solo los usuarios no logueados pueden ver (invitados)
+    const guestRoutes = ['login', 'registrarse', 'recuperar-contrasena'];
+
+    // Ruta del perfil, solo accesible para usuarios logueados
+    const profileRoute = ['perfil'];
+
+    const path = route.routeConfig?.path || ''; // Obtenemos la ruta actual
+
     return this.userService.isLoggedIn$.pipe(
       take(1),
-      defaultIfEmpty(null),  // Si no emite ningún valor, emite 'null'
-      filter((isLoggedIn): isLoggedIn is boolean => isLoggedIn !== null), // Filtramos el valor nulo
-      switchMap((isLoggedIn: boolean) => {
-        const loggedInStatus = isLoggedIn === true;
-  
-        // Verificación de rutas públicas
-        const publicRoutes = ['/inicio', '/sobre-nosotros', '/ofertas', '/not-found', '/film-detail', '/movies'];
-  
-        // Verificación de rutas protegidas para usuarios logueados
-        const loggedRoutes = ['/carrito', '/tarjeta', '/biblioteca', '/favourite-list','perfil'];
-  
-        // Verificación de rutas para administradores
-        const adminRoutes = ['/admin-code', '/showUsers', '/entregas-pendientes'];
-  
-        // Verificación de rutas para usuarios no logueados
-        const guestRoutes = ['/login', '/registrarse', '/recuperar-contrasena'];
-  
-        // Si la ruta está en las rutas públicas, no se requiere autenticación
+      map((isLoggedIn: boolean | null) => {
+        // Si isLoggedIn es null o false, significa que el usuario no está logueado
+        const loggedInStatus = isLoggedIn !== null && isLoggedIn !== false;
+
+        // Lógica de acceso para las rutas públicas: Accesibles para todos los usuarios
         if (publicRoutes.some(route => path.startsWith(route))) {
           return of(true); // Devolver 'true' directamente
         }
-  
-        // Si la ruta requiere estar logueado y el usuario no está logueado
-        if (loggedRoutes.some(route => path.startsWith(route))) {
-          if (loggedInStatus) {
-            return of(true); // Devolver 'true' directamente
-          }
-          this.router.navigate(['/inicio']);
-          return of(false); // Devolver 'false' directamente
-        }
-  
-        // Si la ruta requiere ser admin y el usuario es admin
-        const cleanPath = path.endsWith('/') ? path.slice(0, -1) : path; // Eliminar barra final si existe
-        const pathWithSlash = `/${cleanPath}`; // Asegúrate de que haya una barra al principio
 
-        console.log("Ruta limpia con barra:", pathWithSlash);
-        if (adminRoutes.includes(pathWithSlash)) {
-          return this.userService.usuarioActual$.pipe(
-            take(1),
-            defaultIfEmpty(null), // Si no hay elementos, emite null
-            map((usuario: User | null) => {
-              if (usuario && usuario.role === 'admin') {
-                console.log("ENTREE");
-                return true; // Devolver 'true' directamente
-              } else {
-                console.log("No tienes permisos de administrador");
-                this.router.navigate(['/inicio']);
-                return false; // Devolver 'false' directamente
-              }
-            })
-          );
-        } else {
-          console.log("NO ENTRO ADMIN ROUTES");
+         // Acceso a la biblioteca de un usuario específico por parte de un admin
+         if (path.startsWith('biblioteca/') && isAdminLoggedIn) {
+          console.log('Acceso concedido al administrador para ver la biblioteca de un usuario');
+          return true;
         }
-  
-        // Si la ruta requiere ser un invitado (usuario no logueado)
-        if (guestRoutes.some(route => path.startsWith(route))) {
-          if (!loggedInStatus) {
-            return of(true); // Devolver 'true' directamente
-          }
+
+        // Bloquear acceso de administradores a la biblioteca sin un ID de usuario
+        if (path === 'biblioteca' && isAdminLoggedIn) {
+          console.log('Acceso denegado al administrador para ver la biblioteca de un usuario');
           this.router.navigate(['/inicio']);
-          return of(false); // Devolver 'false' directamente
+          return false;
         }
-  
-        // Si no se cumple ninguna de las condiciones anteriores, redirigimos a inicio
+
+         // Acceso para usuarios regulares a su propia biblioteca
+         if (path === 'biblioteca' && loggedInStatus && !isAdminLoggedIn) {
+          return true;
+        }
+
+         // Bloquear acceso de administradores a rutas exclusivas de usuarios
+        if (loggedRoutes.some(route => path.startsWith(route)) && isAdminLoggedIn) {
+          this.router.navigate(['/inicio']);
+          return false;
+        }
+
+        // Lógica de acceso para rutas de usuarios logueados
+        if (loggedRoutes.some(route => path.startsWith(route))) {
+          if (loggedInStatus) return true; // Solo los usuarios logueados pueden acceder
+        }
+
+        // Lógica de acceso para rutas de administradores
+        if (adminRoutes.some(route => path.startsWith(route.replace(':id', '')))) {
+          if (isAdminLoggedIn) return true;
+        }
+        
+        // Lógica de acceso para rutas de usuarios no logueados (invitados)
+        if (guestRoutes.some(route => path.startsWith(route))) {
+          if (!loggedInStatus) return true; // Solo los usuarios no logueados pueden acceder
+        }
+
+        // Lógica de acceso para la ruta de perfil: Solo los usuarios logueados pueden acceder
+        if (profileRoute.some(route => path.startsWith(route))) {
+          if (loggedInStatus) return true; // Solo logueados pueden acceder al perfil
+        }
+        console.log('Redireccionando a inicio, no se cumplen las condiciones de acceso');
+        // Si no se cumple ninguna de las condiciones anteriores, redirigimos a la página de inicio
         this.router.navigate(['/inicio']);
         return of(false); // Devolver 'false' directamente
       })

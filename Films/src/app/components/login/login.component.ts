@@ -59,6 +59,7 @@ export class LoginComponent implements OnInit {
 
     if (emailValue !== null && passwordValue !== null) {
       const isUserValid = await this.userService.verifyUserOrAdmin(emailValue, passwordValue);
+      console.log ("ISUSERVALID: ", isUserValid)
       
       if (isUserValid.isUser) {
         this.successMessage = 'Bienvenido a RosaGomezRuiz Peliculas';

@@ -29,7 +29,7 @@ export class EntregasPendientesComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.isAdmin = !!this.userService.storedAdmin;
+    this.isAdmin = !!this.userService.getAdminActual();
 
     if (!this.isAdmin) {
         alert("No tienes permisos para ver las entregas pendientes.");

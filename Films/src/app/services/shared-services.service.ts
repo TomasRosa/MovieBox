@@ -3,13 +3,12 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { CarritoService } from './carrito.service';
 import { Router } from '@angular/router';
 import { Film } from '../models/film';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedServicesService {
-  addFilmToCart: Boolean | null = false;
-  
   public isLoggedInSubject = new BehaviorSubject<boolean>(false);
   
   private adminCodeVerified: boolean = false;
@@ -18,10 +17,10 @@ export class SharedServicesService {
     private carritoService: CarritoService, 
     private router: Router
   ) {
-    this.isLoggedIn$.subscribe((isLoggedIn: boolean | null) => {
-      this.addFilmToCart = isLoggedIn; 
-    });
+  }
 
+  agregarPeliculaAlCarrito(film: Film) {
+    this.carritoService.agregarAlCarrito(film);
   }
 
   getadminCodeVerified(): boolean {
@@ -50,14 +49,6 @@ export class SharedServicesService {
 
   navegarBiblioteca (){
     this.router.navigate(['biblioteca']) 
-  }
-
-  agregarPeliculaAlCarrito(film: Film) {
-    if (this.addFilmToCart) {
-      this.carritoService.agregarAlCarrito(film);
-    } else {
-      alert("Debes iniciar sesión para agregar películas al carrito.");
-    }
   }
 
   getMovieGroups(movies: any[]): any[][] {

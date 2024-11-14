@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
 import { Film } from 'src/app/models/film';
-import { CarritoService } from 'src/app/services/carrito.service';
 import { FilmSearchServiceService } from 'src/app/services/film-search-service.service';
 import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 import { UserService } from 'src/app/services/user.service';
@@ -59,18 +58,14 @@ export class NavbarComponent implements OnInit {
 
     this.userService.isLoggedIn$.subscribe((isLoggedIn: boolean | null) => {
       this.isLoggedIn = isLoggedIn || false;
-      if (this.isLoggedIn)
-      {
-        if (this.isAdmin)
+      if (this.isLoggedIn){
+        if (this.userService.getAdminFromStorage ()){
+          this.isAdmin = true;
+          this.adminService.isLoggedInSubject.next (true);
+        }else
         {
           this.isAdmin = false
-          this.adminService.isLoggedInSubject.next(false)
-        }
-        else
-        {
-          this.adminService.isLoggedIn$.subscribe((isAdminLoggedIn: boolean | null) => {
-            this.isAdmin = isAdminLoggedIn || false;
-         });
+          this.adminService.isLoggedInSubject.next (false);
         }
       }
     });
@@ -82,13 +77,6 @@ export class NavbarComponent implements OnInit {
 
   getadminCodeVerified(): boolean {
     return this.sharedService.getadminCodeVerified();
-  }
-
-  getIsLoggedIn(): boolean | null{
-    this.sharedService.isLoggedIn$.subscribe((isLoggedIn: boolean | null) => {
-      this.isLoggedIn = isLoggedIn || false;
-    });
-    return this.isLoggedIn;
   }
 
   signIn() {

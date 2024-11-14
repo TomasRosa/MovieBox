@@ -98,52 +98,50 @@ export class PerfilComponent {
   isAdmin: boolean = false;
   
   ngOnInit(): void {
-    if (this.userService.storedUser && this.userService.storedAdmin == null)
-    {
+    // Verificar si hay usuario o administrador almacenado
+    if (this.userService.getUserFromStorage()) {
+      this.usuarioActual = this.userService.getUserFromStorage();
+      this.isLoggedIn = true;
+      this.isAdmin = false;
+      this.cargarDatosUsuario(); 
+    } else if (this.userService.getAdminFromStorage ()) {
+      this.adminActual = this.userService.getAdminFromStorage ();
+      this.isLoggedIn = true;
+      this.isAdmin = true;
+      this.adminService.isLoggedInSubject.next(true)
+      this.cargarDatosAdmin(); 
+    }
+  
+    if (this.usuarioActual){
+      // Suscribirse a los cambios de usuario actual y administrador
       this.userService.usuarioActual$.subscribe(async (usuario: User | null) => {
-        this.usuarioActual = usuario;
-
-        if (this.usuarioActual?.tarjeta?.firstName && 
-          this.usuarioActual?.tarjeta?.lastName && 
-          this.usuarioActual?.tarjeta?.nTarjeta && 
-          this.usuarioActual?.tarjeta?.fechaVencimiento){
-            this.cardExists = true;
-            this.showOptionButtonsToCard = true;
-            this.getLastFourDigits ();
-            this.identificarTarjeta ();
-        } 
-    
-        // Verificar si es un usuario regular
-        await this.userService.loadUsersFromJSON();
-        const isUser = this.userService.getUsers().some((user) => user.email === this.usuarioActual?.email);
-
-        if (isUser) {
+        if (usuario){
+          this.usuarioActual = usuario;
           this.isAdmin = false;
+          this.adminService.isLoggedInSubject.next(false)
           this.cargarDatosUsuario();
         }
       });
     }
-    else if (this.userService.storedUser == null && this.userService.storedAdmin)
-    {
-      this.userService.adminActual$.subscribe (async () =>
-      {
-        this.adminActual = this.userService.storedAdmin
-
-        // Verificar si es un administrador
-        await this.adminService.loadAdminsFromJSON();
-        const isAdmin = this.adminService.getAdmins().some((admin) => admin.id === this.adminActual?.id);
-
-        this.isAdmin = isAdmin;
-
-        if (isAdmin) {
-          this.cargarDatosAdmin();
-        }
+    
+    if (this.adminActual){
+      this.userService.adminActual$.subscribe(async (admin: Admin | null) => {
+        if (this.adminActual)
+          this.adminActual = admin;
+          this.isAdmin = true;
+          this.adminService.isLoggedInSubject.next(true)
+          this.cargarDatosAdmin(); 
       });
     }
-
-    this.userService.showFormAddCard$.subscribe ((show: boolean | null) => {
-      this.showFormularioAddCard = show;
-    })
+  
+    // Actualizar estado de sesión
+    this.userService.isLoggedIn$.subscribe((isLoggedIn: boolean | null) => {
+      this.isLoggedIn = isLoggedIn ?? false;
+    });
+  
+    this.userService.showFormAddCard$.subscribe((show: boolean | null) => {
+      this.showFormularioAddCard = show ?? false;
+    });
 
     this.userService.isLoggedIn$.subscribe((isLoggedIn: Boolean | null) => {
       this.isLoggedIn = isLoggedIn;
@@ -184,8 +182,10 @@ export class PerfilComponent {
     this.formGroupAddress.get('address')?.setValue(this.usuarioActual!.address);
     this.formGroupDNI.get('dni')?.setValue(this.usuarioActual!.dni);
     this.getLastFourDigits();
+    this.identificarTarjeta ();
     if (this.usuarioActual!.tarjeta?.firstName && this.usuarioActual!.tarjeta?.lastName) {
       this.cardExists = true;
+      this.showOptionButtonsToCard = true;
     }
   }
   

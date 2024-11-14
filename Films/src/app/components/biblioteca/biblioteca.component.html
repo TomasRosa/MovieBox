@@ -5,7 +5,7 @@
 </div>
 
 <div *ngIf = "isAdmin" class="box-title">
-  <h3 class="title">BIBLIOTECA DEL USUARIO</h3>
+  <h3 class="title">BIBLIOTECA DE {{usuarioActual?.firstName?.toUpperCase()}} {{usuarioActual?.lastName?.toUpperCase()}} </h3>
 </div>
 
 <section *ngIf="movieLibrary.length > 0" class="box">
@@ -33,16 +33,17 @@
   </div>
 </section>
 
-<!-- <div *ngIf="!bibliotecaVacia">
+<div *ngIf="!bibliotecaVacia">
   <div>Deuda: 
     <div *ngIf = "deuda == 0">
       ¡No posee deuda!
     </div>
     <div *ngIf = "deuda != 0">
       {{deuda}}
+      <button class="button" (click)="pagarDeuda()">Pagar deuda</button>
     </div>
   </div>
-</div> -->
+</div>
 
 <div *ngIf="bibliotecaVacia" class="classDiv">
   <div *ngIf = "!isAdmin" class="box-empty">

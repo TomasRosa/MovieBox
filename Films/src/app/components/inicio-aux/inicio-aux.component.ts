@@ -37,7 +37,7 @@ export class InicioAuxComponent implements OnInit {
       this.isLoggedIn = isLoggedIn;
     });
 
-    if (this.userService.storedAdmin) {
+    if (this.userService.getAdminFromStorage ()){
       this.isAdmin = true;
     }
 
@@ -46,19 +46,14 @@ export class InicioAuxComponent implements OnInit {
       this.filteredFilms = this.films.filter((film: Film) => film.precio <= 1500);
     });
 
-    if (this.isLoggedIn) {
+    if (this.isLoggedIn && !this.isAdmin) {
       this.userService.usuarioActual$.subscribe(user => {
         this.usuarioActual = user as User;
-        
-        // Verificar que usuarioActual y fav_list no sean nulos
-        if (this.usuarioActual && this.usuarioActual.fav_list) {
-          this.favouriteFilms = this.usuarioActual.fav_list.arrayPeliculas || [];
-        } else {
-          this.favouriteFilms = [];  // Inicializar con arreglo vacío si fav_list es nulo
+        if (this.usuarioActual.fav_list)
+        {
+          this.favouriteFilms = this.usuarioActual.fav_list.arrayPeliculas || [];  // Asegurarse de que sea un arreglo
         }
-        if (this.usuarioActual && this.usuarioActual.id) {
-          this.Flist.loadFavouriteListFromServer(this.usuarioActual.id);
-        }
+        this.Flist.loadFavouriteListFromServer(this.usuarioActual.id);
       });
     }
 
@@ -89,7 +84,10 @@ export class InicioAuxComponent implements OnInit {
   }
 
   agregarPeliculaAlCarrito(film: Film) {
-    this.sharedService.agregarPeliculaAlCarrito(film);
+    if (this.isLoggedIn)
+      this.sharedService.agregarPeliculaAlCarrito(film);
+    else
+      alert ('Debes iniciar sesion para agregar al carrito.')
   }
 
   navegarFilmDetail(id: number) {

@@ -92,10 +92,18 @@ export class MovieListComponentsComponent {
   }
 
   agregarPeliculaAlCarrito(film: Film) {
-    this.sharedService.agregarPeliculaAlCarrito(film);
+    if (this.isLoggedIn)
+      this.sharedService.agregarPeliculaAlCarrito(film);
+    else
+      alert ('Debes iniciar sesion para agregar al carrito.')
   }
 
+<<<<<<< HEAD
   agregarALaListaDeFavoritos(film: Film) {
+=======
+
+  agregarALaListaDeFavoritos (film: Film) {
+>>>>>>> a376794829e97330bbf89935e12987ad30c25a1c
     this.Flist.agregarALaLista(film);
   }
 
