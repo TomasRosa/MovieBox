@@ -32,7 +32,7 @@ export class UserService {
   ) {
     this.usuarioActualSubject = new BehaviorSubject<User | null>(null);
     this.adminActualSubject = new BehaviorSubject<Admin | null>(null);
-    this.isLoggedInSubject = new BehaviorSubject<boolean | null>(null);
+    this.isLoggedInSubject = new BehaviorSubject<boolean | null>(false);
     this.showFormAddCard = new BehaviorSubject<boolean | null>(null);
 
     if (this.storedUser && this.storedAdmin == null) 

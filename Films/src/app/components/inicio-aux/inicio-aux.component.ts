@@ -49,8 +49,16 @@ export class InicioAuxComponent implements OnInit {
     if (this.isLoggedIn) {
       this.userService.usuarioActual$.subscribe(user => {
         this.usuarioActual = user as User;
-        this.favouriteFilms = this.usuarioActual.fav_list?.arrayPeliculas || [];  // Asegurarse de que sea un arreglo
-        this.Flist.loadFavouriteListFromServer(this.usuarioActual.id);
+        
+        // Verificar que usuarioActual y fav_list no sean nulos
+        if (this.usuarioActual && this.usuarioActual.fav_list) {
+          this.favouriteFilms = this.usuarioActual.fav_list.arrayPeliculas || [];
+        } else {
+          this.favouriteFilms = [];  // Inicializar con arreglo vacío si fav_list es nulo
+        }
+        if (this.usuarioActual && this.usuarioActual.id) {
+          this.Flist.loadFavouriteListFromServer(this.usuarioActual.id);
+        }
       });
     }
 

@@ -37,13 +37,21 @@ export class OfertasAuxComponent implements OnInit {
       this.isLoggedIn = isLoggedIn; 
     })
 
-    if (this.isLoggedIn){
-      this.userService.usuarioActual$.subscribe ((user)=>{
-        this.usuarioActual = user as User;
-        this.favouriteFilms = this.usuarioActual.fav_list.arrayPeliculas;
-        this.Flist.loadFavouriteListFromServer (this.usuarioActual.id)
-      })
-    }
+    this.userService.usuarioActual$.subscribe((user) => {
+      this.usuarioActual = user as User;
+      
+      // Asegúrate de que 'usuarioActual' y 'fav_list' no sean nulos
+      if (this.usuarioActual && this.usuarioActual.fav_list) {
+        this.favouriteFilms = this.usuarioActual.fav_list.arrayPeliculas || []; // Si fav_list es nulo, asigna un arreglo vacío
+      } else {
+        this.favouriteFilms = []; // Si 'fav_list' no existe, inicializa como arreglo vacío
+      }
+    
+      // Cargar la lista de favoritos desde el servidor
+      if (this.usuarioActual && this.usuarioActual.id) {
+        this.Flist.loadFavouriteListFromServer(this.usuarioActual.id);
+      }
+    });
 
     this.Flist.getChangesObservable().subscribe(() => {
       this.favouriteFilms = [...this.Flist.listaFav.arrayPeliculas];
@@ -51,6 +59,10 @@ export class OfertasAuxComponent implements OnInit {
   }
 
   isFavourite(film: Film): boolean {
+    // Verificamos que favouriteFilms sea un arreglo antes de usar .some
+    if (!Array.isArray(this.favouriteFilms)) {
+      this.favouriteFilms = [];  // En caso de que no sea un arreglo, lo inicializamos vacío
+    }
     return this.favouriteFilms.some((favFilm) => favFilm.id === film.id);
   }
 
@@ -63,7 +75,6 @@ export class OfertasAuxComponent implements OnInit {
     this.Flist.loadFavouriteListFromServer(this.usuarioActual.id);
   }
 
-
   getMovieGroups(movies: any[]): any[][] {
     return this.sharedService.getMovieGroups(movies);
   }  
@@ -72,20 +83,20 @@ export class OfertasAuxComponent implements OnInit {
     this.sharedService.navegarFilmDetail (id);
   }
 
-  agregarALaListaDeFavoritos (film: Film) {
+  agregarALaListaDeFavoritos(film: Film) {
     this.Flist.agregarALaLista(film);
   }
-  
+
   navegarFavouriteList() {
     this.sharedService.navegarFavouriteList();
-  } 
+  }
 
-  agregarPeliculaAlCarrito (film: Film){
+  agregarPeliculaAlCarrito(film: Film) {
     if(this.isLoggedIn){
-      this.carritoService.agregarAlCarrito(film)
+      this.carritoService.agregarAlCarrito(film);
     }
     else{
-      alert("Debes iniciar sesion para agregar peliculas al carrito. ");
+      alert("Debes iniciar sesión para agregar películas al carrito.");
     }
-  } 
+  }
 }
