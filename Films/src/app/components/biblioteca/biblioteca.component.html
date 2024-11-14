@@ -10,8 +10,8 @@
 
 <section *ngIf="movieLibrary.length > 0" class="box">
   <div *ngFor="let group of getMovieGroups(movieLibrary)" class="box-group-films">
-    <div *ngFor="let film of group" class="recuadroCelda film">  
-      <div class="box-star">
+    <div *ngFor="let film of group" class="recuadroCelda film" [ngClass]="{'no-favourite': isAdmin}">  
+      <div *ngIf = "!isAdmin" class="box-star"> 
         <button id="buttonStar" (click)="agregarALaListaDeFavoritos(film)" class="button-star">☆</button>
       </div>
       <div class="box-img-title">

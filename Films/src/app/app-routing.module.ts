@@ -36,7 +36,7 @@ const routes: Routes = [
   { path: 'favourite-list', component: FavouriteListComponent, canActivate: [AuthGuard] }, // Ruta protegida
   { path: '', redirectTo: '/inicio', pathMatch: 'full' }, // Redirección a la página de inicio
   { path: 'movies/:category', component: MovieListComponentsComponent }, // Ruta pública sin AuthGuard
-  { path: 'admin-code', component: AdminCodeComponent, canActivate: [AuthGuard] }, // Ruta protegida por admin
+  { path: 'admin-code', component: AdminCodeComponent}, // Ruta protegida por admin
   { path: 'recuperar-contrasena', component: RecuperarContrasenaComponent }, // Ruta pública sin AuthGuard
   { path: 'showUsers', component: ShowUsersComponent, canActivate: [AuthGuard] }, // Ruta protegida por admin
   { path: 'entregas-pendientes', component: EntregasPendientesComponent, canActivate: [AuthGuard] }, // Ruta protegida

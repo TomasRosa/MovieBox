@@ -30,6 +30,9 @@ export class UserService {
     private router: Router,
     private adminService: AdminService
   ) {
+    this.usuarioActualSubject = new BehaviorSubject<User | null>(null);
+    this.adminActualSubject = new BehaviorSubject<Admin | null>(null);
+    this.isLoggedInSubject = new BehaviorSubject<boolean>(false);
     this.usuarioActualSubject = new BehaviorSubject<User | null>(this.getUserFromStorage());
     this.adminActualSubject = new BehaviorSubject<Admin | null>(this.getAdminFromStorage());
     this.isLoggedInSubject = new BehaviorSubject<boolean>(!!this.getUserFromStorage() || !!this.getAdminFromStorage());

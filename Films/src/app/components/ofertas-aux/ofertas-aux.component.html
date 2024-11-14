@@ -4,8 +4,8 @@
         <h4 class="title">OFERTAS ACTUALES</h4>
     </div>
     <div *ngFor="let group of getMovieGroups(filteredFilms)" class="box-group-films">
-      <div *ngFor="let film of group" class="recuadroCelda film">  
-        <div class="box-star">
+      <div *ngFor="let film of group" class="recuadroCelda film" [ngClass]="{'no-favourite': isAdmin}">  
+        <div class="box-star" *ngIf = "!isAdmin">
           <button 
             (click)="toggleFavourite(film)" 
             class="button-star"
@@ -21,7 +21,7 @@
 
         <div class="box-options">
           <button class="button ficha-tecnica" (click)="navegarFilmDetail(film.rank)">Detalles</button>
-          <button class="button btn-carrito" (click)="agregarPeliculaAlCarrito(film)">
+          <button *ngIf = "isLoggedIn && !isAdmin" class="button btn-carrito" (click)="agregarPeliculaAlCarrito(film)">
             <img class="carrito-logo" src="/assets/carrito.png" alt="">
             <span class="precio">$ {{ film.precio }}</span>
           </button>

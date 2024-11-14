@@ -19,6 +19,7 @@ export class OfertasAuxComponent implements OnInit {
   isLoggedIn: Boolean | null = false;
   usuarioActual: User = new User ();
   favouriteFilms: Array<Film> = [];
+  isAdmin: Boolean | null = false;
 
   constructor(
     private dataFilms: FilmsFromAPIService, 
@@ -37,6 +38,10 @@ export class OfertasAuxComponent implements OnInit {
       this.isLoggedIn = isLoggedIn; 
     })
 
+    if (this.userService.getAdminFromStorage ()){
+      this.isAdmin = true;
+    }
+
     if (this.isLoggedIn){
       this.userService.usuarioActual$.subscribe ((user)=>{
         this.usuarioActual = user as User;
@@ -51,6 +56,10 @@ export class OfertasAuxComponent implements OnInit {
   }
 
   isFavourite(film: Film): boolean {
+    // Verificamos que favouriteFilms sea un arreglo antes de usar .some
+    if (!Array.isArray(this.favouriteFilms)) {
+      this.favouriteFilms = [];  // En caso de que no sea un arreglo, lo inicializamos vacío
+    }
     return this.favouriteFilms.some((favFilm) => favFilm.id === film.id);
   }
 
@@ -63,7 +72,6 @@ export class OfertasAuxComponent implements OnInit {
     this.Flist.loadFavouriteListFromServer(this.usuarioActual.id);
   }
 
-
   getMovieGroups(movies: any[]): any[][] {
     return this.sharedService.getMovieGroups(movies);
   }  
@@ -72,13 +80,13 @@ export class OfertasAuxComponent implements OnInit {
     this.sharedService.navegarFilmDetail (id);
   }
 
-  agregarALaListaDeFavoritos (film: Film) {
+  agregarALaListaDeFavoritos(film: Film) {
     this.Flist.agregarALaLista(film);
   }
-  
+
   navegarFavouriteList() {
     this.sharedService.navegarFavouriteList();
-  } 
+  }
 
   agregarPeliculaAlCarrito(film: Film) {
     if (this.isLoggedIn)

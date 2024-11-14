@@ -75,6 +75,10 @@ export class InicioAuxComponent implements OnInit {
   }
 
   async toggleFavourite(film: Film) {
+    if (!this.isLoggedIn){
+      alert ('Debes iniciar sesion para agregar a favoritos una pelicula');
+      return;
+    }
     if (this.isFavourite(film)) {
       await this.Flist.eliminarDeLaListaFavoritos(film);  // Quitar de favoritos
     } else {

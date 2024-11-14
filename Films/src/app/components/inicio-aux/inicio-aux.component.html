@@ -3,8 +3,8 @@
       <h4 class="title">CATALOGO PRINCIPAL</h4>
     </div>  
     <div *ngFor="let group of getMovieGroups(filteredFilms)" class="box-group-films">
-        <div *ngFor="let film of group" class="recuadroCelda film">  
-          <div *ngIf = "isLoggedIn && !isAdmin">
+        <div *ngFor="let film of group" class="recuadroCelda film" [ngClass]="{'no-favourite': isAdmin}">  
+          <div *ngIf = "!isAdmin">
             <div class="box-star">
               <button 
                 (click)="toggleFavourite(film)" 
