@@ -62,6 +62,13 @@ export class AuthGuard implements CanActivate {
         if (publicRoutes.some(route => path.startsWith(route))) {
           return true; // Todos los usuarios pueden acceder a las rutas públicas
         }
+        
+        if (loggedRoutes.some(route => path.startsWith(route))) {
+          if (isAdminLoggedIn){
+            this.router.navigate(['/inicio']);
+            return false; 
+          };
+        }
 
         // Lógica de acceso para rutas de usuarios logueados
         if (loggedRoutes.some(route => path.startsWith(route))) {
