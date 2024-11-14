@@ -22,8 +22,8 @@ import { AuthGuard } from './auth.guard';
 const routes: Routes = [
   { path: 'inicio', component: InicioComponent }, // Ruta pública sin AuthGuard
   { path: 'sobre-nosotros', component: SobreNosotrosComponent }, // Ruta pública sin AuthGuard
-  { path: 'login', component: LoginComponent }, // Ruta pública sin AuthGuard
-  { path: 'registrarse', component: RegisterComponent }, // Ruta pública sin AuthGuard
+  { path: 'login', component: LoginComponent, canActivate: [AuthGuard] }, // Ruta pública sin AuthGuard
+  { path: 'registrarse', component: RegisterComponent, canActivate: [AuthGuard] }, // Ruta pública sin AuthGuard
   { path: 'ofertas', component: OfertasComponent }, // Ruta pública sin AuthGuard
   { path: 'not-found', component: NotFoundComponent }, // Ruta pública sin AuthGuard
   { path: 'carrito', component: CarritoComponent, canActivate: [AuthGuard] }, // Ruta protegida
