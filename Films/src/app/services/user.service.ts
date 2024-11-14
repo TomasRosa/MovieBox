@@ -172,7 +172,7 @@ export class UserService {
   }
 
   verifyUserOrAdmin(inputEmail: string, inputPassword: string): Promise<{ isUser: boolean, isAdmin: boolean, user?: User, admin?: Admin }> {
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve) => {
         // Verificar usuarios
         const isUserValid = this.users.some(
             (user) => user.email === inputEmail && user.password === inputPassword
@@ -191,14 +191,18 @@ export class UserService {
             // Verificar administradores
             const admins = await this.http.get<Admin[]>(`${this.urlJSONServerAdmins}`).toPromise();
             if (admins) {
-                const isAdminValid = admins.some(
-                    (admin) => admin.email === inputEmail && admin.password === inputPassword
-                );
+              let isAdminValid = false;
+                admins.forEach(a => {
+                  if (a.email == inputEmail && a.password == inputPassword)
+                  {
+                    isAdminValid = true;
+                  }
+                })
 
                 if (isAdminValid) {
-                    const admin = admins.find(admin => admin.email === inputEmail);
+                    const admin = admins.find(admin => admin.email == inputEmail);
                     if (admin) {
-                        this.setAdminActual (admin);
+                        // this.setAdminActual (admin);
                         this.adminService.setAdminActual(admin); // Almacenar el admin
                         resolve({ isUser: false, isAdmin: true, admin });
                         return;
@@ -532,19 +536,31 @@ export class UserService {
     }
   }
 
-  private async loadUserBiblioteca() {
-    const userActual = this.getUserActual();
-    if (userActual) {
-      const url = `${this.urlJSONServer}/${userActual.id}`;
-      try {
-        const updatedUser = await this.http.get<User>(url).toPromise();
-        if (updatedUser) {
-          userActual.arrayPeliculas = updatedUser.arrayPeliculas;
+  getUserPorBiblioteca(movieLibrary: Film[]) {
+    const users = this.getUsers();
+    let j = 0;
+
+    if (users.length != 0) 
+    {
+      for (let i = 0; i < users.length; i++)
+      {
+        if (users[i].arrayPeliculas.length == movieLibrary.length)
+        {
+          for (j = 0; j < users[i].arrayPeliculas.length; j++)
+          {
+              if (users[i].arrayPeliculas[j].rank != movieLibrary[j].rank)
+              {
+                break;
+              }
+          }
+          if (j == movieLibrary.length)
+            {
+              return users[i];
+            }
         }
-      } catch (error) {
-        console.error('Error al cargar la biblioteca del usuario:', error);
       }
     }
+    return null
   }
 
   async getUserByEmail(email: string): Promise<User | null> {
@@ -620,6 +636,7 @@ export class UserService {
 
     this.adminActualSubject.next(null);
     this.adminService.setAdminActual(null);
+    this.adminService.isLoggedInSubject.next(false)
 
     this.router.navigate(['/inicio']);
   }

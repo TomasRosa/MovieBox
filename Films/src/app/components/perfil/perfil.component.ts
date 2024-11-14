@@ -108,6 +108,7 @@ export class PerfilComponent {
       this.adminActual = this.userService.getAdminFromStorage ();
       this.isLoggedIn = true;
       this.isAdmin = true;
+      this.adminService.isLoggedInSubject.next(true)
       this.cargarDatosAdmin(); 
     }
   
@@ -117,6 +118,7 @@ export class PerfilComponent {
         if (usuario){
           this.usuarioActual = usuario;
           this.isAdmin = false;
+          this.adminService.isLoggedInSubject.next(false)
           this.cargarDatosUsuario();
         }
       });
@@ -127,6 +129,7 @@ export class PerfilComponent {
         if (this.adminActual)
           this.adminActual = admin;
           this.isAdmin = true;
+          this.adminService.isLoggedInSubject.next(true)
           this.cargarDatosAdmin(); 
       });
     }

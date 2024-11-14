@@ -4,8 +4,9 @@ import { User } from 'src/app/models/user';
 import { FavouriteListService } from 'src/app/services/favourite-list.service';
 import { SharedServicesService } from 'src/app/services/shared-services.service';
 import { UserService } from 'src/app/services/user.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DeudaService } from 'src/app/services/deuda.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-biblioteca',
@@ -22,14 +23,21 @@ export class BibliotecaComponent
   deuda: number = 0;
   intervalId: any;
   countdowns: { [key: number]: string } = {};
+  deudaSubscription: Subscription = new Subscription;
+  
 
   constructor(
     private userService: UserService,
     private Flist: FavouriteListService,
     private sharedService: SharedServicesService,
     public deudaService: DeudaService,
+    public router: Router,
     private route: ActivatedRoute // Importar el servicio de rutas activas
-  ) { }
+  ) { 
+    this.deudaSubscription = this.deudaService.deuda$.subscribe(nuevaDeuda => {
+      this.deuda = nuevaDeuda;
+    });
+  }
   
   async ngOnInit(){
     await this.initializateLibrary()
@@ -79,11 +87,12 @@ export class BibliotecaComponent
           if (loadedUser) {
             this.movieLibrary = [...loadedUser.arrayPeliculas]; // Clonamos arrayPeliculas
 
-            let flag = await this.deudaService.startCountdown(this.movieLibrary);
-            if (flag)
-            {
-              this.intervalId = this.deudaService.intervalId;
-            }
+            // await this.deudaService.startCountdown(this.movieLibrary);
+            // let flag = this.deudaService.startCountdownDiezSegundos(this.movieLibrary)
+            // if (flag)
+            // {
+            //   this.intervalId = this.deudaService.intervalId;
+            // }
           }
         }
         this.validarBibliotecaVacia();
@@ -98,6 +107,7 @@ export class BibliotecaComponent
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
+    this.deudaSubscription.unsubscribe();
   }
 
 
@@ -126,7 +136,6 @@ export class BibliotecaComponent
       }
     }
   }
-  
 
   navegarFilmDetail(id: number) {
     this.sharedService.navegarFilmDetail (id);
@@ -143,5 +152,8 @@ export class BibliotecaComponent
   navegarFavouriteList() {
     this.sharedService.navegarFavouriteList();
   } 
-
+  pagarDeuda ()
+  {
+    this.router.navigate(['/tarjeta']);
+  }
 }

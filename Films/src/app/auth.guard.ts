@@ -16,7 +16,11 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean> {
     const user = this.userService.getUserActual(); // Obtenemos el usuario actual del servicio
-    const isAdminLoggedIn = this.userService.getAdminActual();
+    let isAdminLoggedIn = this.userService.getAdminActual();
+    if (!isAdminLoggedIn)
+    {
+      isAdminLoggedIn = this.adminService.getAdminActual()
+    }
     
     // Rutas públicas que todos los usuarios pueden ver, sin importar su estado de login
     const publicRoutes = [

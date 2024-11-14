@@ -4,14 +4,17 @@
     </div>  
     <div *ngFor="let group of getMovieGroups(filteredFilms)" class="box-group-films">
         <div *ngFor="let film of group" class="recuadroCelda film">  
-          <div class="box-star">
-            <button 
-              (click)="toggleFavourite(film)" 
-              class="button-star"
-            >
-              {{ isFavourite(film) ? '★' : '☆' }}
-            </button>
+          <div *ngIf = "isLoggedIn && !isAdmin">
+            <div class="box-star">
+              <button 
+                (click)="toggleFavourite(film)" 
+                class="button-star"
+              >
+                {{ isFavourite(film) ? '★' : '☆' }}
+              </button>
+            </div>
           </div>
+          
 
           <div class="box-img-title">
             <img class="image" [src]="film.image" alt="Imagen no disponible">

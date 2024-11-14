@@ -46,10 +46,13 @@ export class InicioAuxComponent implements OnInit {
       this.filteredFilms = this.films.filter((film: Film) => film.precio <= 1500);
     });
 
-    if (this.isLoggedIn) {
+    if (this.isLoggedIn && !this.isAdmin) {
       this.userService.usuarioActual$.subscribe(user => {
         this.usuarioActual = user as User;
-        this.favouriteFilms = this.usuarioActual.fav_list?.arrayPeliculas || [];  // Asegurarse de que sea un arreglo
+        if (this.usuarioActual.fav_list)
+        {
+          this.favouriteFilms = this.usuarioActual.fav_list.arrayPeliculas || [];  // Asegurarse de que sea un arreglo
+        }
         this.Flist.loadFavouriteListFromServer(this.usuarioActual.id);
       });
     }
