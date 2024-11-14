@@ -28,6 +28,8 @@ export class AdminCodeComponent {
     const codeAdminValue: string | null = this.codeForm.controls['code']?.value ?? null;
     
     if (this.adminService.obtenerCodigoAdmin(this.adminService.getAdminActual()?.id!) == codeAdminValue) {
+      console.log ('HOLA ESTOY ACA'+this.adminService.getAdminActual())
+      this.userService.setAdminActual(this.adminService.getAdminActual());
       this.sharedService.setAdminCodeVerified(true);
       this.sharedService.setLogged(true);
       this.userService.isLoggedInSubject.next(true)

@@ -57,6 +57,7 @@ export class UserService {
   // Guardar administrador en localStorage
   private saveAdminToStorage(admin: Admin | null): void {
     if (admin) {
+      this.adminActualSubject.next (admin)
       this.adminService.setAdminActual (admin);
       localStorage.setItem('currentAdmin', JSON.stringify(admin));
     } else {
@@ -102,6 +103,12 @@ export class UserService {
 
   get adminActual$(): Observable<Admin | null> {
     return this.adminActualSubject.asObservable();
+  }
+
+  navegarAdminCode (isAdmin: boolean){
+    if (isAdmin){
+      this.router.navigate(['admin-code']);
+    }
   }
 
   loadFavouriteListFromServer(userId: number) {
@@ -191,6 +198,7 @@ export class UserService {
                 if (isAdminValid) {
                     const admin = admins.find(admin => admin.email === inputEmail);
                     if (admin) {
+                        this.setAdminActual (admin);
                         this.adminService.setAdminActual(admin); // Almacenar el admin
                         resolve({ isUser: false, isAdmin: true, admin });
                         return;
@@ -388,7 +396,7 @@ export class UserService {
     try {
       await this.http.patch(url, admin).toPromise();
       this.adminActualSubject.next(admin); // Actualizamos el BehaviorSubject con el nuevo valor
-      this.adminService.setAdminActual (admin);
+      this.saveAdminToStorage (admin);
       return { success: true, message: 'Nombre cambiado correctamente.' };
     } catch (error) {
       console.error('Error al cambiar el nombre del usuario:', error);
@@ -416,7 +424,7 @@ export class UserService {
     try {
       await this.http.patch(url, admin).toPromise();
       this.adminActualSubject.next(admin); // Actualizamos el BehaviorSubject con el nuevo valor
-      this.adminService.setAdminActual(admin);
+      this.saveAdminToStorage (admin);
       return { success: true, message: 'Apellido cambiado correctamente.' };
     } catch (error) {
       console.error('Error al cambiar el apellido del usuario:', error);
@@ -472,7 +480,7 @@ export class UserService {
     try {
       await this.http.patch(url, admin).toPromise();
       this.adminActualSubject.next(admin); // Actualizamos el BehaviorSubject con el nuevo valor
-      this.adminService.setAdminActual(admin);
+      this.saveAdminToStorage (admin);
       return { success: true, message: 'Email cambiado correctamente.' };
     } catch (error) {
       console.error('Error al cambiar el email del usuario:', error);
@@ -494,19 +502,19 @@ export class UserService {
     }
   }
 
-async changePasswordAdmin (admin: Admin, newPassword: string): Promise<{ success: boolean, message: string }> {
-  const url = `${this.urlJSONServerAdmins}/${admin.id}`;
-  admin.password  = newPassword; 
-  try {
-    await this.http.patch(url, admin).toPromise();
-    this.adminActualSubject.next(admin); // Actualizamos el BehaviorSubject con el nuevo valor
-    this.adminService.setAdminActual(admin);
-    return { success: true, message: 'Contraseña cambiada correctamente.' };
-  } catch (error) {
-    console.error('Error al cambiar la contraseña del usuario:', error);
-    return { success: false, message: 'Error al cambiar la contraseña. Por favor, inténtalo de nuevo más tarde.' };
-    }
-  }
+  async changePasswordAdmin (admin: Admin, newPassword: string): Promise<{ success: boolean, message: string }> {
+    const url = `${this.urlJSONServerAdmins}/${admin.id}`;
+    admin.password  = newPassword; 
+    try {
+      await this.http.patch(url, admin).toPromise();
+      this.adminActualSubject.next(admin); // Actualizamos el BehaviorSubject con el nuevo valor
+      this.saveAdminToStorage (admin);
+      return { success: true, message: 'Contraseña cambiada correctamente.' };
+    } catch (error) {
+      console.error('Error al cambiar la contraseña del usuario:', error);
+      return { success: false, message: 'Error al cambiar la contraseña. Por favor, inténtalo de nuevo más tarde.' };
+      }
+   }
 
   async loadUserBibliotecaById(userId: number): Promise<User | null> {
     const url = `${this.urlJSONServer}/${userId}`;

@@ -62,12 +62,29 @@ export class AuthGuard implements CanActivate {
         if (publicRoutes.some(route => path.startsWith(route))) {
           return true; // Todos los usuarios pueden acceder a las rutas públicas
         }
-        
-        if (loggedRoutes.some(route => path.startsWith(route))) {
-          if (isAdminLoggedIn){
-            this.router.navigate(['/inicio']);
-            return false; 
-          };
+
+         // Acceso a la biblioteca de un usuario específico por parte de un admin
+         if (path.startsWith('biblioteca/') && isAdminLoggedIn) {
+          console.log('Acceso concedido al administrador para ver la biblioteca de un usuario');
+          return true;
+        }
+
+        // Bloquear acceso de administradores a la biblioteca sin un ID de usuario
+        if (path === 'biblioteca' && isAdminLoggedIn) {
+          console.log('Acceso denegado al administrador para ver la biblioteca de un usuario');
+          this.router.navigate(['/inicio']);
+          return false;
+        }
+
+         // Acceso para usuarios regulares a su propia biblioteca
+         if (path === 'biblioteca' && loggedInStatus && !isAdminLoggedIn) {
+          return true;
+        }
+
+         // Bloquear acceso de administradores a rutas exclusivas de usuarios
+        if (loggedRoutes.some(route => path.startsWith(route)) && isAdminLoggedIn) {
+          this.router.navigate(['/inicio']);
+          return false;
         }
 
         // Lógica de acceso para rutas de usuarios logueados

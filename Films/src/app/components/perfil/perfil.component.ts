@@ -123,10 +123,10 @@ export class PerfilComponent {
     }
     
     if (this.adminActual){
-      this.userService.adminActual$.subscribe(async () => {
-        this.adminActual = this.userService.storedAdmin;
-        this.isAdmin = true;
+      this.userService.adminActual$.subscribe(async (admin: Admin | null) => {
         if (this.adminActual)
+          this.adminActual = admin;
+          this.isAdmin = true;
           this.cargarDatosAdmin(); 
       });
     }

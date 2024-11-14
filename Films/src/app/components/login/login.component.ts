@@ -61,6 +61,7 @@ export class LoginComponent implements OnInit {
       const isUserValid = await this.userService.verifyUserOrAdmin(emailValue, passwordValue);
       
       if (isUserValid.isUser) {
+        console.log ('entre a la parte de user.')
         this.successMessage = 'Bienvenido a RosaGomezRuiz Peliculas';
         this.userService.setUsuarioActual(isUserValid.user!);
         this.isAdmin = false;
@@ -70,7 +71,7 @@ export class LoginComponent implements OnInit {
         this.userService.storedAdmin = null;
         this.router.navigate(['/inicio']);
       } else if (isUserValid.isAdmin) {
-        this.userService.setAdminActual(isUserValid.admin!);
+        console.log ('entre a la parte de admin.')
         this.adminService.setAdminActual(isUserValid.admin!);
         this.navegarAdminCode(isUserValid.isAdmin)
       } else {

@@ -40,7 +40,7 @@ export class BibliotecaComponent
       this.isLoggedIn = isLoggedIn;
     });
   
-    if (this.userService.storedAdmin) {
+    if (this.userService.getAdminFromStorage ()){
       this.isAdmin = true;
     }
   
