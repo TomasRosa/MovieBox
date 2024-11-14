@@ -103,12 +103,9 @@ export class MovieListComponentsComponent {
       alert ('Debes iniciar sesion para agregar al carrito.')
   }
 
-<<<<<<< HEAD
-  agregarALaListaDeFavoritos(film: Film) {
-=======
 
-  agregarALaListaDeFavoritos (film: Film) {
->>>>>>> a376794829e97330bbf89935e12987ad30c25a1c
+  agregarALaListaDeFavoritos(film: Film) 
+  {
     this.Flist.agregarALaLista(film);
   }
 

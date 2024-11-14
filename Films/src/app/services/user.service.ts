@@ -30,15 +30,12 @@ export class UserService {
     private router: Router,
     private adminService: AdminService
   ) {
-<<<<<<< HEAD
     this.usuarioActualSubject = new BehaviorSubject<User | null>(null);
     this.adminActualSubject = new BehaviorSubject<Admin | null>(null);
-    this.isLoggedInSubject = new BehaviorSubject<boolean | null>(false);
-=======
+    this.isLoggedInSubject = new BehaviorSubject<boolean>(false);
     this.usuarioActualSubject = new BehaviorSubject<User | null>(this.getUserFromStorage());
     this.adminActualSubject = new BehaviorSubject<Admin | null>(this.getAdminFromStorage());
     this.isLoggedInSubject = new BehaviorSubject<boolean>(!!this.getUserFromStorage() || !!this.getAdminFromStorage());
->>>>>>> a376794829e97330bbf89935e12987ad30c25a1c
     this.showFormAddCard = new BehaviorSubject<boolean | null>(null);
 
     this.loadUsersFromJSON();

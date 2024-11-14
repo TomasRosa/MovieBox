@@ -89,18 +89,9 @@ export class OfertasAuxComponent implements OnInit {
   }
 
   agregarPeliculaAlCarrito(film: Film) {
-<<<<<<< HEAD
-    if(this.isLoggedIn){
-      this.carritoService.agregarAlCarrito(film);
-    }
-    else{
-      alert("Debes iniciar sesión para agregar películas al carrito.");
-    }
-=======
     if (this.isLoggedIn)
       this.sharedService.agregarPeliculaAlCarrito(film);
     else
       alert ('Debes iniciar sesion para agregar al carrito.')
->>>>>>> a376794829e97330bbf89935e12987ad30c25a1c
   }
 }
