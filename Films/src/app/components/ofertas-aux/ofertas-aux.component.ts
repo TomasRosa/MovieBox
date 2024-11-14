@@ -56,6 +56,10 @@ export class OfertasAuxComponent implements OnInit {
   }
 
   isFavourite(film: Film): boolean {
+    // Verificamos que favouriteFilms sea un arreglo antes de usar .some
+    if (!Array.isArray(this.favouriteFilms)) {
+      this.favouriteFilms = [];  // En caso de que no sea un arreglo, lo inicializamos vacío
+    }
     return this.favouriteFilms.some((favFilm) => favFilm.id === film.id);
   }
 
@@ -68,7 +72,6 @@ export class OfertasAuxComponent implements OnInit {
     this.Flist.loadFavouriteListFromServer(this.usuarioActual.id);
   }
 
-
   getMovieGroups(movies: any[]): any[][] {
     return this.sharedService.getMovieGroups(movies);
   }  
@@ -77,18 +80,27 @@ export class OfertasAuxComponent implements OnInit {
     this.sharedService.navegarFilmDetail (id);
   }
 
-  agregarALaListaDeFavoritos (film: Film) {
+  agregarALaListaDeFavoritos(film: Film) {
     this.Flist.agregarALaLista(film);
   }
-  
+
   navegarFavouriteList() {
     this.sharedService.navegarFavouriteList();
-  } 
+  }
 
   agregarPeliculaAlCarrito(film: Film) {
+<<<<<<< HEAD
+    if(this.isLoggedIn){
+      this.carritoService.agregarAlCarrito(film);
+    }
+    else{
+      alert("Debes iniciar sesión para agregar películas al carrito.");
+    }
+=======
     if (this.isLoggedIn)
       this.sharedService.agregarPeliculaAlCarrito(film);
     else
       alert ('Debes iniciar sesion para agregar al carrito.')
+>>>>>>> a376794829e97330bbf89935e12987ad30c25a1c
   }
 }

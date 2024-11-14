@@ -64,7 +64,7 @@ export class AuthGuard implements CanActivate {
 
         // Lógica de acceso para las rutas públicas: Accesibles para todos los usuarios
         if (publicRoutes.some(route => path.startsWith(route))) {
-          return true; // Todos los usuarios pueden acceder a las rutas públicas
+          return of(true); // Devolver 'true' directamente
         }
 
          // Acceso a la biblioteca de un usuario específico por parte de un admin
@@ -113,7 +113,7 @@ export class AuthGuard implements CanActivate {
         console.log('Redireccionando a inicio, no se cumplen las condiciones de acceso');
         // Si no se cumple ninguna de las condiciones anteriores, redirigimos a la página de inicio
         this.router.navigate(['/inicio']);
-        return false;
+        return of(false); // Devolver 'false' directamente
       })
     );
   }

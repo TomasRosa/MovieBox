@@ -16,60 +16,72 @@ export class MovieListComponentsComponent {
   @Input() category: string = '';
   films: Film[] = this.filmsService.getMovies();
   filteredFilms: Film[] = [];
-  favouriteFilms: Array<Film> = [];
-  usuarioActual: User = new User ();
+  favouriteFilms: Array<Film> = []; // Aseguramos que siempre sea un arreglo
+  usuarioActual: User = new User();
   isLoggedIn: Boolean | null = false;
   isAdmin: Boolean | null = false;
 
-  constructor(private filmsService: FilmsFromAPIService, 
+  constructor(
+    private filmsService: FilmsFromAPIService, 
     private route: ActivatedRoute, 
     private sharedService: SharedServicesService,
     private Flist: FavouriteListService,
-    private userService: UserService) {}
+    private userService: UserService
+  ) {}
 
   ngOnInit() {
-    this.userService.isLoggedIn$.subscribe ( (isLoggedIn) =>{
-      this.isLoggedIn = isLoggedIn
-    })
+    this.userService.isLoggedIn$.subscribe((isLoggedIn) => {
+      this.isLoggedIn = isLoggedIn;
+    });
 
     if (this.userService.getAdminFromStorage ()){
       this.isAdmin = true;
     }
 
     this.filmsService.initializeData().then(() => {
-      this.route.paramMap.subscribe(params => {
+      this.route.paramMap.subscribe((params) => {
         this.category = params.get('category') || '';
         this.films = this.filmsService.getMovies(); // Obtén todas las películas
-        this.filteredFilms = this.films.filter(film => film.genre.includes(this.category)); // Filtra las películas por categoría
+        this.filteredFilms = this.films.filter((film) => film.genre.includes(this.category)); // Filtra las películas por categoría
       });
     });
 
-    if (this.isLoggedIn){
-      this.userService.usuarioActual$.subscribe ((user)=>{
+    if (this.isLoggedIn) {
+      this.userService.usuarioActual$.subscribe((user) => {
         this.usuarioActual = user as User;
-        this.favouriteFilms = this.usuarioActual.fav_list.arrayPeliculas;
-        this.Flist.loadFavouriteListFromServer (this.usuarioActual.id)
-      })
+      
+        // Verificar que usuarioActual y fav_list existan
+        if (this.usuarioActual && this.usuarioActual.fav_list) {
+          this.favouriteFilms = this.usuarioActual.fav_list.arrayPeliculas || [];
+          this.Flist.loadFavouriteListFromServer(this.usuarioActual.id);
+        } else {
+          // Si no existe, inicializa el arreglo vacío
+          this.favouriteFilms = [];
+        }
+      });
     }
 
     this.Flist.getChangesObservable().subscribe(() => {
       this.favouriteFilms = [...this.Flist.listaFav.arrayPeliculas];
     });
   }
-  
+
   ngOnChanges() {
     // Filtra las películas si la categoría cambia
-    this.filteredFilms = this.films.filter(film => film.genre.includes(this.category));
+    this.filteredFilms = this.films.filter((film) => film.genre.includes(this.category));
   }
 
-  
   isFavourite(film: Film): boolean {
+    // Verificación de que `favouriteFilms` sea un arreglo
+    if (!Array.isArray(this.favouriteFilms)) {
+      this.favouriteFilms = []; // Si no es un arreglo, inicialízalo vacío
+    }
     return this.favouriteFilms.some((favFilm) => favFilm.id === film.id);
   }
 
   async toggleFavourite(film: Film) {
     if (this.isFavourite(film)) {
-      await this.Flist.eliminarDeLaListaFavoritos(film);  // Quitar de favoritos
+      await this.Flist.eliminarDeLaListaFavoritos(film); // Quitar de favoritos
     } else {
       await this.Flist.agregarALaLista(film); // Agregar a favoritos
     }
@@ -91,13 +103,16 @@ export class MovieListComponentsComponent {
       alert ('Debes iniciar sesion para agregar al carrito.')
   }
 
+<<<<<<< HEAD
+  agregarALaListaDeFavoritos(film: Film) {
+=======
 
   agregarALaListaDeFavoritos (film: Film) {
+>>>>>>> a376794829e97330bbf89935e12987ad30c25a1c
     this.Flist.agregarALaLista(film);
   }
-  
+
   navegarFavouriteList() {
     this.sharedService.navegarFavouriteList();
-  } 
-
+  }
 }
