@@ -19,6 +19,7 @@ export class OfertasAuxComponent implements OnInit {
   isLoggedIn: Boolean | null = false;
   usuarioActual: User = new User ();
   favouriteFilms: Array<Film> = [];
+  isAdmin: Boolean | null = false;
 
   constructor(
     private dataFilms: FilmsFromAPIService, 
@@ -36,6 +37,10 @@ export class OfertasAuxComponent implements OnInit {
     this.userService.isLoggedIn$.subscribe ((isLoggedIn: boolean | null) =>{
       this.isLoggedIn = isLoggedIn; 
     })
+
+    if (this.userService.getAdminFromStorage ()){
+      this.isAdmin = true;
+    }
 
     if (this.isLoggedIn){
       this.userService.usuarioActual$.subscribe ((user)=>{

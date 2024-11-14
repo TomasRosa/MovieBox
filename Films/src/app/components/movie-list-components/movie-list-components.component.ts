@@ -19,6 +19,7 @@ export class MovieListComponentsComponent {
   favouriteFilms: Array<Film> = [];
   usuarioActual: User = new User ();
   isLoggedIn: Boolean | null = false;
+  isAdmin: Boolean | null = false;
 
   constructor(private filmsService: FilmsFromAPIService, 
     private route: ActivatedRoute, 
@@ -30,6 +31,10 @@ export class MovieListComponentsComponent {
     this.userService.isLoggedIn$.subscribe ( (isLoggedIn) =>{
       this.isLoggedIn = isLoggedIn
     })
+
+    if (this.userService.getAdminFromStorage ()){
+      this.isAdmin = true;
+    }
 
     this.filmsService.initializeData().then(() => {
       this.route.paramMap.subscribe(params => {

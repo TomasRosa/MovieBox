@@ -188,3 +188,12 @@
 .recuadroCelda:hover .box-options {
     opacity: 1;
 }
+
+
+.no-favourite .box-img-title {
+    margin-top: 3.2rem; /* Ajusta el margen para centrar el contenido verticalmente */
+}
+
+.no-favourite .recuadroCelda{
+    height: 400px;
+}
