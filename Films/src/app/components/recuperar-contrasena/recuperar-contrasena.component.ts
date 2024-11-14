@@ -46,8 +46,8 @@ export class RecuperarContrasenaComponent {
     return Math.floor(100000 + Math.random() * 900000).toString(); // Código de 6 dígitos
   }
 
-  enviarCodigo() {
-    const usuario = this.userService.obtenerUserByEmail(this.email);
+  async enviarCodigo() {
+    const usuario = await this.userService.getUserByEmail(this.email);
 
     if (!usuario) {
       this.mensaje = 'Oh, no hemos podido encontrar ese email en nuestra base de datos.';
@@ -89,7 +89,7 @@ export class RecuperarContrasenaComponent {
     }
 
     // Obtener el usuario correspondiente al email
-    const usuario = await this.userService.obtenerUserByEmail(this.email);
+    const usuario = await this.userService.getUserByEmail(this.email);
     if (!usuario) {
       this.mensaje = 'Usuario no encontrado. Verifique el email ingresado.';
       return;

@@ -163,20 +163,27 @@ export class UserService {
   }
 
   async loadUsersFromJSON() {
+    let usersReturn: User[] = [];
     try {
       if (this.users.length === 0) {
         const users = await this.http.get<User[]>(this.urlJSONServer).toPromise();
+        usersReturn = users || [];
         this.users = users || [];
       }
     } catch (error) {
       console.error('Error al obtener usuarios:', error);
       this.users = [];
+      usersReturn = [];
     }
+    return usersReturn;
   }
 
-  verifyUserOrAdmin(inputEmail: string, inputPassword: string): Promise<{ isUser: boolean, isAdmin: boolean, user?: User, admin?: Admin }> {
+  async verifyUserOrAdmin(inputEmail: string, inputPassword: string): Promise<{ isUser: boolean, isAdmin: boolean, user?: User, admin?: Admin }> {
     return new Promise(async (resolve) => {
         // Verificar usuarios
+        this.users = await this.loadUsersFromJSON();
+        console.log ("USUARIOS QUE TOMA: ", this.users)
+
         const isUserValid = this.users.some(
             (user) => user.email === inputEmail && user.password === inputPassword
         );

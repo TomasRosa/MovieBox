@@ -46,7 +46,6 @@
   </div>
 </div>
 
-<!-- Aquí agregas el div para mostrar mensajes -->
 <div *ngIf="result" class="alert" [ngClass]="{'alert-success': result.includes('exitoso'), 'alert-danger': result.includes('error')}">
   {{ result }}
 </div>

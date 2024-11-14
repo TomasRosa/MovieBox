@@ -18,6 +18,7 @@ import { RecuperarContrasenaComponent } from './components/recuperar-contrasena/
 import { ShowUsersComponent } from './components/show-users/show-users.component';
 import { EntregasPendientesComponent } from './components/entregas-pendientes/entregas-pendientes.component';
 import { AuthGuard } from './auth.guard';
+import { PagoDeudaComponent } from './components/pago-deuda/pago-deuda.component';
 
 const routes: Routes = [
   { path: 'inicio', component: InicioComponent }, // Ruta pública sin AuthGuard
@@ -40,6 +41,7 @@ const routes: Routes = [
   { path: 'showUsers', component: ShowUsersComponent, canActivate: [AuthGuard] }, // Ruta protegida por admin
   { path: 'entregas-pendientes', component: EntregasPendientesComponent, canActivate: [AuthGuard] }, // Ruta protegida
   { path: 'entregas-pendientes/:id', component: EntregasPendientesComponent, canActivate: [AuthGuard] }, // Ruta protegida
+  { path: 'pago-deuda/:id', component: PagoDeudaComponent, canActivate: [AuthGuard] }, // Ruta protegida
   { path: '**', component: NotFoundComponent } // Ruta para errores
 ];
 

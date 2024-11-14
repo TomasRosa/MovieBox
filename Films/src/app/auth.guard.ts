@@ -45,7 +45,8 @@ export class AuthGuard implements CanActivate {
       'biblioteca/:id', 
       'admin-code', 
       'showUsers',
-      'entregas-pendientes'
+      'entregas-pendientes',
+      'pago-deuda/:id'
     ];
 
     // Rutas que solo los usuarios no logueados pueden ver (invitados)

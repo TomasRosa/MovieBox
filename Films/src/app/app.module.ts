@@ -35,6 +35,7 @@ import { AdminCodeComponent } from './components/admin-code/admin-code.component
 import { RecuperarContrasenaComponent } from './components/recuperar-contrasena/recuperar-contrasena.component';
 import { ShowUsersComponent } from './components/show-users/show-users.component';
 import { EntregasPendientesComponent } from './components/entregas-pendientes/entregas-pendientes.component';
+import { PagoDeudaComponent } from './components/pago-deuda/pago-deuda.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,7 +66,8 @@ import { EntregasPendientesComponent } from './components/entregas-pendientes/en
     AdminCodeComponent,
     RecuperarContrasenaComponent,
     ShowUsersComponent,
-    EntregasPendientesComponent
+    EntregasPendientesComponent,
+    PagoDeudaComponent
   ],
   imports: [
     BrowserModule,

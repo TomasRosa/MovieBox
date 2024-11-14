@@ -52,18 +52,7 @@ export class DeudaService {
 
   pagarDeuda() {
     this.deuda = 0;
-    // this.setStartTimeLocalStorage (new Date().getTime())
   }
-
-  // setStartTimeLocalStorage (startTime: number)
-  // {
-  //   localStorage.setItem('startTime', startTime.toString());
-  // }
-
-  // getStartTimeFromLocalStorage(): number | null {
-  //   const storedStartTime = localStorage.getItem('startTime');
-  //   return storedStartTime ? parseInt(storedStartTime) : null;
-  // }
 
   iniciarAcumuladorDeDeuda( user: User, montoPorIntervalo: number) {
     this.intervalId = setInterval(() => {

@@ -30,6 +30,10 @@ export class ShowUsersComponent implements OnInit{
     this.router.navigate(['/entregas-pendientes',id]);
   }
 
+  verDeuda(id: number){
+    this.router.navigate(['/pago-deuda',id]);
+  }
+
   async deleteUserAccount (userId: number){
     await this.userService.deleteUserByAdmin (userId);
     this.closeDeleteUserAccountModal ();
