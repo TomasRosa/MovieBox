@@ -53,7 +53,7 @@ img{
     padding-inline: 2rem;
     padding-block: 1.6rem;
     align-items: center;
-    background-color: #141414 /* Fondo base */
+    background-color: #141414; /* Fondo base */
 }
 
 .box-main-menu, .box-search-bar, .box-profile{

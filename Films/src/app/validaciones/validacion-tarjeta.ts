@@ -24,7 +24,7 @@ export class ValidacionTarjeta {
   static validarCVCLongitud(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const cvc = control.value;
-      if (!cvc || !/^[0-9]{3,4}$/.test(cvc)) {
+      if (!cvc || !/^[0-9]{3}$/.test(cvc)) {
         return { 'validarCVCLongitud': { value: control.value } };
       }
       return null;
