@@ -14,11 +14,13 @@
 .box-title{
     margin-bottom: 1.7rem;
     padding: 1rem;
-    background-color: #CFCCCC;
+    padding-block: 0.9rem;
+    background-color: #747474;
 }
 
 .title{
     margin: 0%;
+    color: aliceblue;
 }
 
 .box-empty{

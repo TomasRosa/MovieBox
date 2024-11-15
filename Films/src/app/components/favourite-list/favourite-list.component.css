@@ -4,11 +4,13 @@
 
 .box-title{
     padding: 1rem;
-    background-color: #CFCCCC;
+    padding-block: 0.9rem;
+    background-color: #747474;
 }
 
 .title{
     margin: 0%;
+    color: aliceblue;
 }
 
 .box{
@@ -38,15 +40,14 @@
 .recuadroCelda {
     position: relative;
     overflow: hidden;
-    width: 290px;
+    width: 300px;
     height: 555px;
     background-color: black !important;
-    color: white !important;
+    color: aliceblue !important;
     border-radius: 10px !important;
     margin: 8px;
     padding: 0.2rem;
     transition: 0.5s;
-    border: 1px solid white;
 }
 
 .recuadroCelda:hover{
@@ -100,20 +101,20 @@
 
 .button-vaciar{
     width: auto;
-    padding-inline: 0.4rem;
-    font-size: 1.1rem;
-    padding-block: 0.4rem;
-    background-color: rgb(207, 204, 204);
-    border: 1px solid transparent;
-    transition: border 0.3s ease, border-radius 0.3s ease;
+    background-color: #747474;
     cursor: pointer;
-    color: black;
+    padding: 0.4rem;
+    padding-inline: 1.15rem;
+    font-size: 1.15rem;
+    border: none;
+    transition: border 0.3s ease, border-radius 0.3s ease;
+    color: aliceblue;
     transition: 0.3s;
 }
 
 .button-vaciar:hover{
     border-radius: 1rem;
-    background-color: rgb(160, 160, 160);
+    color: rgb(187, 187, 187);
 }
 
 .button-star:hover {
@@ -122,7 +123,7 @@
 
 .image{
     height: 350px;
-    width: 215px;
+    width: 235px;
     margin-bottom: 1.8rem;
 }
 

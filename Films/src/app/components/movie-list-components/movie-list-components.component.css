@@ -5,11 +5,13 @@
 .box-title{
     margin-bottom: 1.7rem;
     padding: 1rem;
-    background-color: #CFCCCC;
+    padding-block: 0.9rem;
+    background-color: #747474;
 }
 
 .title{
     margin: 0%;
+    color: aliceblue;
 }
 
 .box{
@@ -37,15 +39,14 @@
 .recuadroCelda {
     position: relative;
     overflow: hidden;
-    width: 290px;
+    width: 300px;
     height: 555px;
     background-color: black !important;
-    color: white !important;
+    color: aliceblue !important;
     border-radius: 10px !important;
     margin: 8px;
     padding: 0.2rem;
     transition: 0.5s;
-    border: 1px solid white;
 }
 
 .recuadroCelda:hover{
@@ -96,7 +97,7 @@
 
 .image{
     height: 350px;
-    width: 215px;
+    width: 235px;
     margin-bottom: 1.8rem;
 }
 
