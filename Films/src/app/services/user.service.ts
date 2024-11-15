@@ -37,8 +37,11 @@ export class UserService {
     this.adminActualSubject = new BehaviorSubject<Admin | null>(this.getAdminFromStorage());
     this.isLoggedInSubject = new BehaviorSubject<boolean>(!!this.getUserFromStorage() || !!this.getAdminFromStorage());
     this.showFormAddCard = new BehaviorSubject<boolean | null>(null);
+  }
 
-    this.loadUsersFromJSON();
+  async ngOnInit ()
+  {
+    this.users = await this.loadUsersFromJSON();
     this.adminService.loadAdminsFromJSON();
   }
 
@@ -86,7 +89,6 @@ export class UserService {
     this.adminActualSubject.next(admin);
     this.isLoggedInSubject.next(true);
   }
-
   
   getUserActual(): User | null {
     return this.usuarioActualSubject.value;
@@ -152,6 +154,10 @@ export class UserService {
     return this.users;
   }
 
+  setUsers(users: User[])  {
+    this.users = users;
+  }
+
   async getUsersFromJSON (): Promise<User[] | null>{
     try{
       const users = await this.http.get<User[]>(this.urlJSONServer).toPromise();
@@ -163,32 +169,51 @@ export class UserService {
   }
 
   async loadUsersFromJSON() {
-    let usersReturn: User[] = [];
-    console.log ('antes de if en load')
-    try {
-      if (this.users.length === 0) {
-        console.log ('entro a if de 0 en load')
-        const users = await this.http.get<User[]>(this.urlJSONServer).toPromise();
-        usersReturn = users || [];
-        this.users = users || [];
+    let usuarios: any | undefined = []
+    try 
+    {
+      if (this.users.length === 0) 
+      {
+        usuarios = await this.http.get<User[]>(this.urlJSONServer).toPromise();
+        console.log ("USUARIOS QUE TRAE EL JSON: ", usuarios)
+        if (usuarios)
+        {
+          this.users = [...usuarios]
+        }
+        
+        return usuarios;
       }
     } catch (error) {
       console.error('Error al obtener usuarios:', error);
       this.users = [];
-      usersReturn = [];
+      usuarios = [];
+      return usuarios;
     }
-    return usersReturn;
   }
 
   async verifyUserOrAdmin(inputEmail: string, inputPassword: string): Promise<{ isUser: boolean, isAdmin: boolean, user?: User, admin?: Admin }> {
+    let usersAux = await this.loadUsersFromJSON()
+    if (usersAux)
+    {
+      if (this.users.length != usersAux.length)
+        {
+          this.users = await this.loadUsersFromJSON();
+          console.log ("USUARIOS QUE TOMA: ", this.users)
+        }
+    }
+    
     return new Promise(async (resolve) => {
-        // Verificar usuarios
-        this.users = await this.loadUsersFromJSON();
-        console.log ("USUARIOS QUE TOMA: ", this.users)
+        let isUserValid = false;
 
-        const isUserValid = this.users.some(
-            (user) => user.email === inputEmail && user.password === inputPassword
-        );
+        if (this.users)
+        {
+          this.users.forEach(u => {
+            if (u.email == inputEmail && u.password == inputPassword)
+            {
+              isUserValid = true;
+            }
+          })
+        }
 
         if (isUserValid) {
             const user = this.users.find(user => user.email === inputEmail);
