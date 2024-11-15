@@ -17,3 +17,7 @@
   .btn-link:hover {
     color: #0056b3; /* Color del ícono al pasar el mouse */
   }
+
+  .box-login{
+    margin-top: 2rem;
+  }

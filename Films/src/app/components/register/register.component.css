@@ -1,5 +1,5 @@
 .card {
-    padding: 30px; /* Mantén suficiente espacio alrededor del contenido */
+    padding: 10px; /* Mantén suficiente espacio alrededor del contenido */
   }
   
   .label-spacing {
@@ -23,4 +23,8 @@
     border-right: none; /* Quitar borde derecho */
     border-left: none; /* Quitar borde izquierdo */
     border-radius: 0; /* Eliminar bordes redondeados si es necesario */
+  }
+
+  .box-register{
+    margin-block: 1rem;
   }
