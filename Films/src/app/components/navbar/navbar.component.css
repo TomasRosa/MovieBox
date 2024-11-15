@@ -232,10 +232,10 @@ img{
 
 .box-result-search {
     position: absolute;
-    top: 14%; /* Debajo de la barra de búsqueda */
+    top: 13%; /* Debajo de la barra de búsqueda */
     width: 50rem;
     transform: translateX(50%);
-    background-color: #fff;
+    background-color: #747474;
     border: 1px solid #ccc;
     border-radius: 4px;
     max-height: 300px;
@@ -253,12 +253,12 @@ img{
     background: none;
     text-align: left;
     cursor: pointer;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid aliceblue;
     transition: background-color 0.3s ease; 
 }
 
 .result-item:hover {
-    background-color: #f0f0f0; /* Fondo ligeramente gris */
+    background-color: #545454;
 }
 
 .no-result{
@@ -294,12 +294,12 @@ img{
     font-size: 16px;
     font-weight: bold;
     margin: 0;
-    color: #333;
+    color: aliceblue;
 }
   
 .result-rating {
     font-size: 14px;
-    color: #777;
+    color: #d6d9dc;
 }
 
 .icon {
