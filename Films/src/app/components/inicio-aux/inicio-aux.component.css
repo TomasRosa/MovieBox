@@ -5,11 +5,12 @@
 .box-title{
     margin-bottom: 1.7rem;
     padding: 1rem;
-    background-color: #CFCCCC;
+    background-color: #747474;
 }
 
 .title{
     margin: 0%;
+    color: aliceblue;
 }
 
 .box{
@@ -44,7 +45,7 @@
     margin: 8px;
     padding: 0.2rem;
     transition: 0.5s;
-    border: 1px solid white;
+    border: 1px solid #6d6d6d;
 }
 
 .recuadroCelda:hover{

@@ -73,7 +73,7 @@
 }
 
 .button-category {
-    color: #fff;
+    color: aliceblue;
     background: transparent ;
     border: none;
     padding: 0.4rem;
@@ -92,22 +92,25 @@
     padding: 0.3rem;
     padding-inline: 0.5rem;
     font-size: 1.15rem;
-    background-color: rgb(207, 204, 204);
+    background-color: #747474;
     border: none;
     cursor: pointer;
+    color: aliceblue;
 }
  
 .button {
-    background-color: rgb(207, 204, 204);
+    background-color: #747474;
     cursor: pointer;
     padding: 0.7rem;
     padding-inline: 1.15rem;
     font-size: 1.15rem;
     border: none;
     transition: border 0.3s ease, border-radius 0.3s ease;
+    color: aliceblue;
 }
 
 .option-categories:hover,
 .button:hover{
-    color: rgb(63, 63, 63);
+    color: white;
+    color: rgb(187, 187, 187);
 }

@@ -10,7 +10,7 @@ html, body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    background-color: #f0f0f0;
+    background-color: #141414 /* Fondo base */
 }
 
 /* Ajusta el footer para que esté al final y ocupe el ancho completo */

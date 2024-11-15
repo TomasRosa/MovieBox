@@ -164,8 +164,10 @@ export class UserService {
 
   async loadUsersFromJSON() {
     let usersReturn: User[] = [];
+    console.log ('antes de if en load')
     try {
       if (this.users.length === 0) {
+        console.log ('entro a if de 0 en load')
         const users = await this.http.get<User[]>(this.urlJSONServer).toPromise();
         usersReturn = users || [];
         this.users = users || [];
