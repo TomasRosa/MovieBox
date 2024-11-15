@@ -11,9 +11,17 @@
 <section *ngIf="movieLibrary.length > 0" class="box">
   <div *ngFor="let group of getMovieGroups(movieLibrary)" class="box-group-films">
     <div *ngFor="let film of group" class="recuadroCelda film" [ngClass]="{'no-favourite': isAdmin}">  
-      <div *ngIf = "!isAdmin" class="box-star"> 
-        <button id="buttonStar" (click)="agregarALaListaDeFavoritos(film)" class="button-star">☆</button>
+      <div *ngIf = "!isAdmin">
+        <div class="box-star">
+          <button 
+            (click)="toggleFavourite(film)" 
+            class="button-star"
+          >
+            {{ isFavourite(film) ? '★' : '☆' }}
+          </button>
+        </div>
       </div>
+      
       <div class="box-img-title">
         <img class="image" [src]="film.image" alt="Imagen no disponible">
         <p class="title-text">{{film.title}}</p>

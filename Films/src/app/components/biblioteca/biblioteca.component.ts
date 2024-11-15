@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Film } from 'src/app/models/film';
 import { User } from 'src/app/models/user';
 import { FavouriteListService } from 'src/app/services/favourite-list.service';
@@ -24,7 +24,7 @@ export class BibliotecaComponent
   intervalId: any;
   countdowns: { [key: number]: string } = {};
   deudaSubscription: Subscription = new Subscription;
-  
+  favouriteFilms: Array<Film> = [];  // Inicialización como arreglo vacío
 
   constructor(
     private userService: UserService,
@@ -40,7 +40,44 @@ export class BibliotecaComponent
   }
   
   async ngOnInit(){
-    await this.initializateLibrary()
+    await this.initializateLibrary();
+    if (this.isLoggedIn && !this.userService.getAdminFromStorage()) {
+      this.userService.usuarioActual$.subscribe(user => {
+        this.usuarioActual = user as User;
+        if (this.usuarioActual.fav_list)
+        {
+          this.favouriteFilms = this.usuarioActual.fav_list.arrayPeliculas || [];  // Asegurarse de que sea un arreglo
+        }
+        this.Flist.loadFavouriteListFromServer(this.usuarioActual.id);
+      });
+    }
+
+    this.Flist.getChangesObservable().subscribe(() => {
+      this.favouriteFilms = [...this.Flist.listaFav.arrayPeliculas];
+    });
+  }
+
+  // Verifica que favouriteFilms no sea undefined antes de intentar acceder a 'some'
+  isFavourite(film: Film): boolean {
+    if (!this.favouriteFilms) {
+      return false; // Si favouriteFilms no está definido, devuelve false
+    }
+    return this.favouriteFilms.some((favFilm) => favFilm.id === film.id);
+  }
+
+  async toggleFavourite(film: Film) {
+    if (!this.isLoggedIn){
+      alert ('Debes iniciar sesion para agregar a favoritos una pelicula');
+      return;
+    }
+    if (this.isFavourite(film)) {
+      await this.Flist.eliminarDeLaListaFavoritos(film);  // Quitar de favoritos
+    } else {
+      await this.Flist.agregarALaLista(film); // Agregar a favoritos
+    }
+    if (this.usuarioActual)
+      this.Flist.loadFavouriteListFromServer(this.usuarioActual.id);
+
   }
 
   async initializateLibrary(): Promise<void> {
