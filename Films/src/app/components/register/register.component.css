@@ -28,3 +28,41 @@
   .box-register{
     margin-block: 1rem;
   }
+
+  .card-register{
+    background-color: #949494;
+    color: aliceblue;
+  }
+  
+  .text{
+    text-decoration: none;
+    color: aliceblue;
+  }
+
+  .text-login{
+    text-decoration: underline;
+    color: rgb(222, 222, 222);
+  }
+
+  .input{
+    border-radius: 0.2rem;
+  }
+
+  .input-password{
+    border-radius: 0.2rem;
+    margin-right: 0.1rem;
+  }
+
+  
+
+  .bi{
+    background-color: transparent;
+}
+
+.bi-eye-slash{
+    background-color: transparent;
+}
+
+.bi-eye{
+    background-color: transparent;
+}

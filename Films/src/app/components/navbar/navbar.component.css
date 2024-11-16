@@ -211,23 +211,20 @@ img{
 
 .button-sign-in,
 .button-sign-up{
-    background-color: rgb(207, 204, 204);
-    padding: 0.5rem;
-    font-size: 1.1rem;
-    border: 0.1rem solid transparent;
-    transition: border 0.3s ease, border-radius 0.3s ease;
+    background-color: #747474;
     cursor: pointer;
-    margin: 0%;
-}
-
-.button-sign-in{
-    margin-right: 2rem;
+    padding: 0.7rem;
+    padding-inline: 1.15rem;
+    font-size: 1.15rem;
+    border: none;
+    transition: border 0.3s ease, border-radius 0.3s ease;
+    color: aliceblue;
 }
 
 .button-sign-in:hover,
 .button-sign-up:hover{
     border-radius: 1rem;
-    background-color: rgb(160, 160, 160);
+    color: rgb(187, 187, 187);
 }
 
 .box-result-search {

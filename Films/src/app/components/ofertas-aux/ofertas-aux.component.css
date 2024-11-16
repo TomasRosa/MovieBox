@@ -127,12 +127,12 @@ table {
     transition: border 0.3s ease, border-radius 0.3s ease;
     cursor: pointer;
     color: black;
-    font-weight: 500;
-    transition: 0.3s;
+    font-weight: 450;
+    transition: 0.3s, background-color 0.3s ease;
 }
 
 .button:hover{
-    background-color: rgb(164, 164, 164);
+    background-color: #b6b6b6;
 }
 
 .btn-carrito{

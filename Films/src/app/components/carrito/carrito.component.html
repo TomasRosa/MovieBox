@@ -8,8 +8,8 @@
                 <p class="text-empty"> Aun no agregaste ninguna pelicula a tu carrito! </p>
             </div>
 
-            <table *ngIf="carritoDeCompras.length!=0" class="table table-bordered table-hover text-center">
-                <thead>
+            <table *ngIf="carritoDeCompras.length!=0" class="film-table">
+                <thead class="fila">
                     <tr>
                         <th class="align-middle column-title">IMAGEN</th>
                         <th class="align-middle column-title">TITULO</th>
@@ -20,7 +20,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let pelicula of carritoDeCompras">
+                    <tr *ngFor="let pelicula of carritoDeCompras" class="fila">
                         <td class="align-middle"><img class="film-img"  [src]="pelicula.image" alt="Imagen de la película"></td>
                         <td class="align-middle paragraph">{{ pelicula.title }}</td>
                         <td class="align-middle paragraph">{{ pelicula.genre }}</td>
@@ -30,7 +30,7 @@
                             <button class="button"  (click)="eliminarDelCarrito(pelicula)">Eliminar</button>
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="last-fila">
                         <td></td>
                         <td></td>
                         <td></td>

@@ -17,5 +17,5 @@ export class User {
     role: 'user' | 'admin' = 'user';  // Rol del usuario
     adminCode?: string;  // Código para admins (opcional)
     entregasPendientes: Array<Film> = [];
-  }
+}
 

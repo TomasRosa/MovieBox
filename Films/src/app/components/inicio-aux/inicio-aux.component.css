@@ -111,12 +111,12 @@
     transition: border 0.3s ease, border-radius 0.3s ease;
     cursor: pointer;
     color: black;
-    font-weight: 500;
-    transition: 0.15s;
+    font-weight: 450;
+    transition: 0.3s, background-color 0.3s ease;
 }
 
 .button:hover{
-    background-color: rgb(164, 164, 164);
+    background-color: #b6b6b6;
 }
 
 .btn-carrito{
@@ -126,7 +126,7 @@
     display: flex;
     align-items: center;
     overflow: hidden;
-    transition: width 0.3s ease; /* Ensancha el botón suavemente */
+    transition: width 0.3s ease, background-color 0.3s ease; /* Ensancha el botón suavemente */
     width: 52.5px;
 }
 
@@ -148,7 +148,7 @@
 .btn-carrito:hover {
     width: 115px; /* Ancho que alcanza el botón al hacer hover */
     border-radius: 10%;
-    background-color:aliceblue;
+    background-color: #b6b6b6;
 }
   
   /* Deslizar logo y mostrar precio */

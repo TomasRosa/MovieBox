@@ -1,7 +1,6 @@
 .box-users{
     margin-block: 2rem;
-    display: flex;
-    flex-direction: column;
+    display: grid;
     justify-content: center;
 }
 
@@ -25,23 +24,23 @@
     align-items: center;
     padding: 0.1rem;
     margin: 0%;
-    color: rgb(103, 95, 95);
+    color: aliceblue;
 }
 
 .content-user{
     display: flex;
     justify-content: center;
-    align-items:flex-start;
     margin-block: 0.5rem;
 }
 
 .box{
     padding: 0.2rem;
+    padding-block: 0.3rem;
     display: flex;
     align-items: center;
+    justify-content: center;
     border-bottom: grey 1px solid;
     width: 100%; /* Asegura que todas las cajas tengan el mismo ancho */
-    max-width: 550px;
 }
 
 .info-user{
@@ -50,8 +49,18 @@
 
 .box-options{
     display: flex;
+}
+
+.box-options-1{
+    display: flex;
     flex-direction: column;
-    align-items: flex-end;
+
+}
+
+.box-options-2{
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .info-user, .box-options {
@@ -62,15 +71,14 @@
     margin-top: 0.1rem;
 }
 
-.button{
-    padding-inline: 0.2rem;
+.button {
+    background-color: #747474;
+    cursor: pointer;
+    padding: 0.2rem;
     font-size: 1.1rem;
-    padding-block: 0.2rem;
-    background-color: rgb(130, 130, 130);
     border: 1px solid transparent;
     transition: border 0.3s ease, border-radius 0.3s ease;
-    cursor: pointer;
-    color: white;
+    color: aliceblue;
 }
 
 .button:hover{
@@ -83,7 +91,7 @@
 }
 
 .modal-overlay {
-    background-color: rgba(0, 0, 0, 0.8); 
+    background-color: rgba(51, 51, 51, 0.8); 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     position: fixed;
     top: 10%; 
@@ -106,4 +114,8 @@
     margin-top: 20px;
     display: flex;
     justify-content: space-around;
+}
+
+.button-modal{
+    padding: 0.4rem;
 }

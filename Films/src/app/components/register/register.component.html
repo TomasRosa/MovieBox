@@ -1,8 +1,8 @@
 <div class="container d-flex justify-content-center align-items-center box-register">
   <div class="row justify-content-center">
     <div class="col-md-15"> <!-- Volvemos a la col-md-8 para conservar el tamaño de la card -->
-      <div class="card">
-        <div class="card-body">
+      <div class="card card-register">
+        <div class="card-body card-register">
           <h2 class="card-title mb-4 mt-3 text-center">REGISTRARSE</h2>
           <form class="needs-validation" [formGroup]="userForm" (ngSubmit)="onSubmit()">
             
@@ -10,7 +10,7 @@
             <div class="row">
               <div class="col-md-6 mb-5">
                 <label for="firstName" class="form-label label-spacing">Nombre</label>
-                <input type="text" class="form-control no-border" id="firstName" name="firstName" formControlName="firstName" placeholder="Ingrese su nombre" required>
+                <input type="text" class="form-control no-border input" id="firstName" name="firstName" formControlName="firstName" placeholder="Ingrese su nombre" required>
                 <span class="text-danger" *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)">
                   <div *ngIf="firstName?.hasError('required')">El nombre es requerido</div>
                   <div *ngIf="firstName?.hasError('soloLetras')">El nombre debe contener solo letras</div>
@@ -18,7 +18,7 @@
               </div>
               <div class="col-md-6 mb-5">
                 <label for="lastName" class="form-label label-spacing">Apellido</label>
-                <input type="text" class="form-control no-border" id="lastName" name="lastName" formControlName="lastName" placeholder="Ingrese su apellido" required>
+                <input type="text" class="form-control no-border input" id="lastName" name="lastName" formControlName="lastName" placeholder="Ingrese su apellido" required>
                 <span class="text-danger" *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)">
                   <div *ngIf="lastName?.hasError('required')">El apellido es requerido</div>
                   <div *ngIf="lastName?.hasError('soloLetras')">El apellido debe contener solo letras</div>
@@ -30,7 +30,7 @@
             <div class="row">
               <div class="col-md-6 mb-5">
                 <label for="dni" class="form-label label-spacing">DNI</label>
-                <input type="text" class="form-control no-border" id="dni" name="dni" formControlName="DNI" placeholder="Ingrese su DNI" required>
+                <input type="text" class="form-control no-border input" id="dni" name="dni" formControlName="DNI" placeholder="Ingrese su DNI" required>
                 <span class="text-danger" *ngIf="dni?.invalid && (dni?.dirty || dni?.touched)">
                   <div *ngIf="dni?.hasError('required')">El DNI es requerido</div>
                   <div *ngIf="dni?.hasError('soloNumeros')">El DNI debe contener solo números</div>
@@ -39,7 +39,7 @@
               </div>
               <div class="col-md-6 mb-5">
                 <label for="email" class="form-label label-spacing">Email</label>
-                <input type="email" class="form-control no-border" id="email" name="email" formControlName="email" placeholder="Ingrese su email" required>
+                <input type="email" class="form-control no-border input" id="email" name="email" formControlName="email" placeholder="Ingrese su email" required>
                 <span class="text-danger" *ngIf="email?.invalid && (email?.dirty || email?.touched)">
                   <div *ngIf="email?.hasError('required')">El email es requerido</div>
                   <div *ngIf="email?.hasError('email')">El formato del email es incorrecto</div>
@@ -51,7 +51,7 @@
             <div class="row">
               <div class="col-md-6 mb-5">
                 <label for="address" class="form-label label-spacing">Dirección</label>
-                <input type="text" class="form-control no-border" id="address" name="address" formControlName="address" placeholder="Ingrese su dirección" required>
+                <input type="text" class="form-control no-border input" id="address" name="address" formControlName="address" placeholder="Ingrese su dirección" required>
                 <span class="text-danger" *ngIf="address?.invalid && (address?.dirty || address?.touched)">
                   <div *ngIf="address?.hasError('required')">La dirección es requerida</div>
                 </span>
@@ -59,7 +59,7 @@
               <div class="col-md-6 mb-5">
                 <label for="password" class="form-label label-spacing">Contraseña</label>
                 <div class="input-group">
-                  <input [type]="mostrarContrasena ? 'text' : 'password'" class="form-control no-border" id="password" name="password" formControlName="password" placeholder="Ingrese su contraseña" required/>
+                  <input [type]="mostrarContrasena ? 'text' : 'password'" class="form-control no-border input-password" id="password" name="password" formControlName="password" placeholder="Ingrese su contraseña" required/>
                   <button type="button" class="btn btn-link" (click)="toggleMostrarContrasena()"><i [ngClass]="mostrarContrasena ? 'bi bi-eye-slash' : 'bi bi-eye'"></i></button>
                 </div>
                 <span class="text-danger" *ngIf="password?.invalid && (password?.dirty || password?.touched)">
@@ -75,8 +75,8 @@
             </div>
 
             <div class="text-center mt-3">
-              <a [routerLink]="['/login']" class="text-muted text-primary">
-                ¿Ya tienes una cuenta? <span class="text-primary">Inicia sesión.</span>
+              <a [routerLink]="['/login']" class="text">
+                ¿Ya tienes una cuenta? <span class="text-login">Inicia sesión.</span>
               </a>
             </div>
 

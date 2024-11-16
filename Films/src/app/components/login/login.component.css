@@ -21,3 +21,27 @@
   .box-login{
     margin-top: 2rem;
   }
+
+  .card-login{
+    background-color: #747474;
+    color: aliceblue;
+  }
+
+  .text-registrate{
+    color: rgb(222, 222, 222);
+    text-decoration: underline;
+  }
+
+  .text{
+    color: aliceblue;
+    text-decoration: none;
+  }
+
+  .forget-password{
+    color: rgb(222, 222, 222);
+    text-decoration: underline;
+  }
+
+  .input{
+    border-radius: 0.2rem;
+  }

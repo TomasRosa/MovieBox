@@ -24,13 +24,13 @@
 }
 
 .box-empty{
+    border-radius: 0.2rem;
     padding: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: black;
-    background-color: rgb(190, 190, 190);
-    box-shadow: 0px 0px 0px 10px rgb(204, 204, 204);
+    color: aliceblue;
+    background-color: #747474;
     width: max-content;
     margin: 0 auto;
     margin-block: 4rem;
@@ -38,8 +38,7 @@
 
 .text-empty{
     margin: 0%;
-    font-size: 40px;
-    font-family: 'Times New Roman', Times, serif;
+    font-size: 1.5rem;
 }
 
 .box-content-shopping-cart{
@@ -52,13 +51,15 @@
 }
 
 .film-img{
-    height: 310px;
-    width: 220px;
+    height: 210px;
+    width: 170px;
+    object-fit:contain;
 }
 
 .paragraph{
     font-size: 1.3rem;
     font-weight: 450;
+    color: aliceblue;
 }
 
 .column-title{
@@ -79,4 +80,29 @@
 
 .button:hover{
     border-radius: 1rem;
+}
+
+.film-table{
+    width: 100%;  
+    border-collapse: collapse;
+    background-color: #747474;
+    color: aliceblue;
+}
+
+.film-table tbody tr:hover{
+    background-color: #949494;
+}
+
+.fila{
+    border: 1px solid #ddd;
+}
+
+.fila th, 
+.fila td{
+    border: 1px solid #ddd;  /* Bordes de las celdas */
+    padding: 8px; 
+}
+
+.last-fila th, .last-fila td{
+    padding: 8px; 
 }
