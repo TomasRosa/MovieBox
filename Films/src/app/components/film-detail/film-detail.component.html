@@ -5,22 +5,23 @@
         <img class="film-img" alt="Imagen No Disponible" [src]="movie.image">
     </div>
     <div class="film-data">
-      <h3 class="data"> {{movie.year}} </h3>
-      <h3 class="data"> {{movie.genre}} </h3>
+      <h3 class="data"> <span class="title-data">YEAR:</span> {{movie.year}} </h3>
+      <h3 class="data"> 
+        <span class="title-data">GENRE:</span> <span *ngFor="let genre of movie?.genre; let last = last" > {{genre}} </span>
+      </h3>
       <div class="data box-rating">
-        <h3 class="data"> {{movie.rating}} </h3>
+        <h3 class="data"> <span class="title-data">RATING:</span> {{movie.rating}} </h3>
         <img class="star" src="/assets/star.png" alt="">
       </div>
-      <h3 class="data"> $ {{movie.precio}} </h3>
+      <h3 class="data price"><span class="title-data">PRICE:     </span>${{movie.precio}} </h3>
 
       <div *ngIf="isLoggedIn && !isAdmin">
         <div class="box-carrito">
-          <button class="btn-carrito" (click)="agregarPeliculaAlCarrito(movie)">
-            <img class="carrito-logo" src="/assets/carrito.png" alt="">
+          <button class="btn btn-primary mt-2" (click)="agregarPeliculaAlCarrito(movie)">
+            Agregar al carrito  
           </button>
         </div>
       </div>
-
     </div>
   </div>
 
@@ -32,7 +33,7 @@
       </div>
     </div>
     <div class="reviews mt-4">
-        <h2>Reseñas:</h2>
+        <h2>Reseñas</h2>
         <div *ngIf="movie?.reviews?.length ?? 0 > 0; else noReviews">
           <div class="card mt-3" *ngFor="let review of movie.reviews">
             <div class="card-body position-relative">
@@ -53,15 +54,16 @@
         
           <ng-template #noReviews>
             <div *ngIf = "isLoggedIn && !isAdmin">
-              <p>No hay reseñas aún. ¡Sé el primero en escribir una!</p>
+              <p class="paragraph">No hay reseñas aún. ¡Sé el primero en escribir una!</p>
             </div>
           </ng-template>
 
           <div *ngIf = "isLoggedIn && isAdmin">
-            <p>Los administradores no pueden publicar reseñas</p>
+            <p class="paragraph">Los administradores no pueden publicar reseñas</p>
           </div>
+          
           <div *ngIf = "!isLoggedIn">
-            <p>Inicie sesión para publicar una reseña</p>
+            <p class="paragraph">Inicie sesión para publicar una reseña</p>
           </div>
         
         <div *ngIf="reviewToDelete" class="alert alert-danger" role="alert">

@@ -1,34 +1,25 @@
 img {
-    width: 320px;
-    height: 430px;
+    width: 300px;
+    height: 400px;
 }
 
 .box-carrito{
     display: flex;
     justify-content: center;
+    margin-top: 1.5rem;
+    margin-bottom: 4.5rem;
 }
 
-
-.carrito-logo{
-    height: 45px;
-    width: 45px;
-}
-
-.btn-carrito{
+.button-shopping-cart{
     padding: 0.2rem;
-    border-radius: 50%;
-    margin-right: 1rem;
-    padding-inline: 0.4rem;
-    font-size: 1rem;
-    padding-block: 0.4rem;
+    background: transparent;
     border: 1px solid transparent;
-    transition: border 0.3s ease, border-radius 0.3s ease, box-shadow 0.6s ease;
-    cursor: pointer;
-    color: white;
+    transition: 0.3s;
 }
 
-.btn-carrito:hover{
-    box-shadow: black 1px 2px;
+.button-shopping-cart:hover{
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+    background-color: #747474;
 }
 
 .button{
@@ -44,15 +35,15 @@ img {
 }
 
 .recuadro-film{
-    background-color: rgb(237, 235, 235);
-    padding-inline: 1rem;
-    padding-block: 1.5rem;
+    justify-content: center;
+    max-height: 430px;
 }
 
 .film-img{
-    border: 1px solid black;
-    padding: 1rem;
-    padding-inline: 1rem;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    align-items: center;
 }
 
 .button:hover{
@@ -62,26 +53,42 @@ img {
 
 .box-film-detail{
     display:flex;
-    justify-content: space-around;
+    margin-left: 20rem;
+    margin-bottom: 3rem;
 }
 
 .box-content-film{
-    max-width: 50%;
-    display: grid;
-    padding: 1rem;
+    display: flex;
+    flex-direction: column;
     padding-inline: 2.5rem;
     margin-block: 0.3rem;
+    margin: 0%;
+    margin-right: 5rem;
+    margin-top: 2rem;
+}
+
+.title-data{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+h3{
+    font-size: 1.4rem;
 }
 
 .film-data{
     margin-top: 0.5rem;
-    padding-inline: 1rem;
-    background-color: rgb(237, 235, 235);
+    color: aliceblue;
+    position: relative;
+    margin-top: 1rem;
 }
 
 .film-title{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 700;
     text-align: left;
-    color: black;
+    color: aliceblue;
 }
 
 .data{
@@ -103,24 +110,42 @@ img {
 
 .box-description-reviews{
     margin-block: 0.3rem;
-    max-width: 50%;
     display: block;
     padding: 1rem;
 }
 
 .box-description{
     display: grid;
-    background-color: rgb(237, 235, 235);
+    color: aliceblue;
     padding: 1rem;
+    max-width: 30rem;
 }
 
 .description{
-    font-size: 1.4rem;
-    text-align: justify;
+    margin-top: 1.3rem;
+    font-size: 1.55rem;
+    text-align: left;
 }
 
 .reviews{
     padding-inline: 1rem;
     padding-block: 2rem;
-    background-color: rgb(237, 235, 235) !important;
+}
+
+h2{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 700;
+    color: aliceblue;
+}
+
+
+.shopping-cart-icon{
+    color: aliceblue; /* Cambia el color aquí */
+    width: 35px;
+    height: 35px;
+}
+
+.paragraph{
+    margin-block: 1rem;
+    color: aliceblue;
 }

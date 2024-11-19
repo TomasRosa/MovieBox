@@ -46,7 +46,7 @@
   </div>
 </div>
 
-<div *ngIf="result" class="alert" [ngClass]="{'alert-success': result.includes('exitoso'), 'alert-danger': result.includes('error')}">
+<div *ngIf="result" class="alert box-alert" [ngClass]="{'alert-success': result.includes('exitoso'), 'alert-danger': result.includes('error')}">
   {{ result }}
 </div>
 
