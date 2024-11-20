@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Film } from 'src/app/models/film';
 import { BehaviorSubject } from 'rxjs';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +11,21 @@ export class CarritoService {
   private totalCarrito: number = 0;
   private carritoSubject = new BehaviorSubject<Array<Film>>([]);
   carrito$ = this.carritoSubject.asObservable();
+  userId: Number = 0;
+  user: User | null = null
 
-  constructor() {
-    this.loadCarritoFromStorage();
+  constructor() 
+  {
+  }
+
+  ngOnInit ()
+  {
+    this.user = this.getUserFromStorage()
+    if (this.user)
+    {
+      this.userId = this.user.id
+      this.loadCarritoFromStorage();
+    }
   }
 
   agregarAlCarrito(pelicula: Film) {
@@ -40,8 +53,6 @@ export class CarritoService {
   }
 
   obtenerCarrito() {
-    console.log ('CARRITO DE COMPRAS')
-    console.log (this.carritoDeCompras)
     return this.carritoDeCompras;
   }
 
@@ -49,16 +60,34 @@ export class CarritoService {
     return this.totalCarrito;
   }
 
-  private saveCarritoToStorage() {
-    localStorage.setItem('carritoDeCompras', JSON.stringify(this.carritoDeCompras));
+  private saveCarritoToStorage() 
+  {
+    const dataToStore = {
+      userId: this.userId,
+      carrito: this.carritoDeCompras,
+    };
+    localStorage.setItem('carritoDeCompras', JSON.stringify(dataToStore));
   }
 
   private loadCarritoFromStorage() {
-    const storedCarrito = localStorage.getItem('carritoDeCompras');
-    if (storedCarrito) {
-      this.carritoDeCompras = JSON.parse(storedCarrito);
+    const storedData = localStorage.getItem('carritoDeCompras');
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      if (parsedData.userId == this.userId)
+      {
+        this.carritoDeCompras = parsedData.carrito || [];
+      }
+      else
+      {
+        this.carritoDeCompras = []
+      }
       this.carritoSubject.next(this.carritoDeCompras);
     }
+  }
+
+  getUserFromStorage(): User | null {
+    const storedUser = localStorage.getItem('currentUser');
+    return storedUser ? JSON.parse(storedUser) : null;
   }
 }
 

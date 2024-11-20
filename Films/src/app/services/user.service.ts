@@ -691,7 +691,6 @@ export class UserService {
     localStorage.removeItem('currentAdmin');
     this.usuarioActualSubject.next(null);
     this.isLoggedInSubject.next(false);
-    this.carritoService.limpiarCarrito()
 
     this.adminActualSubject.next(null);
     this.adminService.setAdminActual(null);

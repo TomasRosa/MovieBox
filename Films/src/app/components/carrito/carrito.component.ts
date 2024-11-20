@@ -19,6 +19,7 @@ import { Router } from '@angular/router';
     constructor(private carritoService: CarritoService, public userService: UserService, private routerService: Router) {}
 
     ngOnInit(): void {
+      this.carritoService.ngOnInit()
       this.carritoService.carrito$.subscribe(carrito => {
         this.carritoDeCompras = carrito;
         this.actualizarTotalCarrito();
