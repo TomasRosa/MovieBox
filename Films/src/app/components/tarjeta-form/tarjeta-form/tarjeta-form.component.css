@@ -36,7 +36,6 @@
 
 .input-field::placeholder{
     color: black;
-    letter-spacing: 0.1rem;
 }
 
 .button-confirmar{

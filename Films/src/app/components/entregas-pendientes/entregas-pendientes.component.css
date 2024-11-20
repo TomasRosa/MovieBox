@@ -40,7 +40,7 @@
     flex-direction: column; /* Coloca la imagen y el texto en columna */
     align-items: center; /* Centra la imagen y el texto horizontalmente */
     overflow: hidden;
-    width: 290px;
+    width: 300px;
     height: 470px;
     background-color: black !important;
     color: white !important;
@@ -49,6 +49,7 @@
     padding: 0.2rem;
     transition: 0.5s;
     border: 1px solid white;
+    text-align: center;
 }
 
 .image{

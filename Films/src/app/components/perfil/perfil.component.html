@@ -1,6 +1,8 @@
 <section class="profile">
   <section class="box-mi-perfil">
-    <img class="account" src="/assets/account.png" alt="">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon">
+      <path class="path-icon" d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12.1597 16C10.1243 16 8.29182 16.8687 7.01276 18.2556C8.38039 19.3474 10.114 20 12 20C13.9695 20 15.7727 19.2883 17.1666 18.1081C15.8956 16.8074 14.1219 16 12.1597 16ZM12 4C7.58172 4 4 7.58172 4 12C4 13.8106 4.6015 15.4807 5.61557 16.8214C7.25639 15.0841 9.58144 14 12.1597 14C14.6441 14 16.8933 15.0066 18.5218 16.6342C19.4526 15.3267 20 13.7273 20 12C20 7.58172 16.4183 4 12 4ZM12 5C14.2091 5 16 6.79086 16 9C16 11.2091 14.2091 13 12 13C9.79086 13 8 11.2091 8 9C8 6.79086 9.79086 5 12 5ZM12 7C10.8954 7 10 7.89543 10 9C10 10.1046 10.8954 11 12 11C13.1046 11 14 10.1046 14 9C14 7.89543 13.1046 7 12 7Z"></path>
+    </svg>
     <h2 class="sub-title">Mi perfil</h2>
   </section>
 
@@ -15,9 +17,11 @@
             <form action="#" [formGroup]="formGroupFirstName">
               <input class="edit-input" *ngIf="isEditingFirstName" formControlName="firstname"/>
             </form>
-    
+            
             <button class="edit" *ngIf="!isEditingFirstName" (click)="toggleEditFirstame()">
-              <img class="img-edit" src="/assets/Edit.png" alt="">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="#141414">
+                <path d="M16.6256 3.1285L9.29145 10.4626L9.29886 14.7098L13.537 14.7024L20.8682 7.37114C21.5912 8.75438 22 10.3278 22 11.9967C22 17.5196 17.5228 21.9967 12 21.9967C6.47715 21.9967 2 17.5196 2 11.9967C2 6.47386 6.47715 1.9967 12 1.9967C13.6689 1.9967 15.2423 2.40553 16.6256 3.1285ZM20.4853 2.09721L21.8995 3.51142L12.7071 12.7038L11.2954 12.7063L11.2929 11.2896L20.4853 2.09721Z"></path>
+              </svg>            
             </button>
     
             <div class="options-container">
@@ -44,7 +48,9 @@
             </form>
     
             <button class="edit" *ngIf="!isEditingFirstName" (click)="toggleEditFirstame()">
-              <img class="img-edit" src="/assets/Edit.png" alt="">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="#141414">
+                <path d="M16.6256 3.1285L9.29145 10.4626L9.29886 14.7098L13.537 14.7024L20.8682 7.37114C21.5912 8.75438 22 10.3278 22 11.9967C22 17.5196 17.5228 21.9967 12 21.9967C6.47715 21.9967 2 17.5196 2 11.9967C2 6.47386 6.47715 1.9967 12 1.9967C13.6689 1.9967 15.2423 2.40553 16.6256 3.1285ZM20.4853 2.09721L21.8995 3.51142L12.7071 12.7038L11.2954 12.7063L11.2929 11.2896L20.4853 2.09721Z"></path>
+              </svg> 
             </button>
     
             <div class="options-container">
@@ -72,7 +78,9 @@
             </form>
     
             <button class="edit" *ngIf="!isEditingLastName" (click)="toggleEditLastName()">
-              <img class="img-edit" src="/assets/Edit.png" alt="">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="#141414">
+                <path d="M16.6256 3.1285L9.29145 10.4626L9.29886 14.7098L13.537 14.7024L20.8682 7.37114C21.5912 8.75438 22 10.3278 22 11.9967C22 17.5196 17.5228 21.9967 12 21.9967C6.47715 21.9967 2 17.5196 2 11.9967C2 6.47386 6.47715 1.9967 12 1.9967C13.6689 1.9967 15.2423 2.40553 16.6256 3.1285ZM20.4853 2.09721L21.8995 3.51142L12.7071 12.7038L11.2954 12.7063L11.2929 11.2896L20.4853 2.09721Z"></path>
+              </svg> 
             </button>
   
             <div class="options-container">
@@ -99,7 +107,9 @@
             </form>
     
             <button class="edit" *ngIf="!isEditingLastName" (click)="toggleEditLastName()">
-              <img class="img-edit" src="/assets/Edit.png" alt="">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="#141414">
+                <path d="M16.6256 3.1285L9.29145 10.4626L9.29886 14.7098L13.537 14.7024L20.8682 7.37114C21.5912 8.75438 22 10.3278 22 11.9967C22 17.5196 17.5228 21.9967 12 21.9967C6.47715 21.9967 2 17.5196 2 11.9967C2 6.47386 6.47715 1.9967 12 1.9967C13.6689 1.9967 15.2423 2.40553 16.6256 3.1285ZM20.4853 2.09721L21.8995 3.51142L12.7071 12.7038L11.2954 12.7063L11.2929 11.2896L20.4853 2.09721Z"></path>
+              </svg> 
             </button>
   
             <div class="options-container">
@@ -127,7 +137,9 @@
             </form>
     
             <button class="edit" *ngIf="!isEditingDni" (click)="toggleEditDni()">
-              <img class="img-edit" src="/assets/Edit.png" alt="">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="#141414">
+                <path d="M16.6256 3.1285L9.29145 10.4626L9.29886 14.7098L13.537 14.7024L20.8682 7.37114C21.5912 8.75438 22 10.3278 22 11.9967C22 17.5196 17.5228 21.9967 12 21.9967C6.47715 21.9967 2 17.5196 2 11.9967C2 6.47386 6.47715 1.9967 12 1.9967C13.6689 1.9967 15.2423 2.40553 16.6256 3.1285ZM20.4853 2.09721L21.8995 3.51142L12.7071 12.7038L11.2954 12.7063L11.2929 11.2896L20.4853 2.09721Z"></path>
+              </svg> 
             </button>
     
             <div class="options-container">
@@ -161,7 +173,9 @@
               </form>
       
               <button class="edit" *ngIf="!isEditingEmail" (click)="toggleEditEmail()">
-                <img class="img-edit" src="/assets/Edit.png" alt="">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="#141414">
+                  <path d="M16.6256 3.1285L9.29145 10.4626L9.29886 14.7098L13.537 14.7024L20.8682 7.37114C21.5912 8.75438 22 10.3278 22 11.9967C22 17.5196 17.5228 21.9967 12 21.9967C6.47715 21.9967 2 17.5196 2 11.9967C2 6.47386 6.47715 1.9967 12 1.9967C13.6689 1.9967 15.2423 2.40553 16.6256 3.1285ZM20.4853 2.09721L21.8995 3.51142L12.7071 12.7038L11.2954 12.7063L11.2929 11.2896L20.4853 2.09721Z"></path>
+                </svg> 
               </button>
             </div>
     
@@ -190,7 +204,9 @@
               </form>
       
               <button class="edit" *ngIf="!isEditingEmail" (click)="toggleEditEmail()">
-                <img class="img-edit" src="/assets/Edit.png" alt="">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="#141414">
+                  <path d="M16.6256 3.1285L9.29145 10.4626L9.29886 14.7098L13.537 14.7024L20.8682 7.37114C21.5912 8.75438 22 10.3278 22 11.9967C22 17.5196 17.5228 21.9967 12 21.9967C6.47715 21.9967 2 17.5196 2 11.9967C2 6.47386 6.47715 1.9967 12 1.9967C13.6689 1.9967 15.2423 2.40553 16.6256 3.1285ZM20.4853 2.09721L21.8995 3.51142L12.7071 12.7038L11.2954 12.7063L11.2929 11.2896L20.4853 2.09721Z"></path>
+                </svg> 
               </button>
             </div>
     
@@ -219,7 +235,9 @@
             </form>
 
             <button class="edit" *ngIf="!isEditingPassword" (click)="toggleFormToEditPassword()">
-              <img class="img-edit" src="/assets/Edit.png" alt="">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="#141414">
+                <path d="M16.6256 3.1285L9.29145 10.4626L9.29886 14.7098L13.537 14.7024L20.8682 7.37114C21.5912 8.75438 22 10.3278 22 11.9967C22 17.5196 17.5228 21.9967 12 21.9967C6.47715 21.9967 2 17.5196 2 11.9967C2 6.47386 6.47715 1.9967 12 1.9967C13.6689 1.9967 15.2423 2.40553 16.6256 3.1285ZM20.4853 2.09721L21.8995 3.51142L12.7071 12.7038L11.2954 12.7063L11.2929 11.2896L20.4853 2.09721Z"></path>
+              </svg> 
             </button>
 
             <div class="options-container">
@@ -282,7 +300,9 @@
             </form>
     
             <button class="edit" *ngIf="!isEditingAddress" (click)="toggleEditAddress()">
-              <img class="img-edit" src="/assets/Edit.png" alt="">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="#141414">
+                <path d="M16.6256 3.1285L9.29145 10.4626L9.29886 14.7098L13.537 14.7024L20.8682 7.37114C21.5912 8.75438 22 10.3278 22 11.9967C22 17.5196 17.5228 21.9967 12 21.9967C6.47715 21.9967 2 17.5196 2 11.9967C2 6.47386 6.47715 1.9967 12 1.9967C13.6689 1.9967 15.2423 2.40553 16.6256 3.1285ZM20.4853 2.09721L21.8995 3.51142L12.7071 12.7038L11.2954 12.7063L11.2929 11.2896L20.4853 2.09721Z"></path>
+              </svg> 
             </button>
     
             <div class="options-container">
@@ -358,10 +378,14 @@
               <div *ngIf="cardExists" class="card-exist">
                 
                 <button *ngIf="showOptionButtonsToCard" class="button-delete" (click)="openDeleteCard()">
-                  <img class="delete" src="/assets/delete.png" alt="">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="#121213">
+                    <path d="M17 6H22V8H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V8H2V6H7V3C7 2.44772 7.44772 2 8 2H16C16.5523 2 17 2.44772 17 3V6ZM9 11V17H11V11H9ZM13 11V17H15V11H13ZM9 4V6H15V4H9Z"></path>
+                  </svg>
                 </button>
                 <button *ngIf="showOptionButtonsToCard" class="edit button-edit-tarjeta" (click)="toggleFormPassword()">
-                  <img class="img-edit-tarjeta" src="/assets/Edit.png" alt="">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="#121213">
+                    <path d="M16.6256 3.1285L9.29145 10.4626L9.29886 14.7098L13.537 14.7024L20.8682 7.37114C21.5912 8.75438 22 10.3278 22 11.9967C22 17.5196 17.5228 21.9967 12 21.9967C6.47715 21.9967 2 17.5196 2 11.9967C2 6.47386 6.47715 1.9967 12 1.9967C13.6689 1.9967 15.2423 2.40553 16.6256 3.1285ZM20.4853 2.09721L21.8995 3.51142L12.7071 12.7038L11.2954 12.7063L11.2929 11.2896L20.4853 2.09721Z"></path>
+                  </svg>
                 </button>
 
                 <div *ngIf="showFormDeleteCard" class="modal-overlay">
@@ -442,27 +466,29 @@
 </div>
 
   <section class="box-logout">
-    <div class="contenido-logout">
-      <button class="button-logout logout" (click)="openLogoutModal()">Cerrar sesión</button>
-      <button class="button-logout" (click)="openDeleteAccountModal()" >Eliminar cuenta</button>
-    </div>
-
-    <div *ngIf="isDeleteAccountModalVisible" class="modal-overlay">
-      <div class="modal-content">
-        <h3>Desea eliminar su cuenta?</h3>
-        <div class="modal-buttons">
-          <button class="cancel-button-logout" (click)="closeDeleteAccountModal()">Cancelar</button>
-          <button class="confirm-button-logout" (click)="deleteAccount()">Confirmar</button>
+    <div class="container">
+      <div class="contenido-logout">
+        <button class="button-logout logout" (click)="openLogoutModal()">Cerrar sesión</button>
+        <button class="button-logout" (click)="openDeleteAccountModal()" >Eliminar cuenta</button>
+      </div>
+  
+      <div *ngIf="isDeleteAccountModalVisible" class="modal-overlay">
+        <div class="modal-content">
+          <h3>Desea eliminar su cuenta?</h3>
+          <div class="modal-buttons">
+            <button class="cancel-button-logout" (click)="closeDeleteAccountModal()">Cancelar</button>
+            <button class="confirm-button-logout" (click)="deleteAccount()">Confirmar</button>
+          </div>
         </div>
       </div>
-    </div>
-
-    <div *ngIf="isLogoutModalVisible" class="modal-overlay">
-      <div class="modal-content">
-        <h3>¿Deseas cerrar sesión?</h3>
-        <div class="modal-buttons">
-          <button class="cancel-button-logout" (click)="closeLogoutModal()">Cancelar</button>
-          <button class="confirm-button-logout" (click)="logout()">Confirmar</button>
+  
+      <div *ngIf="isLogoutModalVisible" class="modal-overlay">
+        <div class="modal-content">
+          <h3>¿Deseas cerrar sesión?</h3>
+          <div class="modal-buttons">
+            <button class="cancel-button-logout" (click)="closeLogoutModal()">Cancelar</button>
+            <button class="confirm-button-logout" (click)="logout()">Confirmar</button>
+          </div>
         </div>
       </div>
     </div>
