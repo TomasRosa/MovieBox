@@ -45,13 +45,13 @@ export class NavbarComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     try {
-      const fetchedFilms = this.filmsFromAPIService.getMovies ();
-      if (fetchedFilms) {
+      let fetchedFilms = this.filmsFromAPIService.getMovies ();
+      if (fetchedFilms.length === 0) await this.filmsFromAPIService.initializeData ();
+      fetchedFilms = this.filmsFromAPIService.getMovies ();
+      if (fetchedFilms.length !== 0) 
         this.films = fetchedFilms;
-      } 
-      else{
+      else
           console.log('Array de peliculas nulo');
-      }
     } catch (error) {
       console.error(error);
     }
