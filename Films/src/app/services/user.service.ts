@@ -7,8 +7,7 @@ import { Film } from '../models/film';
 import { Tarjeta } from '../models/tarjeta';
 import { Admin } from '../models/admin';
 import { AdminService } from './admin.service';
-import { SharedServicesService } from './shared-services.service';
-import { useAnimation } from '@angular/animations';
+import { CarritoService } from './carrito.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,11 +23,14 @@ export class UserService {
   public storedUser: User | null = null;
   public storedAdmin: Admin | null = null;
   public showFormAddCard: BehaviorSubject <boolean | null>;
+  public tarjetaUsuarioSubject = new BehaviorSubject<Tarjeta | null>(null);
+  tarjetaUsuario$ = this.tarjetaUsuarioSubject.asObservable();
 
   constructor(
     private http: HttpClient,
     private router: Router,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private carritoService: CarritoService
   ) {
     this.usuarioActualSubject = new BehaviorSubject<User | null>(null);
     this.adminActualSubject = new BehaviorSubject<Admin | null>(null);
@@ -402,8 +404,10 @@ export class UserService {
       user.tarjeta = newCard;
       try {
         await this.http.patch(url, user).toPromise();
+        this.tarjetaUsuarioSubject.next (newCard);
         this.usuarioActualSubject.next (user);
         this.showFormAddCard.next (false);
+
         this.saveUserToStorage(user);
         return { success: true, message: 'Tarjeta cargada correctamente.' };
       } catch (error) {
@@ -687,6 +691,7 @@ export class UserService {
     localStorage.removeItem('currentAdmin');
     this.usuarioActualSubject.next(null);
     this.isLoggedInSubject.next(false);
+    this.carritoService.limpiarCarrito()
 
     this.adminActualSubject.next(null);
     this.adminService.setAdminActual(null);

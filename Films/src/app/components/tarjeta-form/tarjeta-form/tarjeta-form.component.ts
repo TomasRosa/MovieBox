@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Tarjeta } from 'src/app/models/tarjeta';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
@@ -26,7 +26,7 @@ export class TarjetaFormComponent {
     fechaVencimiento: new FormControl('',[Validators.required,ValidacionTarjeta.validarFechaNoExpirada(),ValidacionTarjeta.validarFormatoFechaVencimiento()]),
   });
 
-  constructor(private userService: UserService, private routerService: Router){}
+  constructor(private userService: UserService, private routerService: Router, private route: ActivatedRoute){}
 
   ngOnInit(): void {
     this.userService.usuarioActual$.subscribe((usuario: User | null) => {
@@ -39,26 +39,66 @@ export class TarjetaFormComponent {
   get nTarjeta () {return this.tarjetaForm.get('nTarjeta')}
   get fechaVencimiento () {return this.tarjetaForm.get('fechaVencimiento')}
 
-  async onSubmit (){
-    this.showError = false;
-    if(this.tarjetaForm.valid){
-      let tarjeta = new Tarjeta()
-      
-      if (this.firstName && this.lastName && this.nTarjeta  && this.fechaVencimiento){
-        if (this.firstName.value != null) tarjeta.firstName = this.firstName.value
-        if (this.lastName.value != null) tarjeta.lastName = this.lastName.value
-        if (this.nTarjeta.value != null) tarjeta.nTarjeta = this.nTarjeta.value
-        if (this.fechaVencimiento.value != null) tarjeta.fechaVencimiento = this.fechaVencimiento.value
+  async onSubmit ()
+  {
+    if (this.userService.getUserActual() && !this.userService.getAdminActual())
+    {
+      this.showError = false;
+      if(this.tarjetaForm.valid){
+        let tarjeta = new Tarjeta()
+        
+        if (this.firstName && this.lastName && this.nTarjeta  && this.fechaVencimiento){
+          if (this.firstName.value != null) tarjeta.firstName = this.firstName.value
+          if (this.lastName.value != null) tarjeta.lastName = this.lastName.value
+          if (this.nTarjeta.value != null) tarjeta.nTarjeta = this.nTarjeta.value
+          if (this.fechaVencimiento.value != null) tarjeta.fechaVencimiento = this.fechaVencimiento.value
+        }
+  
+        if (tarjeta && this.usuarioActual?.tarjeta)
+          this.usuarioActual.tarjeta = tarjeta
+        await this.userService.addCard (this.usuarioActual, tarjeta);
+        this.successMessage = 'Tarjeta agregada correctamente'; // Mensaje de éxito
+        this.errorMessage = ''; // Limpiar el mensaje de error
+      }else{
+        this.errorMessage = 'Error! Los datos de la tarjeta no son los correctos.'; // Mostrar mensaje de error
+        this.showError = true; // Mostrar la sección de error
       }
+    }
+    else if (this.userService.getAdminActual())
+    {
+      this.showError = false;
+      if(this.tarjetaForm.valid){
+        let tarjeta = new Tarjeta()
+        
+        if (this.firstName && this.lastName && this.nTarjeta  && this.fechaVencimiento){
+          if (this.firstName.value != null) tarjeta.firstName = this.firstName.value
+          if (this.lastName.value != null) tarjeta.lastName = this.lastName.value
+          if (this.nTarjeta.value != null) tarjeta.nTarjeta = this.nTarjeta.value
+          if (this.fechaVencimiento.value != null) tarjeta.fechaVencimiento = this.fechaVencimiento.value
+        }
 
-      if (tarjeta && this.usuarioActual?.tarjeta)
-        this.usuarioActual.tarjeta = tarjeta
-      await this.userService.addCard (this.usuarioActual, tarjeta);
-      this.successMessage = 'Tarjeta agregada correctamente'; // Mensaje de éxito
-      this.errorMessage = ''; // Limpiar el mensaje de error
-    }else{
-      this.errorMessage = 'Error! Los datos de la tarjeta no son los correctos.'; // Mostrar mensaje de error
-      this.showError = true; // Mostrar la sección de error
+        const userId =+ this.route.snapshot.paramMap.get('id')!;
+
+        if (userId)
+        {
+          let user = await this.userService.getUserById(userId)
+          if (user)
+          {
+            if (tarjeta && user.tarjeta)
+            {
+              user.tarjeta = tarjeta;
+            }
+            await this.userService.addCard (user, tarjeta);
+            this.successMessage = 'Tarjeta agregada correctamente'; // Mensaje de éxito
+            this.errorMessage = ''; // Limpiar el mensaje de error
+          }
+        }
+      } 
+      else
+      {
+        this.errorMessage = 'Error! Los datos de la tarjeta no son los correctos.'; // Mostrar mensaje de error
+        this.showError = true; // Mostrar la sección de error
+      }
     }
   }
 
