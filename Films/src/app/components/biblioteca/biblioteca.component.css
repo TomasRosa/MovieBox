@@ -29,8 +29,26 @@
 
 .deuda{
     color: aliceblue;
-    margin-bottom: 1rem;
     font-size: 1.2rem;
+    display: grid;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+.button-deuda {
+    background-color: #747474;
+    cursor: pointer;
+    padding: 0.7rem;
+    padding-inline: 1.15rem;
+    font-size: 1.15rem;
+    border: none;
+    transition: border 0.3s ease, border-radius 0.3s ease;
+    color: aliceblue;
+    transition: 0.3s;
+}
+
+.button-deuda:hover{
+    color: rgb(187, 187, 187);
 }
 
 * {

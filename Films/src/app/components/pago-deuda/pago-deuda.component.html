@@ -12,11 +12,11 @@
 
   <div class="box-saldar-deuda" *ngIf="saldarDeuda">
 
-        <div class="box-saldar-deuda-efectivo">
+    <div class="box-saldar-deuda-efectivo">
       <button class="button" (click)="pagoEfectivo()">Pago en Efectivo</button>
       <div class="alert alert-success mt-3 successMessage" *ngIf="successMessage">
         {{ successMessage }}
-          </div>
+      </div>
     </div>
 
         <div class="box-saldar-deuda-tarjeta">
@@ -25,31 +25,33 @@
           </div>
       <div class="box-card" *ngIf="hadCard && pressButtonCard">
         <p class="paragraph">Desea pagar con la tarjeta cargada?</p>
-        <div class="tarjeta">
-          <div class="chip"></div>
-          <div class="box-datos">
-            <p class="dato-tarjeta nTarjeta"> **** **** **** {{lastFourDigits}}</p>
-          </div>
-          <div class="box-datos">
-            <p class="dato-tarjeta vencimiento">{{ user?.tarjeta?.fechaVencimiento }}</p>
-          </div>
-          <div class="last-data">
-            <div class="box-fullname">
-              <div class="box-datos">
-                <p class="dato-tarjeta fullname">{{user?.tarjeta?.firstName}}</p>
-              </div>
-              <div class="box-datos">
-                <p class="dato-tarjeta fullname">{{user?.tarjeta?.lastName}}</p>
-              </div>
+        <div class="box-datos-tarjeta">
+          <div class="tarjeta">
+            <div class="chip"></div>
+            <div class="box-datos">
+              <p class="dato-tarjeta nTarjeta"> **** **** **** {{lastFourDigits}}</p>
             </div>
-            <div class="dato-tarjeta tipo-tarjeta"><img [ngClass]="imgTypeCardClass" src="{{typeCard}}" alt=""></div>
+            <div class="box-datos">
+              <p class="dato-tarjeta vencimiento">{{ user?.tarjeta?.fechaVencimiento }}</p>
+            </div>
+            <div class="last-data">
+              <div class="box-fullname">
+                <div class="box-datos">
+                  <p class="dato-tarjeta fullname">{{user?.tarjeta?.firstName}}</p>
+                </div>
+                <div class="box-datos">
+                  <p class="dato-tarjeta fullname">{{user?.tarjeta?.lastName}}</p>
+                </div>
+              </div>
+              <div class="dato-tarjeta tipo-tarjeta"><img [ngClass]="imgTypeCardClass" src="{{typeCard}}" alt=""></div>
+            </div>
           </div>
-      </div>
-      <div class="box-options">
-        <button id="newCard" class="button" (click)="showFormToAddNewCard()">Agregar una nueva</button>
-        <button id="yes" class="button" (click) = "showFormSecurityCode()">Si</button>
-        <button class="button cancel" (click)="navegar(user!.id)">Cancelar pago</button>
-      </div>
+        </div>
+        <div class="box-options">
+          <button id="newCard" class="button button-new-card" (click)="showFormToAddNewCard()">Agregar una nueva</button>
+          <button id="yes" class="button button-yes" (click) = "showFormSecurityCode()">Si</button>
+          <button class="button cancel" (click)="navegar(user!.id)">Cancelar pago</button>
+        </div>
     </div>
 
     <div *ngIf = "!hadCard && pressButtonCard">
@@ -83,14 +85,15 @@
             <div *ngIf="cvc.hasError('validarCVCLongitud')">El codigo de seguridad es de 3 digitos.</div>
             <div *ngIf="cvc.hasError('soloNumeros')">Solo se permiten numeros.</div>
             </div>
-          </div>
-            </div>
-        <div *ngIf="cvcFormGroup.valid">
+        </div>
+
+        <div *ngIf="cvcFormGroup.valid" class="box-form-confirm-buy">
           <form (ngSubmit)="buyWithActualCard()">
             <button class="btn btn-primary margenBoton" type="submit">Confirmar compra</button>
           </form>
         </div>
       </div>
+    </div>
     
       <div *ngIf="isLoading" class="loading-overlay">
         <div class="loading-content">

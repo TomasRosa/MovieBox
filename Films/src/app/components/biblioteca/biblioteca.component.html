@@ -51,18 +51,12 @@
 </div>
 
 <div *ngIf = "!isAdmin" class="deuda">
-  <div>Deuda: 
-    <div *ngIf = "deuda == 0">
-      ¡No posee deuda!
-    </div>
-    <div *ngIf = "deuda != 0">
-      {{deuda}}
-      <button class="button" (click)="pagarDeuda()">Pagar deuda</button>
-    </div>
+  <p class="text-no-deuda" *ngIf = "deuda == 0">Bien! No posee deuda alguna!</p> 
+  <div *ngIf = "deuda != 0" class="tiene-deuda">
+    <p> Su deuda actual es de ${{deuda}} </p>
+    <button class="button-deuda" (click)="pagarDeuda()">Pagar deuda</button>
   </div>
 </div>
-
-
 
 
 

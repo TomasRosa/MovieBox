@@ -1,7 +1,3 @@
-*{
-    background-color: white;
-}
-
 .tarjeta {
     position: relative;
     background: linear-gradient(135deg, #323232, #1a1a1a);
@@ -23,6 +19,12 @@
     border-radius: 5px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     margin-bottom: 0.2rem;
+}
+
+.box-datos-tarjeta{
+    display: flex;
+    justify-content: center;
+    background-color: transparent;
 }
 
 .box-datos{
@@ -129,6 +131,16 @@
     display: flex;
     flex-direction: column;
     justify-content:center;
+}
+
+.button-new-card, 
+.button-yes{
+    margin-right: 1rem;
+}
+
+.box-form-confirm-buy{
+    display: flex;
+    justify-content: center;
 }
 
 .box-content-cvc{
@@ -312,8 +324,8 @@
     flex-direction: column;
     background-color: transparent;
     background-color: #545454;
-    margin-top: 1rem;
-    margin-inline: 10rem;
+    margin-block: 1rem;
+    margin-inline: 25rem;
 }
 
 .box-saldar-deuda-efectivo{
@@ -344,4 +356,19 @@
     color: aliceblue;
     padding: 0.1rem;
     background-color: #343434;
+    font-size: 1.1rem;
+}
+
+.cancel-form{
+    padding-inline: 0.6rem;
+    font-size: 1.3rem;
+    padding-block: 0.2rem;
+    background-color: rgb(130, 130, 130);
+    border: 1px solid transparent;
+    transition: border 0.3s ease, border-radius 0.3s ease;
+    cursor: pointer;
+    color: white;
+    position: absolute; /* Posicionamiento absoluto dentro del contenedor */
+    top: 10px; /* Ajusta la distancia desde la parte superior */
+    right: 40px; /* Ajusta la distancia desde la parte derecha */
 }
