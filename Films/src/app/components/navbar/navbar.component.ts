@@ -52,15 +52,9 @@ export class NavbarComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    try {
-      let fetchedFilms = this.filmsFromAPIService.getMovies ();
-      if (fetchedFilms)   
-        this.films = fetchedFilms;
-      else
-          console.log('Array de peliculas nulo');
-    } catch (error) {
-      console.error(error);
-    }
+    this.filmsFromAPIService.initializeData().then(() => {
+      this.films = this.filmsFromAPIService.getMovies();
+    });
 
     this.userService.isLoggedIn$.subscribe((isLoggedIn: boolean | null) => {
       this.isLoggedIn = isLoggedIn || false;
