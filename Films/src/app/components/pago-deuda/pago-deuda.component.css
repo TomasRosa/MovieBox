@@ -1,0 +1,80 @@
+*{
+    background-color: white;
+}
+
+.tarjeta {
+    position: relative;
+    background: linear-gradient(135deg, #323232, #1a1a1a);
+    padding: 1rem;
+    border-radius: 1rem;
+    width: 320px;
+    height: 180px;
+    color: #fff;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.chip {
+    width: 40px;
+    height: 30px;
+    background: linear-gradient(135deg, #d1cdbb, #b2ae94);
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 0.2rem;
+}
+
+.box-datos{
+    background-color: transparent;
+}
+
+.dato-tarjeta{
+    background: #2f3031;
+    color: #f0f0f0;
+    padding: 0.2rem;
+    margin: 0;
+}
+
+.vencimiento{
+    text-align: center;
+}
+
+.nTarjeta{
+    letter-spacing: 0.3rem;
+    text-align: center;
+}
+
+.last-data{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #2f3031;
+}
+
+.box-fullname{
+    display: flex;
+}
+
+.fullname{
+    width: max-content;
+    padding-inline: 0.8rem;
+}
+
+.tipo-tarjeta{
+    text-align: right;
+    width: max-content;
+}
+
+
+.visa-logo{
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+}
+
+.mastercard-logo{
+    background-color: transparent;
+    width: 40px;
+    height: 40px;
+}

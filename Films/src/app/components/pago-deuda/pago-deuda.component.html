@@ -1,6 +1,41 @@
 <div>Deuda de <div *ngIf = "user">{{user.firstName}}</div>
 <div *ngIf = "!user">USUARIO NO ENCONTRADO</div>
 </div>
-<p>
+<div>
     {{deuda}}
-</p>
+    <button *ngIf = "payDeuda && deuda != 0" (click) = "toggleSaldarDeuda()">
+        Saldar Deuda
+    </button>
+
+    <div *ngIf = "saldarDeuda">
+        <button (click) = "pagoEfectivo()">Pago en Efectivo</button>
+        <div class="alert alert-success mt-3" *ngIf="successMessage">
+            {{ successMessage }}
+        </div>
+        <button (click) = "pagoTarjeta()">Pago con Tarjeta</button>
+        <div *ngIf = "hadCard">
+            <div>Desea pagar con la tarjeta cargada?</div>
+            <div class="tarjeta">
+                <div class="chip"></div>
+                <div class="box-datos">
+                  <p class="dato-tarjeta nTarjeta"> **** **** **** {{lastFourDigits}}</p>
+                </div>
+                <div class="box-datos">
+                  <p class="dato-tarjeta vencimiento">{{ user?.tarjeta?.fechaVencimiento }}</p>
+                </div>
+                <div class="last-data">
+                  <div class="box-fullname">
+                    <div class="box-datos">
+                      <p class="dato-tarjeta fullname">{{user?.tarjeta?.firstName}}</p>
+                    </div>
+                    <div class="box-datos">
+                      <p class="dato-tarjeta fullname">{{user?.tarjeta?.lastName}}</p>
+                    </div>
+                  </div>
+                  <div class="dato-tarjeta tipo-tarjeta"><img [ngClass]="imgTypeCardClass" src="{{typeCard}}" alt=""></div>
+                </div>
+              </div>
+        </div>
+
+    </div>
+</div>

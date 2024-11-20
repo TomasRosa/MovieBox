@@ -47,13 +47,16 @@ export class InicioAuxComponent implements OnInit {
     });
 
     if (this.isLoggedIn && !this.isAdmin) {
-      this.userService.usuarioActual$.subscribe(user => {
+      this.userService.usuarioActual$.subscribe(async user => {
         this.usuarioActual = user as User;
-        if (this.usuarioActual.fav_list)
+        if (this.usuarioActual)
         {
-          this.favouriteFilms = this.usuarioActual.fav_list.arrayPeliculas || [];  // Asegurarse de que sea un arreglo
+          if (this.usuarioActual.fav_list)
+            {
+              this.favouriteFilms = this.usuarioActual.fav_list.arrayPeliculas || [];  // Asegurarse de que sea un arreglo
+            }
+            this.Flist.loadFavouriteListFromServer(this.usuarioActual.id);
         }
-        this.Flist.loadFavouriteListFromServer(this.usuarioActual.id);
       });
     }
 

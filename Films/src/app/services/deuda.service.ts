@@ -10,9 +10,10 @@ import { BehaviorSubject, count } from 'rxjs';
 })
 export class DeudaService {
   deuda: number = 0;
+  urlJSONServer = 'http://localhost:5000/users';
   intervalId: any;
   countdowns: { [key: number]: string } = {};
-  private deudaSubject = new BehaviorSubject<number>(0);
+  deudaSubject = new BehaviorSubject<number>(0);
   deuda$ = this.deudaSubject.asObservable();
 
   constructor(private http: HttpClient, private userService: UserService) 
@@ -20,7 +21,7 @@ export class DeudaService {
 
   }
 
-  calcularDeuda(user: User) {
+  async calcularDeuda(user: User | null) {
     // const hoy = new Date();
 
     // this.userService.storedUser!.arrayPeliculas.forEach(pelicula => {
@@ -40,26 +41,45 @@ export class DeudaService {
     //   }
     // });
 
-    console.log ("USER CALCULAR DEUDA: ", user)
-
-    if (user.arrayPeliculas[0] && this.countdowns [user.arrayPeliculas[0].id] == '00:00:00')
+    console.log ("ENTRO A CALCULAR, USER: ", user)
+    if (user)
     {
-      this.iniciarAcumuladorDeDeuda (user, 20)
+      user.deuda = await this.getDeudaJSON(user.id);
+      if (user.arrayPeliculas[0] && this.countdowns [user.arrayPeliculas[0].id] == '00:00:00')
+      {
+        this.iniciarAcumuladorDeDeuda (user, 20)
+      }
     }
-
-    // this.updateDeudaUser(user);
   }
 
-  pagarDeuda() {
-    this.deuda = 0;
-  }
-
-  iniciarAcumuladorDeDeuda( user: User, montoPorIntervalo: number) {
+  iniciarAcumuladorDeDeuda(user: User, montoPorIntervalo: number) {
     this.intervalId = setInterval(() => {
+      this.deuda = user.deuda;
       this.deuda += montoPorIntervalo;
       this.deudaSubject.next(this.deuda);
       console.log(`Nueva deuda: ${this.deuda}`);
+      this.updateDeudaUser(user)
     }, 10000); // 10000 ms = 10 segundos
+  }
+
+  async getDeudaJSON(id: number) 
+  {
+    try {
+        const users = await this.http.get<User[]>(this.urlJSONServer).toPromise() || [];
+        let user = users.find(user => user.id === id)
+        if (user)
+        {
+          this.deudaSubject.next(user.deuda)
+          return user.deuda
+        }
+        else
+        {
+          return -1;
+        }
+    } catch (error) {
+        console.error('Error al obtener los usuarios:', error);
+        return -1;
+    }
   }
 
   async updateDeudaUser (user: User)
@@ -141,13 +161,15 @@ export class DeudaService {
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
+
+    let user = this.userService.getUserFromStorage()
   
     if (movieLibrary) {
       this.intervalId = setInterval(() => {
         movieLibrary.forEach(film => {
           const timeRemaining = this.getTiempoRestanteDiezSegundos(film.fechaDeAgregado!);
           this.countdowns[film.id] = timeRemaining;
-          this.calcularDeuda(this.userService.getUserPorBiblioteca(movieLibrary)!)
+          this.calcularDeuda(user)
         });
       }, 1000);
       return true;

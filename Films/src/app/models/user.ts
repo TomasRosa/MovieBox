@@ -15,7 +15,7 @@ export class User {
     deuda: number = 0;
     tarjeta: Tarjeta = new Tarjeta();
     role: 'user' | 'admin' = 'user';  // Rol del usuario
-    adminCode?: string;  // Código para admins (opcional)
+    payDeuda: Boolean = false;
     entregasPendientes: Array<Film> = [];
 }
 

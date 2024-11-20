@@ -62,7 +62,6 @@ export class LoginComponent implements OnInit {
       
       if (isUserValid.isUser) {
         this.successMessage = 'Bienvenido a RosaGomezRuiz Peliculas';
-        this.userService.setUsuarioActual(isUserValid.user!);
         this.isAdmin = false;
         this.isLoggedIn = true;
         this.sharedService.setLogged(true)

@@ -45,6 +45,16 @@ export class UserService {
     this.adminService.loadAdminsFromJSON();
   }
 
+  async updateUserToJSON (user: User)
+  {
+    const url = `${this.urlJSONServer}/${user.id}`;
+    try {
+      await this.http.patch(url, user).toPromise();
+    } catch (error) {
+      console.error('Error al guardar la deuda', error);
+    }
+  }
+
   saveUserToStorage(usuario: User | null): void {
     if (usuario) {
       this.usuarioActualSubject.next (usuario);
@@ -216,11 +226,15 @@ export class UserService {
         }
 
         if (isUserValid) {
-            const user = this.users.find(user => user.email === inputEmail);
-            if (user) {
+            const userAux = this.users.find(user => user.email === inputEmail);
+            if (userAux)
+            {
+              const user = await this.http.get<User>(`${this.urlJSONServer}/${userAux!.id}`).toPromise()
+              if (user) {
                 this.setUsuarioActual(user);
                 resolve({ isUser: true, isAdmin: false, user });
                 return;
+            }
             }
         }
 
@@ -239,8 +253,8 @@ export class UserService {
                 if (isAdminValid) {
                     const admin = admins.find(admin => admin.email == inputEmail);
                     if (admin) {
-                        // this.setAdminActual (admin);
                         this.adminService.setAdminActual(admin); // Almacenar el admin
+                        this.saveAdminToStorage(admin)
                         resolve({ isUser: false, isAdmin: true, admin });
                         return;
                     }
@@ -323,15 +337,19 @@ export class UserService {
       film.fechaDeAgregado = new Date().toISOString();
       user.arrayPeliculas.push(film);
     });
-  
-    return await this.actualizarBiblioteca(user.id, user.arrayPeliculas);
+
+    return await this.actualizarBiblioteca(user, user.arrayPeliculas);
   }
 
-  async actualizarBiblioteca(userId: number, arrayPeliculas: Film[]): Promise<{ success: boolean, message: string }> {
-    const url = `${this.urlJSONServer}/${userId}`;
+  async actualizarBiblioteca(user: User, arrayPeliculas: Film[]): Promise<{ success: boolean, message: string }> {
+    const url = `${this.urlJSONServer}/${user.id}`;
+
+    user.arrayPeliculas = arrayPeliculas;
+
+    this.saveUserToStorage (user);
   
     try {
-      await this.http.patch<User>(url, { arrayPeliculas }).toPromise();
+      await this.http.patch<User>(url, user).toPromise();
       return { success: true, message: 'Biblioteca actualizada correctamente.' };
     } catch (error) {
       console.error('Error al actualizar la biblioteca:', error);
@@ -619,7 +637,6 @@ export class UserService {
         console.error('Error al obtener los usuarios:', error);
         return null;
     }
-  
   }
   async agregarEntregaPendiente(user: User, peliculas: Film[]): Promise<{ success: boolean, message: string }> {
     const url = `${this.urlJSONServer}/${user.id}`;

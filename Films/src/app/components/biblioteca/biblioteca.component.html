@@ -41,7 +41,16 @@
   </div>
 </section>
 
-<div *ngIf="!bibliotecaVacia" class="deuda">
+<div *ngIf="bibliotecaVacia" class="classDiv">
+  <div *ngIf = "!isAdmin" class="box-empty">
+    <p class="text-empty">Su biblioteca se encuentra vacia!</p> 
+  </div>
+  <div *ngIf = "isAdmin" class="box-empty">
+    <p class="text-empty">La biblioteca se encuentra vacia</p> 
+  </div>
+</div>
+
+<div *ngIf = "!isAdmin" class="deuda">
   <div>Deuda: 
     <div *ngIf = "deuda == 0">
       ¡No posee deuda!
@@ -53,14 +62,7 @@
   </div>
 </div>
 
-<div *ngIf="bibliotecaVacia" class="classDiv">
-  <div *ngIf = "!isAdmin" class="box-empty">
-    <p class="text-empty">Su biblioteca se encuentra vacia!</p> 
-  </div>
-  <div *ngIf = "isAdmin" class="box-empty">
-    <p class="text-empty">La biblioteca se encuentra vacia</p> 
-  </div>
-</div>
+
 
 
 

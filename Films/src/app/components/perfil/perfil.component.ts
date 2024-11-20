@@ -99,12 +99,13 @@ export class PerfilComponent {
   
   ngOnInit(): void {
     // Verificar si hay usuario o administrador almacenado
-    if (this.userService.getUserFromStorage()) {
+    if (this.userService.getUserFromStorage() && !this.userService.getAdminFromStorage()) 
+    {
       this.usuarioActual = this.userService.getUserFromStorage();
       this.isLoggedIn = true;
       this.isAdmin = false;
       this.cargarDatosUsuario(); 
-    } else if (this.userService.getAdminFromStorage ()) {
+    } else if (this.userService.getAdminFromStorage()) {
       this.adminActual = this.userService.getAdminFromStorage ();
       this.isLoggedIn = true;
       this.isAdmin = true;
@@ -126,11 +127,13 @@ export class PerfilComponent {
     
     if (this.adminActual){
       this.userService.adminActual$.subscribe(async (admin: Admin | null) => {
-        if (this.adminActual)
+        if (admin)
+        {
           this.adminActual = admin;
           this.isAdmin = true;
           this.adminService.isLoggedInSubject.next(true)
           this.cargarDatosAdmin(); 
+        }
       });
     }
   

@@ -35,7 +35,18 @@ export class BibliotecaComponent
     private route: ActivatedRoute // Importar el servicio de rutas activas
   ) { 
     this.deudaSubscription = this.deudaService.deuda$.subscribe(nuevaDeuda => {
-      this.deuda = nuevaDeuda;
+
+       userService.usuarioActual$.subscribe (async u  =>{
+        if (u && u.deuda != 0)
+         {
+           this.deuda = u.deuda
+         }
+         else
+         {
+          this.deuda = nuevaDeuda
+         }
+      })
+
     });
   }
   
@@ -44,11 +55,14 @@ export class BibliotecaComponent
     if (this.isLoggedIn && !this.userService.getAdminFromStorage()) {
       this.userService.usuarioActual$.subscribe(user => {
         this.usuarioActual = user as User;
-        if (this.usuarioActual.fav_list)
+        if (this.usuarioActual)
         {
-          this.favouriteFilms = this.usuarioActual.fav_list.arrayPeliculas || [];  // Asegurarse de que sea un arreglo
+          if (this.usuarioActual.fav_list)
+            {
+              this.favouriteFilms = this.usuarioActual.fav_list.arrayPeliculas || [];  // Asegurarse de que sea un arreglo
+            }
+            this.Flist.loadFavouriteListFromServer(this.usuarioActual.id);
         }
-        this.Flist.loadFavouriteListFromServer(this.usuarioActual.id);
       });
     }
 
@@ -123,13 +137,17 @@ export class BibliotecaComponent
           
           if (loadedUser) {
             this.movieLibrary = [...loadedUser.arrayPeliculas]; // Clonamos arrayPeliculas
-
-            // await this.deudaService.startCountdown(this.movieLibrary);
-            // let flag = this.deudaService.startCountdownDiezSegundos(this.movieLibrary)
-            // if (flag)
-            // {
-            //   this.intervalId = this.deudaService.intervalId;
-            // }
+            
+            if (this.movieLibrary.length != 0)
+            {
+              // await this.deudaService.startCountdown(this.movieLibrary);
+              let flag = this.deudaService.startCountdownDiezSegundos(this.movieLibrary)
+              if (flag)
+              {
+                this.intervalId = this.deudaService.intervalId;
+              }
+            }
+            
           }
         }
         this.validarBibliotecaVacia();
@@ -166,7 +184,12 @@ export class BibliotecaComponent
         this.movieLibrary.splice(index, 1);
         
         // Sincronizar la biblioteca en el servidor
-        await this.userService.actualizarBiblioteca(this.usuarioActual.id, this.movieLibrary);
+        await this.userService.actualizarBiblioteca(this.usuarioActual, this.movieLibrary);
+        if (this.intervalId)
+        {
+          clearInterval(this.intervalId)
+        }
+
         if (this.movieLibrary.length === 0) {
           this.bibliotecaVacia = true;
         }
@@ -191,6 +214,12 @@ export class BibliotecaComponent
   } 
   pagarDeuda ()
   {
-    this.router.navigate(['/tarjeta']);
+    this.usuarioActual = this.userService.getUserFromStorage();
+    if (this.usuarioActual)
+    {
+      this.usuarioActual.payDeuda = true;
+      this.userService.saveUserToStorage (this.usuarioActual);
+      this.userService.updateUserToJSON(this.usuarioActual);
+    }
   }
 }
