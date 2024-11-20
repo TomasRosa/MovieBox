@@ -246,3 +246,102 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+.box-datos-user{
+    margin-block: 2rem;
+    background-color: #747474;
+    display: flex;
+    justify-content: center;
+    padding-block: 1rem;
+    color: aliceblue;
+}
+
+.user-data{
+    margin: 0%;
+    background-color: transparent;
+}
+
+.box-deuda{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: transparent;
+}
+
+.box-option-deuda{
+    display: grid;
+    justify-content: center;
+    background-color: transparent;
+}
+
+.total-deuda{
+    text-align: center;
+    margin: 0%;
+    background-color: transparent;
+    font-size: 1.5rem;
+    color: aliceblue;
+    padding-block: 0.5rem;
+}
+
+ 
+.button {
+    background-color: #747474;
+    cursor: pointer;
+    padding: 0.6rem;
+    padding-inline: 1.15rem;
+    font-size: 1.15rem;
+    border: none;
+    transition: 0.3s;
+    color: aliceblue;
+}
+
+.button:hover{
+    color: rgb(187, 187, 187);
+}
+
+.box-button-card{
+    margin: 0%;
+    padding: 0%;
+    display: flex;
+    justify-content: center;
+    background-color: transparent;
+}
+
+.box-saldar-deuda{
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+    background-color: #545454;
+    margin-top: 1rem;
+    margin-inline: 10rem;
+}
+
+.box-saldar-deuda-efectivo{
+    display: grid;
+    justify-content: center;
+    background-color: transparent;
+    margin-block: 0.5rem;
+}
+
+.successMessage{
+    text-align: center;
+}
+
+.box-saldar-deuda-tarjeta{
+    margin-block: 0.5rem;
+    display: grid;
+    justify-content: center;
+    background-color: transparent;
+}
+
+.box-card{
+    margin-top: 0.5rem;
+    background-color: transparent;
+}
+
+.paragraph{
+    text-align: center;
+    color: aliceblue;
+    padding: 0.1rem;
+    background-color: #343434;
+}

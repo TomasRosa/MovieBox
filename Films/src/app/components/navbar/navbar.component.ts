@@ -27,9 +27,17 @@ export class NavbarComponent implements OnInit {
   
   router: string = '';
 
+  private precios: number[] = [
+    150,200,300,450,250,180,280,900,350,500,1200,700,550,950,1100,1300,800,275,
+    600,170,2100,400,750,1000,1700,1600,3000,2200,160,210,1150,700,1750,900,2000,130,1450,2500,1350,190,
+    2800,1600,600,1100,1250,850,230,200,125,350,550,900,675,2400,1450,800,1800,
+    1900,100,700,750,850,275,1150,2350,2750,475,1500,1000, 2000,800,1300,
+  ];
+
   constructor(
     private routerService: Router, 
-    private userService: UserService, private filmsFromAPIService: FilmsFromAPIService, 
+    private userService: UserService, 
+    private filmsFromAPIService: FilmsFromAPIService, 
     private filmSearchService: FilmSearchServiceService,
     private sharedService: SharedServicesService,
     private adminService: AdminService
@@ -45,13 +53,11 @@ export class NavbarComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     try {
-      const fetchedFilms = this.filmsFromAPIService.getMovies ();
-      if (fetchedFilms) {
+      let fetchedFilms = this.filmsFromAPIService.getMovies ();
+      if (fetchedFilms)   
         this.films = fetchedFilms;
-      } 
-      else{
+      else
           console.log('Array de peliculas nulo');
-      }
     } catch (error) {
       console.error(error);
     }

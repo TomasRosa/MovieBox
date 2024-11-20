@@ -1,39 +1,49 @@
-<div>Deuda de <div *ngIf="user">{{user.firstName}}</div>
-  <div *ngIf="!user">USUARIO NO ENCONTRADO</div>
+<div class="box-datos-user"> 
+  <h3 class="user-data" *ngIf = "user">DEUDA DE {{user.firstName.toUpperCase()}} {{user.lastName.toUpperCase()}} </h3>
+  <h3 class="user-data" *ngIf = "!user">USUARIO NO ENCONTRADO</h3>
 </div>
-<div>
-  {{deuda}}
-  <button *ngIf="payDeuda && deuda != 0" (click)="toggleSaldarDeuda()">
-    Saldar Deuda
-  </button>
-
-  <div *ngIf="saldarDeuda">
-    <button (click)="pagoEfectivo()">Pago en Efectivo</button>
-    <div class="alert alert-success mt-3" *ngIf="successMessage">
-      {{ successMessage }}
+<div class="box-deuda">
+    <div class="box-option-deuda">
+      <p class="total-deuda">Total: ${{deuda}}</p>
+      <button class="button" *ngIf = "payDeuda && deuda != 0" (click) = "toggleSaldarDeuda()">
+          Saldar Deuda
+      </button>
     </div>
-    <button (click)="pagoTarjeta()">Pago con Tarjeta</button>
-    <div *ngIf="hadCard && pressButtonCard">
-      <div>Desea pagar con la tarjeta cargada?</div>
-      <div class="tarjeta">
-        <div class="chip"></div>
-        <div class="box-datos">
-          <p class="dato-tarjeta nTarjeta"> **** **** **** {{lastFourDigits}}</p>
-        </div>
-        <div class="box-datos">
-          <p class="dato-tarjeta vencimiento">{{ user?.tarjeta?.fechaVencimiento }}</p>
-        </div>
-        <div class="last-data">
-          <div class="box-fullname">
-            <div class="box-datos">
-              <p class="dato-tarjeta fullname">{{user?.tarjeta?.firstName}}</p>
-            </div>
-            <div class="box-datos">
-              <p class="dato-tarjeta fullname">{{user?.tarjeta?.lastName}}</p>
-            </div>
+
+  <div class="box-saldar-deuda" *ngIf="saldarDeuda">
+
+        <div class="box-saldar-deuda-efectivo">
+      <button class="button" (click)="pagoEfectivo()">Pago en Efectivo</button>
+      <div class="alert alert-success mt-3 successMessage" *ngIf="successMessage">
+        {{ successMessage }}
           </div>
-          <div class="dato-tarjeta tipo-tarjeta"><img [ngClass]="imgTypeCardClass" src="{{typeCard}}" alt=""></div>
-        </div>
+    </div>
+
+        <div class="box-saldar-deuda-tarjeta">
+          <div class="box-button-card">
+        <button class="button" (click)="pagoTarjeta()">Pago con Tarjeta</button>
+          </div>
+      <div class="box-card" *ngIf="hadCard && pressButtonCard">
+        <p class="paragraph">Desea pagar con la tarjeta cargada?</p>
+        <div class="tarjeta">
+          <div class="chip"></div>
+          <div class="box-datos">
+            <p class="dato-tarjeta nTarjeta"> **** **** **** {{lastFourDigits}}</p>
+          </div>
+          <div class="box-datos">
+            <p class="dato-tarjeta vencimiento">{{ user?.tarjeta?.fechaVencimiento }}</p>
+          </div>
+          <div class="last-data">
+            <div class="box-fullname">
+              <div class="box-datos">
+                <p class="dato-tarjeta fullname">{{user?.tarjeta?.firstName}}</p>
+              </div>
+              <div class="box-datos">
+                <p class="dato-tarjeta fullname">{{user?.tarjeta?.lastName}}</p>
+              </div>
+            </div>
+            <div class="dato-tarjeta tipo-tarjeta"><img [ngClass]="imgTypeCardClass" src="{{typeCard}}" alt=""></div>
+          </div>
       </div>
       <div class="box-options">
         <button id="newCard" class="button" (click)="showFormToAddNewCard()">Agregar una nueva</button>
@@ -72,9 +82,9 @@
             <div *ngIf="cvc.hasError('required')">El codigo de seguridad es requerido.</div>
             <div *ngIf="cvc.hasError('validarCVCLongitud')">El codigo de seguridad es de 3 digitos.</div>
             <div *ngIf="cvc.hasError('soloNumeros')">Solo se permiten numeros.</div>
+            </div>
           </div>
-        </div>
-    
+            </div>
         <div *ngIf="cvcFormGroup.valid">
           <form (ngSubmit)="buyWithActualCard()">
             <button class="btn btn-primary margenBoton" type="submit">Confirmar compra</button>
