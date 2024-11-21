@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router'; // Importa NavigationEnd
 import { FilmsFromAPIService } from './services/films-from-api.service';
+import { CarritoService } from './services/carrito.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,7 @@ import { FilmsFromAPIService } from './services/films-from-api.service';
 })
 export class AppComponent 
 {
-  constructor(private filmsFromApiService: FilmsFromAPIService)
+  constructor(private filmsFromApiService: FilmsFromAPIService, private carritoService: CarritoService)
   {
   }
 
@@ -29,6 +30,7 @@ export class AppComponent
 
   async ngOnInit() {
     await this.filmsFromApiService.initializeData()
+    this.carritoService.ngOnInit()
     const links = document.querySelectorAll('nav a');
     links.forEach(link => {
       link.addEventListener('click', () => {

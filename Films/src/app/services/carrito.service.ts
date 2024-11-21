@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Film } from 'src/app/models/film';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, concat } from 'rxjs';
 import { User } from '../models/user';
 
 @Injectable({
@@ -11,8 +11,9 @@ export class CarritoService {
   private totalCarrito: number = 0;
   private carritoSubject = new BehaviorSubject<Array<Film>>([]);
   carrito$ = this.carritoSubject.asObservable();
-  userId: Number = 0;
+  userId: number = 0;
   user: User | null = null
+  carritos: Array<{ userId: Number, carrito: Film[] }> = [];
 
   constructor() 
   {
@@ -24,32 +25,39 @@ export class CarritoService {
     if (this.user)
     {
       this.userId = this.user.id
-      this.loadCarritoFromStorage();
+      this.carritoDeCompras = this.loadCarritoFromStorage(this.userId);
+      this.carritoSubject.next(this.carritoDeCompras);
     }
   }
 
   agregarAlCarrito(pelicula: Film) {
     this.carritoDeCompras.push({ ...pelicula }); // Hacer una copia de la película
     this.totalCarrito += pelicula.precio;
-    this.carritoSubject.next(this.carritoDeCompras);
-    this.saveCarritoToStorage();
+    this.saveCarritoToStorage(this.userId, this.carritoDeCompras);
   }
 
   eliminarDelCarrito(pelicula: Film) {
-    const index = this.carritoDeCompras.indexOf(pelicula);
+    const index = this.carritoDeCompras.findIndex((item) => item.rank === pelicula.rank);
     if (index !== -1) {
       this.carritoDeCompras.splice(index, 1);
+
+      const userCarritoIndex = this.carritos.findIndex((item) => item.userId === this.userId);
+      if (userCarritoIndex !== -1)
+      {
+        this.carritos[userCarritoIndex].carrito = this.carritoDeCompras;
+      }
       this.totalCarrito -= pelicula.precio;
       this.carritoSubject.next(this.carritoDeCompras);
-      this.saveCarritoToStorage();
+      this.saveCarritoToStorage(this.userId, this.carritoDeCompras);
     }
   }
 
   limpiarCarrito() {
     this.carritoDeCompras = []; // Borra todas las películas en el carrito
     this.totalCarrito = 0;
-    this.carritoSubject.next(this.carritoDeCompras);
-    this.saveCarritoToStorage();
+    this.carritos = this.carritos.filter((item) => item.userId == this.userId);
+    this.carritoSubject.next (this.carritoDeCompras);
+    this.saveCarritoToStorage(this.userId, this.carritoDeCompras);
   }
 
   obtenerCarrito() {
@@ -60,29 +68,46 @@ export class CarritoService {
     return this.totalCarrito;
   }
 
-  private saveCarritoToStorage() 
-  {
-    const dataToStore = {
-      userId: this.userId,
-      carrito: this.carritoDeCompras,
-    };
-    localStorage.setItem('carritoDeCompras', JSON.stringify(dataToStore));
+  // private saveCarritoToStorage() 
+  // {
+  //   const dataToStore = {
+  //     userId: this.userId,
+  //     carrito: this.carritoDeCompras,
+  //   };
+    
+  //   localStorage.setItem('carritoDeCompras', JSON.stringify(dataToStore));
+  // }
+
+  private saveCarritoToStorage(userId: Number, carrito: Film[]) {
+    const storedData = localStorage.getItem('carritoDeCompras');
+  
+    if (storedData) {
+      this.carritos = JSON.parse(storedData);
+    }
+  
+    const userCarritoIndex = this.carritos.findIndex((item) => item.userId === userId);
+  
+    if (userCarritoIndex !== -1) {
+      this.carritos[userCarritoIndex].carrito = carrito;
+      this.carritoSubject.next (carrito);
+    } else {
+      this.carritos.push({ userId, carrito });
+      this.carritoSubject.next (carrito);
+    }
+    localStorage.setItem('carritoDeCompras', JSON.stringify(this.carritos));
   }
 
-  private loadCarritoFromStorage() {
+  loadCarritoFromStorage(userId: Number): Film[] {
     const storedData = localStorage.getItem('carritoDeCompras');
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      if (parsedData.userId == this.userId)
-      {
-        this.carritoDeCompras = parsedData.carrito || [];
-      }
-      else
-      {
-        this.carritoDeCompras = []
-      }
-      this.carritoSubject.next(this.carritoDeCompras);
+    if (!storedData) {
+      return [];
     }
+  
+    this.carritos = JSON.parse(storedData);
+  
+    const userCarrito = this.carritos.find((item) => item.userId === userId);
+  
+    return userCarrito ? userCarrito.carrito : [];
   }
 
   getUserFromStorage(): User | null {

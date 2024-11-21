@@ -15,7 +15,7 @@ export class DeudaService {
   countdowns: { [key: number]: string } = {};
   deudaSubject = new BehaviorSubject<number>(0);
   deuda$ = this.deudaSubject.asObservable();
-  private isCountingDown: boolean = false;
+  isCountingDown: boolean = false;
 
   constructor(private http: HttpClient, private userService: UserService) 
   {

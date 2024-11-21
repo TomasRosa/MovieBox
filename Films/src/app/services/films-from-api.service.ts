@@ -101,7 +101,7 @@ export class FilmsFromAPIService {
   {
     await this.initializeData();
   }
-
+  
   async initializeData() {
     if (this.filmsData.length == 0) {
       const response = await fetch(this.url_JSON);

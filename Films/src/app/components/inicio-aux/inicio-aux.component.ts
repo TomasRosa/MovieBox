@@ -7,6 +7,7 @@ import { FilmSearchServiceService } from 'src/app/services/film-search-service.s
 import { UserService } from 'src/app/services/user.service';
 import { FavouriteList } from 'src/app/models/f-list';
 import { User } from 'src/app/models/user';
+import { CarritoService } from 'src/app/services/carrito.service';
 
 @Component({
   selector: 'app-inicio-aux',
