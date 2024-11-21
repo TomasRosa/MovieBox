@@ -140,11 +140,14 @@ export class BibliotecaComponent
             
             if (this.movieLibrary.length != 0)
             {
-              // await this.deudaService.startCountdown(this.movieLibrary);
-              let flag = this.deudaService.startCountdownDiezSegundos(this.movieLibrary)
-              if (flag)
+              if (!this.deudaService.isCountingDown)
               {
-                this.intervalId = this.deudaService.intervalId;
+                // await this.deudaService.startCountdown(this.movieLibrary);
+                let flag = this.deudaService.startCountdownDiezSegundos(this.movieLibrary)
+                if (flag)
+                {
+                  this.intervalId = this.deudaService.intervalId;
+                }
               }
             }
             

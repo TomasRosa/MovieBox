@@ -36,6 +36,7 @@ export class AdminCodeComponent {
       this.userService.storedAdmin = this.adminService.getAdminActual();
       this.userService.storedUser = null;
       this.adminService.isLoggedInSubject.next (true)
+      this.userService.saveAdminToStorage(this.adminService.getAdminActual())
       this.router.navigate(['/inicio']);
     } else 
     {

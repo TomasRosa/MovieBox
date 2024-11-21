@@ -43,7 +43,6 @@ export class AuthGuard implements CanActivate {
     // Rutas que solo los administradores pueden ver
     const adminRoutes = [
       'biblioteca/:id', 
-      'admin-code', 
       'showUsers',
       'entregas-pendientes',
       'pago-deuda/:id'
@@ -56,6 +55,7 @@ export class AuthGuard implements CanActivate {
     const profileRoute = ['perfil'];
 
     const path = route.routeConfig?.path || ''; // Obtenemos la ruta actual
+    console.log ("PATH: ", path)
 
     return this.userService.isLoggedIn$.pipe(
       take(1),
@@ -88,6 +88,13 @@ export class AuthGuard implements CanActivate {
          if (path === 'biblioteca' && loggedInStatus && !isAdminLoggedIn) {
           return true;
         }
+        
+        if (path === 'admin-code' && loggedInStatus)
+        {
+          console.log("Un usuario logueado no puede entrar a admin-code");
+          this.router.navigate(['/inicio']);
+          return false;
+        }
 
          // Bloquear acceso de administradores a rutas exclusivas de usuarios
         if (loggedRoutes.some(route => path.startsWith(route)) && isAdminLoggedIn) {
@@ -107,7 +114,7 @@ export class AuthGuard implements CanActivate {
         
         // Lógica de acceso para rutas de usuarios no logueados (invitados)
         if (guestRoutes.some(route => path.startsWith(route))) {
-          if (!loggedInStatus && !isAdminLoggedIn) return true; // Solo los usuarios no logueados pueden acceder
+          if (!loggedInStatus) return true; // Solo los usuarios no logueados pueden acceder
         }
 
         // Lógica de acceso para la ruta de perfil: Solo los usuarios logueados pueden acceder

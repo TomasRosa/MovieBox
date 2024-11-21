@@ -189,22 +189,17 @@ export class DeudaService {
     if (movieLibrary) {
       this.intervalId = setInterval(() => 
       {
-        this.setTimeToFilms (user!, movieLibrary)
+        movieLibrary.forEach(async film => {
+          const timeRemaining = this.getTiempoRestanteDiezSegundos(film.fechaDeAgregado!);
+          this.countdowns[film.id] = timeRemaining;
+          await this.calcularDeuda(user, movieLibrary)
+        });
         this.contadorPeliculasSinTiempo(movieLibrary)
       }, 1000);
       return true;
     }
     
     return false;
-  }
-
-  setTimeToFilms (user: User, movieLibrary: Film [])
-  {
-    movieLibrary.forEach(async film => {
-      const timeRemaining = this.getTiempoRestanteDiezSegundos(film.fechaDeAgregado!);
-      this.countdowns[film.id] = timeRemaining;
-      await this.calcularDeuda(user, movieLibrary)
-    });
   }
 
   clearInterval() {

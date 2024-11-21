@@ -73,7 +73,7 @@ export class UserService {
   }
 
   // Guardar administrador en localStorage
-  private saveAdminToStorage(admin: Admin | null): void {
+  saveAdminToStorage(admin: Admin | null): void {
     if (admin) {
       this.adminActualSubject.next (admin)
       this.adminService.setAdminActual (admin);
@@ -256,7 +256,6 @@ export class UserService {
                     const admin = admins.find(admin => admin.email == inputEmail);
                     if (admin) {
                         this.adminService.setAdminActual(admin); // Almacenar el admin
-                        this.saveAdminToStorage(admin)
                         resolve({ isUser: false, isAdmin: true, admin });
                         return;
                     }
