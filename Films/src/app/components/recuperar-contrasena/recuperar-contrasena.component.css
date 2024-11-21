@@ -1,0 +1,12 @@
+.box-recuperar-password{
+    margin-top: 2rem;
+}
+
+.box{
+    background-color: #747474;
+    color: aliceblue;
+}
+
+.box-errors{
+    margin-top: 0.2rem;
+}

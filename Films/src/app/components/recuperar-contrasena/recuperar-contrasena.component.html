@@ -1,12 +1,12 @@
-<div class="container d-flex justify-content-center align-items-center min-vh-100">
-  <div class="card p-4 shadow-lg" style="width: 500px;">
+<div class="container d-flex justify-content-center align-items-center box-recuperar-password">
+  <div class="card p-4 shadow-lg box" style="width: 500px;">
     <h4 class="mb-3 text-center">Recuperar Contraseña</h4>
 
     <!-- Formulario para enviar el código -->
     <form (ngSubmit)="enviarCodigo()" *ngIf="!codigoEnviado" class="text-center">
       <div class="form-group mb-3">
         <label for="email" class="form-label">Ingrese su email</label>
-        <input type="email" id="email" class="form-control mx-auto" style="max-width: 90%;" [(ngModel)]="email" name="email" required>
+        <input type="email" id="email" class="form-control mx-auto" style="max-width: 90%;" [(ngModel)]="email" name="email" placeholder="Email..." required>
       </div>
       <button type="submit" class="btn btn-primary w-100">Enviar Código</button>
     </form>
@@ -32,7 +32,7 @@
           required 
           placeholder="Ingrese su nueva contraseña"
         />
-        <span class="text-danger" *ngIf="nuevaContrasena?.invalid && (nuevaContrasena?.dirty || nuevaContrasena?.touched)">
+        <span class="text-danger box-errors" *ngIf="nuevaContrasena?.invalid && (nuevaContrasena?.dirty || nuevaContrasena?.touched)">
           <div *ngIf="nuevaContrasena?.hasError('required')">La contraseña es requerida</div>
           <div *ngIf="nuevaContrasena?.hasError('minDosNumeros')">La contraseña debe contener mínimo 2 números</div>
           <div *ngIf="nuevaContrasena?.hasError('minlength')">La contraseña debe contener mínimo 6 caracteres</div>
