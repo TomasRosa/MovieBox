@@ -7,7 +7,11 @@ import { FilmsFromAPIService } from './services/films-from-api.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent 
+{
+  constructor(private filmsFromApiService: FilmsFromAPIService)
+  {
+  }
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -23,7 +27,8 @@ export class AppComponent {
     }
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.filmsFromApiService.initializeData()
     const links = document.querySelectorAll('nav a');
     links.forEach(link => {
       link.addEventListener('click', () => {

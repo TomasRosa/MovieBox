@@ -23,16 +23,17 @@ export class OfertasAuxComponent implements OnInit {
 
   constructor(
     private dataFilms: FilmsFromAPIService, 
-    private carritoService: CarritoService, 
+
     private userService: UserService,
     private sharedService: SharedServicesService,
     private Flist: FavouriteListService) {}
 
-  async ngOnInit(): Promise<void> {
-    await this.dataFilms.initializeData();
-    this.originalFilms = this.dataFilms.getMovies();
-    this.films = [...this.originalFilms];
-    this.filteredFilms = this.films.filter((film: Film) => film.precio > 1500);
+  async ngOnInit(): Promise<void> 
+  {
+    this.dataFilms.movies$.subscribe (m => {
+      this.films = m;
+      this.filteredFilms = this.films.filter((film: Film) => film.precio > 1500);
+    })
     
     this.userService.isLoggedIn$.subscribe ((isLoggedIn: boolean | null) =>{
       this.isLoggedIn = isLoggedIn; 

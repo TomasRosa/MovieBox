@@ -41,10 +41,10 @@ export class InicioAuxComponent implements OnInit {
       this.isAdmin = true;
     }
 
-    this.dataFilms.initializeData().then(() => {
-      this.films = this.dataFilms.getMovies();
+    this.dataFilms.movies$.subscribe (m => {
+      this.films = m;
       this.filteredFilms = this.films.filter((film: Film) => film.precio <= 1500);
-    });
+    })
 
     if (this.isLoggedIn && !this.isAdmin) {
       this.userService.usuarioActual$.subscribe(async user => {
