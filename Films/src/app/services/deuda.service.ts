@@ -15,13 +15,14 @@ export class DeudaService {
   countdowns: { [key: number]: string } = {};
   deudaSubject = new BehaviorSubject<number>(0);
   deuda$ = this.deudaSubject.asObservable();
+  private isCountingDown: boolean = false;
 
   constructor(private http: HttpClient, private userService: UserService) 
   {
 
   }
 
-  async calcularDeuda(user: User | null) {
+  async calcularDeuda(user: User | null, movieLibrary: Film[]) {
     // const hoy = new Date();
 
     // this.userService.storedUser!.arrayPeliculas.forEach(pelicula => {
@@ -41,24 +42,38 @@ export class DeudaService {
     //   }
     // });
 
-    console.log ("ENTRO A CALCULAR, USER: ", user)
     if (user)
     {
       user.deuda = await this.getDeudaJSON(user.id);
-      if (user.arrayPeliculas[0] && this.countdowns [user.arrayPeliculas[0].id] == '00:00:00')
+      if (user.arrayPeliculas)
       {
-        this.iniciarAcumuladorDeDeuda (user, 20)
+        let contador = this.contadorPeliculasSinTiempo(movieLibrary)
+        this.iniciarAcumuladorDeDeuda (user, 20, contador)
       }
     }
   }
 
-  iniciarAcumuladorDeDeuda(user: User, montoPorIntervalo: number) {
-    this.intervalId = setInterval(() => {
+  contadorPeliculasSinTiempo (movieLibrary: Film[])
+  {
+    let cont = 0;
+    for (let i = 0; i < movieLibrary.length; i++)
+    {
+      if (this.countdowns [movieLibrary[i].id] == '00:00:00')
+      {
+        cont++;
+      }
+    }
+
+    return cont;
+  }
+
+  iniciarAcumuladorDeDeuda(user: User, montoPorIntervalo: number, cantPelis: number) {
+    this.intervalId = setInterval(async () => {
       this.deuda = user.deuda;
-      this.deuda += montoPorIntervalo;
+      this.deuda += montoPorIntervalo * cantPelis;
       this.deudaSubject.next(this.deuda);
       console.log(`Nueva deuda: ${this.deuda}`);
-      this.updateDeudaUser(user)
+      await this.updateDeudaUser(user)
     }, 10000); // 10000 ms = 10 segundos
   }
 
@@ -157,24 +172,51 @@ export class DeudaService {
   }
 
   startCountdownDiezSegundos(movieLibrary: Film[]) {
-    // Limpiar cualquier intervalo existente antes de iniciar uno nuevo
+    
     if (this.intervalId) {
-      clearInterval(this.intervalId);
+      this.clearInterval();
     }
+
+    if (this.isCountingDown) {
+      console.log("El intervalo ya está activo.");
+      return false;
+    }
+
+    this.isCountingDown = true;
 
     let user = this.userService.getUserFromStorage()
   
     if (movieLibrary) {
-      this.intervalId = setInterval(() => {
-        movieLibrary.forEach(film => {
-          const timeRemaining = this.getTiempoRestanteDiezSegundos(film.fechaDeAgregado!);
-          this.countdowns[film.id] = timeRemaining;
-          this.calcularDeuda(user)
-        });
+      this.intervalId = setInterval(() => 
+      {
+        this.setTimeToFilms (user!, movieLibrary)
+        this.contadorPeliculasSinTiempo(movieLibrary)
       }, 1000);
       return true;
     }
     
     return false;
+  }
+
+  setTimeToFilms (user: User, movieLibrary: Film [])
+  {
+    movieLibrary.forEach(async film => {
+      const timeRemaining = this.getTiempoRestanteDiezSegundos(film.fechaDeAgregado!);
+      this.countdowns[film.id] = timeRemaining;
+      await this.calcularDeuda(user, movieLibrary)
+    });
+  }
+
+  clearInterval() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
   }
 }

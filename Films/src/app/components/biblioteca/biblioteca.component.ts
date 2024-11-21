@@ -161,8 +161,9 @@ export class BibliotecaComponent
   {
     if (this.intervalId) {
       clearInterval(this.intervalId);
+      this.deudaService.clearInterval()
+      this.deudaSubscription.unsubscribe();
     }
-    this.deudaSubscription.unsubscribe();
   }
 
 
@@ -188,6 +189,7 @@ export class BibliotecaComponent
         if (this.intervalId)
         {
           clearInterval(this.intervalId)
+          this.deudaService.clearInterval()
         }
 
         if (this.movieLibrary.length === 0) {
