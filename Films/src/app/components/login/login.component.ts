@@ -6,6 +6,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { User } from 'src/app/models/user';
 import { Admin } from 'src/app/models/admin';
 import { SharedServicesService } from 'src/app/services/shared-services.service';
+import { ValidacionUserPersonalizada } from 'src/app/validaciones/validacion-user-personalizada';
 
 @Component({
   selector: 'app-login',
@@ -23,10 +24,11 @@ export class LoginComponent implements OnInit {
 
 
   loginForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
+    email: new FormControl('', [Validators.required, Validators.email, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
     password: new FormControl('', [
       Validators.required,
       Validators.minLength(6),
+      ValidacionUserPersonalizada.minDosNumeros()
     ]),
   });
 

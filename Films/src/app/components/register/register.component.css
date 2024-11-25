@@ -26,7 +26,9 @@
   }
 
   .box-register{
-    margin-block: 1rem;
+    margin-block: 0.7rem;
+    max-width: 770px; /* Limita el ancho máximo del formulario */
+    width: 100%; /* Permite que sea responsive */
   }
 
   .card-register{

@@ -1,7 +1,5 @@
 .no-border {
-    border-top: none; /* Quitar borde superior */
-    border-right: none; /* Quitar borde derecho */
-    border-left: none; /* Quitar borde izquierdo */
+    border: none; /* Solo elimina todos los bordes */
     border-radius: 0; /* Eliminar bordes redondeados si es necesario */
   }
   .input-group {
@@ -18,12 +16,14 @@
     color: #0056b3; /* Color del ícono al pasar el mouse */
   }
 
-  .box-login{
+  .box-login {
     margin-top: 2rem;
+    max-width: 550px; /* Limita el ancho máximo del formulario */
+    width: 100%; /* Permite que sea responsive */
   }
 
   .card-login{
-    background-color: #747474;
+    background-color: #949494;
     color: aliceblue;
   }
 
