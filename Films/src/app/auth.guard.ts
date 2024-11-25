@@ -42,7 +42,8 @@ export class AuthGuard implements CanActivate {
 
     // Rutas que solo los administradores pueden ver
     const adminRoutes = [
-      'biblioteca/:id', 
+      'biblioteca/:id',
+      'admin-code', 
       'showUsers',
       'entregas-pendientes',
       'pago-deuda/:id'

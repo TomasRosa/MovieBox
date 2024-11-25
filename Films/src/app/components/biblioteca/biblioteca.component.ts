@@ -25,6 +25,7 @@ export class BibliotecaComponent
   countdowns: { [key: number]: string } = {};
   deudaSubscription: Subscription = new Subscription;
   favouriteFilms: Array<Film> = [];  // Inicialización como arreglo vacío
+  successMessage = "";
 
   constructor(
     private userService: UserService,
@@ -117,11 +118,24 @@ export class BibliotecaComponent
           this.usuarioActual = loadedUser;
           this.movieLibrary = [...this.usuarioActual.arrayPeliculas]; // Clonamos arrayPeliculas
 
-          let flag = await this.deudaService.startCountdown(this.movieLibrary);
-          if (flag)
-          {
-             this.intervalId = this.deudaService.intervalId;
-          }
+          this.userService.bibliotecaSubject.next (this.movieLibrary)
+
+          if (this.movieLibrary.length != 0)
+            {
+              if (!this.deudaService.isCountingDown)
+              {
+                let flag = this.deudaService.startCountdownDiezSegundos()
+                if (flag)
+                {
+                  this.intervalId = this.deudaService.intervalId;
+                }
+              }
+            }
+          // let flag = await this.deudaService.startCountdown(this.movieLibrary);
+          // if (flag)
+          // {
+          //    this.intervalId = this.deudaService.intervalId;
+          // }
           this.validarBibliotecaVacia();
         }
       } else {
@@ -137,13 +151,14 @@ export class BibliotecaComponent
           
           if (loadedUser) {
             this.movieLibrary = [...loadedUser.arrayPeliculas]; // Clonamos arrayPeliculas
-            
+            this.userService.bibliotecaSubject.next (this.movieLibrary)
+
             if (this.movieLibrary.length != 0)
             {
               if (!this.deudaService.isCountingDown)
               {
                 // await this.deudaService.startCountdown(this.movieLibrary);
-                let flag = this.deudaService.startCountdownDiezSegundos(this.movieLibrary)
+                let flag = this.deudaService.startCountdownDiezSegundos()
                 if (flag)
                 {
                   this.intervalId = this.deudaService.intervalId;
@@ -160,15 +175,14 @@ export class BibliotecaComponent
     this.countdowns = this.deudaService.countdowns;
   }
   
-  ngOnDestroy(): void 
-  {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-      this.deudaService.clearInterval()
-      this.deudaSubscription.unsubscribe();
-    }
-  }
-
+  // ngOnDestroy(): void 
+  // {
+  //   if (this.intervalId) {
+  //     clearInterval(this.intervalId);
+  //     this.deudaService.clearInterval()
+  //     this.deudaSubscription.unsubscribe();
+  //   }
+  // }
 
   validarBibliotecaVacia (){
     if (this.movieLibrary.length == 0) this.bibliotecaVacia = true
@@ -186,6 +200,8 @@ export class BibliotecaComponent
       const index = this.movieLibrary.findIndex(p => p.id === film.id);
       if (index !== -1) {
         this.movieLibrary.splice(index, 1);
+
+        this.deudaService.movieLibrary = [...this.movieLibrary];
         
         // Sincronizar la biblioteca en el servidor
         await this.userService.actualizarBiblioteca(this.usuarioActual, this.movieLibrary);
@@ -193,6 +209,23 @@ export class BibliotecaComponent
         {
           clearInterval(this.intervalId)
           this.deudaService.clearInterval()
+        }
+
+        const contador = this.deudaService.contadorPeliculasSinTiempo();
+        console.log ("CONTADOR AL DEVOLVER: ", contador)
+
+        if (this.deudaService.deudaIntervalId && this.movieLibrary.length > 0) {
+          clearInterval(this.deudaService.deudaIntervalId);
+          this.deudaService.deudaIntervalId = null;
+
+          if (contador > 0) {
+            this.deudaService.iniciarAcumuladorDeDeuda(this.usuarioActual, 20, contador);
+          }
+        }
+        else if (this.movieLibrary.length == 0 && this.deudaService.deudaIntervalId)
+        {
+          clearInterval(this.deudaService.deudaIntervalId);
+          this.deudaService.deudaIntervalId = null;
         }
 
         if (this.movieLibrary.length === 0) {
@@ -225,6 +258,7 @@ export class BibliotecaComponent
       this.usuarioActual.payDeuda = true;
       this.userService.saveUserToStorage (this.usuarioActual);
       this.userService.updateUserToJSON(this.usuarioActual);
+      this.successMessage = "Deuda enviada para pagar, presentese al local para abonarla, seguira contando hasta que la salde!"
     }
   }
 }

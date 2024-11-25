@@ -25,12 +25,13 @@ export class UserService {
   public showFormAddCard: BehaviorSubject <boolean | null>;
   public tarjetaUsuarioSubject = new BehaviorSubject<Tarjeta | null>(null);
   tarjetaUsuario$ = this.tarjetaUsuarioSubject.asObservable();
+  public bibliotecaSubject = new BehaviorSubject<Film[] | null>(null);
+  biblioteca$ = this.bibliotecaSubject.asObservable();
 
   constructor(
     private http: HttpClient,
     private router: Router,
-    private adminService: AdminService,
-    private carritoService: CarritoService
+    private adminService: AdminService
   ) {
     this.usuarioActualSubject = new BehaviorSubject<User | null>(null);
     this.adminActualSubject = new BehaviorSubject<Admin | null>(null);
@@ -347,6 +348,7 @@ export class UserService {
 
     user.arrayPeliculas = arrayPeliculas;
 
+    this.bibliotecaSubject.next (arrayPeliculas);
     this.saveUserToStorage (user);
   
     try {

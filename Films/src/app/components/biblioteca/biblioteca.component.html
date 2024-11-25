@@ -55,6 +55,9 @@
   <div *ngIf = "deuda != 0" class="tiene-deuda">
     <p> Su deuda actual es de ${{deuda}} </p>
     <button class="button-deuda" (click)="pagarDeuda()">Pagar deuda</button>
+    <div class="alert alert-success mt-3 successMessage" *ngIf="successMessage">
+      {{ successMessage }}
+    </div>
   </div>
 </div>
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Film } from 'src/app/models/film';
 import { BehaviorSubject, concat } from 'rxjs';
 import { User } from '../models/user';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -31,9 +32,10 @@ export class CarritoService {
   }
 
   agregarAlCarrito(pelicula: Film) {
-    this.carritoDeCompras.push({ ...pelicula }); // Hacer una copia de la película
+    this.carritoDeCompras.push(pelicula);
     this.totalCarrito += pelicula.precio;
     this.saveCarritoToStorage(this.userId, this.carritoDeCompras);
+    this.carritoDeCompras = [];
   }
 
   eliminarDelCarrito(pelicula: Film) {
@@ -84,9 +86,23 @@ export class CarritoService {
     if (storedData) {
       this.carritos = JSON.parse(storedData);
     }
-  
-    const userCarritoIndex = this.carritos.findIndex((item) => item.userId === userId);
-  
+
+    let user = this.getUserFromStorage()
+    if (user)
+    {
+      userId = user.id;
+    }
+
+    let userCarritoIndex = -1;
+
+    for (let i = 0; i < this.carritos.length; i++)
+    {
+      if (this.carritos[i].userId == userId)
+      {
+        userCarritoIndex = i;
+        break;
+      }
+    }
     if (userCarritoIndex !== -1) {
       this.carritos[userCarritoIndex].carrito = carrito;
       this.carritoSubject.next (carrito);

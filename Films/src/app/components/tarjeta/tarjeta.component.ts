@@ -48,8 +48,7 @@ export class TarjetaComponent {
   constructor(
     private carritoService: CarritoService,
     private userService: UserService,
-    private routerService: Router,
-    private deudaService: DeudaService
+    private routerService: Router
   ) {}
 
   ngOnInit(): void {
