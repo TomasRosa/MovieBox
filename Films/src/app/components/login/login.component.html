@@ -9,14 +9,17 @@
               <label for="email" class="label-spacing label">Email</label>
               <input 
                 type="text" 
-                class="form-control no-border input" 
+                class="form-control no-border input"
+                [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" 
                 id="email" 
                 name="email" 
-                formControlName="email" 
+                formControlName="email"
+                placeholder="Ingrese su email" 
                 required>
               <div class="invalid-feedback">
-                <div *ngIf="loginForm.get('email')?.hasError('required')">El email es requerido</div>
-                <div *ngIf="loginForm.get('email')?.hasError('email')">El formato del email es incorrecto</div>
+                <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.hasError('required')">El email es requerido.</div>
+                <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.hasError('email')">El formato del email es incorrecto.</div>
+                <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.hasError('pattern')">Dominio incorrecto.</div>
               </div>
             </div>
             <div class="form-group mb-4">
@@ -24,7 +27,8 @@
               <div class="input-group">
                 <input 
                   [type]="mostrarContrasena ? 'text' : 'password'" 
-                  class="form-control no-border input" 
+                  class="form-control no-border input"
+                  [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"  
                   id="password" 
                   name="password" 
                   formControlName="password" 
@@ -38,12 +42,19 @@
                     <i [ngClass]="mostrarContrasena ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
                   </button>
                 </div>
+                <div class="invalid-feedback">
+                  <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.hasError('required')">
+                    La contraseña es requerida.
+                  </div>
+                  <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.hasError('minlength')">
+                    La contraseña debe contener mínimo 6 caracteres.
+                  </div>
+                  <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.hasError('minDosNumeros')">
+                    La contraseña debe contener mínimo 2 numeros.
+                  </div>
+                </div>
               </div>
-              <div class="invalid-feedback">
-                <div *ngIf="loginForm.get('password')?.hasError('required')">La contraseña es requerida</div>
-                <div *ngIf="loginForm.get('password')?.hasError('minlength')">La contraseña debe contener mínimo 6 caracteres</div>
               </div>
-            </div>
             
             <div class="text-center">
               <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid" style="width: 100%;" >
