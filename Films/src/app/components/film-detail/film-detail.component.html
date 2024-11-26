@@ -2,7 +2,17 @@
   
   <div class="box-content-film">
     <div class="recuadro-film">
-        <img class="film-img" alt="Imagen No Disponible" [src]="movie.image">
+      <div *ngIf = "!isAdmin">
+        <div class="box-star">
+          <button 
+            (click)="toggleFavourite(movie)" 
+            class="button-star"
+          >
+            {{ isFavourite(movie) ? '★' : '☆' }}
+          </button>
+        </div>
+      </div>
+      <img class="film-img" alt="Imagen No Disponible" [src]="movie.image">
     </div>
     <div class="film-data">
       <h3 class="data"> <span class="title-data">YEAR:</span> {{movie.year}} </h3>

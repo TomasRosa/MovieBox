@@ -44,6 +44,7 @@ img {
     justify-content: center;
     margin: 0 auto;
     align-items: center;
+    object-fit: contain;
 }
 
 .button:hover{
@@ -64,7 +65,7 @@ img {
     margin-block: 0.3rem;
     margin: 0%;
     margin-right: 5rem;
-    margin-top: 2rem;
+    margin-top: 0.2rem;
 }
 
 .title-data{
@@ -81,7 +82,7 @@ h3{
     margin-top: 0.5rem;
     color: aliceblue;
     position: relative;
-    margin-top: 1rem;
+    margin-top: 4rem;
 }
 
 .film-title{
@@ -148,4 +149,26 @@ h2{
 .paragraph{
     margin-block: 1rem;
     color: aliceblue;
+}
+
+.box-star{
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centra el botón dentro del contenedor */
+    margin-block:0.7rem;
+}
+
+.button-star {
+    display: flex;
+    justify-content: center;
+    text-align: right !important;
+    border: none;
+    font-size: 40px;
+    background: none;
+    color: white;
+    transition: 0.3s;
+} 
+
+.button-star:hover {
+    color: gold; /* Cambia el color de la estrella al pasar el mouse */
 }
