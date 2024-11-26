@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Film } from 'src/app/models/film';
 import { User } from 'src/app/models/user';
-import { CarritoService } from 'src/app/services/carrito.service';
 import { FavouriteListService } from 'src/app/services/favourite-list.service';
 import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 import { SharedServicesService } from 'src/app/services/shared-services.service';
@@ -14,7 +13,6 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class OfertasAuxComponent implements OnInit {
   private films: any;
-  private originalFilms: any;
   filteredFilms: any[] = [];
   isLoggedIn: Boolean | null = false;
   usuarioActual: User = new User ();
@@ -23,7 +21,6 @@ export class OfertasAuxComponent implements OnInit {
 
   constructor(
     private dataFilms: FilmsFromAPIService, 
-
     private userService: UserService,
     private sharedService: SharedServicesService,
     private Flist: FavouriteListService) {}
