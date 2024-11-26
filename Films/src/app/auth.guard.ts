@@ -25,7 +25,6 @@ export class AuthGuard implements CanActivate {
     // Rutas públicas que todos los usuarios pueden ver, sin importar su estado de login
     const publicRoutes = [
       'inicio', 
-      'sobre-nosotros', 
       'ofertas', 
       'not-found',
       'film-detail', 

@@ -1,0 +1,190 @@
+* {
+    text-align: center;
+}
+
+.box-title{
+    margin-bottom: 1.7rem;
+    padding: 1rem;
+    padding-block: 0.9rem;
+    background-color: #747474;
+}
+
+.title{
+    margin: 0%;
+    color: aliceblue;
+}
+
+.box{
+    transition: 2s;
+}
+
+.classDiv {
+   display: flex;
+   justify-content: center;
+}
+
+/* Estilos para el recuadro de las películas */
+
+/* Añadir un borde blanco alrededor de cada recuadro */
+.celdaBotonEspaciado {
+    padding: 15px;
+}
+
+.box-group-films{
+    display: flex;
+    justify-content: center;
+}
+
+.recuadroCelda {
+    position: relative;
+    overflow: hidden;
+    width: 300px;
+    height: 555px;
+    background-color: black !important;
+    color: aliceblue !important;
+    border-radius: 10px !important;
+    margin: 8px;
+    padding: 0.2rem;
+    transition: 0.5s;
+}
+
+.recuadroCelda:hover{
+    box-shadow: rgb(56, 56, 56) 5px 3.5px;
+}
+
+.recuadroCelda:hover .image {
+    filter: brightness(0.6); /* Efecto de sombreado en la imagen */
+}
+
+.film{
+    display: block;
+}
+
+.box-img-title{
+    display: block;
+}
+
+.title-text{
+    margin: 0rem;
+    font-size: 1.2rem;
+    padding-inline: 0.2rem;
+    width: auto;
+    font-weight: 800;
+}
+
+.box-star{
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centra el botón dentro del contenedor */
+    margin-block:0.7rem;
+}
+
+.button-star {
+    display: flex;
+    justify-content: center;
+    text-align: right !important;
+    border: none;
+    font-size: 40px;
+    background: none;
+    color: white;
+    transition: 0.3s;
+} 
+
+.button-star:hover {
+    color: gold; /* Cambia el color de la estrella al pasar el mouse */
+}
+
+.image{
+    height: 350px;
+    width: 235px;
+    margin-bottom: 1.8rem;
+}
+
+.button{
+    width: auto;
+    border-radius: 0.5rem;
+    padding-inline: 0.4rem;
+    font-size: 1.1rem;
+    padding-block: 0.4rem;
+    background-color:aliceblue;
+    border: 1px solid transparent;
+    transition: border 0.3s ease, border-radius 0.3s ease;
+    cursor: pointer;
+    color: black;
+    font-weight: 450;
+    transition: 0.3s, background-color 0.3s ease;
+}
+
+.button:hover{
+    background-color: #b6b6b6;
+}
+
+.btn-carrito{
+    padding: 0.2rem;
+    background-color:aliceblue;
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    transition: width 0.3s ease, background-color 0.3s ease; /* Ensancha el botón suavemente */
+    width: 52.5px;
+}
+
+.carrito-logo{
+    height: 45px;
+    width: 45px;
+    transition: transform 0.3s ease;
+}
+
+.precio {
+    opacity: 0;
+    margin-left: 2px;
+    transition: opacity 0.3s ease; /* Transición de opacidad */
+    white-space: nowrap;
+    color: black; /* Ajusta el color según el diseño */
+    font-weight: bold;
+}
+
+.btn-carrito:hover {
+    width: 115px; /* Ancho que alcanza el botón al hacer hover */
+    border-radius: 10%;
+    background-color: #b6b6b6;
+}
+  
+  /* Deslizar logo y mostrar precio */
+.btn-carrito:hover .carrito-logo {
+    transform: translateX(-2px); /* Desliza el logo hacia la izquierda */
+}
+  
+.btn-carrito:hover .precio {
+    opacity: 1; /* Muestra el precio */
+}
+
+
+.box-options {
+    position: absolute;
+    top: 50%; /* Centra verticalmente los botones */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px; /* Espacio entre los botones */
+    opacity: 0; /* Ocultar inicialmente */
+    transition: opacity 0.3s ease;
+    padding: 5px !important;
+}
+
+.recuadroCelda:hover .box-options {
+    opacity: 1;
+}
+
+.no-favourite .box-img-title {
+    margin-top: 3.2rem; /* Ajusta el margen para centrar el contenido verticalmente */
+}
+
+.no-favourite .recuadroCelda{
+    height: 400px;
+}
+

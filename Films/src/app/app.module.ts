@@ -8,7 +8,6 @@ import { TestComponent } from './test/test.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HttpClientModule } from '@angular/common/http';
-import { SobreNosotrosComponent } from './components/sobre-nosotros/sobre-nosotros.component';
 import { SharedServicesService } from './services/shared-services.service';
 import { UserService } from './services/user.service';
 import { InicioComponent } from './components/inicio/inicio.component';
@@ -16,13 +15,7 @@ import { TarjetaComponent } from './components/tarjeta/tarjeta.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { CarritoComponent } from './components/carrito/carrito.component';
-import { InicioAuxComponent } from './components/inicio-aux/inicio-aux.component';
 import { OfertasComponent } from './components/ofertas/ofertas.component';
-import { OfertasAuxComponent } from './components/ofertas-aux/ofertas-aux.component';
-import { DetallesDelPerfilComponent } from './components/detalles-del-perfil/detalles-del-perfil.component';
-import { EliminarCuentaComponent } from './components/eliminar-cuenta/eliminar-cuenta.component';
-import { CambiarEmailComponent } from './components/cambiar-email/cambiar-email.component';
-import { CambiarPasswordComponent } from './components/cambiar-password/cambiar-password.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { BibliotecaComponent } from './components/biblioteca/biblioteca.component';
 import { AlternativeOptionsComponent } from './components/alternative-options/alternative-options/alternative-options.component';
@@ -42,19 +35,12 @@ import { PagoDeudaComponent } from './components/pago-deuda/pago-deuda.component
     TestComponent,
     LoginComponent,
     RegisterComponent,
-    SobreNosotrosComponent,
     InicioComponent,
     TarjetaComponent,
     NavbarComponent,
     NotFoundComponent,
     CarritoComponent,
-    InicioAuxComponent,
     OfertasComponent,
-    OfertasAuxComponent,
-    DetallesDelPerfilComponent,
-    EliminarCuentaComponent,
-    CambiarEmailComponent,
-    CambiarPasswordComponent,
     PerfilComponent,
     BibliotecaComponent,
     AlternativeOptionsComponent,
@@ -76,7 +62,7 @@ import { PagoDeudaComponent } from './components/pago-deuda/pago-deuda.component
     ReactiveFormsModule,
     FormsModule
   ],
-  providers: [FilmsFromAPIService, SharedServicesService, UserService, OfertasAuxComponent],
+  providers: [FilmsFromAPIService, SharedServicesService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
