@@ -253,7 +253,8 @@
                       <input id="input-password" 
                       [(ngModel)]="passwordToVerify" 
                       [type]="showPassword ? 'text' : 'password'" 
-                      placeholder="Contraseña actual...">
+                      placeholder="Contraseña actual..."
+                      autocomplete="new-password">
                     </div>
                     <div class="box-eye">
                       <button 
@@ -406,7 +407,8 @@
                           <input id="input-password" 
                           [(ngModel)]="passwordToEdit" 
                           [type]="showPassword ? 'text' : 'password'" 
-                          placeholder="Contraseña...">
+                          placeholder="Contraseña..."
+                          autocomplete="new-password">
                         </div>
                         <div class="box-eye">
                           <button 

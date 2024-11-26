@@ -27,12 +27,32 @@ export class TarjetaComponent {
   lastFourDigits: String | null = null;
   showBuyWithActualCard: boolean = true;
   showFormConfirmBuyWithActualCard: boolean = false;
+  showOptionButtonsToCard: boolean = false;
+  showFormularioPassword: boolean | null = false;
+  showPassword: boolean | null = false;
+  passwordToEdit: String = '';
+  permitirEditarTarjeta:boolean | null = false;
+  activeOptionsEditCard: boolean | null = false;
+  resultInputPassword: string = '';
+  resultEditCard: String = '';
   /* Proceso de compra */
   isLoading: boolean = false;
   errorMessage: string = "";
   successMessage: string = "";
   result: string = "";
   cardIsEmpty: boolean = false;
+
+  cardFormGroup = new FormGroup ({
+    firstName:  new FormControl('', [Validators.required, ValidacionUserPersonalizada.soloLetras()]),
+    lastName: new FormControl('',[Validators.required, ValidacionUserPersonalizada.soloLetras()]),
+    nTarjeta:  new FormControl ('',[Validators.required, ValidacionTarjeta.validarTarjetaLongitud(), ValidacionTarjeta.soloNumeros()]),
+    fechaVencimiento: new FormControl('', [Validators.required,ValidacionTarjeta.validarFechaNoExpirada(),ValidacionTarjeta.validarFormatoFechaVencimiento()])
+  })
+
+  get firstnameCard (){return this.cardFormGroup.get ('firstName')}
+  get lastnameCard (){return this.cardFormGroup.get ('lastName')}
+  get numberCard (){return this.cardFormGroup.get ('nTarjeta')}
+  get fechaVencimientoCard (){return this.cardFormGroup.get ('fechaVencimiento')}
 
   cvcFormGroup = new FormGroup({
     cvc: new FormControl("", [
@@ -60,6 +80,97 @@ export class TarjetaComponent {
     this.userService.showFormAddCard$.subscribe((show: boolean | null) => {
       this.showFormAddCard = show;
     });
+  }
+
+  toggleFormPassword(){
+    this.showFormularioPassword = !this.showFormularioPassword;
+    this.showPassword = false;
+  }
+
+  closeFormPassword() {
+    this.showFormularioPassword = false;
+  }
+
+  verifyPassword(){
+    if (this.passwordToEdit === this.usuarioActual?.password){
+      this.closeFormPassword();
+      this.allowEditCard ();
+      this.openOptionsEditCard ();
+      this.setFormControlDefaultCardValues ();
+    }
+    else{
+      this.resultInputPassword = 'Las contraseñas no coinciden';
+    }
+  }
+
+  cancelEditCard(){
+    this.dontAllowEditCard ();
+    this.closeOptionsEditCard ();
+    this.resetCardValues ();
+    this.showOptionButtonsToCard = true;
+    this.resultEditCard = '';
+  }
+
+  async confirmEditCard(){
+    if (this.cardFormGroup.valid){
+      const newCard = new Tarjeta ({
+        firstName: this.firstnameCard?.value ?? '', 
+        lastName:this.lastnameCard?.value ?? '', 
+        nTarjeta:this.numberCard?.value ?? '', 
+        fechaVencimiento:this.fechaVencimientoCard?.value ?? ''
+      })
+      try{
+        const resultado = await this.userService.changeDataCard (this.usuarioActual, newCard);
+        if (resultado.success)
+          this.resultEditCard = 'Tarjeta cambiada correctamente'
+        else
+          this.resultEditCard = 'Error al procesar el cambio de los datos de la tarjeta'
+        this.dontAllowEditCard ();
+        this.closeOptionsEditCard ();
+        this.getLastFourDigits ();
+        setTimeout(() => {
+          this.resultEditCard = '';
+        }, 2000);
+      }catch (err){
+        console.error (err)
+      }
+    }else
+      this.resultEditCard = 'Por favor, revise los campos de la tarjeta'
+  }
+
+  setFormControlDefaultCardValues (){
+    this.firstnameCard?.setValue (this.usuarioActual?.tarjeta.firstName as string)
+    this.lastnameCard?.setValue (this.usuarioActual?.tarjeta.lastName as string)
+    this.numberCard?.setValue (this.usuarioActual?.tarjeta.nTarjeta as string)
+    this.fechaVencimientoCard?.setValue (this.usuarioActual?.tarjeta.fechaVencimiento as string)
+  }
+
+  resetCardValues (){
+    this.setFormControlDefaultCardValues ()
+    this.cardFormGroup.markAsUntouched();
+  }
+
+  openOptionsEditCard (){
+    this.activeOptionsEditCard = true;
+  }
+
+  closeOptionsEditCard (){
+    this.activeOptionsEditCard = false;
+  }
+
+  allowEditCard (){
+    this.permitirEditarTarjeta = true;
+    this.showOptionButtonsToCard = false;
+  }
+
+  dontAllowEditCard (){
+    this.permitirEditarTarjeta = false;
+    this.showOptionButtonsToCard = true;
+  }
+
+
+  toggleShowPassword() {
+    this.showPassword = !this.showPassword;
   }
 
   identificarTarjeta() {
@@ -122,6 +233,7 @@ export class TarjetaComponent {
       this.usuarioActual?.tarjeta?.fechaVencimiento &&
       this.usuarioActual?.tarjeta?.nTarjeta
     ) {
+      this.showOptionButtonsToCard = true;
       this.showBuyWithActualCard = true;
       this.getLastFourDigits();
     } else this.showBuyWithActualCard = false;

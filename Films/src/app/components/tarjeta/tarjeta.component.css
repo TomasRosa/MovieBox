@@ -174,8 +174,15 @@ h4{
 }
 
 .box-errors{
+    background-color: transparent;
     margin-top: 0.2rem;
-    color: rgb(205, 25, 25);
+    color: rgb(236, 32, 32);
+}
+
+.box-exito{
+    background-color: transparent;
+    margin-top: 0.2rem;
+    color: rgb(16, 119, 178);
 }
 
 .box-cvc{
@@ -302,7 +309,6 @@ h4{
     margin-bottom: 1rem;
 }
 
-
 .card-is-empty{
     display: block;
     margin-block: 4rem;
@@ -320,3 +326,148 @@ h4{
 .box-alert{
     margin-block: 1rem;
 }
+
+.card-exist{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-block: 0.4rem;
+}
+
+.edit{
+    margin-left: 0.8rem;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+#button-cancel-edit-card{
+    margin-right: 0.8rem;
+}
+
+.button-option-edit-card,
+.button-edit-tarjeta{
+    border: none;
+    padding: 0.4rem;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: border 0.3s ease, border-radius 0.3s ease;
+    border: 1px solid transparent;
+    background-color: rgb(130, 130, 130);
+    color: white;
+}
+
+.button-option-edit-card{
+    padding-inline: 0.7rem;
+}
+
+.button-option-edit-card:hover,
+.button-edit-tarjeta:hover{
+    background-color: rgb(164, 164, 164);
+    border-radius: 1rem;
+}
+
+.form-password{
+    position: fixed; /* Para que se mantenga en la pantalla */
+    top: 30%; /* Centra verticalmente */
+    left: 50%; /* Centra horizontalmente */
+    transform: translate(-50%, -50%); /* Ajusta el centro real */
+    z-index: 1000;
+    background-color: rgba(51, 51, 51, 0.8); 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    padding: 2rem; /* Espaciado alrededor del formulario */
+    border-radius: 10px;
+}
+
+.field{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    background-color: transparent;
+    color: aliceblue;
+    margin-bottom: 1rem;
+}
+
+.box-field{
+    display: flex;
+    padding: 0.2rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    background-color: transparent;
+}
+
+.box-eye{
+    margin: 0%;
+    background-color: transparent;
+    margin-left: 1rem;
+}
+
+.box-input-password{
+    display: flex;
+    justify-content: center;
+    background-color: transparent;
+}
+
+#input-password{
+    display: flex;
+    justify-content: center;
+    margin-block: 0.2rem;
+    font-size: 1rem;
+    height: 2rem;
+    width: 12rem;
+    border: 0.1rem solid transparent;
+    outline: 0.1rem solid transparent;
+    border-radius: 0.5rem;
+    background-color: aliceblue;
+}
+
+#input-password::placeholder{
+    color: grey;
+    padding: 0.2rem;
+    background-color: aliceblue;
+}
+
+#input-password:focus{
+    color: grey;
+    padding: 0.2rem;
+    background-color: aliceblue;
+}
+
+.box-options-password{
+    background-color: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.box-error-card{
+    margin-top: 0.2rem;
+    color: rgb(205, 25, 25);
+}
+
+.formEditCard{
+    margin: 0%;
+    background-color: transparent;
+    padding: 0%;
+}
+
+#numberCard{
+    width: 18rem;
+    text-align: center;
+    letter-spacing: 0.5rem;
+}
+
+.input-edit{
+    outline: none;
+    border: none;
+}
+
+.fullname-input{
+    width: 6.25rem;
+    padding-inline: 0.67rem;
+}
+
