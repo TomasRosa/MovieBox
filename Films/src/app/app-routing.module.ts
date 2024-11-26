@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SobreNosotrosComponent } from './components/sobre-nosotros/sobre-nosotros.component';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -22,7 +21,6 @@ import { PagoDeudaComponent } from './components/pago-deuda/pago-deuda.component
 
 const routes: Routes = [
   { path: 'inicio', component: InicioComponent }, // Ruta pública sin AuthGuard
-  { path: 'sobre-nosotros', component: SobreNosotrosComponent }, // Ruta pública sin AuthGuard
   { path: 'login', component: LoginComponent, canActivate: [AuthGuard] }, // Ruta pública sin AuthGuard
   { path: 'registrarse', component: RegisterComponent, canActivate: [AuthGuard] }, // Ruta pública sin AuthGuard
   { path: 'ofertas', component: OfertasComponent }, // Ruta pública sin AuthGuard
