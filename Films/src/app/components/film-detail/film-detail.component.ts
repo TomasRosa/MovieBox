@@ -6,6 +6,7 @@ import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { Review } from 'src/app/models/review';
 import { SharedServicesService } from 'src/app/services/shared-services.service';
+import { FavouriteListService } from 'src/app/services/favourite-list.service';
 
 @Component({
   selector: 'app-film-detail',
@@ -16,6 +17,7 @@ export class FilmDetailComponent {
   private arrayFilms: Film[] = [];
   private filmRank: number = 0;
   movie: Film | undefined;
+  favouriteFilms: Array<Film> = [];
 
   newReview: string = ''; // Para almacenar la nueva reseña
   userActual: User | null = null;
@@ -30,6 +32,7 @@ export class FilmDetailComponent {
   constructor(private route: ActivatedRoute, 
   private films: FilmsFromAPIService,
   private userService: UserService,
+  private Flist: FavouriteListService,
   private sharedService: SharedServicesService) {}
 
   ngOnInit(): void {
@@ -46,9 +49,46 @@ export class FilmDetailComponent {
       this.isAdmin = true;
     }
 
-    // Obtener el usuario actual
-    this.userActual = this.userService.getUserActual();
+    if (this.isLoggedIn && !this.isAdmin) {
+      this.userService.usuarioActual$.subscribe(async user => {
+        this.userActual = user as User;
+        if (this.userActual)
+        {
+          if (this.userActual.fav_list){
+              this.favouriteFilms = this.userActual.fav_list.arrayPeliculas || [];  // Asegurarse de que sea un arreglo
+          }
+          this.Flist.loadFavouriteListFromServer(this.userActual.id);
+        }
+      });
+    }
+
+    this.Flist.getChangesObservable().subscribe(() => {
+      this.favouriteFilms = [...this.Flist.listaFav.arrayPeliculas];
+    });
   }
+
+   // Verifica que favouriteFilms no sea undefined antes de intentar acceder a 'some'
+   isFavourite(film: Film): boolean {
+    if (!this.favouriteFilms) {
+      return false; // Si favouriteFilms no está definido, devuelve false
+    }
+    return this.favouriteFilms.some((favFilm) => favFilm.id === film.id);
+  }
+
+  async toggleFavourite(film: Film) {
+    if (!this.isLoggedIn){
+      alert ('Debes iniciar sesion para agregar a favoritos una pelicula');
+      return;
+    }
+    if (this.isFavourite(film)) {
+      await this.Flist.eliminarDeLaListaFavoritos(film);  // Quitar de favoritos
+    } else {
+      await this.Flist.agregarALaLista(film); // Agregar a favoritos
+    }
+    if (this.userActual)
+      this.Flist.loadFavouriteListFromServer(this.userActual.id);
+  }
+
   
   agregarPeliculaAlCarrito(film: Film) {
     this.sharedService.agregarPeliculaAlCarrito (film);
