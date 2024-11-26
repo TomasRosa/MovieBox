@@ -24,11 +24,6 @@ import { Router } from '@angular/router';
         this.carritoDeCompras = carrito;
         this.actualizarTotalCarrito();
       });
-
-      console.log ("CARRITO DE COMPRAS QUE LLEGA A COMPONENT: ", this.carritoDeCompras)
-
-      // this.carritoDeCompras = this.carritoService.loadCarritoFromStorage(this.userService.getUserFromStorage()!.id)
-      // this.actualizarTotalCarrito();
       
       this.userService.isLoggedIn$.subscribe ((isLoggedIn: boolean | null) =>{
         this.isLoggedIn = isLoggedIn; 

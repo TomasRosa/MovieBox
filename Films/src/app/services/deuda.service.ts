@@ -31,15 +31,13 @@ export class DeudaService {
         this.movieLibrary = b;
         if (this.movieLibrary.length != 0)
         {
-          this.contadorPeliculasSinTiempo();
+          this.contadorPeliculasSinTiempo(this.movieLibrary);
           this.contador$.subscribe (c => {
             this.contador = c;
           })
         }
       }
     })
-
-    
   }
 
   async calcularDeuda(user: User | null) {
@@ -53,10 +51,10 @@ export class DeudaService {
     }
   }
 
-  contadorPeliculasSinTiempo(): number {
+  contadorPeliculasSinTiempo(movieLibrary: Film[]): number {
     let cont = 0;
-    for (let i = 0; i < this.movieLibrary.length; i++) {
-      if (this.countdowns[this.movieLibrary[i].id] === "00:00:00") {
+    for (let i = 0; i < movieLibrary.length; i++) {
+      if (this.countdowns[movieLibrary[i].id] === "00:00:00") {
         cont++;
       }
     }
@@ -76,6 +74,12 @@ export class DeudaService {
     }
   
     this.deudaIntervalId = setInterval(async () => {
+      let userAux = await this.userService.getUserById(user.id)
+
+      if (userAux && userAux != user)
+      {
+        user = userAux;
+      }
       await this.sumarDeuda(user, montoPorIntervalo, cantPelis);
     }, 10000); // Ejecutar cada 10 segundos
   }
@@ -194,25 +198,22 @@ export class DeudaService {
       return false;
     }
     this.isCountingDown = true;
-  
+
     let user = this.userService.getUserFromStorage();
+  
     this.contador$.subscribe (c => {
        this.contador = c;
     })
   
     if (this.movieLibrary) {
       this.intervalId = setInterval(async () => {
-
-        this.contadorPeliculasSinTiempo()
-        this.contador$.subscribe (c => {
-          this.contador = c;
-       })
+        this.contadorPeliculasSinTiempo(this.movieLibrary)
 
         this.movieLibrary.forEach(film => {
           const timeRemaining = this.getTiempoRestanteDiezSegundos(film.fechaDeAgregado!);
           this.countdowns[film.id] = timeRemaining;
         });
-  
+
         // Calcular y acumular deuda con el contador resultante
         if (user) {
           await this.calcularDeuda(user);

@@ -7,7 +7,6 @@ import { Film } from '../models/film';
 import { Tarjeta } from '../models/tarjeta';
 import { Admin } from '../models/admin';
 import { AdminService } from './admin.service';
-import { CarritoService } from './carrito.service';
 
 @Injectable({
   providedIn: 'root',
@@ -188,7 +187,6 @@ export class UserService {
       if (this.users.length === 0) 
       {
         usuarios = await this.http.get<User[]>(this.urlJSONServer).toPromise();
-        console.log ("USUARIOS QUE TRAE EL JSON: ", usuarios)
         if (usuarios)
         {
           this.users = [...usuarios]
@@ -636,7 +634,6 @@ export class UserService {
   async getUserById(id: number): Promise<User | null> {
     try {
         const users = await this.http.get<User[]>(this.urlJSONServer).toPromise() || [];
-        console.log("Fetched Users:", users); // Verifica que se están obteniendo los usuarios
         return users.find(user => user.id === id) || null;
     } catch (error) {
         console.error('Error al obtener los usuarios:', error);

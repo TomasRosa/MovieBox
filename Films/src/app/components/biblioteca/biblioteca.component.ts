@@ -174,15 +174,6 @@ export class BibliotecaComponent
 
     this.countdowns = this.deudaService.countdowns;
   }
-  
-  // ngOnDestroy(): void 
-  // {
-  //   if (this.intervalId) {
-  //     clearInterval(this.intervalId);
-  //     this.deudaService.clearInterval()
-  //     this.deudaSubscription.unsubscribe();
-  //   }
-  // }
 
   validarBibliotecaVacia (){
     if (this.movieLibrary.length == 0) this.bibliotecaVacia = true
@@ -205,16 +196,15 @@ export class BibliotecaComponent
         
         // Sincronizar la biblioteca en el servidor
         await this.userService.actualizarBiblioteca(this.usuarioActual, this.movieLibrary);
-        if (this.intervalId)
-        {
-          clearInterval(this.intervalId)
-          this.deudaService.clearInterval()
-        }
+        // if (this.intervalId)
+        // {
+        //   clearInterval(this.intervalId)
+        //   this.deudaService.clearInterval()
+        // }
 
-        const contador = this.deudaService.contadorPeliculasSinTiempo();
-        console.log ("CONTADOR AL DEVOLVER: ", contador)
+        const contador = this.deudaService.contadorPeliculasSinTiempo(this.movieLibrary);
 
-        if (this.deudaService.deudaIntervalId && this.movieLibrary.length > 0) {
+        if (this.deudaService.deudaIntervalId) {
           clearInterval(this.deudaService.deudaIntervalId);
           this.deudaService.deudaIntervalId = null;
 

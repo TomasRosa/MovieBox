@@ -57,7 +57,7 @@ export class AuthGuard implements CanActivate {
     const profileRoute = ['perfil'];
 
     const path = route.routeConfig?.path || ''; // Obtenemos la ruta actual
-    console.log ("PATH: ", path)
+    // console.log ("PATH: ", path)
 
     return this.userService.isLoggedIn$.pipe(
       take(1),
@@ -65,8 +65,8 @@ export class AuthGuard implements CanActivate {
         // Si isLoggedIn es null o false, significa que el usuario no está logueado
         const loggedInStatus = isLoggedIn !== null && isLoggedIn !== false;
 
-        console.log('Ruta actual:', path);
-        console.log('Estado de loggedInStatus:', loggedInStatus);
+        // console.log('Ruta actual:', path);
+        // console.log('Estado de loggedInStatus:', loggedInStatus);
 
         // Lógica de acceso para las rutas públicas: Accesibles para todos los usuarios
         if (publicRoutes.some(route => path.startsWith(route))) {

@@ -31,11 +31,29 @@ export class CarritoService {
     }
   }
 
-  agregarAlCarrito(pelicula: Film) {
+  verSiPoseeDeuda ()
+  {
+    this.user = this.getUserFromStorage()
+    if (this.user!.deuda > 0)
+    {
+      return true;
+    }
+    return false;
+  }
+
+  agregarAlCarrito(pelicula: Film) 
+  {
+    let flag = this.verSiPoseeDeuda()
+
+    if (flag)
+    {
+      alert ("No puede comprar peliculas. Primero salde su deuda")
+      this.carritoDeCompras = [];
+      return;
+    }
     this.carritoDeCompras.push(pelicula);
     this.totalCarrito += pelicula.precio;
     this.saveCarritoToStorage(this.userId, this.carritoDeCompras);
-    this.carritoDeCompras = [];
   }
 
   eliminarDelCarrito(pelicula: Film) {
