@@ -221,3 +221,21 @@
 .no-favourite .recuadroCelda{
     height: 400px;
 }
+
+.content-deuda-actual{
+    display: flex;
+    justify-content: center;
+}
+
+.text-deuda{
+    width: max-content;
+    padding: 0.4rem;
+    background-color: #545454;
+    text-align: center;
+}
+
+.box-result{
+    background-color: transparent;
+    margin-block: 0.5rem;
+    color: rgb(16, 119, 178);
+}

@@ -51,11 +51,13 @@
 </div>
 
 <div *ngIf = "!isAdmin" class="deuda">
-  <p class="text-no-deuda" *ngIf = "deuda == 0">Bien! No posee deuda alguna!</p> 
+  <p class="text-deuda" *ngIf = "deuda == 0">Bien! No posee deuda alguna!</p> 
   <div *ngIf = "deuda != 0" class="tiene-deuda">
-    <p> Su deuda actual es de ${{deuda}} </p>
+    <div class="content-deuda-actual">
+      <p class="text-deuda"> Su deuda actual es de ${{deuda}} </p>
+    </div>
     <button class="button-deuda" (click)="pagarDeuda()">Pagar deuda</button>
-    <div class="alert alert-success mt-3 successMessage" *ngIf="successMessage">
+    <div class="box-result" *ngIf="successMessage">
       {{ successMessage }}
     </div>
   </div>

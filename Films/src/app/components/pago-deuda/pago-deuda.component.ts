@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Tarjeta } from 'src/app/models/tarjeta';
 import { User } from 'src/app/models/user';
 import { DeudaService } from 'src/app/services/deuda.service';
 import { UserService } from 'src/app/services/user.service';
 import { ValidacionTarjeta } from 'src/app/validaciones/validacion-tarjeta';
+import { ValidacionUserPersonalizada } from 'src/app/validaciones/validacion-user-personalizada';
 
 @Component({
   selector: 'app-pago-deuda',
@@ -30,6 +32,26 @@ export class PagoDeudaComponent {
   showFormCVC: boolean = false;
   isLoading: boolean = false;
   result: string = "";
+  permitirEditarTarjeta:boolean | null = false;
+  showFormularioPassword: boolean | null = false;
+  showPassword: boolean | null = false;
+  passwordToEdit: String = '';
+  resultInputPassword: string = '';
+  showOptionButtonsToCard: boolean = false;
+  activeOptionsEditCard: boolean | null = false;
+  resultEditCard: String = '';
+
+  cardFormGroup = new FormGroup ({
+    firstName:  new FormControl('', [Validators.required, ValidacionUserPersonalizada.soloLetras()]),
+    lastName: new FormControl('',[Validators.required, ValidacionUserPersonalizada.soloLetras()]),
+    nTarjeta:  new FormControl ('',[Validators.required, ValidacionTarjeta.validarTarjetaLongitud(), ValidacionTarjeta.soloNumeros()]),
+    fechaVencimiento: new FormControl('', [Validators.required,ValidacionTarjeta.validarFechaNoExpirada(),ValidacionTarjeta.validarFormatoFechaVencimiento()])
+  })
+
+  get firstnameCard (){return this.cardFormGroup.get ('firstName')}
+  get lastnameCard (){return this.cardFormGroup.get ('lastName')}
+  get numberCard (){return this.cardFormGroup.get ('nTarjeta')}
+  get fechaVencimientoCard (){return this.cardFormGroup.get ('fechaVencimiento')}
 
   cvcFormGroup = new FormGroup({
     cvc: new FormControl("", [
@@ -65,6 +87,96 @@ export class PagoDeudaComponent {
     })
   }
 
+  toggleFormPassword(){
+    this.showFormularioPassword = !this.showFormularioPassword;
+    this.showPassword = false;
+  }
+
+  closeFormPassword() {
+    this.showFormularioPassword = false;
+  }
+
+  verifyPassword(){
+    if (this.passwordToEdit === this.user?.password){
+      this.closeFormPassword();
+      this.allowEditCard ();
+      this.openOptionsEditCard ();
+      this.setFormControlDefaultCardValues ();
+    }
+    else{
+      this.resultInputPassword = 'Las contraseñas no coinciden';
+    }
+  }
+
+  allowEditCard (){
+    this.permitirEditarTarjeta = true;
+    this.showOptionButtonsToCard = false;
+  }
+
+  dontAllowEditCard (){
+    this.permitirEditarTarjeta = false;
+    this.showOptionButtonsToCard = true;
+  }
+
+  openOptionsEditCard (){
+    this.activeOptionsEditCard = true;
+  }
+
+  closeOptionsEditCard (){
+    this.activeOptionsEditCard = false;
+  }
+
+  setFormControlDefaultCardValues (){
+    this.firstnameCard?.setValue (this.user?.tarjeta.firstName as string)
+    this.lastnameCard?.setValue (this.user?.tarjeta.lastName as string)
+    this.numberCard?.setValue (this.user?.tarjeta.nTarjeta as string)
+    this.fechaVencimientoCard?.setValue (this.user?.tarjeta.fechaVencimiento as string)
+  }
+
+  resetCardValues (){
+    this.setFormControlDefaultCardValues ()
+    this.cardFormGroup.markAsUntouched();
+  }
+
+  cancelEditCard(){
+    this.dontAllowEditCard ();
+    this.closeOptionsEditCard ();
+    this.resetCardValues ();
+    this.showOptionButtonsToCard = true;
+    this.resultEditCard = '';
+  }
+
+  async confirmEditCard(){
+    if (this.cardFormGroup.valid){
+      const newCard = new Tarjeta ({
+        firstName: this.firstnameCard?.value ?? '', 
+        lastName:this.lastnameCard?.value ?? '', 
+        nTarjeta:this.numberCard?.value ?? '', 
+        fechaVencimiento:this.fechaVencimientoCard?.value ?? ''
+      })
+      try{
+        const resultado = await this.userService.changeDataCard (this.user, newCard);
+        if (resultado.success)
+          this.resultEditCard = 'Tarjeta cambiada correctamente'
+        else
+          this.resultEditCard = 'Error al procesar el cambio de los datos de la tarjeta'
+        this.dontAllowEditCard ();
+        this.closeOptionsEditCard ();
+        this.getLastFourDigits ();
+        setTimeout(() => {
+          this.resultEditCard = '';
+        }, 2000);
+      }catch (err){
+        console.error (err)
+      }
+    }else
+      this.resultEditCard = 'Por favor, revise los campos de la tarjeta'
+  }
+  
+  toggleShowPassword() {
+    this.showPassword = !this.showPassword;
+  }
+
   toggleSaldarDeuda() {
     this.saldarDeuda = !this.saldarDeuda;
   }
@@ -78,6 +190,9 @@ export class PagoDeudaComponent {
       this.deudaService.deudaSubject.next(0)
       clearInterval(this.deudaService.intervalId)
       this.successMessage = "Pago realizado!"
+      setTimeout(() => {
+        this.router.navigate (['/showUsers'])
+      }, 2000);
     }
   }
 
@@ -93,6 +208,7 @@ export class PagoDeudaComponent {
         this.identificarTarjeta()
         this.getLastFourDigits()
         this.hadCard = true;
+        this.showOptionButtonsToCard = true;
       }
       else {
         this.hadCard = false;
@@ -133,6 +249,7 @@ export class PagoDeudaComponent {
       this.router.navigate(['pago-deuda', id])
       this.toggleSaldarDeuda()
       this.pressButtonCard = false;
+      this.showFormCVC = false;
     }
   }
 
@@ -161,11 +278,12 @@ export class PagoDeudaComponent {
       this.userService.updateUserToJSON(this.user);
       this.deudaService.deudaSubject.next(0)
       clearInterval(this.deudaService.intervalId)
+      this.successMessage = "Pago realizado!"
     }
     setTimeout(() => {
       this.isLoading = false;
       this.showFormCVC = false;
-      this.successMessage = "Pago realizado!"
+      this.router.navigate (['/showUsers'])
     }, 2000);
   }
 }

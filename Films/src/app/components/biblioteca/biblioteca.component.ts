@@ -250,5 +250,9 @@ export class BibliotecaComponent
       this.userService.updateUserToJSON(this.usuarioActual);
       this.successMessage = "Deuda enviada para pagar, presentese al local para abonarla, seguira contando hasta que la salde!"
     }
+    setTimeout( () =>{
+      this.router.navigate (['/biblioteca'])
+      this.successMessage = ''
+    }, 2500)
   }
 }
