@@ -79,8 +79,8 @@ export class AuthGuard implements CanActivate {
         // Si isLoggedIn es null o false, significa que el usuario no está logueado
         const loggedInStatus = isLoggedIn !== null && isLoggedIn !== false;
 
-        // console.log('Ruta actual:', path);
-        // console.log('Estado de loggedInStatus:', loggedInStatus);
+        console.log('Ruta actual:', path);
+        console.log('Estado de loggedInStatus:', loggedInStatus);
 
         // Lógica de acceso para las rutas públicas: Accesibles para todos los usuarios
         if (publicRoutes.some(route => path.startsWith(route))) {
@@ -127,6 +127,13 @@ export class AuthGuard implements CanActivate {
 
         // Lógica de acceso para rutas de usuarios logueados
         if (loggedRoutes.some(route => path.startsWith(route))) {
+          if (path.startsWith('biblioteca/')) 
+          {
+            console.log("Un usuario no puede ver bibliotecas de otro usuario");
+            this.router.navigate(['/inicio']);
+            return false;
+          }
+            
           if (loggedInStatus) return true; // Solo los usuarios logueados pueden acceder
         }
 
