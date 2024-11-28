@@ -8,7 +8,7 @@ import { UserService } from './user.service';
   providedIn: 'root'
 })
 export class CarritoService {
-  private carritoDeCompras: Array<Film> = [];
+  carritoDeCompras: Array<Film> = [];
   private totalCarrito: number = 0;
   private carritoSubject = new BehaviorSubject<Array<Film>>([]);
   carrito$ = this.carritoSubject.asObservable();
@@ -88,15 +88,21 @@ export class CarritoService {
     return this.totalCarrito;
   }
 
-  // private saveCarritoToStorage() 
-  // {
-  //   const dataToStore = {
-  //     userId: this.userId,
-  //     carrito: this.carritoDeCompras,
-  //   };
-    
-  //   localStorage.setItem('carritoDeCompras', JSON.stringify(dataToStore));
-  // }
+  searchCarritoIndex (userId: Number)
+  {
+    let userCarritoIndex = -1;
+
+    for (let i = 0; i < this.carritos.length; i++)
+    {
+      if (this.carritos[i].userId == userId)
+      {
+        userCarritoIndex = i;
+        break;
+      }
+    }
+
+    return userCarritoIndex;
+  }
 
   private saveCarritoToStorage(userId: Number, carrito: Film[]) {
     const storedData = localStorage.getItem('carritoDeCompras');
@@ -111,16 +117,8 @@ export class CarritoService {
       userId = user.id;
     }
 
-    let userCarritoIndex = -1;
+    let userCarritoIndex = this.searchCarritoIndex(userId);
 
-    for (let i = 0; i < this.carritos.length; i++)
-    {
-      if (this.carritos[i].userId == userId)
-      {
-        userCarritoIndex = i;
-        break;
-      }
-    }
     if (userCarritoIndex !== -1) {
       this.carritos[userCarritoIndex].carrito = carrito;
       this.carritoSubject.next (carrito);

@@ -4,12 +4,13 @@ import { UserService } from './services/user.service';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { AdminService } from './services/admin.service';
+import { CarritoService } from './services/carrito.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(private userService: UserService, private router: Router, private adminService: AdminService) {}
+  constructor(private userService: UserService, private router: Router, private adminService: AdminService, private carritoService: CarritoService) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -17,9 +18,23 @@ export class AuthGuard implements CanActivate {
   ): Observable<boolean> {
     const user = this.userService.getUserActual(); // Obtenemos el usuario actual del servicio
     let isAdminLoggedIn = this.userService.getAdminActual();
+    let hadCarrito = false;
     if (!isAdminLoggedIn)
     {
       isAdminLoggedIn = this.adminService.getAdminActual()
+    }
+    if (user)
+    {   
+      let userCarrito = this.carritoService.loadCarritoFromStorage (user.id)
+
+      if (userCarrito.length > 0)
+      {
+        hadCarrito = true;
+      }
+      else
+      {
+        hadCarrito = false;
+      }
     }
     
     // Rutas públicas que todos los usuarios pueden ver, sin importar su estado de login
@@ -93,6 +108,13 @@ export class AuthGuard implements CanActivate {
         if (path === 'admin-code' && loggedInStatus)
         {
           console.log("Un usuario logueado no puede entrar a admin-code");
+          this.router.navigate(['/inicio']);
+          return false;
+        }
+
+        if (path === 'tarjeta' && hadCarrito == false)
+        {
+          console.log("Un usuario sin carrito no puede ir a compra");
           this.router.navigate(['/inicio']);
           return false;
         }

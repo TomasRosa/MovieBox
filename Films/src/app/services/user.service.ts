@@ -7,6 +7,7 @@ import { Film } from '../models/film';
 import { Tarjeta } from '../models/tarjeta';
 import { Admin } from '../models/admin';
 import { AdminService } from './admin.service';
+import { CarritoService } from './carrito.service';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,8 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private carritoService: CarritoService
   ) {
     this.usuarioActualSubject = new BehaviorSubject<User | null>(null);
     this.adminActualSubject = new BehaviorSubject<Admin | null>(null);
@@ -689,6 +691,7 @@ export class UserService {
     localStorage.removeItem('currentAdmin');
     this.usuarioActualSubject.next(null);
     this.isLoggedInSubject.next(false);
+    this.carritoService.carritoDeCompras = [];
 
     this.adminActualSubject.next(null);
     this.adminService.setAdminActual(null);
