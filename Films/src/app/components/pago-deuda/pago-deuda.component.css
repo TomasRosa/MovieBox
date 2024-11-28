@@ -93,7 +93,7 @@
 }
 
 .button:hover{
-    background-color: rgb(164, 164, 164);
+    color: rgb(187, 187, 187);
     border-radius: 1rem;
 }
 
@@ -185,6 +185,22 @@
     justify-content: center;
     text-align: center;
     margin-bottom: 1.5rem;
+    background-color: transparent;
+}
+
+.box-field-password{
+    display: flex;
+    align-items: center;
+    padding: 0.2rem;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    background-color: transparent;
+}
+
+.bi{
+    color: #0056b3; 
+    font-size: 1.5rem;
     background-color: transparent;
 }
 
@@ -537,13 +553,13 @@
 
 .box-error-card{
     margin-top: 0.2rem;
-    color: rgb(205, 25, 25);
+    color: rgb(244, 53, 53);
 }
 
 .box-errors{
     background-color: transparent;
     margin-top: 0.2rem;
-    color: rgb(236, 32, 32);
+    color: rgb(244, 53, 53);
 }
 
 .box-result{

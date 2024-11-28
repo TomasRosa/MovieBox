@@ -50,7 +50,7 @@ export class PerfilComponent {
     fechaVencimiento: new FormControl('', [Validators.required,ValidacionTarjeta.validarFechaNoExpirada(),ValidacionTarjeta.validarFormatoFechaVencimiento()])
   })  
   formGroupEmail=new FormGroup({
-    email: new FormControl ('', [Validators.email, Validators.required])
+    email: new FormControl ('', [Validators.email, Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)])
   });
   formGroupPassword = new FormGroup ({
     password: new FormControl ('', [Validators.required, Validators.minLength (6), ValidacionUserPersonalizada.minDosNumeros()])
@@ -62,7 +62,7 @@ export class PerfilComponent {
     lastname: new FormControl ('', [Validators.required, ValidacionUserPersonalizada.soloLetras()])
   });
   formGroupDNI = new FormGroup ({
-    dni: new FormControl ('', [Validators.required, ValidacionUserPersonalizada.soloNumeros])
+    dni: new FormControl ('', [Validators.required, ValidacionUserPersonalizada.soloNumeros(), Validators.maxLength (8), Validators.minLength (8)])
   });
   formGroupAddress = new FormGroup ({
     address: new FormControl ('', [Validators.required])
@@ -544,9 +544,9 @@ export class PerfilComponent {
         try {
           const resultado = await this.userService.changeAddress(this.usuarioActual as User, newAddress as string);
           if (resultado.success) {
-            this.resultAddress = 'Direccion cambiada con éxito';
+            this.resultAddress = 'Dirección cambiada con éxito';
           } else {
-            this.resultAddress = 'Error al cambiar la direccion';
+            this.resultAddress = 'Error al cambiar la dirección';
           }
         } catch (error) {
           this.resultAddress = 'Error en la solicitud: ' + error;
@@ -554,7 +554,7 @@ export class PerfilComponent {
       }
       this.isEditingAddress = false;
     } else {
-      this.resultAddress = 'Por favor, ingresa un DNI válido.';
+      this.resultAddress = 'Por favor, ingresa una dirección válida.';
     }
     setTimeout(() => {
       this.resultAddress = '';

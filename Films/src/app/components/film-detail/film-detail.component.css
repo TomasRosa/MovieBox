@@ -147,8 +147,12 @@ h2{
 }
 
 .paragraph{
+    font-size: 1.2rem;
+    font-weight: 500;
     margin-block: 1rem;
-    color: aliceblue;
+    color: rgb(16, 119, 178);
+    padding: 0.4rem;
+    text-align: center;
 }
 
 .box-star{

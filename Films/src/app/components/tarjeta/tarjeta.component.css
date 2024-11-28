@@ -208,8 +208,6 @@ h4{
 
 .field{
     text-align: center;
-    display: flex;
-    justify-content: center;
     background-color: transparent;
     color: aliceblue;
     font-weight: 600;
@@ -218,11 +216,28 @@ h4{
 }
 
 .box-field{
-    display: grid;
+    display: flex;
+    flex-direction: column;
     padding: 0.2rem;
     justify-content: center;
     text-align: center;
     margin-bottom: 1.5rem;
+    background-color: transparent;
+}
+
+.box-field-password{
+    display: flex;
+    align-items: center;
+    padding: 0.2rem;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    background-color: transparent;
+}
+
+.bi{
+    color: #0056b3; 
+    font-size: 1.5rem;
     background-color: transparent;
 }
 

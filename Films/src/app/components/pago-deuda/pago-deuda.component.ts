@@ -96,16 +96,10 @@ export class PagoDeudaComponent {
     this.showFormularioPassword = false;
   }
 
-  verifyPassword(){
-    if (this.passwordToEdit === this.user?.password){
-      this.closeFormPassword();
+  openEditByAdmin(){
       this.allowEditCard ();
       this.openOptionsEditCard ();
       this.setFormControlDefaultCardValues ();
-    }
-    else{
-      this.resultInputPassword = 'Las contraseñas no coinciden';
-    }
   }
 
   allowEditCard (){

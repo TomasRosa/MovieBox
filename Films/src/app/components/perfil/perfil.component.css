@@ -273,6 +273,7 @@
     outline: 0.1rem solid transparent;
     border-radius: 0.5rem;
     background-color: aliceblue;
+    color: rgb(35, 35, 35);
 }
 
 #input-password::placeholder{
@@ -282,7 +283,7 @@
 }
 
 #input-password:focus{
-    color: grey;
+    color: grey;    
     padding: 0.2rem;
     background-color: aliceblue;
 }
@@ -347,6 +348,10 @@
     justify-content: center;
 }
 
+#resultado-operacion{
+    color: rgb(16, 119, 178);
+}
+
 .button-logout{
     padding-inline: 0.4rem;
     font-size: 1.1rem;
@@ -387,6 +392,7 @@
 
 .errors{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     text-align: center;
 }
@@ -561,6 +567,8 @@
 }
 
 .bi{
+    color: #0056b3; 
+    font-size: 1.5rem;
     background-color: transparent;
 }
 

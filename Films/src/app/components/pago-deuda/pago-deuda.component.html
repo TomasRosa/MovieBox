@@ -62,42 +62,11 @@
         </div>
 
         <div class="card-exist">
-          <button *ngIf="showOptionButtonsToCard" class="edit button-edit-tarjeta" (click)="toggleFormPassword()">
+          <button *ngIf="showOptionButtonsToCard" class="edit button-edit-tarjeta" (click)="openEditByAdmin()">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="#121213">
               <path d="M16.6256 3.1285L9.29145 10.4626L9.29886 14.7098L13.537 14.7024L20.8682 7.37114C21.5912 8.75438 22 10.3278 22 11.9967C22 17.5196 17.5228 21.9967 12 21.9967C6.47715 21.9967 2 17.5196 2 11.9967C2 6.47386 6.47715 1.9967 12 1.9967C13.6689 1.9967 15.2423 2.40553 16.6256 3.1285ZM20.4853 2.09721L21.8995 3.51142L12.7071 12.7038L11.2954 12.7063L11.2929 11.2896L20.4853 2.09721Z"></path>
             </svg>
           </button>
-      
-          <div *ngIf="showFormularioPassword">
-            <div class="form-password">
-              <h5 class="field">Ingrese su contraseña para seguir</h5>
-              <div class="box-field">
-                  <div class="box-input-password">
-                    <input id="input-password"
-                    name="password-edit-input" 
-                    [(ngModel)]="passwordToEdit" 
-                    [type]="showPassword ? 'text' : 'password'" 
-                    placeholder="Contraseña..."
-                    autocomplete="new-password">
-                  </div>
-                  <div class="box-eye">
-                    <button 
-                      type="button" 
-                      class="btn btn-link" 
-                      (click)="toggleShowPassword()">
-                      <i [ngClass]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
-                    </button>
-                  </div>
-              </div>
-              <div class="box-options-password">
-                <button class="button" (click)="toggleFormPassword()">Cancelar</button>
-                <button class="button" (click)="verifyPassword()">Enviar</button>
-              </div>
-              <div class="box-error-card">
-                {{resultInputPassword}}
-              </div>
-            </div>
-          </div>
       
           <div class="box-options-edit-card" *ngIf="activeOptionsEditCard">
             <button id="button-cancel-edit-card" class="button-option-edit-card" (click)="cancelEditCard()">✖</button>
