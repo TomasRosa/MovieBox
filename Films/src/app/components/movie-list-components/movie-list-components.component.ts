@@ -38,13 +38,13 @@ export class MovieListComponentsComponent {
       this.isAdmin = true;
     }
 
-    this.filmsService.initializeData().then(() => {
+    this.filmsService.movies$.subscribe (m => {
       this.route.paramMap.subscribe((params) => {
         this.category = params.get('category') || '';
-        this.films = this.filmsService.getMovies(); // Obtén todas las películas
+        this.films = m;
         this.filteredFilms = this.films.filter((film) => film.genre.includes(this.category)); // Filtra las películas por categoría
       });
-    });
+    })
 
     if (this.isLoggedIn) {
       this.userService.usuarioActual$.subscribe((user) => {
