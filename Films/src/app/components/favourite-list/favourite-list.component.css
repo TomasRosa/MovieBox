@@ -176,6 +176,8 @@
     width: 115px; /* Ancho que alcanza el botón al hacer hover */
     border-radius: 10%;
     background-color:aliceblue;
+    display: flex;
+    flex-direction: column;
 }
   
   /* Deslizar logo y mostrar precio */

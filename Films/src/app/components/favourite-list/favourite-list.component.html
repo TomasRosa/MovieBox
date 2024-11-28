@@ -25,7 +25,8 @@
           <button class="button ficha-tecnica" (click)="navegarFilmDetail(film.rank)">Detalles</button>
           <button class="button btn-carrito" (click)="agregarPeliculaAlCarrito(film)">
             <img class="carrito-logo" src="/assets/carrito.png" alt="">
-            <span class="precio">$ {{ film.precio }}</span>
+              <span class="precio"><s>$ {{ film.precio }}</s></span>
+              <span class="precio" *ngIf = "film.precio > 1500" >$ {{ film.precio/2 }}</span>
           </button>
         </div>
       </div>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Film } from 'src/app/models/film';
 import { FavouriteListService } from 'src/app/services/favourite-list.service';
 import { SharedServicesService } from 'src/app/services/shared-services.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-favourite-list',
@@ -15,6 +16,7 @@ export class FavouriteListComponent implements OnInit {
 
   constructor(
     public Flist: FavouriteListService,
+    private userService: UserService,
     private sharedService: SharedServicesService
   ) {
     this.Flist.getChangesObservable().subscribe(() => {
@@ -58,9 +60,8 @@ export class FavouriteListComponent implements OnInit {
   }
 
   vaciarFavouriteList (){
-    for (const film of this.arrayFilms){
-      this.quitarFilmDeFlist (film);
-    }
+    this.arrayFilms = []
+    this.userService.quitarFilmDeLista (this.Flist.user!, this.arrayFilms)
   }
   
   quitarFilmDeFlist (film: Film){
