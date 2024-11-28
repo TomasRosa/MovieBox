@@ -4,7 +4,6 @@ import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { BibliotecaComponent } from '../biblioteca/biblioteca.component';
 import { DeudaService } from 'src/app/services/deuda.service';
 
 @Component({
@@ -70,7 +69,7 @@ async loadUserData(userId: number): Promise<void> {
       this.calcularTotalCarrito(this.usuarioActual.entregasPendientes);
       
       await this.loadUserData(this.usuarioActual.id);
-      await this.deudaService.startCountdown(this.usuarioActual.entregasPendientes)
+      this.deudaService.startCountdownDiezSegundos()
     }
   }
 
