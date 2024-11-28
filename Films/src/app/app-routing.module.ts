@@ -24,7 +24,6 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [AuthGuard] }, // Ruta pública sin AuthGuard
   { path: 'registrarse', component: RegisterComponent, canActivate: [AuthGuard] }, // Ruta pública sin AuthGuard
   { path: 'ofertas', component: OfertasComponent }, // Ruta pública sin AuthGuard
-  { path: 'not-found', component: NotFoundComponent }, // Ruta pública sin AuthGuard
   { path: 'carrito', component: CarritoComponent, canActivate: [AuthGuard] }, // Ruta protegida
   { path: 'perfil', component: PerfilComponent, canActivate: [AuthGuard] }, // Ruta protegida
   { path: 'tarjeta', component: TarjetaComponent, canActivate: [AuthGuard] }, // Ruta protegida
