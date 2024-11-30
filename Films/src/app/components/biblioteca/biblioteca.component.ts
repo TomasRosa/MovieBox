@@ -92,7 +92,6 @@ export class BibliotecaComponent
     }
     if (this.usuarioActual)
       this.Flist.loadFavouriteListFromServer(this.usuarioActual.id);
-
   }
 
   async initializateLibrary(): Promise<void> {
@@ -131,12 +130,7 @@ export class BibliotecaComponent
                 }
               }
             }
-          // let flag = await this.deudaService.startCountdown(this.movieLibrary);
-          // if (flag)
-          // {
-          //    this.intervalId = this.deudaService.intervalId;
-          // }
-          this.validarBibliotecaVacia();
+            this.validarBibliotecaVacia();
         }
       } else {
         alert("Usuario no encontrado.");
@@ -153,19 +147,20 @@ export class BibliotecaComponent
             this.movieLibrary = [...loadedUser.arrayPeliculas]; // Clonamos arrayPeliculas
             this.userService.bibliotecaSubject.next (this.movieLibrary)
 
+            console.log ("ISCOUNTING: ", this.deudaService.isCountingDown)
+            
             if (this.movieLibrary.length != 0)
             {
               if (!this.deudaService.isCountingDown)
-              {
-                // await this.deudaService.startCountdown(this.movieLibrary);
-                let flag = this.deudaService.startCountdownDiezSegundos()
-                if (flag)
                 {
-                  this.intervalId = this.deudaService.intervalId;
+                  // await this.deudaService.startCountdown(this.movieLibrary);
+                  let flag = this.deudaService.startCountdownDiezSegundos()
+                  if (flag)
+                  {
+                    this.intervalId = this.deudaService.intervalId;
+                  }
                 }
-              }
             }
-            
           }
         }
         this.validarBibliotecaVacia();
@@ -196,11 +191,6 @@ export class BibliotecaComponent
         
         // Sincronizar la biblioteca en el servidor
         await this.userService.actualizarBiblioteca(this.usuarioActual, this.movieLibrary);
-        // if (this.intervalId)
-        // {
-        //   clearInterval(this.intervalId)
-        //   this.deudaService.clearInterval()
-        // }
 
         const contador = this.deudaService.contadorPeliculasSinTiempo(this.movieLibrary);
 
@@ -210,6 +200,15 @@ export class BibliotecaComponent
 
           if (contador > 0) {
             this.deudaService.iniciarAcumuladorDeDeuda(this.usuarioActual, 20, contador);
+          }
+          else
+          {
+            this.deudaService.isCountingDown = false;
+            if (this.deudaService.intervalId)
+            {
+              this.deudaService.clearInterval();
+              clearInterval(this.intervalId)
+            }
           }
         }
         else if (this.movieLibrary.length == 0 && this.deudaService.deudaIntervalId)
