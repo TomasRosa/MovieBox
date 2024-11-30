@@ -440,6 +440,26 @@ export class UserService {
     return { success: false, message: 'Error al eliminar la tarjeta. Por favor, inténtalo de nuevo más tarde.' };
   }
 
+  searchAndEditReviewsFromUser (user: User){
+    const storedData = localStorage.getItem('reviewsData');
+    let reviews;
+    if (storedData) {
+      reviews = JSON.parse(storedData);
+      for (let i = 0; i < reviews.length; i++) {
+        console.log ('first for')
+        for (let j=0; j<reviews[i].reviews.length; j++){
+          if (user.id == reviews[i].reviews[j].idUser){
+            console.log ('if for')
+            reviews[i].reviews[j].firstName = user.firstName;
+            reviews[i].reviews[j].lastName = user.lastName;
+            reviews[i].reviews[j].email = user.email;
+          }
+        }
+      }
+      localStorage.setItem('reviewsData', JSON.stringify(reviews));
+    }
+  }
+
   async changeFirstName(user: User, newFirstName: string): Promise<{ success: boolean, message: string }> {
     const url = `${this.urlJSONServer}/${user.id}`;
     user.firstName  = newFirstName; 
@@ -447,6 +467,7 @@ export class UserService {
       await this.http.patch(url, user).toPromise();
       this.usuarioActualSubject.next(user); // Actualizamos el BehaviorSubject con el nuevo valor
       this.saveUserToStorage(user); // Actualizamos el almacenamiento local
+      this.searchAndEditReviewsFromUser (user);
       return { success: true, message: 'Nombre cambiado correctamente.' };
     } catch (error) {
       console.error('Error al cambiar el nombre del usuario:', error);
@@ -475,6 +496,7 @@ export class UserService {
       await this.http.patch(url, user).toPromise();
       this.usuarioActualSubject.next(user); // Actualizamos el BehaviorSubject con el nuevo valor
       this.saveUserToStorage(user); // Actualizamos el almacenamiento local
+      this.searchAndEditReviewsFromUser (user);
       return { success: true, message: 'Apellido cambiado correctamente.' };
     } catch (error) {
       console.error('Error al cambiar el apellido del usuario:', error);

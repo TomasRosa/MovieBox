@@ -18,6 +18,7 @@ export class FilmDetailComponent {
   private filmRank: number = 0;
   movie: Film | undefined;
   favouriteFilms: Array<Film> = [];
+  reviews: { movieId: number; reviews: Review[] }[] = [];
 
   newReview: string = ''; // Para almacenar la nueva reseña
   userActual: User | null = null;
@@ -101,7 +102,7 @@ export class FilmDetailComponent {
       if (rankParam !== null) {
         this.filmRank = +rankParam;
         this.movie = this.searchFilmWithRank();
-        this.loadReviews(); // Cargar reseñas desde localStorage
+        this.movie!.reviews = this.loadReviewsFromStorage(this.movie!.rank); // Cargar reseñas desde localStorage
       } else {
         console.log('No se encontró el parámetro "rank".');
       }
@@ -110,9 +111,13 @@ export class FilmDetailComponent {
 
   deleteReview() {
     if (this.movie && this.reviewToDelete) {
-      this.movie.reviews = this.movie.reviews?.filter(review => review !== this.reviewToDelete);
-      this.saveReviews(); // Actualizar localStorage
-      this.reviewToDelete = null; // Limpiar la reseña que estamos eliminando
+      let reviewsFromFilm = this.loadReviewsFromStorage (this.movie!.rank)
+      if (reviewsFromFilm){
+        reviewsFromFilm = reviewsFromFilm.filter ( review => review.idReview !== this.reviewToDelete!.idReview);
+        this.movie.reviews = reviewsFromFilm;
+        this.saveReviewsToStorage(this.movie.rank, reviewsFromFilm);
+        this.reviewToDelete = null;
+      }
     }
   }
 
@@ -122,12 +127,26 @@ export class FilmDetailComponent {
 
   confirmEditReview() {
     if (this.reviewToEdit && this.movie) {
-      // Actualizar el contenido de la reseña
-      this.reviewToEdit.content = this.newReview;
-      this.saveReviews(); // Guardar las reseñas en localStorage
-      this.newReview = ''; // Limpiar el campo de entrada
+      let reviewASerEditada = this.getReviewById (this.reviewToEdit.idReview);
+      let reviewsFromFilm = this.loadReviewsFromStorage (this.movie!.rank)
+      if (reviewASerEditada){
+        for (let i=0; i<reviewsFromFilm.length; i++){
+          if (reviewsFromFilm[i].idReview === reviewASerEditada.idReview){
+            reviewsFromFilm[i].content = this.newReview;
+            this.movie.reviews = reviewsFromFilm;
+            this.saveReviewsToStorage(this.movie.rank, reviewsFromFilm);
+          }
+        }
+        
+      }
+      this.newReview = ''; 
       this.editingReview = false; // Finalizar edición
     }
+  }
+
+  getReviewById(reviewId: number): Review|undefined{
+    let reviewsFromFilm = this.loadReviewsFromStorage (this.movie!.rank)
+    return reviewsFromFilm.find ((item) => item.idReview === reviewId)
   }
 
   cancelEdit() {
@@ -150,6 +169,7 @@ export class FilmDetailComponent {
     const foundFilm = this.arrayFilms.find(film => film.rank === this.filmRank);
     
     if (foundFilm && !foundFilm.reviews) {
+      console.log ('entre a if q on se que hace')
       foundFilm.reviews = []; // Asegurarse de que el array de reseñas esté inicializado
     }
   
@@ -157,7 +177,6 @@ export class FilmDetailComponent {
   }
 
   addReview() {
-    // Verificar si el usuario está logueado antes de permitir agregar una reseña
     if (!this.isLoggedIn || !this.userActual) {
       this.errorResena = 'Debes iniciar sesión para realizar una reseña';
       setTimeout(() => {
@@ -167,35 +186,94 @@ export class FilmDetailComponent {
     }
   
     if (this.movie && this.newReview.trim() !== '') {
-      if (!this.movie.reviews) {
-        this.movie.reviews = [];
-      }
-  
-      // Crear objeto de reseña solo si el usuario actual es válido
       const newReviewObj: Review = {
-        userName: `${this.userActual.firstName} ${this.userActual.lastName}`,
-        userEmail: this.userActual.email || '', // Asegurarse de que el correo no sea undefined
-        content: this.newReview
+        firstName: `${this.userActual.firstName}`,
+        lastName:  `${this.userActual.lastName}`,
+        idUser: `${this.userActual.id}`,
+        userEmail: this.userActual.email || '',
+        content: this.newReview,
+        idReview: this.loadReviewsFromStorage (this.movie!.rank).length + 1
       };
   
-      this.movie.reviews.push(newReviewObj);
-      this.saveReviews(); // Guardar las reseñas en localStorage
+      // Guardar reseña en localStorage
+      this.saveReviewToStorage(this.movie.rank, newReviewObj);
       this.newReview = ''; // Limpiar el campo de entrada
-    }
-  }
-  
-  saveReviews() {
-    if (this.movie) {
-      localStorage.setItem(`reviews_${this.movie.rank}`, JSON.stringify(this.movie.reviews));
+      this.movie.reviews = this.loadReviewsFromStorage(this.movie.rank); // Actualizar reseñas
     }
   }
 
-  loadReviews() {
-    if (this.movie) {
-      const storedReviews = localStorage.getItem(`reviews_${this.movie.rank}`);
-      if (storedReviews) {
-        this.movie.reviews = JSON.parse(storedReviews);
+  searchReviewIndex(movieId: number): number {
+    let movieIndex = -1;
+    for (let i = 0; i < this.reviews.length; i++) {
+      if (this.reviews[i].movieId === movieId) {
+        movieIndex = i;
+        break;
       }
     }
+    return movieIndex;
   }
+
+  private saveReviewsToStorage (movieId: number, newReviews: Array<Review>){
+    const storedData = localStorage.getItem('reviewsData');
+
+    if (storedData) {
+      this.reviews = JSON.parse(storedData);
+    }
+
+    let movieIndex = this.searchReviewIndex(movieId);
+
+    if (movieIndex !== -1) {
+      this.reviews[movieIndex].reviews = newReviews;
+    }
+
+    localStorage.setItem('reviewsData', JSON.stringify(this.reviews));
+  }
+  
+  private saveReviewToStorage(movieId: number, review: Review) {
+    const storedData = localStorage.getItem('reviewsData');
+    
+    if (storedData) {
+      this.reviews = JSON.parse(storedData);
+    } else {
+      this.reviews = [];
+    }
+  
+    let movieIndex = this.searchReviewIndex(movieId);
+  
+    if (movieIndex !== -1) {
+      this.reviews[movieIndex].reviews.push(review);
+    } else {
+      this.reviews.push({ movieId, reviews: [review] });
+    }
+  
+    localStorage.setItem('reviewsData', JSON.stringify(this.reviews));
+  }
+  
+  loadReviewsFromStorage(movieId: number): Review[] {
+    const storedData = localStorage.getItem('reviewsData');
+    if (!storedData) {
+      return [];
+    }
+  
+    this.reviews = JSON.parse(storedData);
+    
+    let movieReviews: Review [] = [];
+
+    for (let i = 0; i < this.reviews.length; i++) {
+      if (this.reviews[i].movieId === movieId) {
+        movieReviews = this.reviews[i].reviews;
+        break;
+      }
+    }
+
+    return movieReviews;
+  }
+  
+
+
+
+
+
+
+
 }

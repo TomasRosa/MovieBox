@@ -48,7 +48,7 @@
           <div class="card mt-3" *ngFor="let review of movie.reviews">
             <div class="card-body position-relative">
               <!-- Mostrar el contenido de la reseña -->
-              <p class="card-text">{{ review.userName }}: {{ review.content }}</p>
+              <p class="card-text">{{ review.firstName }} {{review.lastName}}: {{ review.content }}</p>
       
               <!-- Mostrar los íconos solo si el usuario logueado es el autor de la reseña -->
               <div *ngIf="review.userEmail === userActual?.email" class="position-absolute top-0 end-0">
