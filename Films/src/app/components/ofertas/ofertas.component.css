@@ -142,14 +142,14 @@ table {
     display: flex;
     align-items: center;
     overflow: hidden;
-    transition: width 0.3s ease; /* Ensancha el botón suavemente */
+    transition: 0.45s ease; /* Ensancha el botón suavemente */
     width: 52.5px;
 }
 
 .carrito-logo{
     height: 45px;
     width: 45px;
-    transition: transform 0.3s ease;
+    transition: transform 0.45s ease;
 }
 
 .precio {

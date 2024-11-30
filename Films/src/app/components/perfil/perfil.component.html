@@ -475,7 +475,7 @@
     <div class="container">
       <div class="contenido-logout">
         <button class="button-logout logout" (click)="openLogoutModal()">Cerrar sesión</button>
-        <button class="button-logout" (click)="openDeleteAccountModal()" >Eliminar cuenta</button>
+        <button *ngIf="!isAdmin" class="button-logout" (click)="openDeleteAccountModal()" >Eliminar cuenta</button>
       </div>
   
       <div *ngIf="isDeleteAccountModalVisible" class="modal-overlay">

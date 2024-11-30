@@ -348,6 +348,11 @@
     justify-content: center;
 }
 
+.contenido-logout{
+    display: flex;
+    justify-content: center;
+}
+
 #resultado-operacion{
     color: rgb(16, 119, 178);
 }
