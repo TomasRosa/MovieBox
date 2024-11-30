@@ -192,11 +192,12 @@ export class DeudaService {
     if (this.intervalId) {
       this.clearInterval();
     }
-  
+
     if (this.isCountingDown) {
       console.log("El intervalo ya está activo.");
       return false;
     }
+    
     this.isCountingDown = true;
 
     let user = this.userService.getUserFromStorage();
