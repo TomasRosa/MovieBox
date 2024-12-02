@@ -120,6 +120,7 @@
     background-color: #b6b6b6;
 }
 
+
 .btn-carrito{
     padding: 0.2rem;
     background-color:aliceblue;
@@ -127,14 +128,14 @@
     display: flex;
     align-items: center;
     overflow: hidden;
-    transition: width 0.3s ease; /* Ensancha el botón suavemente */
+    transition: 0.45s ease; /* Ensancha el botón suavemente */
     width: 52.5px;
 }
 
 .carrito-logo{
     height: 45px;
     width: 45px;
-    transition: transform 0.3s ease;
+    transition: transform 0.45s ease;
 }
 
 .precio {
@@ -150,6 +151,8 @@
     width: 115px; /* Ancho que alcanza el botón al hacer hover */
     border-radius: 10%;
     background-color:aliceblue;
+    display: flex;
+    flex-direction: column;
 }
   
   /* Deslizar logo y mostrar precio */
@@ -160,7 +163,6 @@
 .btn-carrito:hover .precio {
     opacity: 1; /* Muestra el precio */
 }
-
 
 
 .box-options {

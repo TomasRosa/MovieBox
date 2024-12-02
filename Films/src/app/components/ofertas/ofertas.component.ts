@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Film } from 'src/app/models/film';
 import { User } from 'src/app/models/user';
 import { FavouriteListService } from 'src/app/services/favourite-list.service';
@@ -13,7 +14,6 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class OfertasComponent implements OnInit
 {
-  private films: any;
   filteredFilms: any[] = [];
   isLoggedIn: Boolean | null = false;
   usuarioActual: User = new User ();
@@ -28,9 +28,10 @@ export class OfertasComponent implements OnInit
 
   async ngOnInit(): Promise<void> 
   {
-    this.dataFilms.movies$.subscribe (m => {
-      this.films = m;
-      this.filteredFilms = this.films.filter((film: Film) => film.precio > 1500);
+
+    this.dataFilms.moviesEnOferta$.subscribe((m) => {
+      this.filteredFilms = m.map(film => ({ ...film }));;
+      console.log ("FILMS EN OFERTA: ", this.filteredFilms)
     })
     
     this.userService.isLoggedIn$.subscribe ((isLoggedIn: boolean | null) =>{

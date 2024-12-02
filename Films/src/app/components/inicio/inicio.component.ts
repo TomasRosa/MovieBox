@@ -41,8 +41,8 @@ export class InicioComponent implements OnInit
     }
 
     this.dataFilms.movies$.subscribe (m => {
-      this.films = m;
-      this.filteredFilms = this.films.filter((film: Film) => film.precio <= 1500);
+      // this.filteredFilms = m.map(film => ({ ...film }));
+      this.filteredFilms = m;
     })
 
     if (this.isLoggedIn && !this.isAdmin) {

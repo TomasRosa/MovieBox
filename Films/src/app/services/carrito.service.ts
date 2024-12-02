@@ -51,8 +51,16 @@ export class CarritoService {
       this.carritoDeCompras = [];
       return;
     }
-    this.carritoDeCompras.push(pelicula);
-    this.totalCarrito += pelicula.precio;
+    const peliculaCopia = { ...pelicula };
+    this.carritoDeCompras.push(peliculaCopia);
+    if (pelicula.precioDescuento != undefined)
+    {
+      this.totalCarrito += pelicula.precioDescuento;
+    }
+    else
+    {
+      this.totalCarrito += pelicula.precio;
+    }
     this.saveCarritoToStorage(this.userId, this.carritoDeCompras);
   }
 

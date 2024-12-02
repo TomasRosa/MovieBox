@@ -17,6 +17,7 @@ export class FilmsFromAPIService {
   private url_API = "https://imdb-top-100-movies.p.rapidapi.com/";
   private url_JSON = "./assets/peliculas.json";
   private filmsData: Film[] = [];
+  private filmsDataEnOferta: Film[] = [];
   private precios: number[] = [
     150,
     200,
@@ -90,17 +91,43 @@ export class FilmsFromAPIService {
     2000,
     800,
     1300,
+    500,
+    1600,
+    300,
+    400,
+    900,
+    550,
+    1000,
+    1850,
+    450,
+    400,
+    1050,
+    1150,
+    1250,
+    1350,
+    1450,
+    1550,
+    2050,
+    650,
+    350,
+    250,
+    150,
+    750,
+    1950,
+    1750,
+    50,
+    700,
+    800,
+    900
   ];
 
   movies = new BehaviorSubject<Film[]>([]);
   movies$ = this.movies.asObservable();
+
+  moviesEnOferta = new BehaviorSubject<Film[]>([]);
+  moviesEnOferta$ = this.moviesEnOferta.asObservable();
   
   constructor(private http: HttpClient) {}
-
-  async ngOnInit ()
-  {
-    await this.initializeData();
-  }
   
   async initializeData() {
     if (this.filmsData.length == 0) {
@@ -110,16 +137,46 @@ export class FilmsFromAPIService {
         const datos = await response.json();
 
         for (let i = 0; i < datos.length; i++) {
-          this.filmsData.push({
-            ...datos[i],
-            precio: this.precios[i],
-            ofertas: this.verSiEstaEnOferta(this.precios[i]),
-          });
+          let enOferta = this.verSiEstaEnOferta(this.precios[i])
+          if (enOferta)
+          {
+            this.filmsDataEnOferta.push({
+              ...datos[i],
+              precio: this.precios[i],
+              ofertas: enOferta,
+              precioDescuento: this.precios[i]/2
+            });
+          }
+          else
+          {
+            this.filmsData.push({
+              ...datos[i],
+              precio: this.precios[i],
+              ofertas: enOferta,
+              precioDescuento: undefined
+            });
+          }
         }
-        this.movies.next (this.filmsData)
+        this.movies.next(this.filmsData.map(film => ({ ...film })));
+        this.moviesEnOferta.next(this.filmsDataEnOferta.map(film => ({ ...film })));
       }
     }
   }
+
+  guardarEnOferta (movies: Film [])
+  {
+    let arrayAux: Film[] = [];
+    for (let i = 0; i < movies.length; i++)
+    {
+      if (movies[i].precioDescuento != undefined)
+      {
+        arrayAux.push (movies[i]) 
+      }
+    }
+
+    return arrayAux;
+  }
+
   getGenreOfMovies() {
     let allGenres = new Set<string>();
   
@@ -146,7 +203,7 @@ export class FilmsFromAPIService {
     return allGenres;
   }
   getMovies() {
-    return this.filmsData;
+    return this.filmsData.map(film => ({ ...film }));
   }
   verSiEstaEnOferta(precio: number) {
     if (precio > 1500) {

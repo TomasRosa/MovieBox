@@ -16,4 +16,5 @@ export class Film {
     precio: number = 0;
     reviews?: Review[]; // Se marca como opcional, ya que no siempre viene de la API
     fechaDeAgregado?: string;
+    precioDescuento?: number;
 }

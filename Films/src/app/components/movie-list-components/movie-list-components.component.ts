@@ -6,6 +6,7 @@ import { SharedServicesService } from "src/app/services/shared-services.service"
 import { FavouriteListService } from "src/app/services/favourite-list.service";
 import { User } from "src/app/models/user";
 import { UserService } from "src/app/services/user.service";
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: "app-movie-list-components",
@@ -38,13 +39,29 @@ export class MovieListComponentsComponent {
       this.isAdmin = true;
     }
 
-    this.filmsService.movies$.subscribe (m => {
+    // this.filmsService.movies$.subscribe (m => {
+    //   this.route.paramMap.subscribe((params) => {
+    //     this.category = params.get('category') || '';
+    //     this.films = m.map(film => ({ ...film }));
+    //     this.filteredFilms = this.films.filter((film) => film.genre.includes(this.category));
+    //   });
+    // })
+
+    combineLatest([
+      this.filmsService.movies$,
+      this.filmsService.moviesEnOferta$
+    ]).subscribe(([movies, moviesEnOferta]) => {
       this.route.paramMap.subscribe((params) => {
         this.category = params.get('category') || '';
-        this.films = m;
-        this.filteredFilms = this.films.filter((film) => film.genre.includes(this.category)); // Filtra las películas por categoría
+    
+        // Combina las dos listas y crea copias para evitar modificar datos originales
+        const allMovies = [...movies.map(film => ({ ...film })), ...moviesEnOferta.map(film => ({ ...film }))];
+    
+        // Filtra las películas por categoría
+        this.filteredFilms = allMovies.filter((film) => film.genre.includes(this.category));
+        console.log ("FILTERED DE CATEGORIAS: ", this.filteredFilms)
       });
-    })
+    });
 
     if (this.isLoggedIn) {
       this.userService.usuarioActual$.subscribe((user) => {
