@@ -7,6 +7,7 @@ import { FilmsFromAPIService } from 'src/app/services/films-from-api.service';
 import { UserService } from 'src/app/services/user.service';
 import { AdminService } from 'src/app/services/admin.service';
 import { SharedServicesService } from 'src/app/services/shared-services.service';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -46,9 +47,16 @@ export class NavbarComponent implements OnInit {
 
   async ngOnInit(): Promise<void> 
   {
-    this.filmsFromAPIService.movies$.subscribe (m => {
-      this.films = m.map(film => ({ ...film }));;
-    })
+    combineLatest([
+      this.filmsFromAPIService.movies$,
+      this.filmsFromAPIService.moviesEnOferta$
+    ]).subscribe(([movies, moviesEnOferta]) => {
+        // Combina las dos listas y crea copias para evitar modificar datos originales
+        const allMovies = [...movies.map(film => ({ ...film })), ...moviesEnOferta.map(film => ({ ...film }))];
+    
+        // Filtra las películas por categoría
+        this.films = [...allMovies.map(film => ({ ...film }))]
+    });
 
     this.userService.isLoggedIn$.subscribe((isLoggedIn: boolean | null) => {
       this.isLoggedIn = isLoggedIn || false;

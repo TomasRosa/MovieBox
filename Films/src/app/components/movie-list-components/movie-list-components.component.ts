@@ -39,14 +39,6 @@ export class MovieListComponentsComponent {
       this.isAdmin = true;
     }
 
-    // this.filmsService.movies$.subscribe (m => {
-    //   this.route.paramMap.subscribe((params) => {
-    //     this.category = params.get('category') || '';
-    //     this.films = m.map(film => ({ ...film }));
-    //     this.filteredFilms = this.films.filter((film) => film.genre.includes(this.category));
-    //   });
-    // })
-
     combineLatest([
       this.filmsService.movies$,
       this.filmsService.moviesEnOferta$
@@ -59,7 +51,6 @@ export class MovieListComponentsComponent {
     
         // Filtra las películas por categoría
         this.filteredFilms = allMovies.filter((film) => film.genre.includes(this.category));
-        console.log ("FILTERED DE CATEGORIAS: ", this.filteredFilms)
       });
     });
 

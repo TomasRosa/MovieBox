@@ -7,6 +7,7 @@ import { UserService } from 'src/app/services/user.service';
 import { Review } from 'src/app/models/review';
 import { SharedServicesService } from 'src/app/services/shared-services.service';
 import { FavouriteListService } from 'src/app/services/favourite-list.service';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-film-detail',
@@ -37,9 +38,16 @@ export class FilmDetailComponent {
   private sharedService: SharedServicesService) {}
 
   ngOnInit(): void {
-    this.films.initializeData().then(() => {
-      this.arrayFilms = this.films.getMovies();
-      this.getFilmRank();
+    combineLatest([
+      this.films.movies$,
+      this.films.moviesEnOferta$
+    ]).subscribe(([movies, moviesEnOferta]) => {
+        // Combina las dos listas y crea copias para evitar modificar datos originales
+        const allMovies = [...movies.map(film => ({ ...film })), ...moviesEnOferta.map(film => ({ ...film }))];
+    
+        // Filtra las películas por categoría
+        this.arrayFilms = [...allMovies.map(film => ({ ...film }))]
+        this.getFilmRank();
     });
     
     this.userService.isLoggedIn$.subscribe ((isLoggedIn: boolean | null) =>{
