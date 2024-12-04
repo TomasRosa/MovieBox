@@ -6,7 +6,7 @@ import { BehaviorSubject } from "rxjs";
 const options = {
   method: "GET",
   headers: {
-    "x-rapidapi-key": "c511835e7cmshaf0339d8caef3b7p1f89fbjsn313b21e2f891",
+    "x-rapidapi-key": "168918779bmsh773c0ea22aed822p18cce3jsn5f8c1d7815d2",
     "x-rapidapi-host": "imdb-top-100-movies.p.rapidapi.com",
   },
 };
@@ -131,7 +131,13 @@ export class FilmsFromAPIService {
   
   async initializeData() {
     if (this.filmsData.length == 0) {
-      const response = await fetch(this.url_JSON);
+      // let response = await fetch(this.url_API, options);
+
+      // if (response.status != 200)
+      // {
+        // console.log ("ERROR: No fue posible traer los datos de la API. Código de estado: ", response.status)
+        let response = await fetch(this.url_JSON);
+      
 
       if (response.status === 200) {
         const datos = await response.json();
@@ -159,6 +165,10 @@ export class FilmsFromAPIService {
         }
         this.movies.next(this.filmsData.map(film => ({ ...film })));
         this.moviesEnOferta.next(this.filmsDataEnOferta.map(film => ({ ...film })));
+      }
+      else
+      {
+        console.log ("ERROR: No fue posible traer los datos del JSON. Código de estado: ", response.status)
       }
     }
   }

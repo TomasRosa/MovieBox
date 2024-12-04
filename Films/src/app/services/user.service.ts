@@ -186,14 +186,17 @@ export class UserService {
     let usuarios: any | undefined = []
     try 
     {
-      if (this.users.length === 0) 
+      if (!this.users)
+      {
+        this.users = [];
+      }
+      else if (this.users.length === 0) 
       {
         usuarios = await this.http.get<User[]>(this.urlJSONServer).toPromise();
         if (usuarios)
         {
-          this.users = [...usuarios]
+          this.users = usuarios
         }
-        
         return usuarios;
       }
     } catch (error) {
@@ -208,16 +211,13 @@ export class UserService {
     let usersAux = await this.loadUsersFromJSON()
     if (usersAux)
     {
-      if (this.users.length != usersAux.length)
+      if (this.users != usersAux)
         {
-          this.users = await this.loadUsersFromJSON();
-          console.log ("USUARIOS QUE TOMA: ", this.users)
+          await this.ngOnInit()
         }
     }
-    
     return new Promise(async (resolve) => {
         let isUserValid = false;
-
         if (this.users)
         {
           this.users.forEach(u => {
@@ -576,7 +576,8 @@ export class UserService {
 
   async changePassword (user: User, newPassword: string): Promise<{ success: boolean, message: string }> {
     const url = `${this.urlJSONServer}/${user.id}`;
-    user.password  = newPassword; 
+    user.password = newPassword; 
+    this.cambioPasswordUsers(user)
     try {
       await this.http.patch(url, user).toPromise();
       this.usuarioActualSubject.next(user); // Actualizamos el BehaviorSubject con el nuevo valor
@@ -588,9 +589,20 @@ export class UserService {
     }
   }
 
+  cambioPasswordUsers (user: User)
+  {
+    for (let i = 0; i < this.users.length; i++)
+    {
+      if (this.users[i].id == user.id)
+      {
+        this.users[i] = user
+      }
+    }
+  }
+
   async changePasswordAdmin (admin: Admin, newPassword: string): Promise<{ success: boolean, message: string }> {
     const url = `${this.urlJSONServerAdmins}/${admin.id}`;
-    admin.password  = newPassword; 
+    admin.password = newPassword; 
     try {
       await this.http.patch(url, admin).toPromise();
       this.adminActualSubject.next(admin); // Actualizamos el BehaviorSubject con el nuevo valor
