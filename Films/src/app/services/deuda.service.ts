@@ -183,9 +183,8 @@ export class DeudaService {
     }
   
     const segundos = Math.floor(diferencia / 1000);
-    const milisegundos = diferencia % 1000;
   
-    return `${segundos} s ${Math.floor(milisegundos / 100)} ms`;
+    return `${segundos} s`;
   }
 
   startCountdownDiezSegundos() {

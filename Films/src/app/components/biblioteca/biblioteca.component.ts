@@ -209,12 +209,17 @@ export class BibliotecaComponent
               this.deudaService.clearInterval();
               clearInterval(this.intervalId)
             }
+            this.countdowns = [];
+           this.deudaService.countdowns = [];
           }
         }
         else if (this.movieLibrary.length == 0 && this.deudaService.deudaIntervalId)
         {
+          this.deudaService.isCountingDown = false;
           clearInterval(this.deudaService.deudaIntervalId);
           this.deudaService.deudaIntervalId = null;
+          this.countdowns = [];
+          this.deudaService.countdowns = [];
         }
 
         if (this.movieLibrary.length === 0) {

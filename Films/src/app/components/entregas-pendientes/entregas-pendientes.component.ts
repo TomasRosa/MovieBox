@@ -65,19 +65,27 @@ async loadUserData(userId: number): Promise<void> {
       // Recargar usuario actualizado después de la aceptación
       await this.userService.cargarBiblioteca (this.usuarioActual, peliculas)
 
-      await this.rechazarEntrega(pelicula);
+      await this.userService.eliminarEntregaPendiente (this.usuarioActual.id, pelicula)
+      await this.loadUserData(this.usuarioActual.id);
       this.calcularTotalCarrito(this.usuarioActual.entregasPendientes);
       
-      await this.loadUserData(this.usuarioActual.id);
       this.deudaService.startCountdownDiezSegundos()
     }
   }
 
   async aceptarTodasLasEntregas() {
     try {
-      for (const film of this.entregasPendientes) { 
-        await this.aceptarEntrega(film);
+      if (this.usuarioActual)
+      {
+        await this.userService.cargarBiblioteca (this.usuarioActual, this.entregasPendientes)
+        await this.loadUserData(this.usuarioActual.id);
+        this.deudaService.startCountdownDiezSegundos();
+        this.usuarioActual.entregasPendientes = []
+        await this.userService.updateUserToJSON(this.usuarioActual)
+        this.entregasPendientes = [];
+        this.totalCarrito = 0;
       }
+      
       console.log("Todas las entregas aceptadas y actualizadas en la biblioteca del usuario.");
     } catch (error) {
       console.error("Error al aceptar todas las entregas:", error);
