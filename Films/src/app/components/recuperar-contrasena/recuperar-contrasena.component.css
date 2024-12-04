@@ -10,3 +10,7 @@
 .box-errors{
     margin-top: 0.2rem;
 }
+
+.invalid-feedback{
+    font-size: 1rem;
+}
