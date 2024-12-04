@@ -100,10 +100,8 @@ async loadUserData(userId: number): Promise<void> {
   async rechazarEntrega(pelicula: Film) {
     if (this.usuarioActual) {
       await this.userService.eliminarEntregaPendiente(this.usuarioActual.id, pelicula);
-      this.calcularTotalCarrito(this.usuarioActual.entregasPendientes);
-      
-      // Recargar usuario actualizado después del rechazo
       await this.loadUserData(this.usuarioActual.id);
+      this.calcularTotalCarrito(this.usuarioActual.entregasPendientes);
     }
   }
 
