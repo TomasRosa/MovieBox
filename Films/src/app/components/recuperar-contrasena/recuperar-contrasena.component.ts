@@ -28,6 +28,10 @@ export class RecuperarContrasenaComponent {
     ])
   });
 
+  emailForm = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)])
+  });
+
   constructor(private router: Router, private userService: UserService) 
   {
     console.log("Componente Recuperar Contrase")
