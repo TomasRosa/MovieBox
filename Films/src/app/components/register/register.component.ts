@@ -53,8 +53,8 @@ export class RegisterComponent implements OnInit {
       if (this.address.value != null) user.address = this.address.value;
       if (this.password.value != null) user.password = this.password.value;
   
-      this.userService.checkEmailExists(user.email).subscribe((users) => {
-        if (users.length > 0) {
+      this.userService.checkEmailExists(user.email).subscribe((emailExists) => {
+        if (emailExists) {
           this.mensajeRegistro = 'El email ya está registrado. Intente con otro.';
           console.log(this.mensajeRegistro);
           return; // No proceder si el email ya está registrado

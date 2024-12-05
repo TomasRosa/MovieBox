@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, forkJoin, map, Observable } from 'rxjs';
 import { User } from '../models/user';
 import { Film } from '../models/film';
 import { Tarjeta } from '../models/tarjeta';
@@ -275,8 +275,16 @@ export class UserService {
     usuario.arrayPeliculas = [];
   }
 
-  checkEmailExists(email: string): Observable<User[]> {
-    return this.http.get<User[]>(`${this.urlJSONServer}?email=${email}`);
+  checkEmailExists(email: string): Observable<boolean> {
+    const userCheck = this.http.get<User[]>(`${this.urlJSONServer}?email=${email}`);
+    const adminCheck = this.http.get<User[]>(`${this.urlJSONServerAdmins}?email=${email}`);
+  
+    return forkJoin([userCheck, adminCheck]).pipe(
+      map(([users, admins]) => {
+        // Verifica si el email existe en users o admins
+        return users.length > 0 || admins.length > 0;
+      })
+    );
   }
 
   async addUser(user: User): Promise<User | undefined> {

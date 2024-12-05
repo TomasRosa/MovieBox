@@ -39,7 +39,7 @@
               </div>
               <div class="col-md-6 mb-5">
                 <label for="email" class="form-label label-spacing">Email</label>
-                <input type="email" class="form-control no-border input" id="email" name="email" formControlName="email" placeholder="Ingrese su email" required>
+                <input type="email" class="form-control no-border input" id="email" name="email" formControlName="email" placeholder="Ingrese su email" autocomplete="off" required>
                 <span class="text-danger" *ngIf="email?.invalid && (email?.dirty || email?.touched)">
                   <div *ngIf="email?.hasError('required')">El email es requerido.</div>
                   <div *ngIf="email?.hasError('email')">El formato del email es incorrecto.</div>
@@ -60,7 +60,7 @@
               <div class="col-md-6 mb-5">
                 <label for="password" class="form-label label-spacing">Contraseña</label>
                 <div class="input-group">
-                  <input [type]="mostrarContrasena ? 'text' : 'password'" class="form-control no-border input-password" id="password" name="password" formControlName="password" placeholder="Ingrese su contraseña" required/>
+                  <input [type]="mostrarContrasena ? 'text' : 'password'" class="form-control no-border input-password" id="password" name="password" autocomplete="new-password" formControlName="password" placeholder="Ingrese su contraseña" required/>
                   <button type="button" class="btn btn-link" (click)="toggleMostrarContrasena()"><i [ngClass]="mostrarContrasena ? 'bi bi-eye-slash' : 'bi bi-eye'"></i></button>
                 </div>
                 <span class="text-danger" *ngIf="password?.invalid && (password?.dirty || password?.touched)">
