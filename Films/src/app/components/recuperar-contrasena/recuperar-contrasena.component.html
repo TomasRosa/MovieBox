@@ -6,11 +6,11 @@
     <form [formGroup]="emailForm" (ngSubmit)="enviarCodigo()" *ngIf="!codigoEnviado" class="text-center">
       <div class="form-group mb-3">
         <label for="email" class="form-label">Ingrese su email</label>
-        <input formControlName="email" [class.is-invalid]="emailForm.get('email')?.invalid && emailForm.get('email')?.touched" type="email" id="email" class="form-control mx-auto" style="max-width: 90%;" [(ngModel)]="email" name="email" placeholder="Email..." required>
+        <input formControlName="email" [class.is-invalid]="emailForm.get('email')?.invalid && (emailForm.get('email')?.touched || emailForm.get('email')?.dirty)" type="email" id="email" class="form-control mx-auto" style="max-width: 90%;" [(ngModel)]="email" name="email" placeholder="Email..." required>
         <div class="invalid-feedback">
-          <div *ngIf="emailForm.get('email')?.touched && emailForm.get('email')?.hasError('required')">El email es requerido.</div>
-          <div *ngIf="emailForm.get('email')?.touched && emailForm.get('email')?.hasError('email')">El formato del email es incorrecto.</div>
-          <div *ngIf="emailForm.get('email')?.touched && emailForm.get('email')?.hasError('pattern')">Dominio incorrecto.</div>
+          <div *ngIf="emailForm.get('email')?.hasError('required')">El email es requerido.</div>
+          <div *ngIf="emailForm.get('email')?.hasError('email')">El formato del email es incorrecto.</div>
+          <div *ngIf="emailForm.get('email')?.hasError('pattern')">Dominio incorrecto.</div>
         </div>
       </div>
       <button type="submit" class="btn btn-primary w-100" [disabled]="!emailForm.valid">Enviar Código</button>
