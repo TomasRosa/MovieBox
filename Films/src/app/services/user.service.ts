@@ -667,6 +667,16 @@ export class UserService {
     }
   }
 
+  async getAdminByEmail(email: string): Promise<Admin | null> {
+    try {
+      const admins = await this.http.get<Admin[]>(this.urlJSONServerAdmins).toPromise() || [];
+      return admins.find(admin => admin.email === email) || null;
+    } catch (error) {
+      console.error('Error al obtener los usuarios:', error);
+      return null; // Manejo de error: devolver null si ocurre un problema
+    }
+  }
+
   async getUserById(id: number): Promise<User | null> {
     try {
         const users = await this.http.get<User[]>(this.urlJSONServer).toPromise() || [];

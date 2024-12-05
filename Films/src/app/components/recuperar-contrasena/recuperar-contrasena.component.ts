@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ValidacionUserPersonalizada } from 'src/app/validaciones/validacion-user-personalizada';
+import { Admin } from 'src/app/models/admin';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-recuperar-contrasena',
@@ -18,6 +20,9 @@ export class RecuperarContrasenaComponent {
   codigoVerificado: boolean = false;
   mensaje: string = '';
   mostrarContrasena: boolean = false;
+
+  adminToChangePassword: Admin | null = null;
+  userToChangePassword: User | null = null;
 
   // Formulario de restablecimiento de contraseña
   restablecerForm = new FormGroup({
@@ -51,9 +56,12 @@ export class RecuperarContrasenaComponent {
   }
 
   async enviarCodigo() {
-    const usuario = await this.userService.getUserByEmail(this.email);
+    this.userToChangePassword = await this.userService.getUserByEmail(this.email);
 
-    if (!usuario) {
+    if (!this.userToChangePassword)
+      this.adminToChangePassword = await this.userService.getAdminByEmail (this.email)
+
+    if (!this.adminToChangePassword && !this.userToChangePassword) {
       this.mensaje = 'Oh, no hemos podido encontrar ese email en nuestra base de datos.';
       this.codigoEnviado = false;
       return;
@@ -92,24 +100,43 @@ export class RecuperarContrasenaComponent {
       return;
     }
 
-    // Obtener el usuario correspondiente al email
-    const usuario = await this.userService.getUserByEmail(this.email);
-    if (!usuario) {
-      this.mensaje = 'Usuario no encontrado. Verifique el email ingresado.';
-      return;
+    if (this.userToChangePassword){
+      const usuario = await this.userService.getUserByEmail(this.email);
+      if (!usuario) {
+        this.mensaje = 'Usuario no encontrado. Verifique el email ingresado.';
+        return;
+      }
+  
+      // Cambiar la contraseña utilizando el método changePassword
+      const nuevaPasswordValue = this.nuevaContrasena?.value ?? ''; // Asegura que siempre haya un string
+      const result = await this.userService.changePassword(usuario, nuevaPasswordValue);
+      
+      if (result.success) {
+        this.mensaje = 'Contraseña cambiada con éxito. Redirigiendo al inicio de sesión...';
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 2000);
+      } else {
+        this.mensaje = result.message; // Mostrar mensaje de error
+      }
     }
+    if (this.adminToChangePassword){
+      const admin = await this.userService.getAdminByEmail (this.email);
+      if (!admin) {
+        this.mensaje = 'Usuario no encontrado. Verifique el email ingresado.';
+        return;
+      }
+      const nuevaPasswordValue = this.nuevaContrasena?.value ?? ''; // Asegura que siempre haya un string
+      const result = await this.userService.changePasswordAdmin(admin, nuevaPasswordValue);
 
-    // Cambiar la contraseña utilizando el método changePassword
-    const nuevaPasswordValue = this.nuevaContrasena?.value ?? ''; // Asegura que siempre haya un string
-    const result = await this.userService.changePassword(usuario, nuevaPasswordValue);
-    
-    if (result.success) {
-      this.mensaje = 'Contraseña cambiada con éxito. Redirigiendo al inicio de sesión...';
-      setTimeout(() => {
-        this.router.navigate(['/login']);
-      }, 2000);
-    } else {
-      this.mensaje = result.message; // Mostrar mensaje de error
+      if (result.success) {
+        this.mensaje = 'Contraseña cambiada con éxito. Redirigiendo al inicio de sesión...';
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 2000);
+      } else {
+        this.mensaje = result.message; // Mostrar mensaje de error
+      }
     }
   }
 }
