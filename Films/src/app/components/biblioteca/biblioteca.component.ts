@@ -121,14 +121,12 @@ export class BibliotecaComponent
 
           if (this.movieLibrary.length != 0)
             {
-              if (!this.deudaService.isCountingDown)
+              let flag = this.deudaService.startCountdownDiezSegundos()
+              if (flag)
               {
-                let flag = this.deudaService.startCountdownDiezSegundos()
-                if (flag)
-                {
-                  this.intervalId = this.deudaService.intervalId;
-                }
+                this.intervalId = this.deudaService.intervalId;
               }
+              
             }
             this.validarBibliotecaVacia();
         }
@@ -146,20 +144,15 @@ export class BibliotecaComponent
           if (loadedUser) {
             this.movieLibrary = [...loadedUser.arrayPeliculas]; // Clonamos arrayPeliculas
             this.userService.bibliotecaSubject.next (this.movieLibrary)
-
-            console.log ("ISCOUNTING: ", this.deudaService.isCountingDown)
             
             if (this.movieLibrary.length != 0)
             {
-              if (!this.deudaService.isCountingDown)
-                {
-                  // await this.deudaService.startCountdown(this.movieLibrary);
-                  let flag = this.deudaService.startCountdownDiezSegundos()
-                  if (flag)
-                  {
-                    this.intervalId = this.deudaService.intervalId;
-                  }
-                }
+              // await this.deudaService.startCountdown(this.movieLibrary);
+              let flag = this.deudaService.startCountdownDiezSegundos()
+              if (flag)
+              {
+                this.intervalId = this.deudaService.intervalId;
+              } 
             }
           }
         }
@@ -187,35 +180,32 @@ export class BibliotecaComponent
       if (index !== -1) {
         this.movieLibrary.splice(index, 1);
 
-        this.deudaService.movieLibrary = [...this.movieLibrary];
-        
-        // Sincronizar la biblioteca en el servidor
         await this.userService.actualizarBiblioteca(this.usuarioActual, this.movieLibrary);
+        this.deudaService.movieLibrary = [...this.movieLibrary];
 
         const contador = this.deudaService.contadorPeliculasSinTiempo(this.movieLibrary);
+        this.deudaService.contadorSubject.next (contador)
 
-        if (this.deudaService.deudaIntervalId) {
-          clearInterval(this.deudaService.deudaIntervalId);
-          this.deudaService.deudaIntervalId = null;
+        if (this.deudaService.deudaIntervals[film.id]) {
+          this.deudaService.stopDeudaPorPelicula (film);
 
-          if (contador > 0) {
-            this.deudaService.iniciarAcumuladorDeDeuda(this.usuarioActual, 20, contador);
-          }
-          else
+          if (this.movieLibrary.length === 0 || contador === 0)
           {
-            this.deudaService.isCountingDown = false;
-            if (this.deudaService.intervalId)
+            this.deudaService.clearInterval();
+              
+            clearInterval(this.intervalId)
+            
+            if (this.deudaService.deudaIntervals)
             {
-              this.deudaService.clearInterval();
-              clearInterval(this.intervalId)
+              this.deudaService.deudaIntervals = [];
             }
             this.countdowns = [];
-           this.deudaService.countdowns = [];
+            this.deudaService.countdowns = [];
+            this.intervalId = null;
           }
         }
         else if (this.movieLibrary.length == 0 && this.deudaService.deudaIntervalId)
         {
-          this.deudaService.isCountingDown = false;
           clearInterval(this.deudaService.deudaIntervalId);
           this.deudaService.deudaIntervalId = null;
           this.countdowns = [];
@@ -228,6 +218,60 @@ export class BibliotecaComponent
       }
     }
   }
+
+  // async devolverPelicula(film: Film | undefined): Promise<void> {
+  //   if (this.usuarioActual && film) {
+  //     const loadedUser = await this.userService.getUserById(this.usuarioActual.id);
+  //     if (loadedUser) {
+  //       this.usuarioActual = loadedUser;
+  //       this.movieLibrary = [...loadedUser.arrayPeliculas];
+  //     }
+  
+  //     const index = this.movieLibrary.findIndex((p) => p.id === film.id);
+  //     if (index !== -1) {
+  //       this.movieLibrary.splice(index, 1);
+  
+  //       // Detener el intervalo de deuda asociado a la película
+  //       if (this.deudaService.deudaIntervals[film.id]) {
+  //         clearInterval(this.deudaService.deudaIntervals[film.id]);
+  //         delete this.deudaService.deudaIntervals[film.id];
+  //       }
+  
+  //       // Eliminar la película de los countdowns
+  //       delete this.countdowns[film.id];
+  //       delete this.deudaService.countdowns[film.id];
+  
+  //       this.deudaService.movieLibrary = [...this.movieLibrary];
+  //       await this.userService.actualizarBiblioteca(this.usuarioActual, this.movieLibrary);
+  
+  //       // Verificar si quedan películas con tiempo agotado
+  //       const contador = this.deudaService.contadorPeliculasSinTiempo(this.movieLibrary);
+  
+  //       if (contador === 0) {
+  //         // Limpiar todos los intervalos si no hay más películas
+  //         for (const key in this.deudaService.deudaIntervals) {
+  //           clearInterval(this.deudaService.deudaIntervals[key]);
+  //           delete this.deudaService.deudaIntervals[key];
+  //         }
+  
+  //         this.countdowns = [];
+  //         this.deudaService.countdowns = [];
+  //       }
+  //       else
+  //       {
+  //         this.deudaService.contador = contador;
+  //         this.deudaService.contadorSubject.next (contador)
+  //         this.userService.saveUserToStorage (this.usuarioActual);
+  //         this.deudaService.sumarDeudaPorPelicula(this.usuarioActual, film, 20)
+  //       }
+  
+  //       // Manejar biblioteca vacía
+  //       if (this.movieLibrary.length === 0) {
+  //         this.bibliotecaVacia = true;
+  //       }
+  //     }
+  //   }
+  // }
 
   navegarFilmDetail(id: number) {
     this.sharedService.navegarFilmDetail (id);

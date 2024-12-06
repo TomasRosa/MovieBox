@@ -80,6 +80,7 @@ export class LoginComponent implements OnInit {
       this.errorMessage = 'El email o contraseña son nulos';
     }
   }
+
   toggleMostrarContrasena() {
     this.mostrarContrasena = !this.mostrarContrasena;
   }
@@ -91,5 +92,4 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['admin-code']);
     }
   }
-  
 }

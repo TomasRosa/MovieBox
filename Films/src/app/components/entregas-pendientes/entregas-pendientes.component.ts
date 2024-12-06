@@ -53,6 +53,7 @@ async loadUserData(userId: number): Promise<void> {
         this.usuarioActual = user;
         this.entregasPendientes = user.entregasPendientes;
         this.biblioteca = user.arrayPeliculas;
+        this.userService.saveUserToStorage(user)
     } else {
         console.error('Error: Usuario no encontrado');
     }
@@ -68,8 +69,9 @@ async loadUserData(userId: number): Promise<void> {
       await this.userService.eliminarEntregaPendiente (this.usuarioActual.id, pelicula)
       await this.loadUserData(this.usuarioActual.id);
       this.calcularTotalCarrito(this.usuarioActual.entregasPendientes);
+      this.entregasPendientes = this.usuarioActual.entregasPendientes;
       
-      this.deudaService.startCountdownDiezSegundos()
+      this.deudaService.startCountdownDiezSegundos(true);
     }
   }
 
@@ -78,12 +80,12 @@ async loadUserData(userId: number): Promise<void> {
       if (this.usuarioActual)
       {
         await this.userService.cargarBiblioteca (this.usuarioActual, this.entregasPendientes)
-        await this.loadUserData(this.usuarioActual.id);
-        this.deudaService.startCountdownDiezSegundos();
         this.usuarioActual.entregasPendientes = []
         await this.userService.updateUserToJSON(this.usuarioActual)
+        await this.loadUserData(this.usuarioActual.id);
         this.entregasPendientes = [];
         this.totalCarrito = 0;
+        this.deudaService.startCountdownDiezSegundos();
       }
       
       console.log("Todas las entregas aceptadas y actualizadas en la biblioteca del usuario.");
@@ -110,6 +112,7 @@ async loadUserData(userId: number): Promise<void> {
       await this.userService.eliminarEntregaPendiente(this.usuarioActual.id, pelicula);
       await this.loadUserData(this.usuarioActual.id);
       this.calcularTotalCarrito(this.usuarioActual.entregasPendientes);
+      this.entregasPendientes = this.usuarioActual.entregasPendientes;
     }
   }
 

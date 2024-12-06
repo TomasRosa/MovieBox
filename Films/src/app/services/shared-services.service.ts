@@ -3,14 +3,12 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { CarritoService } from './carrito.service';
 import { Router } from '@angular/router';
 import { Film } from '../models/film';
-import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedServicesService {
   public isLoggedInSubject = new BehaviorSubject<boolean>(false);
-  
   private adminCodeVerified: boolean = false;
 
   constructor(

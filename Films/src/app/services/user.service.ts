@@ -738,7 +738,8 @@ export class UserService {
     await this.http.patch<User>(url, { entregasPendientes: user.entregasPendientes }).toPromise();
   }
 
-  logout(): void {
+  logout(): void 
+  {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('currentAdmin');
     this.usuarioActualSubject.next(null);
