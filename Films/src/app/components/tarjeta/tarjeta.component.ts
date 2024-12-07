@@ -7,7 +7,6 @@ import { CarritoService } from "src/app/services/carrito.service";
 import { UserService } from "src/app/services/user.service";
 import { User } from "src/app/models/user";
 import { Router } from "@angular/router";
-import { NavbarComponent } from "../navbar/navbar.component";
 import { DeudaService } from "src/app/services/deuda.service";
 
 @Component({
@@ -67,6 +66,7 @@ export class TarjetaComponent {
 
   constructor(
     private carritoService: CarritoService,
+    private deudaService: DeudaService,
     private userService: UserService,
     private routerService: Router
   ) {}
@@ -224,6 +224,8 @@ export class TarjetaComponent {
       this.showBuyWithActualCard = false;
       this.navegarInicio("inicio");
     }, 2000);
+    // window.location.reload();
+    this.deudaService.forceRefresh();
   }
 
   validarSiTieneTarjeta() {

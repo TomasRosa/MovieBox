@@ -2,6 +2,8 @@ import { Component, HostListener } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router'; // Importa NavigationEnd
 import { FilmsFromAPIService } from './services/films-from-api.service';
 import { CarritoService } from './services/carrito.service';
+import { UserService } from './services/user.service';
+import { DeudaService } from './services/deuda.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +12,7 @@ import { CarritoService } from './services/carrito.service';
 })
 export class AppComponent 
 {
-  constructor(private filmsFromApiService: FilmsFromAPIService, private carritoService: CarritoService)
+  constructor(private filmsFromApiService: FilmsFromAPIService, private carritoService: CarritoService, private userService: UserService, private deudaService: DeudaService)
   {
   }
 
@@ -31,6 +33,14 @@ export class AppComponent
   async ngOnInit() {
     await this.filmsFromApiService.initializeData()
     this.carritoService.ngOnInit()
+
+    this.userService.biblioteca$.subscribe (async() =>{
+      if (this.deudaService.flag == false)
+      {
+        await this.deudaService.startDeudasDeUsuarios();
+      }
+    })
+
     const links = document.querySelectorAll('nav a');
     links.forEach(link => {
       link.addEventListener('click', () => {

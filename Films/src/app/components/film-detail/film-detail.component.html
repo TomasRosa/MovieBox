@@ -23,8 +23,9 @@
         <h3 class="data"> <span class="title-data">RATING:</span> {{movie.rating}} </h3>
         <img class="star" src="/assets/star.png" alt="">
       </div>
-      <h3 class="data price"  *ngIf = "movie.precio < 1500"><span class="title-data">PRICE:     </span>${{movie.precio}} </h3>
-      <h3 class="data price"  *ngIf = "movie.precio > 1500"><span class="title-data">PRICE:     </span>${{movie.precio/2}} </h3>
+      <h3 class="data price" *ngIf = "movie.precioDescuento != undefined"><span class="title-data">OLD PRICE:     </span><s>${{movie.precio}}</s> </h3>
+      <h3 class="data price" *ngIf = "movie.precioDescuento == undefined"><span class="title-data">PRICE:     </span>${{movie.precio}} </h3>
+      <h3 class="data price"  *ngIf = "movie.precio > 1500"><span class="title-data">NEW PRICE:     </span>${{movie.precioDescuento}} </h3>
 
       <div *ngIf="isLoggedIn && !isAdmin">
         <div class="box-carrito">

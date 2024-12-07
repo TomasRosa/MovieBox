@@ -24,18 +24,20 @@ export class DeudaService {
   contador$ = this.contadorSubject.asObservable();
   contador = 0;
 
+  flag = false;
+
+  countdownsSubject = new BehaviorSubject<{ [key: number]: string }>({});
+  countdowns$ = this.countdownsSubject.asObservable(); // Observable para suscribirse
+
   deudaIntervals: { [key: number]: any } = {}; // Intervalos independientes por película
 
-  constructor(private http: HttpClient, private userService: UserService, private sharedServices: SharedServicesService) 
-  {
-    userService.biblioteca$.subscribe ( b => {
-      if (b)
-      {
+  constructor(private http: HttpClient, private userService: UserService, private sharedServices: SharedServicesService) {
+    userService.biblioteca$.subscribe(b => {
+      if (b) {
         this.movieLibrary = b;
-        if (this.movieLibrary.length != 0)
-        {
+        if (this.movieLibrary.length != 0) {
           this.contadorPeliculasSinTiempo(this.movieLibrary);
-          this.contador$.subscribe (c => {
+          this.contador$.subscribe(c => {
             this.contador = c;
           })
         }
@@ -44,30 +46,27 @@ export class DeudaService {
   }
 
   startDeudaPorPelicula(user: User, film: Film, montoPorIntervalo: number, isOne?: boolean) {
-    if (this.deudaIntervals[film.id]) 
-    {
+    if (this.deudaIntervals[film.id]) {
       return;
     }
 
-    this.contador$.subscribe (c => {
+    this.contador$.subscribe(c => {
       this.contador = c;
     })
 
-    if (this.contador == this.movieLibrary.length)
-    {
+    if (this.contador == this.movieLibrary.length) {
       this.clearInterval()
     }
-  
+
     this.deudaIntervals[film.id] = setInterval(async () => {
       const timeRemaining = this.getTiempoRestanteDiezSegundos(film.fechaDeAgregado!);
 
       let userAux = await this.userService.getUserById(user.id)
 
-      if (userAux && userAux != user)
-      {
+      if (userAux && userAux != user) {
         user = userAux;
       }
-  
+
       if (timeRemaining === '00:00:00') {
         await this.sumarDeudaPorPelicula(user, film, montoPorIntervalo, isOne);
       }
@@ -76,21 +75,19 @@ export class DeudaService {
 
   async sumarDeudaPorPelicula(user: User, film: Film, montoPorIntervalo: number, isOne?: boolean) {
     this.deuda = user.deuda
-    if (isOne == true)
-    {
+    if (isOne == true) {
       this.deuda += montoPorIntervalo; // Suma al total de deuda
     }
-    else
-    {
+    else {
       this.deuda += montoPorIntervalo * this.contador; // Suma al total de deuda
     }
-    
+
     this.deudaSubject.next(this.deuda);
-  
-    console.log(`Deuda acumulada por película ${film.id}: ${this.deuda}`);
+
+    console.log(`Deuda acumulada de ${user.firstName} por película ${film.id}: ${this.deuda}`);
     await this.updateDeudaUser(user); // Actualiza en el backend
   }
-  
+
   stopDeudaPorPelicula(film: Film) {
     if (this.deudaIntervals[film.id]) {
       clearInterval(this.deudaIntervals[film.id]);
@@ -101,7 +98,7 @@ export class DeudaService {
   // async calcularDeuda(user: User | null) {
   //   if (user) {
   //     user.deuda = await this.getDeudaJSON(user.id);
-  
+
   //     if (this.contador > 0) {
   //       // Solo iniciar acumulador si hay películas con tiempo agotado
   //       this.iniciarAcumuladorDeDeuda(user, 20, this.contador);
@@ -117,7 +114,7 @@ export class DeudaService {
       }
     }
 
-    this.contadorSubject.next(cont); 
+    this.contadorSubject.next(cont);
     return cont;
   }
 
@@ -126,7 +123,7 @@ export class DeudaService {
   //   {
   //     this.clearInterval()
   //   }
-  
+
   //   this.deudaIntervalId = setInterval(async () => {
   //     let userAux = await this.userService.getUserById(user.id)
 
@@ -137,47 +134,43 @@ export class DeudaService {
   //     await this.sumarDeuda(user, montoPorIntervalo, cantPelis);
   //   }, 10000); // Ejecutar cada 10 segundos
   // }
-  
+
   // async sumarDeuda(user: User, montoPorIntervalo: number, cantPelis: number) {
   //   this.deuda = user.deuda;
-  
+
   //   this.deuda += montoPorIntervalo;
   //   this.deudaSubject.next(this.deuda);
   //   console.log(`Nueva deuda: ${this.deuda}`);
-  
+
   //   await this.updateDeudaUser(user);
   // }
 
-  async getDeudaJSON(id: number) 
-  {
+  async getDeudaJSON(id: number) {
     try {
-        const users = await this.http.get<User[]>(this.urlJSONServer).toPromise() || [];
-        let user = users.find(user => user.id === id)
-        if (user)
-        {
-          this.deudaSubject.next(user.deuda)
-          return user.deuda
-        }
-        else
-        {
-          return -1;
-        }
-    } catch (error) {
-        console.error('Error al obtener los usuarios:', error);
+      const users = await this.http.get<User[]>(this.urlJSONServer).toPromise() || [];
+      let user = users.find(user => user.id === id)
+      if (user) {
+        this.deudaSubject.next(user.deuda)
+        return user.deuda
+      }
+      else {
         return -1;
+      }
+    } catch (error) {
+      console.error('Error al obtener los usuarios:', error);
+      return -1;
     }
   }
 
-  async updateDeudaUser (user: User)
-  {
+  async updateDeudaUser(user: User) {
     const url = `${this.userService.urlJSONServer}/${user.id}`;
 
     user.deuda = this.deuda
 
     try {
       await this.http.patch(url, user).toPromise();
-      this.userService.usuarioActualSubject.next(user);
-      this.userService.saveUserToStorage(user);
+      // this.userService.usuarioActualSubject.next(user);
+      // this.userService.saveUserToStorage(user);
     } catch (error) {
       console.error('Error al guardar la deuda', error);
     }
@@ -211,7 +204,7 @@ export class DeudaService {
   //   if (this.intervalId) {
   //     clearInterval(this.intervalId);
   //   }
-  
+
   //   if (movieLibrary)
   //     {
   //       this.intervalId = setInterval(() => {
@@ -222,7 +215,7 @@ export class DeudaService {
   //       }, 1000);
   //       return true;
   //     }
-      
+
   //     return false
   // }
 
@@ -230,13 +223,13 @@ export class DeudaService {
     const hoy = new Date();
     const fechaAgregada = new Date(fechaDeAgregado);
     const diferencia = 10 * 1000 - (hoy.getTime() - fechaAgregada.getTime());
-  
+
     if (diferencia <= 0) {
       return '00:00:00';
     }
-  
+
     const segundos = Math.floor(diferencia / 1000);
-  
+
     return `${segundos} s`;
   }
 
@@ -244,30 +237,28 @@ export class DeudaService {
     if (this.intervalId) {
       this.clearInterval();
     }
-  
+
     this.contador$.subscribe((c) => {
       this.contador = c;
     });
 
     let user = this.userService.getUserFromStorage();
 
-    this.userService.biblioteca$.subscribe (b => {
-      if (b && b.length != this.movieLibrary.length)
-      {
+    this.userService.biblioteca$.subscribe(b => {
+      if (b && b.length != this.movieLibrary.length) {
         this.movieLibrary = b;
       }
     })
-  
+
     if (this.movieLibrary) {
       this.intervalId = setInterval(() => {
         this.contadorPeliculasSinTiempo(this.movieLibrary);
-  
+
         this.movieLibrary.forEach((film) => {
           const timeRemaining = this.getTiempoRestanteDiezSegundos(film.fechaDeAgregado!);
           this.countdowns[film.id] = timeRemaining;
-          
-          if (user)
-          {
+
+          if (user) {
             // Iniciar el acumulador de deuda para cada película
             this.startDeudaPorPelicula(user, film, 20, isOne);
           }
@@ -276,6 +267,55 @@ export class DeudaService {
       return true;
     }
     return false;
+  }
+
+  async startDeudasDeUsuarios(isOne?: boolean) {
+
+    if (this.intervalId) {
+      this.clearInterval();
+    }
+
+    this.contador$.subscribe((c) => {
+      this.contador = c;
+    });
+
+    let users = await this.userService.getUsersFromJSON()
+    console.log ("USUARIOS: ", users)
+
+    if (users) {
+      for (let i = 0; i < users.length; i++)
+      {
+        if (users[i] && users[i].arrayPeliculas.length != 0)
+        {
+          this.movieLibrary = users[i].arrayPeliculas;
+          if (this.movieLibrary) {
+            this.intervalId = setInterval(() => {
+              this.contadorPeliculasSinTiempo(this.movieLibrary);
+
+              this.movieLibrary.forEach((film) => {
+                const timeRemaining = this.getTiempoRestanteDiezSegundos(film.fechaDeAgregado!);
+                this.countdowns[film.id] = timeRemaining;
+                
+                this.countdownsSubject.next(this.countdowns);
+
+                if (users)
+                {
+                  // Iniciar el acumulador de deuda para cada película
+                  this.startDeudaPorPelicula(users[i], film, 20, isOne);
+                }
+              });
+              
+            }, 1000); // Ejecutar cada segundo
+          }
+        }
+      }
+    }
+  }
+
+  async forceRefresh (isOne?: boolean)
+  {
+    this.flag = true;
+    await this.startDeudasDeUsuarios(isOne);
   }
 
   clearInterval() {

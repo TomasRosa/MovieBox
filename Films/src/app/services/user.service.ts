@@ -355,7 +355,6 @@ export class UserService {
     const url = `${this.urlJSONServer}/${user.id}`;
 
     user.arrayPeliculas = arrayPeliculas;
-
     this.bibliotecaSubject.next (arrayPeliculas);
     this.saveUserToStorage (user);
   
@@ -737,6 +736,27 @@ export class UserService {
     user.entregasPendientes = user.entregasPendientes.filter(p => p.id !== pelicula.id);
     await this.http.patch<User>(url, { entregasPendientes: user.entregasPendientes }).toPromise();
   }
+
+  verSiHayUsuarioLogueado ()
+  {
+    let user = this.getUserFromStorage();
+    if (!user)
+    {
+      return false;
+    }
+    return true;
+  }
+
+  verSiHayAdminLogueado ()
+  {
+    let admin = this.getAdminFromStorage();
+    if (!admin)
+    {
+      return false;
+    }
+    return true;
+  }
+
 
   logout(): void 
   {

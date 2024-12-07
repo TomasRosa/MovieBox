@@ -47,7 +47,10 @@ export class BibliotecaComponent
           this.deuda = nuevaDeuda
          }
       })
+    });
 
+    this.deudaService.countdowns$.subscribe (c =>{
+      this.countdowns = c;
     });
   }
   
@@ -106,7 +109,8 @@ export class BibliotecaComponent
     if (!this.isAdmin && !this.isLoggedIn) {
       alert("Debe iniciar sesión para ver su biblioteca.");
       return;
-    } else if (this.isAdmin) {
+    }
+    else if (this.isAdmin) {
       // Obtener el userId desde los parámetros de la URL
       const userId = +this.route.snapshot.paramMap.get('userId')!;
       
@@ -119,15 +123,15 @@ export class BibliotecaComponent
 
           this.userService.bibliotecaSubject.next (this.movieLibrary)
 
-          if (this.movieLibrary.length != 0)
-            {
-              let flag = this.deudaService.startCountdownDiezSegundos()
-              if (flag)
-              {
-                this.intervalId = this.deudaService.intervalId;
-              }
+          // if (this.movieLibrary.length != 0)
+          //   {
+          //     let flag = this.deudaService.startCountdownDiezSegundos()
+          //     if (flag)
+          //     {
+          //       this.intervalId = this.deudaService.intervalId;
+          //     }
               
-            }
+          //   }
             this.validarBibliotecaVacia();
         }
       } else {
@@ -145,22 +149,20 @@ export class BibliotecaComponent
             this.movieLibrary = [...loadedUser.arrayPeliculas]; // Clonamos arrayPeliculas
             this.userService.bibliotecaSubject.next (this.movieLibrary)
             
-            if (this.movieLibrary.length != 0)
-            {
-              // await this.deudaService.startCountdown(this.movieLibrary);
-              let flag = this.deudaService.startCountdownDiezSegundos()
-              if (flag)
-              {
-                this.intervalId = this.deudaService.intervalId;
-              } 
-            }
+            // if (this.movieLibrary.length != 0)
+            // {
+            //   // await this.deudaService.startCountdown(this.movieLibrary);
+            //   let flag = this.deudaService.startCountdownDiezSegundos()
+            //   if (flag)
+            //   {
+            //     this.intervalId = this.deudaService.intervalId;
+            //   } 
+            // }
           }
         }
         this.validarBibliotecaVacia();
       });
     }
-
-    this.countdowns = this.deudaService.countdowns;
   }
 
   validarBibliotecaVacia (){
@@ -301,6 +303,6 @@ export class BibliotecaComponent
     setTimeout( () =>{
       this.router.navigate (['/biblioteca'])
       this.successMessage = ''
-    }, 2500)
+    }, 5000)
   }
 }
