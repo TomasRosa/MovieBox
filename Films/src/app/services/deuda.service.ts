@@ -270,16 +270,16 @@ export class DeudaService {
     return false;
   }
 
-  async startDeudasDeUsuarios(isOne?: boolean) {
-    const storedCountdowns = JSON.parse(localStorage.getItem('countdowns') || '{}');
-    if (storedCountdowns) {
-      this.countdowns = storedCountdowns;
-      this.countdownsSubject.next(this.countdowns);
-    }
+  async startDeudasDeUsuarios(isOne?: boolean, movieLibrary?: Film[], userId?: number) {
+    // const storedCountdowns = JSON.parse(localStorage.getItem('countdowns') || '{}');
+    // if (storedCountdowns) {
+    //   this.countdowns = storedCountdowns;
+    //   this.countdownsSubject.next(this.countdowns);
+    // }
 
-    this.countdownsSubject.subscribe((countdowns) => {
-      localStorage.setItem('countdowns', JSON.stringify(countdowns));
-    });
+    // this.countdownsSubject.subscribe((countdowns) => {
+    //   localStorage.setItem('countdowns', JSON.stringify(countdowns));
+    // });
 
     if (this.intervalId) {
       this.clearInterval();
@@ -295,9 +295,21 @@ export class DeudaService {
     if (users) {
       for (let i = 0; i < users.length; i++)
       {
+        let currentLibrary: Film [] = [];
         if (users[i] && users[i].arrayPeliculas.length != 0)
         {
-          let currentLibrary = users[i].arrayPeliculas;
+          if (movieLibrary && movieLibrary.length != 0)
+          {
+            if (users[i].id == userId)
+            {
+              currentLibrary = movieLibrary;
+            }
+          }
+          else
+          {
+            currentLibrary = users[i].arrayPeliculas;
+          }
+          
           if (currentLibrary) {
             this.intervalId = setInterval(() => {
               this.contadorPeliculasSinTiempo(currentLibrary);
@@ -322,10 +334,10 @@ export class DeudaService {
     }
   }
 
-  async forceRefresh (isOne?: boolean)
+  async forceRefresh (isOne?: boolean, movieLibrary?: Film[], userId?: number)
   {
     this.flag = true;
-    await this.startDeudasDeUsuarios(isOne);
+    await this.startDeudasDeUsuarios(isOne, movieLibrary, userId);
     this.flag = false;
   }
 

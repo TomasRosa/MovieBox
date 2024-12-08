@@ -35,16 +35,20 @@ export class BibliotecaComponent
     public router: Router,
     private route: ActivatedRoute // Importar el servicio de rutas activas
   ) { 
-    this.deudaSubscription = this.deudaService.deuda$.subscribe(nuevaDeuda => {
+    this.deudaSubscription = this.deudaService.deuda$.subscribe(() => {
 
        userService.usuarioActual$.subscribe (async u  =>{
-        if (u && u.deuda != 0)
+        if (u)
          {
-           this.deuda = u.deuda
-         }
-         else
-         {
-          this.deuda = nuevaDeuda
+          if (u.deuda != 0)
+          {
+            this.deuda = u.deuda
+          }
+          else
+          {
+            this.deuda = await deudaService.getDeudaJSON(u.id)
+          }
+           
          }
       })
     });
@@ -183,7 +187,8 @@ export class BibliotecaComponent
         this.movieLibrary.splice(index, 1);
 
         await this.userService.actualizarBiblioteca(this.usuarioActual, this.movieLibrary);
-        this.deudaService.movieLibrary = [...this.movieLibrary];
+        // this.deudaService.movieLibrary = [...this.movieLibrary];
+        await this.deudaService.forceRefresh(false, this.movieLibrary, this.usuarioActual.id)
 
         const contador = this.deudaService.contadorPeliculasSinTiempo(this.movieLibrary);
         this.deudaService.contadorSubject.next (contador)
