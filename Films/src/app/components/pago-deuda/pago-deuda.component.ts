@@ -65,9 +65,23 @@ export class PagoDeudaComponent {
   }
 
   constructor(private route: ActivatedRoute, private userService: UserService, private deudaService: DeudaService, private router: Router) {
-    this.deudaSubscription = this.deudaService.deuda$.subscribe(nuevaDeuda => {
-      this.deuda = nuevaDeuda;
-    });
+    this.deudaSubscription = this.deudaService.deuda$.subscribe(() => {
+
+      userService.usuarioActual$.subscribe (async u  =>{
+       if (u)
+        {
+         if (u.deuda != 0)
+         {
+           this.deuda = u.deuda
+         }
+         else
+         {
+           this.deuda = await deudaService.getDeudaJSON(u.id)
+         }
+          
+        }
+     })
+   });
   }
 
   async ngOnInit() {
