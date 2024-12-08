@@ -18,8 +18,9 @@ export class ShowUsersComponent implements OnInit{
 
   async ngOnInit (){
     const usersFromJSON = await this.userService.getUsersFromJSON();
-    if (usersFromJSON)
+    if (usersFromJSON){
       this.users = usersFromJSON;
+    }
   }
 
   verBiblioteca(id: number) {
@@ -37,7 +38,10 @@ export class ShowUsersComponent implements OnInit{
   async deleteUserAccount (userId: number){
     await this.userService.deleteUserByAdmin (userId);
     this.closeDeleteUserAccountModal ();
-    this.users = this.userService.getUsers();
+    const usersFromJSON = await this.userService.getUsersFromJSON();
+    if (usersFromJSON){
+      this.users = usersFromJSON;
+    }
   }
 
   openDeleteUserAccountModal(firstname: String, lastname: String, id: number){

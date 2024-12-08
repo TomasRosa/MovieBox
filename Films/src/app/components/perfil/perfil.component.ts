@@ -299,6 +299,7 @@ export class PerfilComponent {
         this.formGroupEmail.reset({ email: this.usuarioActual.email });
         this.formGroupEmail.markAsUntouched();
         this.formGroupPassword.markAsUntouched ();
+        this.password_fc?.markAsUntouched ();
       }
     }
     else
