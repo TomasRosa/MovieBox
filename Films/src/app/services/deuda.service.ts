@@ -83,6 +83,7 @@ export class DeudaService {
     }
 
     this.deudaSubject.next(this.deuda);
+    console.log ('USER EN SUMARDEUDAPORFILM: ', user)
 
     console.log(`Deuda acumulada de ${user.firstName} por película ${film.id}: ${this.deuda}`);
     await this.updateDeudaUser(user); // Actualiza en el backend
@@ -270,6 +271,15 @@ export class DeudaService {
   }
 
   async startDeudasDeUsuarios(isOne?: boolean) {
+    const storedCountdowns = JSON.parse(localStorage.getItem('countdowns') || '{}');
+    if (storedCountdowns) {
+      this.countdowns = storedCountdowns;
+      this.countdownsSubject.next(this.countdowns);
+    }
+
+    this.countdownsSubject.subscribe((countdowns) => {
+      localStorage.setItem('countdowns', JSON.stringify(countdowns));
+    });
 
     if (this.intervalId) {
       this.clearInterval();
@@ -287,12 +297,12 @@ export class DeudaService {
       {
         if (users[i] && users[i].arrayPeliculas.length != 0)
         {
-          this.movieLibrary = users[i].arrayPeliculas;
-          if (this.movieLibrary) {
+          let currentLibrary = users[i].arrayPeliculas;
+          if (currentLibrary) {
             this.intervalId = setInterval(() => {
-              this.contadorPeliculasSinTiempo(this.movieLibrary);
+              this.contadorPeliculasSinTiempo(currentLibrary);
 
-              this.movieLibrary.forEach((film) => {
+              currentLibrary.forEach((film) => {
                 const timeRemaining = this.getTiempoRestanteDiezSegundos(film.fechaDeAgregado!);
                 this.countdowns[film.id] = timeRemaining;
                 
@@ -316,6 +326,7 @@ export class DeudaService {
   {
     this.flag = true;
     await this.startDeudasDeUsuarios(isOne);
+    this.flag = false;
   }
 
   clearInterval() {
