@@ -134,6 +134,14 @@ export class FilmDetailComponent {
   }
 
   confirmEditReview() {
+    if (!this.newReview.trim()) {
+      this.errorResena = 'La reseña no puede estar vacía.';
+      setTimeout(() => {
+        this.errorResena = '';
+      }, 2000);
+      return;
+    }
+
     if (this.reviewToEdit && this.movie) {
       let reviewASerEditada = this.getReviewById (this.reviewToEdit.idReview);
       let reviewsFromFilm = this.loadReviewsFromStorage (this.movie!.rank)
