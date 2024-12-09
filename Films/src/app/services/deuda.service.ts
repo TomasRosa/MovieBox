@@ -70,7 +70,7 @@ export class DeudaService {
       if (timeRemaining === '00:00:00') {
         await this.sumarDeudaPorPelicula(user, film, montoPorIntervalo, isOne);
       }
-    }, 10000);
+    }, 25000);
   }
 
   async sumarDeudaPorPelicula(user: User, film: Film, montoPorIntervalo: number, isOne?: boolean) {
@@ -151,7 +151,6 @@ export class DeudaService {
       const users = await this.http.get<User[]>(this.urlJSONServer).toPromise() || [];
       let user = users.find(user => user.id === id)
       if (user) {
-        this.deudaSubject.next(user.deuda)
         return user.deuda
       }
       else {
