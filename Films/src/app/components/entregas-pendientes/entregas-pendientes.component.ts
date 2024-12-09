@@ -78,11 +78,6 @@ export class EntregasPendientesComponent implements OnInit {
       this.calcularTotalCarrito(this.usuarioActual.entregasPendientes);
       this.entregasPendientes = this.usuarioActual.entregasPendientes;
 
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 2000);
-
-      // window.location.reload();
       this.deudaService.forceRefresh(true);
     }
   }
@@ -97,11 +92,6 @@ export class EntregasPendientesComponent implements OnInit {
         this.entregasPendientes = [];
         this.totalCarrito = 0;
 
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 2000);
-
-        // window.location.reload();
         this.deudaService.forceRefresh();
       }
 
