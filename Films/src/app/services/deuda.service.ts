@@ -31,7 +31,7 @@ export class DeudaService {
 
   deudaIntervals: { [key: number]: any } = {}; // Intervalos independientes por película
 
-  constructor(private http: HttpClient, private userService: UserService, private sharedServices: SharedServicesService) {
+  constructor(private http: HttpClient, private userService: UserService) {
     userService.biblioteca$.subscribe(b => {
       if (b) {
         this.movieLibrary = b;
@@ -96,17 +96,6 @@ export class DeudaService {
     }
   }
 
-  // async calcularDeuda(user: User | null) {
-  //   if (user) {
-  //     user.deuda = await this.getDeudaJSON(user.id);
-
-  //     if (this.contador > 0) {
-  //       // Solo iniciar acumulador si hay películas con tiempo agotado
-  //       this.iniciarAcumuladorDeDeuda(user, 20, this.contador);
-  //     }
-  //   }
-  // }
-
   contadorPeliculasSinTiempo(movieLibrary: Film[]): number {
     let cont = 0;
     for (let i = 0; i < movieLibrary.length; i++) {
@@ -118,33 +107,6 @@ export class DeudaService {
     this.contadorSubject.next(cont);
     return cont;
   }
-
-  // iniciarAcumuladorDeDeuda(user: User, montoPorIntervalo: number, cantPelis: number) {
-  //   if (cantPelis == this.movieLibrary.length)
-  //   {
-  //     this.clearInterval()
-  //   }
-
-  //   this.deudaIntervalId = setInterval(async () => {
-  //     let userAux = await this.userService.getUserById(user.id)
-
-  //     if (userAux && userAux != user)
-  //     {
-  //       user = userAux;
-  //     }
-  //     await this.sumarDeuda(user, montoPorIntervalo, cantPelis);
-  //   }, 10000); // Ejecutar cada 10 segundos
-  // }
-
-  // async sumarDeuda(user: User, montoPorIntervalo: number, cantPelis: number) {
-  //   this.deuda = user.deuda;
-
-  //   this.deuda += montoPorIntervalo;
-  //   this.deudaSubject.next(this.deuda);
-  //   console.log(`Nueva deuda: ${this.deuda}`);
-
-  //   await this.updateDeudaUser(user);
-  // }
 
   async getDeudaJSON(id: number) {
     try {
@@ -166,10 +128,9 @@ export class DeudaService {
     const url = `${this.userService.urlJSONServer}/${user.id}`;
 
     user.deuda = this.deuda
-
     try {
       await this.http.patch(url, user).toPromise();
-      // this.userService.usuarioActualSubject.next(user);
+      this.userService.usuarioActualSubject.next(user);
       // this.userService.saveUserToStorage(user);
     } catch (error) {
       console.error('Error al guardar la deuda', error);
@@ -270,16 +231,6 @@ export class DeudaService {
   }
 
   async startDeudasDeUsuarios(isOne?: boolean, movieLibrary?: Film[], userId?: number) {
-    // const storedCountdowns = JSON.parse(localStorage.getItem('countdowns') || '{}');
-    // if (storedCountdowns) {
-    //   this.countdowns = storedCountdowns;
-    //   this.countdownsSubject.next(this.countdowns);
-    // }
-
-    // this.countdownsSubject.subscribe((countdowns) => {
-    //   localStorage.setItem('countdowns', JSON.stringify(countdowns));
-    // });
-
     if (this.intervalId) {
       this.clearInterval();
     }
@@ -308,6 +259,8 @@ export class DeudaService {
           {
             currentLibrary = users[i].arrayPeliculas;
           }
+
+          this.userService.bibliotecaSubject.next (currentLibrary);
           
           if (currentLibrary) {
             this.intervalId = setInterval(() => {

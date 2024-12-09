@@ -225,7 +225,7 @@ export class TarjetaComponent {
       this.navegarInicio("inicio");
     }, 2000);
     // window.location.reload();
-    this.deudaService.forceRefresh();
+    await this.deudaService.forceRefresh();
   }
 
   validarSiTieneTarjeta() {

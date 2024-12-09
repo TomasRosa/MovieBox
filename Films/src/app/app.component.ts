@@ -34,12 +34,10 @@ export class AppComponent
     await this.filmsFromApiService.initializeData()
     this.carritoService.ngOnInit()
 
-    this.userService.biblioteca$.subscribe (async() =>{
-      if (this.deudaService.flag == false)
-      {
-        await this.deudaService.startDeudasDeUsuarios();
-      }
-    })
+    if (this.deudaService.flag == false)
+    {
+      await this.deudaService.startDeudasDeUsuarios();
+    }
 
     const links = document.querySelectorAll('nav a');
     links.forEach(link => {

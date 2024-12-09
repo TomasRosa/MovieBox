@@ -78,7 +78,7 @@ export class EntregasPendientesComponent implements OnInit {
       this.calcularTotalCarrito(this.usuarioActual.entregasPendientes);
       this.entregasPendientes = this.usuarioActual.entregasPendientes;
 
-      this.deudaService.forceRefresh(true);
+      await this.deudaService.forceRefresh(true);
     }
   }
 
@@ -92,7 +92,7 @@ export class EntregasPendientesComponent implements OnInit {
         this.entregasPendientes = [];
         this.totalCarrito = 0;
 
-        this.deudaService.forceRefresh();
+        await this.deudaService.forceRefresh();
       }
 
       console.log("Todas las entregas aceptadas y actualizadas en la biblioteca del usuario.");

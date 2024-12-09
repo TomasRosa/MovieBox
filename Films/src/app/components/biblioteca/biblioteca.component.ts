@@ -48,7 +48,6 @@ export class BibliotecaComponent
           {
             this.deuda = await deudaService.getDeudaJSON(u.id)
           }
-           
          }
       })
     });
@@ -297,7 +296,7 @@ export class BibliotecaComponent
   } 
   pagarDeuda ()
   {
-    this.usuarioActual = this.userService.getUserFromStorage();
+    // this.usuarioActual = this.userService.getUserFromStorage();
     if (this.usuarioActual)
     {
       this.usuarioActual.payDeuda = true;
@@ -306,7 +305,6 @@ export class BibliotecaComponent
       this.successMessage = "Deuda enviada para pagar, presentese al local para abonarla, seguira contando hasta que la salde!"
     }
     setTimeout( () =>{
-      this.router.navigate (['/biblioteca'])
       this.successMessage = ''
     }, 5000)
   }
