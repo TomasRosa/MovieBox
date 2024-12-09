@@ -116,7 +116,7 @@ export class PerfilComponent {
     if (this.usuarioActual){
       // Suscribirse a los cambios de usuario actual y administrador
       this.userService.usuarioActual$.subscribe(async (usuario: User | null) => {
-        if (usuario){
+        if (usuario!.id == this.usuarioActual!.id){
           this.usuarioActual = usuario;
           this.isAdmin = false;
           this.adminService.isLoggedInSubject.next(false)
