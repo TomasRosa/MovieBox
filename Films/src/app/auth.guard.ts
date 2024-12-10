@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> {
-    const user = this.userService.getUserActual(); // Obtenemos el usuario actual del servicio
+    const user = this.userService.getUserFromStorage(); // Obtenemos el usuario actual del servicio
     let isAdminLoggedIn = this.userService.getAdminActual();
     let hadCarrito = false;
     if (!isAdminLoggedIn)

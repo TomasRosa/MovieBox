@@ -51,7 +51,8 @@ export class BibliotecaComponent
     this.deudaSubscription = this.deudaService.deuda$.subscribe(async () => {
       if (this.usuarioActual)
       {
-        this.deuda = await deudaService.getDeudaJSON(this.usuarioActual.id)
+        const userStor = userService.getUserFromStorage ()
+        this.deuda = await deudaService.getDeudaJSON(userStor!.id)
       }
      });
 
