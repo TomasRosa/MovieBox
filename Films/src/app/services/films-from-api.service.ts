@@ -131,13 +131,14 @@ export class FilmsFromAPIService {
   
   async initializeData() {
     if (this.filmsData.length == 0) {
-      // let response = await fetch(this.url_API, options);
+      let response = await fetch(this.url_API, options);
+      console.log ("DATOS TRAIDOS DE LA API.")
 
-      // if (response.status != 200)
-      // {
-        // console.log ("ERROR: No fue posible traer los datos de la API. Código de estado: ", response.status)
-        let response = await fetch(this.url_JSON);
-      
+      if (response.status != 200)
+      {
+        console.log ("ERROR: No fue posible traer los datos de la API. Código de estado: ", response.status)
+        response = await fetch(this.url_JSON);
+      }
 
       if (response.status === 200) {
         const datos = await response.json();
