@@ -19,9 +19,12 @@ export class FavouriteListComponent implements OnInit {
     private userService: UserService,
     private sharedService: SharedServicesService
   ) {
-    this.Flist.getChangesObservable().subscribe(() => {
-      this.arrayFilms = this.Flist.listaFav.arrayPeliculas;
-    });
+    Flist.getChangesObservable().subscribe (()=>{
+      if (Flist.user)
+      {
+        this.arrayFilms = Flist.user.fav_list.arrayPeliculas;
+      }
+    })
   }
 
   ngOnInit(): void {
@@ -41,11 +44,14 @@ export class FavouriteListComponent implements OnInit {
       alert ("Los administradores no tienen lista de favoritos.")
     }
 
-    this.Flist.userService.getUserActualJSON().subscribe((user) => {
+    this.Flist.userService.getUserActualJSON().subscribe(() => {
       this.Flist.obtenerFilmsDeLista();
       this.Flist.obtenerNameDeLista();
-  
-      this.arrayFilms = this.Flist.listaFav.arrayPeliculas;
+      
+      if (this.Flist.listaFav)
+      {
+        this.arrayFilms = this.Flist.listaFav.arrayPeliculas;
+      }
       
       if (this.arrayFilms.length === 0) {
         console.log("No se encontraron películas en la lista.");
@@ -64,8 +70,8 @@ export class FavouriteListComponent implements OnInit {
     this.userService.quitarFilmDeLista (this.Flist.user!, this.arrayFilms)
   }
   
-  quitarFilmDeFlist (film: Film){
-    this.Flist.eliminarDeLaListaFavoritos(film);
+  async quitarFilmDeFlist (film: Film){
+    await this.Flist.eliminarDeLaListaFavoritos(film);
   }
 
   getMovieGroups(movies: any[]): any[][] {

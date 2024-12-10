@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Film } from '../models/film';
 import { FavouriteList } from '../models/f-list';
 import { User } from '../models/user';
@@ -9,47 +9,37 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class FavouriteListService {
-  public user: User | null = new User;
+export class FavouriteListService implements OnInit {
+  public user: User | null = null;
   public listaFav: FavouriteList = new FavouriteList;
 
-  constructor(public userService: UserService, private http: HttpClient) { 
-    this.userService.usuarioActual$.subscribe((user) => {
-      this.user = user;
-      if (this.user) {
-        this.loadFavouriteListFromServer(this.user.id);
-      }
-    });
-    
-  }
-  
-  agregarALaLista(film: Film) {
-      this.listaFav.arrayPeliculas.push(film);
-      this.notifyChanges(); 
-      if (this.user) {
-        const updatedUser = { ...this.user, fav_list: this.listaFav };
-    
-        this.http.put(`http://localhost:5000/users/${this.user.id}`, updatedUser)
-          .subscribe(
-            () => {
-              console.log("Lista de favoritos actualizada en el servidor.");
-              if (this.user){
-                this.loadFavouriteListFromServer(this.user.id);
-              }
-            },
-            (error) => {
-              console.error("Error al actualizar la lista de favoritos en el servidor: ", error);
-            }
-          );
-      }
+  constructor(public userService: UserService, private http: HttpClient) {
   }
 
-  verificarRepetidos (film: Film): Boolean
-  {
-    for (let i = 0; i < this.listaFav.arrayPeliculas.length; i++)
-    {
-      if (this.listaFav.arrayPeliculas[i].title == film.title)
-      {
+  agregarALaLista(film: Film) {
+    this.listaFav.arrayPeliculas.push(film);
+    this.notifyChanges();
+    if (this.user) {
+      const updatedUser = { ...this.user, fav_list: this.listaFav };
+
+      this.http.put(`http://localhost:5000/users/${this.user.id}`, updatedUser)
+        .subscribe(
+          () => {
+            console.log("Lista de favoritos actualizada en el servidor.");
+            if (this.user) {
+              this.loadFavouriteListFromServer(this.user.id);
+            }
+          },
+          (error) => {
+            console.error("Error al actualizar la lista de favoritos en el servidor: ", error);
+          }
+        );
+    }
+  }
+
+  verificarRepetidos(film: Film): Boolean {
+    for (let i = 0; i < this.listaFav.arrayPeliculas.length; i++) {
+      if (this.listaFav.arrayPeliculas[i].title == film.title) {
         return true;
       }
     }
@@ -57,17 +47,29 @@ export class FavouriteListService {
   }
 
   ngOnInit() {
-    this.loadFavouriteListFromServer(this.user!.id);
+    this.userService.usuarioActual$.subscribe((user) => {
+      this.user = user;
+      let userAux = this.userService.getUserFromStorage();
+      if (userAux && this.user) {
+        if (userAux.id != this.user.id) {
+          this.user = userAux;
+        }
+      }
+      if (this.user) {
+        this.loadFavouriteListFromServer(this.user.id);
+      }
+    });
   }
-  
 
   async eliminarDeLaListaFavoritos(film: Film) {
     const index = this.listaFav.arrayPeliculas.findIndex(f => f.id === film.id);
 
     if (index !== -1) {
-        this.listaFav.arrayPeliculas.splice(index, 1);
-        await this.userService.quitarFilmDeLista(this.user!, this.listaFav.arrayPeliculas);
-        this.notifyChanges();
+      this.listaFav.arrayPeliculas.splice(index, 1);
+      if (this.user) {
+        await this.userService.quitarFilmDeLista(this.user, this.listaFav.arrayPeliculas);
+      }
+      this.notifyChanges();
     }
   }
 
@@ -82,12 +84,11 @@ export class FavouriteListService {
   }
 
   obtenerFilmsDeLista() {
-    if (this.listaFav.arrayPeliculas.length == 0)
-    {
-       this.listaFav.arrayPeliculas = this.user!.fav_list.arrayPeliculas
+    if (this.listaFav.arrayPeliculas.length == 0) {
+      this.listaFav.arrayPeliculas = this.user!.fav_list.arrayPeliculas
     }
   }
-  
+
   obtenerNameDeLista() {
     return this.listaFav.name;
   }
@@ -95,7 +96,7 @@ export class FavouriteListService {
   async updateUserOnServer(user: User): Promise<void> {
     const url = `http://localhost:5000/users/${user.id}`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    
+
     try {
       await this.http.put<User>(url, user, { headers }).toPromise();
     } catch (error) {
@@ -107,13 +108,14 @@ export class FavouriteListService {
   loadFavouriteListFromServer(userId: number) {
     this.http.get<User>(`http://localhost:5000/users/${userId}`).subscribe(
       userFromServer => {
-        if (userFromServer.fav_list && userFromServer.fav_list.arrayPeliculas) {
+        if (userFromServer && userFromServer.fav_list && userFromServer.fav_list.arrayPeliculas) {
           this.listaFav = userFromServer.fav_list;
           this.listaFav.name = "Tu lista de favoritos"
           this.notifyChanges();
         } else {
           this.listaFav = { name: 'Tu lista de favoritos', arrayPeliculas: [] };
         }
+
       },
       error => {
         console.error("Error al cargar la lista de favoritos del servidor:", error);

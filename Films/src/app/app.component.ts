@@ -1,9 +1,8 @@
 import { Component, HostListener } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router'; // Importa NavigationEnd
 import { FilmsFromAPIService } from './services/films-from-api.service';
 import { CarritoService } from './services/carrito.service';
-import { UserService } from './services/user.service';
 import { DeudaService } from './services/deuda.service';
+import { FavouriteListService } from './services/favourite-list.service';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +11,7 @@ import { DeudaService } from './services/deuda.service';
 })
 export class AppComponent 
 {
-  constructor(private filmsFromApiService: FilmsFromAPIService, private carritoService: CarritoService, private userService: UserService, private deudaService: DeudaService)
+  constructor(private filmsFromApiService: FilmsFromAPIService, private carritoService: CarritoService, private flistService: FavouriteListService, private deudaService: DeudaService)
   {
   }
 
@@ -33,6 +32,7 @@ export class AppComponent
   async ngOnInit() {
     await this.filmsFromApiService.initializeData()
     this.carritoService.ngOnInit()
+    this.flistService.ngOnInit()
 
     if (this.deudaService.flag == false)
     {

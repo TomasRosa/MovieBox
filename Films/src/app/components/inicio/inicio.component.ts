@@ -31,7 +31,7 @@ export class InicioComponent implements OnInit
     private userService: UserService
   ) {}
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(){
     this.userService.isLoggedIn$.subscribe(isLoggedIn => {
       this.isLoggedIn = isLoggedIn;
     });
@@ -41,13 +41,21 @@ export class InicioComponent implements OnInit
     }
 
     this.dataFilms.movies$.subscribe (m => {
-      // this.filteredFilms = m.map(film => ({ ...film }));
       this.filteredFilms = m;
     })
 
     if (this.isLoggedIn && !this.isAdmin) {
-      this.userService.usuarioActual$.subscribe(async user => {
+      this.userService.usuarioActual$.subscribe(user => {
         this.usuarioActual = user as User;
+        let userAux = this.userService.getUserFromStorage();
+        if (userAux && this.usuarioActual)
+        {
+          if (userAux.id != this.usuarioActual.id)
+          {
+            this.usuarioActual = userAux;
+          }
+        }
+
         if (this.usuarioActual)
         {
           if (this.usuarioActual.fav_list)
@@ -70,10 +78,10 @@ export class InicioComponent implements OnInit
 
   // Verifica que favouriteFilms no sea undefined antes de intentar acceder a 'some'
   isFavourite(film: Film): boolean {
-    if (!this.favouriteFilms) {
+    if (!this.favouriteFilms || this.favouriteFilms.length == 0) {
       return false; // Si favouriteFilms no está definido, devuelve false
     }
-    return this.favouriteFilms.some((favFilm) => favFilm.id === film.id);
+    return this.favouriteFilms.some((favFilm) => favFilm.id == film.id);
   }
 
   async toggleFavourite(film: Film) {
