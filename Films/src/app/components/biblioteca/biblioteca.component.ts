@@ -35,22 +35,25 @@ export class BibliotecaComponent
     public router: Router,
     private route: ActivatedRoute // Importar el servicio de rutas activas
   ) { 
-    this.deudaSubscription = this.deudaService.deuda$.subscribe(() => {
-
-       userService.usuarioActual$.subscribe (async u  =>{
-        if (u)
-         {
-          if (u.deuda != 0)
-          {
-            this.deuda = u.deuda
-          }
-          else
-          {
-            this.deuda = await deudaService.getDeudaJSON(u.id)
-          }
-         }
-      })
+    this.userService.usuarioActual$.subscribe(async (usuario: User | null) => {
+      let userAux = this.userService.getUserFromStorage();
+      this.usuarioActual = usuario;
+      if (userAux && this.usuarioActual)
+      {
+        if (userAux.id != this.usuarioActual.id)
+        {
+          this.usuarioActual = userAux;
+        }
+      }
+      this.validarBibliotecaVacia();
     });
+
+    this.deudaSubscription = this.deudaService.deuda$.subscribe(async () => {
+      if (this.usuarioActual)
+      {
+        this.deuda = await deudaService.getDeudaJSON(this.usuarioActual.id)
+      }
+     });
 
     this.deudaService.countdowns$.subscribe (c =>{
       this.countdowns = c;
@@ -141,10 +144,6 @@ export class BibliotecaComponent
         alert("Usuario no encontrado.");
       }
     } else {
-      // Caso para un usuario logueado no admin
-      this.userService.usuarioActual$.subscribe(async (usuario: User | null) => {
-        this.usuarioActual = usuario;
-        
         if (this.usuarioActual) {
           const loadedUser = await this.userService.loadUserBibliotecaById(this.usuarioActual.id);
           
@@ -164,7 +163,6 @@ export class BibliotecaComponent
           }
         }
         this.validarBibliotecaVacia();
-      });
     }
   }
 
